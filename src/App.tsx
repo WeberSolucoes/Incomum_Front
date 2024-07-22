@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
-        
-
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import 'bootstrap/dist/css/bootstrap.min.css'; // Importando Bootstrap
+import 'primereact/resources/primereact.min.css';
+import 'primereact/resources/themes/saga-blue/theme.css'; // Importando estilos principais do PrimeReact
+import 'primeicons/primeicons.css';
+import './assets/styles/base/App.css';
+import LoginPage from './pages/LoginPage'
+import PrivateRoute from './contexts/PrivateRoute';
+import NaoAutorizadoPage from './pages/NaoAutorizadoPage';
+import MainPage from './pages/MainPage';
+import RecuperarSenha from './pages/RecuperarSenha';
+import RedefinirSenha from './pages/RedefinirSenha';
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
     <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Router>
+        <Routes>
+          <Route path="/login" Component={LoginPage} />
+          <Route path="/recuperar-senha" Component={RecuperarSenha} />
+          <Route path="/redefinir-senha/:uid/:token" Component={RedefinirSenha} />
+          <Route path='/' element={
+            <PrivateRoute element={<MainPage />} requiredPermissions={['Can view area comercial']} />
+          } />
+          <Route path="/nao-autorizado" Component={NaoAutorizadoPage} />
+        </Routes>
+      </Router>
+
     </>
   )
 }
