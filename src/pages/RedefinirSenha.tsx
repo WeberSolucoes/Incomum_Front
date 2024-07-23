@@ -23,7 +23,6 @@ export default function RedefinirSenha() {
         await mudarSenha(senha, uid, token)
             .then((response) => {
                 toastSucess(response.data.message);
-                alert(response.data.message);
                 navigate('/login');
             }).catch((error) => {
                 toastError(error.data);
