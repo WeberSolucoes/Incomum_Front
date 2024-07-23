@@ -1,6 +1,8 @@
 import axios from 'axios';
-import { LoginRequest, PermissionsListResponse } from '../utils/apiObjects';
+import { ApiEndpoints } from '../utils/ApiEndpoints';
+import { PermissionsListResponse, LoginRequest } from '../utils/ApiObjects';
 
+//#region Axios_configs
 const axiosInstance = axios.create({
     baseURL: 'http://localhost:8000/api', // substitua pela URL base da sua API
     timeout: 5000,
@@ -15,6 +17,9 @@ axiosInstance.interceptors.request.use((config) => {
 }, (error) => {
     return Promise.reject(error);
 });
+//#endregion
+
+//#region token_config_cache
 export function getToken() {
     if(!localStorage.getItem('token')&&!sessionStorage.getItem('token')) return null;
     const token = localStorage.getItem('token')? localStorage.getItem('token') : sessionStorage.getItem('token');
@@ -30,6 +35,9 @@ export function setToken(token: string, rememberme: boolean) {
         }
     }
 }
+//#endregion
+
+//#region permissions_config_cache
 export function getPermissions() {
     console.log("LOCAL"+ localStorage.getItem('permissions'), "SESSION"+ sessionStorage.getItem('permissions'))
     if(!localStorage.getItem('permissions')&&!sessionStorage.getItem('permissions')) return [];
@@ -46,15 +54,22 @@ export function setPermissions(permissions: PermissionsListResponse[], rememberm
         }
     }
 }
+//#endregion
 
-export const login = (data: LoginRequest) => axiosInstance.post('/auth/token/login/', data);
-export const userId = () => axiosInstance.get('/auth/token/user-id/');
-export const permissions = (id: number) => axiosInstance.get(`/incomum/user/permission/listPermissions/${id}/`);
 export const logout = () => {
     localStorage.removeItem('token');
     sessionStorage.removeItem('token');
 };
 
-export const sendRecoveryEmail = (email: string) => axiosInstance.post('/incomum/user/updatePassword/', {email: email});
+//#region Apis_endpoints
+export const userId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
 
-export const mudarSenha = (password: string, uid: string | undefined, token: string | undefined) => axiosInstance.post(`/incomum/user/updatePassword-confirm/${uid}/${token}/`, {new_password: password});
+export const permissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
+
+export const login = (data: LoginRequest) => axiosInstance.post(ApiEndpoints.LOGIN, data);
+
+export const sendRecoveryEmail = (email: string) => axiosInstance.post(ApiEndpoints.SEND_RECOVERY_EMAIL, {email: email});
+
+export const mudarSenha = (password: string, uid: string | undefined, token: string | undefined) => axiosInstance.post(`${ApiEndpoints.UPDATE_PASSWORD_CONFIRM}${uid}/${token}/`, {new_password: password});
+
+//#endregion

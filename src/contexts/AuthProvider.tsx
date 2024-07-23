@@ -1,4 +1,4 @@
-// src/context/AxiosContext.tsx
+// src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
     login as apiLogin, 
@@ -10,7 +10,7 @@ import {
     userId as apiUserId,
     permissions as apiPermissions
 } from '../services/Api';
-import { LoginResponse, PermissionsListResponse } from '../utils/apiObjects';
+import { LoginResponse, PermissionsListResponse } from '../utils/ApiObjects';
 
 interface AuthContextType {
     isAuthenticated: boolean;
