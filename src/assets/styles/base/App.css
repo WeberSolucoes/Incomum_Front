@@ -1,0 +1,40 @@
+/* styles.css */
+.main-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100vh - 64px);
+    padding: 20px;
+}
+
+
+.side-menu-buttom {
+    color: #fff;
+    cursor: pointer;
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 50%;
+    width: 4rem;
+    height: 4rem;
+}
+.pi-bars{
+    font-size: 1.5rem;
+}
+.p-menuitem-link, .p-menuitem-text{
+    text-decoration: none;
+    color:orange;
+    font-size: 1rem;
+}
+.p-panelmenu-header-link{
+    font-size: 3rem;
+}
+.p-panelmenu-header-link{
+    text-decoration: none;
+}
+.p-menuitem-icon{
+    color:red;
+    font-size: 1.5rem;
+}
+.p-icon{
+    color:green
+}
