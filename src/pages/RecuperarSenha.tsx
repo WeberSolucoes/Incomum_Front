@@ -1,7 +1,6 @@
 import { useState } from "react";
 import GenericTextInput from "../components/common/GenericTextInput";
 import { Button } from "primereact/button";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { toastError, toastSucess } from "../utils/customToast";
 import { sendRecoveryEmail } from "../services/Api";
 
@@ -35,13 +34,8 @@ export default function RecuperarSenha() {
                     </div>
                     <form onSubmit={handleEmail}>
                         <GenericTextInput icon='at' value={email} label='Email' id='email' onChange={(e) => setEmail(e.target.value)} />
-                        <Button type='submit' label='Enviar email' icon="pi pi-send" className='w-100' />
+                        <Button type='submit' label='Enviar email' loading={loading} icon="pi pi-send" className='w-100' />
                     </form>
-                    {loading && (
-                        <div className="d-flex justify-content-center align-items-center mt-3">
-                            <ProgressSpinner />
-                        </div>
-                    )}
                 </div>
             </div>
         </>

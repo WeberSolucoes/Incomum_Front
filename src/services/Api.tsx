@@ -39,7 +39,6 @@ export function setToken(token: string, rememberme: boolean) {
 
 //#region permissions_config_cache
 export function getPermissions() {
-    console.log("LOCAL"+ localStorage.getItem('permissions'), "SESSION"+ sessionStorage.getItem('permissions'))
     if(!localStorage.getItem('permissions')&&!sessionStorage.getItem('permissions')) return [];
     const permissions = localStorage.getItem('permissions')? localStorage.getItem('permissions') : sessionStorage.getItem('permissions');
     if(!permissions) return [];

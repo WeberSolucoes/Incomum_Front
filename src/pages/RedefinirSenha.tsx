@@ -1,7 +1,6 @@
 import { Button } from "primereact/button";
 import GenericTextInput from "../components/common/GenericTextInput";
 import { useState } from "react";
-import { ProgressSpinner } from "primereact/progressspinner";
 import { toastError, toastSucess } from "../utils/customToast";
 import { useNavigate, useParams } from "react-router-dom";
 import { mudarSenha } from "../services/Api";
@@ -51,13 +50,8 @@ export default function RedefinirSenha() {
                             <li>1 caractere minúsculo</li>
                             <li>1 caractere especial</li>
                         </ul>
-                        <Button type='submit' label='Definir Nova Senha' icon="pi pi-key" className='w-100' />
+                        <Button type='submit' label='Definir Nova Senha' loading={loading} icon="pi pi-key" className='w-100' />
                     </form>
-                    {loading && (
-                        <div className="d-flex justify-content-center align-items-center mt-3">
-                            <ProgressSpinner />
-                        </div>
-                    )}
                 </div>
             </div>
         </>

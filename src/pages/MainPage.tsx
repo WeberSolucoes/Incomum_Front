@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import SidebarMenu from '../components/layout/SidebarMenu';
 import Teste from '../components/specific/Teste';
 import { MenuEnum } from '../utils/MenuEnum'
+import FormLayout from '../components/layout/FormLayout';
+import UnidadeList from '../components/specific/UnidadeList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -12,6 +14,11 @@ const MainPage: React.FC = () => {
 
     const renderComponent = () => {
         switch (activeComponent) {
+            case MenuEnum.cadastro_unidades:
+                return <FormLayout>
+                    <UnidadeList search="" />
+                    <Teste message="Cadastro Unidades" />
+                </FormLayout>;
             case MenuEnum.cadastro_agencias:
                 return <Teste message="Cadastro Agências" />;
             case MenuEnum.cadastro_vendedores:
@@ -30,17 +37,19 @@ const MainPage: React.FC = () => {
                 return <Teste message="Relatórios Simplificados de Vendas" />;
             case MenuEnum.usuario:
                 return <Teste message="Configurações de Usuário" />;
+            case MenuEnum.perfil:
+                return <Teste message="Configurações de Perfil" />;
             default:
                 return <div>Bem-vindo!</div>;
         }
     };
 
     return (
-        <div className="p-grid">
+        <div>
             <div className="p-col-fixed" style={{ width: '250px' }}>
                 <SidebarMenu onMenuItemClick={handleMenuItemClick} />
             </div>
-            <div className="p-col main-content">
+            <div className="main-content">
                 {renderComponent()}
             </div>
         </div>

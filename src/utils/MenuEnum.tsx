@@ -1,5 +1,6 @@
 export enum MenuEnum {
     cadastro_agencias = 'cadastro_agencias',
+    cadastro_unidades = 'cadastro_unidades',
     cadastro_vendedores = 'cadastro_vendedores',
     lancamento_opcao = 'lancamento_opcao',
     financeiro_opcao = 'financeiro_opcao',
@@ -8,7 +9,8 @@ export enum MenuEnum {
     gerencial_faturamento_vendedor = 'gerencial_faturamento_vendedor',
     relatorios_simplicados_vendas = 'relatorios_simplicados_vendas',
     usuario = 'usuario',
-    default = ''
+    perfil = "perfil",
+    default = '',
 }
 export interface MenuItem {
     label: string;
@@ -31,6 +33,16 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuIte
         icon: 'pi pi-fw pi-home',
         requiredPermissions: ['Can view area comercial'],
         items: [
+            //UNIDADES
+            {
+                label: "Unidades",
+                icon: "pi pi-fw pi-home",
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_unidades);
+                }
+
+            },
             //AGÊNCIAS
             {
                 label: "Agências",
@@ -122,7 +134,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuIte
             {
                 label: 'Perfil',
                 icon: 'pi pi-fw pi-user',
-                command: () => { onMenuItemClick(MenuEnum.relatorios_simplicados_vendas); }
+                command: () => { onMenuItemClick(MenuEnum.perfil); }
             },
         ]
     }

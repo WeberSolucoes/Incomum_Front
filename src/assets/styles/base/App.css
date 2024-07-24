@@ -2,8 +2,7 @@
 .main-content {
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: calc(100vh - 64px);
+    width: 100%;
     padding: 20px;
 }
 
@@ -22,7 +21,7 @@
 }
 .p-menuitem-link, .p-menuitem-text{
     text-decoration: none;
-    color:orange;
+    /* color:orange; */
     font-size: 1rem;
 }
 .p-panelmenu-header-link{
@@ -32,9 +31,9 @@
     text-decoration: none;
 }
 .p-menuitem-icon{
-    color:red;
+    /* color:red; */
     font-size: 1.5rem;
 }
 .p-icon{
-    color:green
+    /* color:green */
 }
