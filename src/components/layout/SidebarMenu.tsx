@@ -34,7 +34,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onMenuItemClick }) => {
 
     return (
         <div>
-            <Button className='side-menu-buttom' icon="pi pi-bars" onClick={() => setVisible(true)} style={{position: 'fixed'}}/>
+            <Button className='side-menu-buttom' icon="pi pi-bars" onClick={() => setVisible(true)} style={{position: 'fixed',zIndex: 999}}/>
             <Sidebar visible={visible} onHide={() => setVisible(false)}>
                 <img src="https://incoback.com.br/static/img/logo.png" alt="logo" height={47.5} className="mb-3" />
                 <PanelMenu model={filteredItems} />
