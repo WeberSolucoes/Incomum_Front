@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from 'primereact/button';
 import { Checkbox } from 'primereact/checkbox';
-import { ProgressSpinner } from 'primereact/progressspinner';
 
 import GenericTextInput from '../common/GenericTextInput';
 import { toastSucess, toastError } from '../../utils/customToast';
 import { useAuth } from '../../contexts/AuthProvider';
 
 const LoginForm: React.FC = () => {
+    useEffect(() => {
+        auth.logout();
+    },[])
     const [email, setEmail] = useState<string>('');
     const [senha, setSenha] = useState<string>('');
     const [checked, setChecked] = useState<boolean>(false);
@@ -54,13 +56,8 @@ const LoginForm: React.FC = () => {
                             </div>
                             <Link to='/recuperar-senha'>Esqueceu sua senha?</Link>
                         </div>
-                        <Button type='submit' label='Entrar' icon="pi pi-sign-in" className='w-100' />
+                        <Button type='submit' label='Entrar' loading={loading} icon="pi pi-sign-in" className='w-100' />
                     </form>
-                    {loading && (
-                        <div className="d-flex justify-content-center align-items-center mt-3">
-                            <ProgressSpinner />
-                        </div>
-                    )}
                 </div>
             </div>
         </>

@@ -1,5 +1,6 @@
 export enum MenuEnum {
     cadastro_agencias = 'cadastro_agencias',
+    cadastro_unidades = 'cadastro_unidades',
     cadastro_vendedores = 'cadastro_vendedores',
     lancamento_opcao = 'lancamento_opcao',
     financeiro_opcao = 'financeiro_opcao',
@@ -8,7 +9,9 @@ export enum MenuEnum {
     gerencial_faturamento_vendedor = 'gerencial_faturamento_vendedor',
     relatorios_simplicados_vendas = 'relatorios_simplicados_vendas',
     usuario = 'usuario',
-    default = ''
+    logout = 'logout',
+    perfil = "perfil",
+    default = '',
 }
 export interface MenuItem {
     label: string;
@@ -17,12 +20,12 @@ export interface MenuItem {
     command?: () => void;
     items?: MenuItem[];
 }
-export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuItem[] = (onMenuItemClick) => [
+export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuItem[] = (onMenuItemClick) => [
     //INICIO
     {
         label: 'Inicio',
         icon: 'pi pi-fw pi-home',
-        command: () => { onMenuItemClick(MenuEnum.default); }    
+        command: () => { onMenuItemClick(MenuEnum.default); }
 
     },
     //CADASTRO
@@ -31,6 +34,16 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuIte
         icon: 'pi pi-fw pi-home',
         requiredPermissions: ['Can view area comercial'],
         items: [
+            //UNIDADES
+            {
+                label: "Unidades",
+                icon: "pi pi-fw pi-home",
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_unidades);
+                }
+
+            },
             //AGÊNCIAS
             {
                 label: "Agências",
@@ -108,6 +121,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuIte
         icon: 'pi pi-fw pi-calendar',
         items: [
             {
+
                 label: 'Simplificado de vendas',
                 icon: 'pi pi-fw pi-pencil',
                 command: () => { onMenuItemClick(MenuEnum.relatorios_simplicados_vendas); }
@@ -122,8 +136,14 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void)=> MenuIte
             {
                 label: 'Perfil',
                 icon: 'pi pi-fw pi-user',
-                command: () => { onMenuItemClick(MenuEnum.relatorios_simplicados_vendas); }
+                command: () => { onMenuItemClick(MenuEnum.perfil); }
             },
+            {
+                label: 'Sair',
+                icon: 'pi pi-fw pi-sign-out',
+                command: () => { onMenuItemClick(MenuEnum.logout); }
+                
+            }
         ]
     }
 ];

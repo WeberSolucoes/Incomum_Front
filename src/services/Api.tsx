@@ -39,7 +39,6 @@ export function setToken(token: string, rememberme: boolean) {
 
 //#region permissions_config_cache
 export function getPermissions() {
-    console.log("LOCAL"+ localStorage.getItem('permissions'), "SESSION"+ sessionStorage.getItem('permissions'))
     if(!localStorage.getItem('permissions')&&!sessionStorage.getItem('permissions')) return [];
     const permissions = localStorage.getItem('permissions')? localStorage.getItem('permissions') : sessionStorage.getItem('permissions');
     if(!permissions) return [];
@@ -58,7 +57,9 @@ export function setPermissions(permissions: PermissionsListResponse[], rememberm
 
 export const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('permissions');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('permissions');
 };
 
 //#region Apis_endpoints
