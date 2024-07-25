@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { Button } from 'primereact/button';
@@ -9,6 +9,9 @@ import { toastSucess, toastError } from '../../utils/customToast';
 import { useAuth } from '../../contexts/AuthProvider';
 
 const LoginForm: React.FC = () => {
+    useEffect(() => {
+        auth.logout();
+    },[])
     const [email, setEmail] = useState<string>('');
     const [senha, setSenha] = useState<string>('');
     const [checked, setChecked] = useState<boolean>(false);

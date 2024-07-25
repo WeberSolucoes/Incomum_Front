@@ -4,9 +4,14 @@ import Teste from '../components/specific/Teste';
 import { MenuEnum } from '../utils/MenuEnum'
 import FormLayout from '../components/layout/FormLayout';
 import UnidadeList from '../components/specific/UnidadeList';
+import { useAuth } from '../contexts/AuthProvider';
+import { useNavigate } from 'react-router-dom';
+import UnidadeCadastro from '../components/specific/UnidadeCadastro';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
+    const auth = useAuth();
+    const navigate = useNavigate();
 
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
@@ -15,9 +20,9 @@ const MainPage: React.FC = () => {
     const renderComponent = () => {
         switch (activeComponent) {
             case MenuEnum.cadastro_unidades:
-                return <FormLayout>
+                return <FormLayout name='Unidade'>
                     <UnidadeList search="" />
-                    <Teste message="Cadastro Unidades" />
+                    <UnidadeCadastro />
                 </FormLayout>;
             case MenuEnum.cadastro_agencias:
                 return <Teste message="Cadastro Agências" />;
@@ -39,6 +44,10 @@ const MainPage: React.FC = () => {
                 return <Teste message="Configurações de Usuário" />;
             case MenuEnum.perfil:
                 return <Teste message="Configurações de Perfil" />;
+            case MenuEnum.logout:
+                auth.logout();
+                navigate('/login');
+                break;
             default:
                 return <div>Bem-vindo!</div>;
         }

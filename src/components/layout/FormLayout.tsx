@@ -4,8 +4,9 @@ import BarraDeFerramentas from "../common/BarraDeFerramentas";
 
 interface FormLayoutProps {
     children: ReactNode[];
+    name: string;
 }
-const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
+const FormLayout: React.FC<FormLayoutProps> = ({ children, name }) => {
     const [view, setView] = useState<'list' | 'create'>('list');
     const [search, setSearch] = useState<string>(''); // Estado para controlar a exibição
 
@@ -35,6 +36,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children }) => {
 
     return (
         <div className="card p-4">
+            <h1>{view === 'list' ? `Lista de ${name}` : `Cadastrar ${name}`}</h1>
             <BarraDeFerramentas onCreateClick={handleCreateClick} onSearch={handleSearch} onSearchClick={handleSearchClick} />
             {renderChildren}
         </div>

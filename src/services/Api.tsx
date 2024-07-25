@@ -57,7 +57,9 @@ export function setPermissions(permissions: PermissionsListResponse[], rememberm
 
 export const logout = () => {
     localStorage.removeItem('token');
+    localStorage.removeItem('permissions');
     sessionStorage.removeItem('token');
+    sessionStorage.removeItem('permissions');
 };
 
 //#region Apis_endpoints
