@@ -2,12 +2,14 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import './App.css';
 import './cadastro.css';
+import './agencia.css'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'primereact/resources/themes/saga-blue/theme.css';
 import 'primereact/resources/primereact.min.css';
 import 'primeicons/primeicons.css';
 import Container from 'react-bootstrap/Container';
 import Navbar from 'react-bootstrap/Navbar';
+import CadastroForm from './cadastro';
 
 function Sidebar() {
   const [openSection, setOpenSection] = useState<string | null>(null);
@@ -111,6 +113,7 @@ function Sidebar() {
           </li>
         </ul>
       </div>
+      <CadastroForm/>
     </>
   );
 }
