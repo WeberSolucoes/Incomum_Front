@@ -5,6 +5,7 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // Importando estilos 
 import 'primeicons/primeicons.css';
 import './assets/styles/base/App.css';
 import LoginPage from './pages/LoginPage'
+import RelatorioPage from './pages/RelatorioPage'
 import PrivateRoute from './contexts/PrivateRoute';
 import NaoAutorizadoPage from './pages/NaoAutorizadoPage';
 import MainPage from './pages/MainPage';
@@ -17,11 +18,10 @@ function App() {
       <Router>
         <Routes>
           <Route path="/login" Component={LoginPage} />
+          <Route path="/relatorio" Component={RelatorioPage} />
           <Route path="/recuperar-senha" Component={RecuperarSenha} />
           <Route path="/redefinir-senha/:uid/:token" Component={RedefinirSenha} />
-          <Route path='/' element={
-            <PrivateRoute element={<MainPage />} requiredPermissions={['Can view area comercial']} />
-          } />
+          <Route path='/' Component={ MainPage}/>
           <Route path="/nao-autorizado" Component={NaoAutorizadoPage} />
         </Routes>
       </Router>

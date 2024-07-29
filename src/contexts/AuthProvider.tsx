@@ -10,7 +10,7 @@ import {
     userId as apiUserId,
     permissions as apiPermissions
 } from '../services/Api';
-import { LoginResponse, PermissionsListResponse } from '../utils/ApiObjects';
+import { LoginResponse, PermissionsListResponse } from '../utils/apiObjects';
 
 interface AuthContextType {
     isAuthenticated: boolean;

@@ -1,0 +1,10 @@
+body{
+    background-color: rgba(31, 23, 23, 0.05) !important;
+}
+
+.container{
+    background-color: white;
+    border-radius: 12px;
+    margin: auto;
+}
+

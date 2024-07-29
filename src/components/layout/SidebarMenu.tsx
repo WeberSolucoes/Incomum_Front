@@ -3,7 +3,7 @@ import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import { PanelMenu } from 'primereact/panelmenu';
 import { useAuth } from '../../contexts/AuthProvider';
-import { PermissionsListResponse } from '../../utils/ApiObjects';
+import { PermissionsListResponse } from '../../utils/apiObjects';
 import { menuItems, MenuItem } from '../../utils/MenuEnum';
 
 
