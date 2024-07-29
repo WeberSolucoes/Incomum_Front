@@ -6,7 +6,6 @@ import { useAuth } from '../../contexts/AuthProvider';
 import { PermissionsListResponse } from '../../utils/ApiObjects';
 import { menuItems, MenuItem } from '../../utils/MenuEnum';
 
-
 interface SidebarMenuProps {
     onMenuItemClick: (itemKey: string) => void;
 }

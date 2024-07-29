@@ -10,9 +10,10 @@ export enum ApiEndpoints {
     //#endregion
 
     //#region unidades_endpoints
-    LIST_UNIDADES = '/unidades/list/',
+    LIST_UNIDADES = '/incomum/loja/list-all/',
+    LIST_UNIDADES_BY_ID = '/incomum/loja/find-byid/', // '/incomum/loja/list-byid/${id}/'
     CREATE_UNIDADES = '/incomum/loja/create/',
-    UPDATE_UNIDADES = '/unidades/update/',
+    UPDATE_UNIDADES = '/incomum/loja/update/', // '/incomum/loja/update/${id}/'
     DELETE_UNIDADES = '/unidades/delete/'
     //#endregion
 }

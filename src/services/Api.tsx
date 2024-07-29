@@ -74,4 +74,10 @@ export const apiPostSendRecoveryEmail = (email: string) => axiosInstance.post(Ap
 export const apiPostMudarSenha = (password: string, uid: string | undefined, token: string | undefined) => axiosInstance.post(`${ApiEndpoints.UPDATE_PASSWORD_CONFIRM}${uid}/${token}/`, {new_password: password});
 
 export const apiPostCreateUnidade = (data: UnidadesCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_UNIDADES, data);
+
+export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => axiosInstance.put(`${ApiEndpoints.UPDATE_UNIDADES}${id}/`, data);
+
+export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
+
+export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 //#endregion
