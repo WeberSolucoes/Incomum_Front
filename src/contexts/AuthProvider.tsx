@@ -1,14 +1,14 @@
 // src/context/AuthContext.tsx
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import {
-    login as apiLogin, 
+    apiPostlogin as apiLogin, 
     logout as apiLogout, 
     setToken as apiSetToken, 
     getToken as apiGetToken,
     getPermissions as apiGetPermissions,
     setPermissions as apiSetPermissions,
-    userId as apiUserId,
-    permissions as apiPermissions
+    apiGetUserId as apiUserId,
+    apiGetPermissions as apiPermissions
 } from '../services/Api';
 import { LoginResponse, PermissionsListResponse } from '../utils/apiObjects';
 

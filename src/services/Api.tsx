@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '../utils/ApiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,16 +63,23 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
-export const userId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
+export const apiGetUserId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
 
-export const permissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
+export const apiGetPermissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
 
-export const login = (data: LoginRequest) => axiosInstance.post(ApiEndpoints.LOGIN, data);
+export const apiPostlogin = (data: LoginRequest) => axiosInstance.post(ApiEndpoints.LOGIN, data);
 
-export const sendRecoveryEmail = (email: string) => axiosInstance.post(ApiEndpoints.SEND_RECOVERY_EMAIL, {email: email});
+export const apiPostSendRecoveryEmail = (email: string) => axiosInstance.post(ApiEndpoints.SEND_RECOVERY_EMAIL, {email: email});
 
-export const mudarSenha = (password: string, uid: string | undefined, token: string | undefined) => axiosInstance.post(`${ApiEndpoints.UPDATE_PASSWORD_CONFIRM}${uid}/${token}/`, {new_password: password});
+export const apiPostMudarSenha = (password: string, uid: string | undefined, token: string | undefined) => axiosInstance.post(`${ApiEndpoints.UPDATE_PASSWORD_CONFIRM}${uid}/${token}/`, {new_password: password});
 
+export const apiPostCreateUnidade = (data: UnidadesCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_UNIDADES, data);
+
+export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => axiosInstance.put(`${ApiEndpoints.UPDATE_UNIDADES}${id}/`, data);
+
+export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
+
+export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 //#endregion
 
 export const fetchAreaComercial = async () => {

@@ -8,6 +8,7 @@ import UnidadeList from '../components/specific/UnidadeList';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import UnidadeCadastro from '../components/specific/UnidadeCadastro';
+import { CodigoProvider } from '../contexts/CodigoProvider';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -21,10 +22,14 @@ const MainPage: React.FC = () => {
     const renderComponent = () => {
         switch (activeComponent) {
             case MenuEnum.cadastro_unidades:
-                return <FormLayout name='Unidade'>
-                    <UnidadeList search="" />
-                    <UnidadeCadastro />
-                </FormLayout>;
+                return (
+                    < CodigoProvider >
+                        <FormLayout name='Unidade'>
+                            <UnidadeList search="" />
+                            <UnidadeCadastro />
+                        </FormLayout>
+                    </CodigoProvider >
+                );
             case MenuEnum.cadastro_agencias:
                 return <Teste message="Cadastro Agências" />;
             case MenuEnum.cadastro_vendedores:

@@ -3,7 +3,7 @@ import GenericTextInput from "../components/common/GenericTextInput";
 import { useState } from "react";
 import { toastError, toastSucess } from "../utils/customToast";
 import { useNavigate, useParams } from "react-router-dom";
-import { mudarSenha } from "../services/Api";
+import { apiPostMudarSenha } from "../services/Api";
 
 export default function RedefinirSenha() {
     const { uid, token } = useParams<{ uid: string, token: string }>();
@@ -19,7 +19,7 @@ export default function RedefinirSenha() {
             setLoading(false);
             return;
         }
-        await mudarSenha(senha, uid, token)
+        await apiPostMudarSenha(senha, uid, token)
             .then((response) => {
                 toastSucess(response.data.message);
                 navigate('/login');
