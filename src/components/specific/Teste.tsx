@@ -1,5 +1,5 @@
 import React from 'react';
-
+        
 // Define a interface para as props do componente Teste
 interface TesteProps {
     message: string;

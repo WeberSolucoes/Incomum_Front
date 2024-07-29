@@ -32,7 +32,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Cadastro',
         icon: 'pi pi-fw pi-home',
-        requiredPermissions: ['Can view area comercial'],
+        requiredPermissions: ['Can vieaw area comercial'],
         items: [
             //UNIDADES
             {
@@ -70,6 +70,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Lançamentos',
         icon: 'pi pi-fw pi-calendar',
+        requiredPermissions: ['Can view araea comercial'],
         items: [
             {
                 label: 'Opção',
@@ -82,6 +83,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Financeiro',
         icon: 'pi pi-fw pi-calendar',
+        requiredPermissions: ['Can view areaa comercial'],
         items: [
             {
                 label: 'Opção',
@@ -94,6 +96,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Gerencial',
         icon: 'pi pi-fw pi-calendar',
+        requiredPermissions: ['Can view araea comercial'],
         items: [
             //FATURAMENTO UNIDADE
             {
@@ -136,6 +139,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             {
                 label: 'Perfil',
                 icon: 'pi pi-fw pi-user',
+                requiredPermissions: ['Can view araea comercial'],
                 command: () => { onMenuItemClick(MenuEnum.perfil); }
             },
             {

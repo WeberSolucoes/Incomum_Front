@@ -2,7 +2,7 @@ import { useState } from "react";
 import GenericTextInput from "../components/common/GenericTextInput";
 import { Button } from "primereact/button";
 import { toastError, toastSucess } from "../utils/customToast";
-import { sendRecoveryEmail } from "../services/Api";
+import { apiPostSendRecoveryEmail } from "../services/Api";
 
 export default function RecuperarSenha() {
 
@@ -13,7 +13,7 @@ export default function RecuperarSenha() {
         e.preventDefault();
         setLoading(true);
         try {
-            await sendRecoveryEmail(email);
+            await apiPostSendRecoveryEmail(email);
             toastSucess('Email para recuperação de senha enviado com sucesso');
         } catch (error) {
             toastError('Email desconhecido');

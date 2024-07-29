@@ -1,5 +1,6 @@
 import React, { ReactNode, useState } from "react";
 import BarraDeFerramentas from "../common/BarraDeFerramentas";
+import { useCodigo } from "../../contexts/CodigoProvider";
 
 
 interface FormLayoutProps {
@@ -7,7 +8,7 @@ interface FormLayoutProps {
     name: string;
 }
 const FormLayout: React.FC<FormLayoutProps> = ({ children, name }) => {
-    const [view, setView] = useState<'list' | 'create'>('list');
+    const {view, setView} = useCodigo();
     const [search, setSearch] = useState<string>(''); // Estado para controlar a exibição
 
     const handleCreateClick = () => {
