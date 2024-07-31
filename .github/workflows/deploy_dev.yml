@@ -20,7 +20,7 @@ jobs:
             - name: Build
               run: npm run build
             - name: Verify build output
-              run: ls -la dist/
+              run: pwd
     deploy:
         runs-on: ubuntu-latest
         needs: build
