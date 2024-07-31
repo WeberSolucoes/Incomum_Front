@@ -4,7 +4,7 @@ import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '..
 
 //#region Axios_configs
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api', // substitua pela URL base da sua API
+    baseURL: import.meta.env.VITE_REACT_API_URL, // substitua pela URL base da sua API
     timeout: 5000,
     headers: { 'Content-Type': 'application/json'}
 });
