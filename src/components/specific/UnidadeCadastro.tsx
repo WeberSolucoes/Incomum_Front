@@ -1,7 +1,7 @@
 import { Button } from "primereact/button"
 import { FloatLabel } from "primereact/floatlabel"
 import { InputText } from "primereact/inputtext"
-import { UnidadesCreateRequest } from "../../utils/ApiObjects"
+import { UnidadesCreateRequest } from "../../utils/apiObjects"
 import { useEffect, useState } from "react"
 import { apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from "../../services/Api"
 import { toastError, toastSucess } from "../../utils/customToast"

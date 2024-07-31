@@ -7,7 +7,7 @@ import '../assets/styles/base/App.css';
 const RelatorioPage: React.FC = () => {
     return (
         <div>
-            <SidebarMenu onMenuItemClick={function (itemKey: string): void {
+            <SidebarMenu onMenuItemClick={function (): void {
                 throw new Error('Function not implemented.');
             } }/>
             <Relatorio/>
