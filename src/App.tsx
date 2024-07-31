@@ -14,7 +14,7 @@ import NotPage from './pages/404Page';
 import NotAuthorizePage from './pages/403Page';
 function App() {
   return (
-    <Router>
+    <Router basename='/dev'>
       <Routes>
         <Route path="/" element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
