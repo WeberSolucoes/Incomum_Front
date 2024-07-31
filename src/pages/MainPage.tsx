@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import SidebarMenu from '../components/layout/SidebarMenu';
 import Teste from '../components/specific/Teste';
+import Relatorio from '../components/specific/Relatorio';
 import { MenuEnum } from '../utils/MenuEnum'
 import FormLayout from '../components/layout/FormLayout';
 import UnidadeList from '../components/specific/UnidadeList';
@@ -44,7 +45,7 @@ const MainPage: React.FC = () => {
             case MenuEnum.gerencial_faturamento_vendedor:
                 return <Teste message="Faturamento Vendedor" />;
             case MenuEnum.relatorios_simplicados_vendas:
-                return <Teste message="Relatórios Simplificados de Vendas" />;
+                return <Relatorio/>;
             case MenuEnum.usuario:
                 return <Teste message="Configurações de Usuário" />;
             case MenuEnum.perfil:

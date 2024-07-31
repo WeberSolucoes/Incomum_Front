@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '../utils/ApiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8000/api', // substitua pela URL base da sua API
+    baseURL: 'http://localhost:8080/api', // substitua pela URL base da sua API
     timeout: 5000,
     headers: { 'Content-Type': 'application/json'}
 });
@@ -81,3 +81,14 @@ export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES
 
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 //#endregion
+
+export const fetchAreaComercial = async () => {
+    try {
+        const response = await axiosInstance.get('/incomum/areacomercial/list-all/');
+        console.log('Dados recebidos da API:', response.data); // Log
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao buscar áreas comerciais:', error);
+        throw error;
+    }
+};
