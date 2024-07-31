@@ -11,9 +11,10 @@ const NotAuthorize = () => {
             <span id='img403'></span>
           </div>
           <p>Não autorizado. <br /> Caso não esteja conseguindo acessar a página, entrar em contato com suporte.</p>
-          <a href="/">
-            <button type="button" onClick={(e) => { e.preventDefault(); navigate('/')}}>Voltar</button>
-          </a>
+
+          <button type="button" onClick={(e) => { e.preventDefault(); navigate('/') }}>Voltar</button>
+          <button style={{ marginLeft: '10px' }} type="button" onClick={(e) => { e.preventDefault(); navigate('/login') }}>Login</button>
+
         </div>
       </div>
     </div>
