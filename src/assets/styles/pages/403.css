@@ -14,10 +14,10 @@
     z-index: 4;
   }
   
-  .wrapper span::before {
+  #img403::before {
     margin-left: -85px;
     content: '';
-    margin-top: 170px;
+    margin-top: -170px;
     background-image: url('/src/assets/images/403.jpg'); /* Substitua com o caminho correto */
     position: absolute;
     width: 170px;
@@ -33,7 +33,6 @@
     color: #fff;
     font-style: italic;
     font-weight: 400;
-    margin-top: -400px;
     line-height: 22px;
     
   }
@@ -85,7 +84,7 @@
   }
   
 
-body, html,:root,div {
+body, html {
     margin: 0;
     padding: 0;
     height: 100%;

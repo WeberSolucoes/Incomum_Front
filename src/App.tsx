@@ -7,7 +7,6 @@ import './assets/styles/base/App.css';
 import LoginPage from './pages/LoginPage'
 import RelatorioPage from './pages/RelatorioPage'
 //import PrivateRoute from './contexts/PrivateRoute';
-import NaoAutorizadoPage from './pages/NaoAutorizadoPage';
 import MainPage from './pages/MainPage';
 import RecuperarSenha from './pages/RecuperarSenha';
 import RedefinirSenha from './pages/RedefinirSenha';
@@ -18,12 +17,12 @@ function App() {
     <Router>
       <Routes>
         <Route path="/" element={<MainPage />} />
-        <Route path="/teste" element={<NotAuthorizePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/relatorio" element={<RelatorioPage />} />
         <Route path="/recuperar-senha" element={<RecuperarSenha />} />
         <Route path="/redefinir-senha/:uid/:token" element={<RedefinirSenha />} />
-        <Route path="/nao-autorizado" element={<NaoAutorizadoPage />} />
+
+        <Route path="/nao-autorizado" element={<NotAuthorizePage />} />
         <Route path="*" element={<NotPage />} /> {/* Rota 404 */}
       </Routes>
     </Router>

@@ -1,4 +1,3 @@
-import '../assets/styles/pages/404.css';
 import NotFound from '../components/specific/404';
 
 
