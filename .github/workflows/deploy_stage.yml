@@ -31,7 +31,7 @@ jobs:
                   SSH_PRIVATE_KEY: ${{ secrets.SERVER_SSH_KEY }}
                   SSH_PASSPHRASE: ${{ secrets.SERVER_SSH_PASSPHRASE }}
                   ARGS: "-rltgoDzvc --delete"
-                  SOURCE: "build/"
+                  SOURCE: "dist/"
                   REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
                   REMOTE_USER: ${{ secrets.REMOTE_USER }}
                   REMOTE_PORT: ${{ secrets.REMOTE_PORT }}

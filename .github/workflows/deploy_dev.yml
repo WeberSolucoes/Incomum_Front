@@ -19,7 +19,7 @@ jobs:
               run: npm ci
             - name: Build
               run: npm run build
-            - name: List build directory
+            - name: Verify build output
               run: ls -la dist/
     deploy:
         runs-on: ubuntu-latest
