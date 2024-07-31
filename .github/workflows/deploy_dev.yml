@@ -26,7 +26,7 @@ jobs:
             - name: PWD
               run: pwd
             - name: LS
-              run: ls -la dist
+              run: ls -la
             - name: Hostinger Deploy
               uses: easingthemes/ssh-deploy@main
               with:
