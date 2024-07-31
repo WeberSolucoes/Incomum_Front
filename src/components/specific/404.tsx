@@ -1,4 +1,3 @@
-import React from 'react';
 import '../../assets/styles/pages/404.css';
 import { useNavigate } from 'react-router-dom';
 const NotFound = () => {
