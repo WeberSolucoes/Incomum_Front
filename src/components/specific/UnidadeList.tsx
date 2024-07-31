@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { UnidadesListResponse } from '../../utils/ApiObjects';
+import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetUnidades } from '../../services/Api';
 import { toastError } from '../../utils/customToast';
