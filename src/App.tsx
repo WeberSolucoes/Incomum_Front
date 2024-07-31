@@ -12,11 +12,14 @@ import RecuperarSenha from './pages/RecuperarSenha';
 import RedefinirSenha from './pages/RedefinirSenha';
 import NotPage from './pages/404Page';
 import NotAuthorizePage from './pages/403Page';
+import PrivateRoute from './contexts/PrivateRoute';
 function App() {
   return (
     <Router basename=''>
       <Routes>
-        <Route path="/" element={<MainPage />} />
+        <Route path="/" element={
+          <PrivateRoute requiredPermissions={[]} element={<MainPage />} />
+        } />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/relatorio" element={<RelatorioPage />} />
         <Route path="/recuperar-senha" element={<RecuperarSenha />} />

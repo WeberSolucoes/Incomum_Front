@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import SidebarMenu from '../components/layout/SidebarMenu';
 import Teste from '../components/specific/Teste';
 import Relatorio from '../components/specific/Relatorio';
@@ -18,11 +18,6 @@ const MainPage: React.FC = () => {
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
     };
-    useEffect(() => {
-        if (!auth.isAuthenticated) {
-            navigate('/login');
-        }
-    }, []);
 
     const renderComponent = () => {
         switch (activeComponent) {
