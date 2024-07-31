@@ -23,8 +23,6 @@ jobs:
         runs-on: ubuntu-latest
         needs: build
         steps:
-            - name: Repo Checkout
-              uses: actions/checkout@v2
             - name: Hostinger Deploy
               uses: easingthemes/ssh-deploy@main
               with:
