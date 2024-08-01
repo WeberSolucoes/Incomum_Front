@@ -27,7 +27,7 @@ jobs:
 
               # Redirecionar requisições para /api para a pasta api
               RewriteCond %{REQUEST_URI} ^/api/
-              RewriteRule ^api/(.*)$ /dev/api/$1 [L,PT]
+              RewriteRule ^api/(.*)$ /api/$1 [L,PT]
               
               # Gerenciar o roteamento do React
               RewriteCond %{REQUEST_FILENAME} !-f
