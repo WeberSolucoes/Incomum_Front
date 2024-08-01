@@ -42,7 +42,7 @@ const LoginForm: React.FC = () => {
                     <div className="text-center mb-4">
                         <img src="https://incoback.com.br/static/img/logo.png" alt="logo" height={50} className="mb-3" />
                         <img src="https://incoback.com.br/static/img/25anos.jpg" alt="logo" height={50} className="mb-3" />
-                        <h2 className="text-900 font-medium mb-3">Bem vindoaaaa!</h2>
+                        <h2 className="text-900 font-medium mb-3">Bem vindo!</h2>
                     </div>
                     <form onSubmit={handleLogin}>
                         <GenericTextInput icon='at' value={email} label='Email' id='email' onChange={(e) => setEmail(e.target.value)} />
