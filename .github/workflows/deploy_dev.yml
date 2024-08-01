@@ -24,12 +24,15 @@ jobs:
               cd dist
               echo "<IfModule mod_rewrite.c>
               RewriteEngine On
-              RewriteBase ./
-              RewriteRule ^index\.html$ - [L]
+
+              # Redirecionar requisições para /api para a pasta api
+              RewriteRule ^api/(.*)$ /api/$1 [L]
+              
+              # Gerenciar o roteamento do React
               RewriteCond %{REQUEST_FILENAME} !-f
               RewriteCond %{REQUEST_FILENAME} !-d
               RewriteCond %{REQUEST_FILENAME} !-l
-              RewriteRule . /index.html [L]
+              RewriteRule ^(.*)$ /index.html [L]
               </IfModule>" > .htaccess
           - name: Hostinger Deploy
             uses: easingthemes/ssh-deploy@main
