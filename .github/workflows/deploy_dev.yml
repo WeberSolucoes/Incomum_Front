@@ -19,22 +19,6 @@ jobs:
             run: npm ci
           - name: Build
             run: npm run build:dev
-          - name: Setup Apache
-            run: |
-              cd dist
-              echo "<IfModule mod_rewrite.c>
-              RewriteEngine On
-
-              # Redirecionar requisições para /api para a pasta api
-              RewriteCond %{REQUEST_URI} ^/api/
-              RewriteRule ^api/(.*)$ /api/$1 [L,PT]
-              
-              # Gerenciar o roteamento do React
-              RewriteCond %{REQUEST_FILENAME} !-f
-              RewriteCond %{REQUEST_FILENAME} !-d
-              RewriteCond %{REQUEST_FILENAME} !-l
-              RewriteRule ^(.*)$ /index.html [L]
-              </IfModule>" > .htaccess
           - name: Hostinger Deploy
             uses: easingthemes/ssh-deploy@main
             with:
