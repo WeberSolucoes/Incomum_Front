@@ -45,7 +45,7 @@ const LoginForm: React.FC = () => {
                         <h2 className="text-900 font-medium mb-3">Bem vindo!</h2>
                     </div>
                     <form onSubmit={handleLogin}>
-                        <p>{import.meta.env.VITE_REACT_API_URL}</p>
+                        <p>{import.meta.env.VITE_REACT_API_URL} pqp</p>
                         <GenericTextInput icon='at' value={email} label='Email' id='email' onChange={(e) => setEmail(e.target.value)} />
                         <GenericTextInput icon='lock' type='password' value={senha} label='Senha' id='senha' onChange={(e) => setSenha(e.target.value)} />
                         <div className="d-flex justify-content-between mb-4 gap-3">
