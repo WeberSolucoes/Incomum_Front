@@ -14,6 +14,6 @@ export enum ApiEndpoints {
     LIST_UNIDADES_BY_ID = '/incomum/loja/find-byid/', // '/incomum/loja/list-byid/${id}/'
     CREATE_UNIDADES = '/incomum/loja/create/',
     UPDATE_UNIDADES = '/incomum/loja/update/', // '/incomum/loja/update/${id}/'
-    DELETE_UNIDADES = '/unidades/delete/'
+    DELETE_UNIDADES = '/unidades/delete/',
     //#endregion
 }

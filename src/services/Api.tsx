@@ -4,7 +4,7 @@ import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '..
 
 //#region Axios_configs
 const axiosInstance = axios.create({
-    baseURL: 'http://localhost:8080/api', // substitua pela URL base da sua API
+    baseURL: 'http://localhost:8000/api', // substitua pela URL base da sua API
     timeout: 5000,
     headers: { 'Content-Type': 'application/json'}
 });
@@ -92,3 +92,25 @@ export const fetchAreaComercial = async () => {
         throw error;
     }
 };
+
+export const fetchRelatorioList = async (params) => {
+    try {
+        const response = await axiosInstance.get('/incomum/relatorio/list-all/', { params });
+        console.log('Dados recebidos da API:', response.data); // Verifique se os dados são recebidos aqui
+        return response.data;
+    } catch (error) {
+        console.error('Erro ao buscar dados:', error);
+        throw error;
+    }
+};
+
+export const fetchFiltraUnidade = async () => {
+    try {
+      // Substitua '/api/filtraunidade/' pelo endpoint real que retorna as áreas comerciais
+      const response = await axiosInstance.get('/incomum/relatorio/unidade');
+      return response.data;
+    } catch (error) {
+      console.error('Erro ao buscar dados de unidades:', error);
+      throw error;
+    }
+  };
