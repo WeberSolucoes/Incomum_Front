@@ -5,7 +5,6 @@ import 'primereact/resources/themes/saga-blue/theme.css'; // Importando estilos 
 import 'primeicons/primeicons.css';
 import './assets/styles/base/App.css';
 import LoginPage from './pages/LoginPage'
-import RelatorioPage from './pages/RelatorioPage'
 //import PrivateRoute from './contexts/PrivateRoute';
 import MainPage from './pages/MainPage';
 import RecuperarSenha from './pages/RecuperarSenha';
@@ -21,7 +20,6 @@ function App() {
         } /> */}
         <Route path='/' element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/relatorio" element={<RelatorioPage />} />
         <Route path="/recuperar-senha" element={<RecuperarSenha />} />
         <Route path="/redefinir-senha/:uid/:token" element={<RedefinirSenha />} />
 
