@@ -32,7 +32,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Cadastro',
         icon: 'pi pi-fw pi-home',
-        requiredPermissions: ['Can view area comercial'],
+        requiredPermissions: ['Can viaew area comercial'],
         items: [
             //UNIDADES
             {
