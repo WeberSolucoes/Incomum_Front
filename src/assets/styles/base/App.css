@@ -41,3 +41,6 @@ body{
     color:green
 }
 */
+.p-datepicker-calendar>thead>tr>th{
+    text-align: center;
+}
