@@ -149,8 +149,11 @@ const Relatorio = () => {
 
 
     return (
+        <>
         <div className='container px-4'>
-            <div className='row mt-5'>
+                        
+            <div className='row mt-3'>
+            <h1>Relatório</h1>
                 <div className='col-sm-6 mb-3'>
                     <Calendar style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
                 </div>
@@ -198,6 +201,7 @@ const Relatorio = () => {
                 <Column field="nome_loja" header="Agência" />
             </DataTable>
         </div>
+        </>
     );
 };
 
