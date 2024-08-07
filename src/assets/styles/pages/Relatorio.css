@@ -8,9 +8,6 @@ body{
     margin: auto;
     margin-top: 80px !important;
 }
-.side-menu-buttom{
-    margin-top: -74px !important;
-}
 
 @media (max-width: 536px){
     .col{

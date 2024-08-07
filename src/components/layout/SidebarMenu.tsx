@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Sidebar } from 'primereact/sidebar';
 import { Button } from 'primereact/button';
 import { PanelMenu } from 'primereact/panelmenu';
@@ -16,9 +16,14 @@ const hasPermission = (userPermissions: PermissionsListResponse[], requiredPermi
     return requiredPermissions.every(permission => userPermissionNames.includes(permission));
 };
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ onMenuItemClick }) => {
-    const [visible, setVisible] = useState(true);
+    const [visible, setVisible] = useState(false);
     const { userPermissions } = useAuth();
 
+    useEffect(() => {
+        if (window.innerWidth > 768) {
+            setVisible(true);
+        }
+    },[])
     // Filtra itens do menu com base nas permissões do usuário
     const filterItems = (items: MenuItem[]): MenuItem[] => {
         return items
