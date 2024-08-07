@@ -1,0 +1,33 @@
+body{
+    background-color: rgba(31, 23, 23, 0.05) !important;
+}
+
+.container{
+    background-color: white;
+    border-radius: 12px;
+    margin: auto;
+    margin-top: 80px !important;
+}
+
+@media (max-width: 536px){
+    .col{
+        margin-left: 0px !important;
+        width: 200px !important;
+    }
+    input, select, textarea{
+        width: 200px !important;
+    }
+    #ate{
+        display:none;
+    }
+    .side-menu-buttom{
+        margin-top: -74px !important;
+    }
+    .container{
+        margin-top: 80px;
+    }
+    .p-calendar{
+        margin-left: 0px !important;
+    }
+}
+
