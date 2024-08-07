@@ -31,13 +31,13 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     //CADASTRO
     {
         label: 'Cadastro',
-        icon: 'pi pi-fw pi-home',
-        requiredPermissions: ['Can viaew area comercial'],
+        icon: 'pi pi-fw pi-pen-to-square',
+        requiredPermissions: ['Can view area comercial'],
         items: [
             //UNIDADES
             {
                 label: "Unidades",
-                icon: "pi pi-fw pi-home",
+                icon: "pi pi-fw pi-building-columns",
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_unidades);
@@ -47,7 +47,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             //AGÊNCIAS
             {
                 label: "Agências",
-                icon: "pi pi-fw pi-home",
+                icon: "pi pi-fw pi-building",
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_agencias);
@@ -57,7 +57,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             //VENDEDORES
             {
                 label: "Vendedores",
-                icon: "pi pi-fw pi-home",
+                icon: "pi pi-fw pi-users",
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_vendedores);
@@ -70,7 +70,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     {
         label: 'Lançamentos',
         icon: 'pi pi-fw pi-calendar',
-        requiredPermissions: ['Can view araea comercial'],
+        requiredPermissions: ['Can view area comercial'],
         items: [
             {
                 label: 'Opção',
@@ -82,8 +82,8 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     //FINANCEIRO
     {
         label: 'Financeiro',
-        icon: 'pi pi-fw pi-calendar',
-        requiredPermissions: ['Can view areaa comercial'],
+        icon: 'pi pi-fw pi-wallet',
+        requiredPermissions: ['Can view area comercial'],
         items: [
             {
                 label: 'Opção',
@@ -121,12 +121,12 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     //RELATÓRIOS
     {
         label: 'Relatórios',
-        icon: 'pi pi-fw pi-calendar',
+        icon: 'pi pi-fw pi-book',
         items: [
             {
 
                 label: 'Simplificado de vendas',
-                icon: 'pi pi-fw pi-pencil',
+                icon: 'pi pi-fw pi-clipboard',
                 command: () => { onMenuItemClick(MenuEnum.relatorios_simplicados_vendas); }
             },
         ]
