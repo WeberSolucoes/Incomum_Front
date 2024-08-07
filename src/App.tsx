@@ -12,7 +12,6 @@ import RecuperarSenha from './pages/RecuperarSenha';
 import RedefinirSenha from './pages/RedefinirSenha';
 import NotPage from './pages/404Page';
 import NotAuthorizePage from './pages/403Page';
-import PrivateRoute from './contexts/PrivateRoute';
 function App() {
   return (
     <Router basename=''>
