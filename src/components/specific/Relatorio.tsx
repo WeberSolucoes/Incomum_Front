@@ -198,7 +198,7 @@ const Relatorio = () => {
                 <Column field="fim_valorinc" header="Inc" />
                 <Column field="fim_valorincajustado" header="Inc Ajustado" />
                 <Column field="aco_descricao" header="Área Comercial" />
-                <Column field="nome_loja" header="Agência" />
+                <Column field="age_descricao" header="Agência" />
             </DataTable>
         </div>
         </>
