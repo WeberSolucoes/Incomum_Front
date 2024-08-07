@@ -5,7 +5,14 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
-import { apiGetAgenciaRelatorioByUser, apiGetAreaComercialRelatorioByUser, apiGetRelatorioFindByFilter, apiGetUnidadeRelatorioByUser, apiGetUserId, apiGetVendedorRelatorioByUser } from '../../services/Api';
+import { apiGetAgenciaRelatorioByUser, 
+    apiGetAreaComercialRelatorioByUser, 
+    apiGetRelatorioFindByFilter, 
+    apiGetUnidadeRelatorioByUser, 
+    apiGetUserId, 
+    apiGetVendedorRelatorioByUser
+ } from '../../services/Api';
+import { pt_br } from '../../utils/Locale';
 
 
 
@@ -134,8 +141,6 @@ const Relatorio = () => {
         }
         try{
             setLoading(true);
-            console.log(dateStart)
-            console.log(dateEnd)
             const response = await apiGetRelatorioFindByFilter(body);
             setData(response.data);
         }
@@ -155,10 +160,10 @@ const Relatorio = () => {
             <div className='row mt-3'>
             <h1>Relatório</h1>
                 <div className='col-sm-6 mb-3'>
-                    <Calendar style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
+                    <Calendar locale={pt_br} style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
                 </div>
                 <div className='col-sm-6 mb-3'>
-                    <Calendar style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
+                    <Calendar locale={pt_br} style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
                 </div>
             </div>
             <div className='row mt-5'>
@@ -188,17 +193,17 @@ const Relatorio = () => {
             </div>
             {/* <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" /> */}
 
-            <DataTable scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
-                <Column field="fim_tipo" header="Tipo" />
-                <Column field="tur_numerovenda" header="Núm. Venda" />
-                <Column field="tur_codigo" header="Num. Pct" />
-                <Column field="fim_valorliquido" header="Vlr Líq Venda" />
-                <Column field="fim_data" header="Data" />
-                <Column field="fim_markup" header="Mkp" />
-                <Column field="fim_valorinc" header="Inc" />
-                <Column field="fim_valorincajustado" header="Inc Ajustado" />
-                <Column field="aco_descricao" header="Área Comercial" />
-                <Column field="age_descricao" header="Agência" />
+            <DataTable paginator rows={10} removableSort rowsPerPageOptions={[10, 20, 50]} loading={loading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
+                <Column sortable field="fim_tipo" header="Tipo" />
+                <Column sortable field="tur_numerovenda" header="Núm. Venda" />
+                <Column sortable field="tur_codigo" header="Num. Pct" />
+                <Column sortable field="fim_valorliquido" header="Vlr Líq Venda" />
+                <Column sortable field="fim_data" header="Data" />
+                <Column sortable field="fim_markup" header="Mkp" />
+                <Column sortable field="fim_valorinc" header="Inc" />
+                <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
+                <Column sortable field="aco_descricao" header="Área Comercial" />
+                <Column sortable field="nome_loja" header="Agência" />
             </DataTable>
         </div>
         </>
