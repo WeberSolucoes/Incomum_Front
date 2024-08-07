@@ -17,9 +17,10 @@ function App() {
   return (
     <Router basename=''>
       <Routes>
-        <Route path="/" element={
+        {/* <Route path="/" element={
           <PrivateRoute requiredPermissions={[]} element={<MainPage />} />
-        } />
+        } /> */}
+        <Route path='/' element={<MainPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/relatorio" element={<RelatorioPage />} />
         <Route path="/recuperar-senha" element={<RecuperarSenha />} />

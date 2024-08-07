@@ -18,6 +18,7 @@ interface AuthContextType {
     login: (email: string, password: string, rememberMe: boolean) => Promise<void>;
     logout: () => void;
     loading: boolean;
+    checkAuth: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -40,7 +41,11 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
         }
         setLoading(false);
     }, []);
-
+    const checkAuth = async () => {
+        const isAuthenticated = await apiGetToken(); // ou qualquer método assíncrono
+        if(isAuthenticated) return true;
+        return false;
+    }
     const login = async (email: string, password: string, rememberMe: boolean) => {
         try {
             //Pega o token
@@ -72,7 +77,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({ children }) => {
     };
 
     return (
-        <AuthContext.Provider value={{ isAuthenticated, userPermissions, login, logout, loading }}>
+        <AuthContext.Provider value={{ isAuthenticated, userPermissions, login, logout, loading, checkAuth }}>
             {children}
         </AuthContext.Provider>
     );
