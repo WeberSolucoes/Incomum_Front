@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SidebarMenu from '../components/layout/SidebarMenu';
 import Teste from '../components/specific/Teste';
 import Relatorio from '../components/specific/Relatorio';
@@ -15,6 +15,16 @@ const MainPage: React.FC = () => {
     const auth = useAuth();
     const navigate = useNavigate();
 
+    useEffect(() => {
+        const checkAuth = async () => {
+            const isAuthenticated = await auth.checkAuth(); // ou qualquer método assíncrono
+            if (!isAuthenticated) {
+                navigate('/login');
+            }
+        };
+    
+        checkAuth();
+    } , []);
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
     };

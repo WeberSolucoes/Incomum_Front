@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 const NotFound = () => {
   const navigate = useNavigate();
   return (
-    <div style={{ height: '100vh' }}>
+    <div style={{ height: '100vh',overflow: 'hidden' }}>
       <div className="not-found-container">
         <div className="space"></div>
         <div className="wrapper">
