@@ -134,9 +134,39 @@ export const apiGetRelatorioFindByFilter = (data: any) => {
     if (data.page && data.pageSize) {
         url += `page=${data.page}&pageSize=${data.pageSize}&`
     }
+    if (data.usuario_id){
+        url += `usuario_id=${data.usuario_id}&`
+    }
     if (data.dataInicio && data.dataFim) {
         url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
     }
     return axiosInstance.get(`${ApiEndpoints.LIST_RELATORIO_FINDALL_BY_FILTERS}?${url}`);
+};
+
+export const apiGetTotalRelatorio = (data: any) => {
+    let url = '';
+    if (data.areasComerciais)
+        for (let area of data.areasComerciais) {
+            url += `areaComercial=${area}&`;
+        }
+    if (data.agencias)
+        for (let agencia of data.agencias) {
+            url += `agencia=${agencia}&`;
+        }
+    if (data.vendedores)
+        for (let vendedor of data.vendedores) {
+            url += `vendedor=${vendedor}&`;
+        }
+    if (data.unidades)
+        for (let unidade of data.unidades) {
+            url += `unidade=${unidade}&`;
+        }
+    if (data.usuario_id){
+        url += `usuario_id=${data.usuario_id}&`
+    }
+    if (data.dataInicio && data.dataFim) {
+        url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
+    }
+    return axiosInstance.get(`${ApiEndpoints.TOTAL_RELATORIO}?${url}`);
 };
 //#endregion
