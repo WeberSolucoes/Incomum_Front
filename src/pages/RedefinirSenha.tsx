@@ -14,6 +14,13 @@ export default function RedefinirSenha() {
     async function handleRecoverySenha(e: React.FormEvent): Promise<void> {
         e.preventDefault();
         setLoading(true);
+        const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\W).{8,}$/;
+
+        if(regex.test(senha) === false) {
+            toastError('A senha deve conter pelo menos 8 caracteres, uma letra maiúscula, uma letra minúscula e um caractere especial');
+            setLoading(false);
+            return;
+        }
         if (senha !== confirmarSenha) {
             toastError('As senhas precisam ser iguais');
             setLoading(false);
