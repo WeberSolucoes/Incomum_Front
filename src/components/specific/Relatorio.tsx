@@ -163,11 +163,11 @@ const Relatorio = () => {
         try {
             setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(body);
+            console.log(response.data);
             const totalResponse = await apiGetTotalRelatorio(body);
             setTotal(response.data.count);
             setData(response.data.results);
             setTotalData(totalResponse.data);
-            console.log(totalResponse.data);
         }
         catch (error: any) {
             if (error.code == "ECONNABORTED") {
@@ -239,6 +239,7 @@ const Relatorio = () => {
                     <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
                     <Column sortable field="aco_descricao" header="Área Comercial" />
                     <Column sortable field="nome_loja" header="Agência" />
+                    <Column sortable field="ven_descricao" header="Vendedor" />
                 </DataTable>
                 <Paginator first={page * pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
             </div>
