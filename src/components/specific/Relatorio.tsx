@@ -193,7 +193,7 @@ const Relatorio = () => {
                         <Calendar locale={pt_br} style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
                     </div>
                 </div>
-                <div className='row mt-5'>
+                <div className='row mt-3'>
                     <div className='col-sm-3 mb-3'>
                         <MultiSelect value={selectedUnidade} style={{ width: '100%' }} showClear loading={loading}
                             options={unidades} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
@@ -215,15 +215,17 @@ const Relatorio = () => {
                             onChange={(e) => handleSelectionChange('vendedor', e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
                     </div>
                 </div>
-                <div className="my-3 d-flex justify-content-center align-items-center">
+                <div className="my-3 d-flex justify-content-end align-items-center">
                     <Button className='rounded' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
                 </div>
-                <div className='d-flex justify-content-end align-items-center gap-3'>
-                    {console.log() as any}
-                    {<h5>Total Liquido: {totalData.total_valorliquido}</h5>}
-                    {<h5>Total Inc: {totalData.total_valorinc}</h5>}
-                    {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
-                    <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+                <div className='d-flex justify-content-between align-items-center gap-3'>
+                    <div></div>
+                    <div className='d-flex gap-4'>
+                        {<h5>Total Liquido: {totalData.total_valorliquido}</h5>}
+                        {<h5>Total Inc: {totalData.total_valorinc}</h5>}
+                        {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
+                    </div>
+                    <Button className='rounded' type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
                 </div>
 
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
