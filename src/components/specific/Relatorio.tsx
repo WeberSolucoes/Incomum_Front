@@ -10,6 +10,7 @@ import {
     apiGetAgenciaRelatorioByUser,
     apiGetAreaComercialRelatorioByUser,
     apiGetRelatorioFindByFilter,
+    apiGetTotalRelatorio,
     apiGetUnidadeRelatorioByUser,
     apiGetUserId,
     apiGetVendedorRelatorioByUser
@@ -41,6 +42,8 @@ const Relatorio = () => {
     const [pageSize, setPageSize] = useState<number>(10);
     const [total, setTotal] = useState(0);
 
+    const [totalData, setTotalData] = useState<any>([]);
+
     const [dateStart, setDateStart] = useState<Date | null>(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
     const [dateEnd, setDateEnd] = useState<Date | null>(new Date());
     const [data, setData] = useState([]);
@@ -69,7 +72,6 @@ const Relatorio = () => {
     }, [selectedAreaComercial, selectedAgencia, selectedVendedor, selectedUnidade])
     useEffect(() => {
         handleAreasValues();
-        // handleVendedoresValues();
     }, [selectedUnidade])
     useEffect(() => {
         handleAgenciasValues();
@@ -154,14 +156,18 @@ const Relatorio = () => {
             'vendedores': selectedVendedor,
             'dataInicio': dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
             'dataFim': dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-            'page': page+1,
-            'pageSize': pageSize
+            'page': page + 1,
+            'pageSize': pageSize,
+            'usuario_id': await userId
         }
         try {
             setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(body);
+            const totalResponse = await apiGetTotalRelatorio(body);
             setTotal(response.data.count);
             setData(response.data.results);
+            setTotalData(totalResponse.data);
+            console.log(totalResponse.data);
         }
         catch (error: any) {
             if (error.code == "ECONNABORTED") {
@@ -212,7 +218,13 @@ const Relatorio = () => {
                 <div className="my-3 d-flex justify-content-center align-items-center">
                     <Button className='rounded' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
                 </div>
-                <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+                <div className='d-flex justify-content-end align-items-center gap-3'>
+                    {console.log() as any}
+                    {<h5>Total Liquido: {totalData.total_valorliquido}</h5>}
+                    {<h5>Total Inc: {totalData.total_valorinc}</h5>}
+                    {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
+                    <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+                </div>
 
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
                     <Column sortable field="fim_tipo" header="Tipo" />
@@ -226,7 +238,7 @@ const Relatorio = () => {
                     <Column sortable field="aco_descricao" header="Área Comercial" />
                     <Column sortable field="nome_loja" header="Agência" />
                 </DataTable>
-                <Paginator first={page*pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
+                <Paginator first={page * pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
             </div>
         </>
     );
