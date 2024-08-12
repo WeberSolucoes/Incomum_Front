@@ -1,18 +1,21 @@
 import { Calendar } from 'primereact/calendar';
 //import { FloatLabel } from 'primereact/floatlabel';
 import { useEffect, useState } from 'react';
+import { Paginator } from 'primereact/paginator';
 import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
-import { apiGetAgenciaRelatorioByUser, 
-    apiGetAreaComercialRelatorioByUser, 
-    apiGetRelatorioFindByFilter, 
-    apiGetUnidadeRelatorioByUser, 
-    apiGetUserId, 
+import {
+    apiGetAgenciaRelatorioByUser,
+    apiGetAreaComercialRelatorioByUser,
+    apiGetRelatorioFindByFilter,
+    apiGetUnidadeRelatorioByUser,
+    apiGetUserId,
     apiGetVendedorRelatorioByUser
- } from '../../services/Api';
+} from '../../services/Api';
 import { pt_br } from '../../utils/Locale';
+import { toastError, toastWarning } from '../../utils/customToast';
 
 
 
@@ -33,6 +36,10 @@ const Relatorio = () => {
     const [selectedVendedor, setSelectedVendedor] = useState(null);
 
     const [loading, setLoading] = useState(false);
+    const [tableLoading, setTableLoading] = useState(false);
+    const [page, setPage] = useState<number>(0);
+    const [pageSize, setPageSize] = useState<number>(10);
+    const [total, setTotal] = useState(0);
 
     const [dateStart, setDateStart] = useState<Date | null>(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
     const [dateEnd, setDateEnd] = useState<Date | null>(new Date());
@@ -47,88 +54,97 @@ const Relatorio = () => {
             // puxar agencias
             handleAgenciasValues();
             // puxar vendedores
-            handleVendedoresValues();
+            // handleVendedoresValues();
         }
         fetchData();
     }, []);
     useEffect(() => {
-        if(selectedAreaComercial == null)
+        if (selectedAreaComercial == null)
             setAreasComerciais('' as any);
-        if(selectedVendedor == null)
+        if (selectedVendedor == null)
             setVendedores('' as any);
-        if(selectedAgencia == null)
+        if (selectedAgencia == null)
             setAgencias('' as any);
-    },[selectedAreaComercial,selectedAgencia,selectedVendedor])
+        setPage(0);
+    }, [selectedAreaComercial, selectedAgencia, selectedVendedor, selectedUnidade])
     useEffect(() => {
         handleAreasValues();
-        handleVendedoresValues();
-    },[selectedUnidade])
+        // handleVendedoresValues();
+    }, [selectedUnidade])
     useEffect(() => {
         handleAgenciasValues();
-    },[selectedAreaComercial])
+    }, [selectedAreaComercial])
+    useEffect(() => {
+        setPage(page);
+        handleSubmit();
+    }, [page, pageSize]);
     async function handleUnidadesValues() {
-        try{
+        try {
             setLoading(true);
             const response = await apiGetUnidadeRelatorioByUser(await userId);
             setUnidades(response.data.map((item: any) => ({ name: item.loj_descricao, value: item.loj_codigo })));
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            toastError(error.message);
         }
-        finally{
+        finally {
             setLoading(false);
         }
-        
+
     }
     async function handleAreasValues() {
-        try{
+        try {
             setLoading(true);
-            const response = await apiGetAreaComercialRelatorioByUser(await userId,selectedUnidade);
+            const response = await apiGetAreaComercialRelatorioByUser(await userId, selectedUnidade);
             setAreasComerciais(response.data.map((item: any) => ({ name: item.aco_descricao, value: item.aco_codigo })));
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            toastError(error.message);
         }
-        finally{
+        finally {
             setLoading(false);
         }
-        
+
     }
     async function handleVendedoresValues() {
-        try{
+        try {
             setLoading(true);
-            const response = await apiGetVendedorRelatorioByUser(await userId,selectedUnidade);
+            const response = await apiGetVendedorRelatorioByUser(await userId, selectedUnidade);
             setVendedores(response.data.map((item: any) => ({ name: item.first_name + " " + item.last_name, value: item.id })));
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            toastError(error.message);
         }
-        finally{
+        finally {
             setLoading(false);
         }
     }
     async function handleAgenciasValues() {
-        try{
+        try {
             setLoading(true);
-            const response = await apiGetAgenciaRelatorioByUser(await userId,selectedAreaComercial);
-            setAgencias(response.data.map((item: any) => ({ name: item.age_descricao ,value: item.age_codigo })));
+            const response = await apiGetAgenciaRelatorioByUser(await userId, selectedAreaComercial);
+            setAgencias(response.data.map((item: any) => ({ name: item.age_descricao, value: item.age_codigo })));
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            toastError(error.message);
         }
-        finally{
+        finally {
             setLoading(false);
         }
     }
-    function handleSelectionChange(name:string ,value: any) {
-        if(name === 'unidade')
+    function handleSelectionChange(name: string, value: any) {
+        if (name === 'unidade')
             setSelectedUnidade(value);
-        if(name === 'areaComercial')
+        if (name === 'areaComercial')
             setSelectedAreaComercial(value);
-        if(name === 'agencia')
+        if (name === 'agencia')
             setSelectedAgencia(value);
-        if(name === 'vendedor')
+        if (name === 'vendedor')
             setSelectedVendedor(value);
+    }
+    function handlePageChange(e: any) {
+        setPage(e.page);
+        setPageSize(e.rows);
     }
     async function handleSubmit() {
         const body = {
@@ -136,76 +152,82 @@ const Relatorio = () => {
             'areasComerciais': selectedAreaComercial,
             'agencias': selectedAgencia,
             'vendedores': selectedVendedor,
-            'dataInicio': dateStart?.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-'),
-            'dataFim': dateEnd?.toLocaleDateString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric'}).replace(/\//g,'-')
+            'dataInicio': dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+            'dataFim': dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+            'page': page+1,
+            'pageSize': pageSize
         }
-        try{
-            setLoading(true);
+        try {
+            setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(body);
-            setData(response.data);
+            setTotal(response.data.count);
+            setData(response.data.results);
         }
-        catch(error){
-            console.log(error);
+        catch (error: any) {
+            if (error.code == "ECONNABORTED") {
+                toastWarning("O servidor demorou para responder. Tente novamente mais tarde");
+            }
         }
-        finally{
-            setLoading(false);
+        finally {
+            setTableLoading(false);
         }
     }
 
 
     return (
         <>
-        <div className='container px-4'>
-                        
-            <div className='row mt-3'>
-            <h1>Relatório</h1>
-                <div className='col-sm-6 mb-3'>
-                    <Calendar locale={pt_br} style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
-                </div>
-                <div className='col-sm-6 mb-3'>
-                    <Calendar locale={pt_br} style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
-                </div>
-            </div>
-            <div className='row mt-5'>
-                <div className='col-sm-3 mb-3'>
-                    <MultiSelect value={selectedUnidade} style={{ width: '100%' }} showClear loading={loading}
-                        options={unidades} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                        onChange={(e) => handleSelectionChange('unidade',e.value)} optionLabel="name" placeholder="Unidade" className="w-full md:w-14rem" />
-                </div>
-                <div className='col-sm-3 mb-3'>
-                    <MultiSelect value={selectedAreaComercial} style={{ width: '100%' }} showClear loading={loading}
-                        options={areasComerciais} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                        onChange={(e) => handleSelectionChange('areaComercial',e.value)} optionLabel="name" placeholder="Área Comercial" className="w-full md:w-14rem" />
-                </div>
-                <div className='col-sm-3 mb-3'>
-                    <MultiSelect value={selectedAgencia} style={{ width: '100%' }} showClear loading={loading}
-                        options={agencias} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                        onChange={(e) => handleSelectionChange('agencia',e.value)} optionLabel="name" placeholder="Agência" className="w-full md:w-14rem" />
-                </div>
-                <div className='col-sm-3 mb-3'>
-                    <MultiSelect value={selectedVendedor} style={{ width: '100%' }} showClear loading={loading}
-                        options={vendedores} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                        onChange={(e) => handleSelectionChange('vendedor',e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
-                </div>
-            </div>
-            <div className="my-3 d-flex justify-content-center align-items-center">
-                <Button className='rounded' id='pesquisar' loading={loading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
-            </div>
-            {/* <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" /> */}
+            <div className='container px-4'>
 
-            <DataTable paginator rows={10} removableSort rowsPerPageOptions={[10, 20, 50]} loading={loading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
-                <Column sortable field="fim_tipo" header="Tipo" />
-                <Column sortable field="tur_numerovenda" header="Núm. Venda" />
-                <Column sortable field="tur_codigo" header="Num. Pct" />
-                <Column sortable field="fim_valorliquido" header="Vlr Líq Venda" />
-                <Column sortable field="fim_data" header="Data" />
-                <Column sortable field="fim_markup" header="Mkp" />
-                <Column sortable field="fim_valorinc" header="Inc" />
-                <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
-                <Column sortable field="aco_descricao" header="Área Comercial" />
-                <Column sortable field="nome_loja" header="Agência" />
-            </DataTable>
-        </div>
+                <div className='row mt-3'>
+                    <h1>Relatório</h1>
+                    <div className='col-sm-6 mb-3'>
+                        <Calendar locale={pt_br} style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
+                    </div>
+                    <div className='col-sm-6 mb-3'>
+                        <Calendar locale={pt_br} style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
+                    </div>
+                </div>
+                <div className='row mt-5'>
+                    <div className='col-sm-3 mb-3'>
+                        <MultiSelect value={selectedUnidade} style={{ width: '100%' }} showClear loading={loading}
+                            options={unidades} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                            onChange={(e) => handleSelectionChange('unidade', e.value)} optionLabel="name" placeholder="Unidade" className="w-full md:w-14rem" />
+                    </div>
+                    <div className='col-sm-3 mb-3'>
+                        <MultiSelect value={selectedAreaComercial} style={{ width: '100%' }} showClear loading={loading}
+                            options={areasComerciais} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                            onChange={(e) => handleSelectionChange('areaComercial', e.value)} optionLabel="name" placeholder="Área Comercial" className="w-full md:w-14rem" />
+                    </div>
+                    <div className='col-sm-3 mb-3'>
+                        <MultiSelect value={selectedAgencia} style={{ width: '100%' }} showClear loading={loading}
+                            options={agencias} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                            onChange={(e) => handleSelectionChange('agencia', e.value)} optionLabel="name" placeholder="Agência" className="w-full md:w-14rem" />
+                    </div>
+                    <div className='col-sm-3 mb-3'>
+                        <MultiSelect value={selectedVendedor} style={{ width: '100%' }} showClear loading={loading} onClick={handleVendedoresValues}
+                            options={vendedores} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                            onChange={(e) => handleSelectionChange('vendedor', e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
+                    </div>
+                </div>
+                <div className="my-3 d-flex justify-content-center align-items-center">
+                    <Button className='rounded' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
+                </div>
+                <Button type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+
+                <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
+                    <Column sortable field="fim_tipo" header="Tipo" />
+                    <Column sortable field="tur_numerovenda" header="Núm. Venda" />
+                    <Column sortable field="tur_codigo" header="Num. Pct" />
+                    <Column sortable field="fim_valorliquido" header="Vlr Líq Venda" />
+                    <Column sortable field="fim_data" header="Data" />
+                    <Column sortable field="fim_markup" header="Mkp" />
+                    <Column sortable field="fim_valorinc" header="Inc" />
+                    <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
+                    <Column sortable field="aco_descricao" header="Área Comercial" />
+                    <Column sortable field="nome_loja" header="Agência" />
+                </DataTable>
+                <Paginator first={page*pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
+            </div>
         </>
     );
 };

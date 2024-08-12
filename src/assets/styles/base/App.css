@@ -44,3 +44,14 @@ body{
 .p-datepicker-calendar>thead>tr>th{
     text-align: center;
 }
+.p-dropdown-items{
+    padding: 8px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.p-multiselect-panel{
+    max-width: 200px;
+}

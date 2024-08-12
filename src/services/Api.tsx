@@ -5,7 +5,7 @@ import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '..
 //#region Axios_configs
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL, // substitua pela URL base da sua API
-    timeout: 5000,
+    timeout: 15000,
     headers: { 'Content-Type': 'application/json' }
 });
 axiosInstance.interceptors.request.use((config) => {
@@ -120,18 +120,21 @@ export const apiGetRelatorioFindByFilter = (data: any) => {
             url += `areaComercial=${area}&`;
         }
     if (data.agencias)
-        for(let agencia of data.agencias){
+        for (let agencia of data.agencias) {
             url += `agencia=${agencia}&`;
         }
     if (data.vendedores)
-        for(let vendedor of data.vendedores){
+        for (let vendedor of data.vendedores) {
             url += `vendedor=${vendedor}&`;
         }
     if (data.unidades)
-        for(let unidade of data.unidades){
+        for (let unidade of data.unidades) {
             url += `unidade=${unidade}&`;
         }
-    if(data.dataInicio && data.dataFim){
+    if (data.page && data.pageSize) {
+        url += `page=${data.page}&pageSize=${data.pageSize}&`
+    }
+    if (data.dataInicio && data.dataFim) {
         url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
     }
     return axiosInstance.get(`${ApiEndpoints.LIST_RELATORIO_FINDALL_BY_FILTERS}?${url}`);
