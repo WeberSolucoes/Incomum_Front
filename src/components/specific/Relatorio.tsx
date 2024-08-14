@@ -40,7 +40,7 @@ const Relatorio = () => {
     const [loading, setLoading] = useState(false);
     const [tableLoading, setTableLoading] = useState(false);
     const [excelLoading, setExcelLoading] = useState(false);
-    
+
     const [page, setPage] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(10);
     const [total, setTotal] = useState(0);
@@ -203,7 +203,7 @@ const Relatorio = () => {
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        }catch (error: any) {
+        } catch (error: any) {
             toastError(error.message);
         }
         finally {
@@ -247,17 +247,15 @@ const Relatorio = () => {
                             onChange={(e) => handleSelectionChange('vendedor', e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
                     </div>
                 </div>
-                <div className="my-3 d-flex justify-content-end align-items-center">
-                    <Button className='rounded' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
+                <div className="row my-3 d-flex justify-content-end align-items-center">
+                    <Button className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
                 </div>
-                <div className='d-flex justify-content-between align-items-center gap-3'>
-                    <div></div>
-                    <div className='d-flex gap-4'>
-                        {<h5>Total Liquido: {totalData.total_valorliquido}</h5>}
-                        {<h5>Total Inc: {totalData.total_valorinc}</h5>}
-                        {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
-                    </div>
-                    <Button className='rounded' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
+                <div className=' row d-flex justify-content-between align-items-center gap-3'>
+                    {<h5 className='col-sm-3 '>Total Liquido: {totalData.total_valorliquido}</h5>}
+                    {<h5 className='col-sm-3 '>Total Inc: {totalData.total_valorinc}</h5>}
+                    {<h5 className='col-sm-3 '>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
+
+                    <Button className='rounded col-sm-1  mb-3' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
                 </div>
 
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
