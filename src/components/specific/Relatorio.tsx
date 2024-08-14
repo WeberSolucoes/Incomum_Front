@@ -193,6 +193,7 @@ const Relatorio = () => {
         }
         try {
             setExcelLoading(true);
+            toastWarning("Esta operação pode levar um tempo. Por favor, aguarde");
             const response = await apiGetDownloadRelatorio(body);
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
