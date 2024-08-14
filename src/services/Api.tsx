@@ -5,7 +5,7 @@ import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '..
 //#region Axios_configs
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL, // substitua pela URL base da sua API
-    timeout: 15000,
+    timeout: 6000000,
     headers: { 'Content-Type': 'application/json' }
 });
 axiosInstance.interceptors.request.use((config) => {
@@ -78,6 +78,7 @@ export const apiPostCreateUnidade = (data: UnidadesCreateRequest) => axiosInstan
 export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => axiosInstance.put(`${ApiEndpoints.UPDATE_UNIDADES}${id}/`, data);
 
 export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
+
 
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 

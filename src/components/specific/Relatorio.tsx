@@ -6,6 +6,8 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
+import { saveAs } from 'file-saver';
+import * as XLSX from 'xlsx';
 import {
     apiGetAgenciaRelatorioByUser,
     apiGetAreaComercialRelatorioByUser,
@@ -17,6 +19,7 @@ import {
 } from '../../services/Api';
 import { pt_br } from '../../utils/Locale';
 import { toastError, toastWarning } from '../../utils/customToast';
+
 
 
 
@@ -179,6 +182,49 @@ const Relatorio = () => {
         }
     }
 
+    const exportToExcel = async () => {
+      try {
+          const dataInicio = dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+          const dataFim = dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
+          const pageSize = 10; // Ajuste conforme necessário
+          let page = 1;
+          let allData: any[] = [];
+          let hasMoreData = true;
+  
+          while (hasMoreData) {
+              const response = await apiGetRelatorioFindByFilter({
+                  dataInicio,
+                  dataFim,
+                  unidade: selectedUnidade,
+                  areaComercial: selectedAreaComercial,
+                  agencia: selectedAgencia,
+                  vendedor: selectedVendedor,
+                  pageSize,
+                  page,
+                  export: 'true' // Indicador de que estamos exportando
+              });
+  
+              const data = response.data.results || response.data; // Ajuste conforme o formato da resposta
+              allData = allData.concat(data);
+              hasMoreData = data.length === pageSize;
+              page++;
+          }
+  
+          // Criar o workbook e adicionar a worksheet
+          const wb = XLSX.utils.book_new();
+          const ws = XLSX.utils.json_to_sheet(allData);
+          XLSX.utils.book_append_sheet(wb, ws, 'Relatório');
+  
+          // Gerar o blob e iniciar o download
+          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
+          const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+          saveAs(blob, 'relatorio.xlsx');
+  
+      } catch (error) {
+          console.error('Erro ao exportar para Excel:', error);
+      }
+  };
+
 
     return (
         <>
@@ -225,7 +271,7 @@ const Relatorio = () => {
                         {<h5>Total Inc: {totalData.total_valorinc}</h5>}
                         {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
                     </div>
-                    <Button className='rounded' type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+                    <Button className='rounded' type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" onClick={exportToExcel} />
                 </div>
 
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
