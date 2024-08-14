@@ -5,7 +5,7 @@ import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '..
 //#region Axios_configs
 const axiosInstance = axios.create({
     baseURL: import.meta.env.VITE_REACT_API_URL, // substitua pela URL base da sua API
-    timeout: 15000,
+    timeout: 1500000,
     headers: { 'Content-Type': 'application/json' }
 });
 axiosInstance.interceptors.request.use((config) => {
@@ -169,4 +169,31 @@ export const apiGetTotalRelatorio = (data: any) => {
     }
     return axiosInstance.get(`${ApiEndpoints.TOTAL_RELATORIO}?${url}`);
 };
+
+export const apiGetDownloadRelatorio = (data: any) => {
+    let url = '';
+    if (data.areasComerciais)
+        for (let area of data.areasComerciais) {
+            url += `areaComercial=${area}&`;
+        }
+    if (data.agencias)
+        for (let agencia of data.agencias) {
+            url += `agencia=${agencia}&`;
+        }
+    if (data.vendedores)
+        for (let vendedor of data.vendedores) {
+            url += `vendedor=${vendedor}&`;
+        }
+    if (data.unidades)
+        for (let unidade of data.unidades) {
+            url += `unidade=${unidade}&`;
+        }
+    if (data.usuario_id){
+        url += `usuario_id=${data.usuario_id}&`
+    }
+    if (data.dataInicio && data.dataFim) {
+        url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
+    }
+    return axiosInstance.get(`${ApiEndpoints.EXCEL_RELATORIO}?${url}`, { responseType: 'blob' });
+}
 //#endregion

@@ -9,6 +9,7 @@ import { MultiSelect } from 'primereact/multiselect';
 import {
     apiGetAgenciaRelatorioByUser,
     apiGetAreaComercialRelatorioByUser,
+    apiGetDownloadRelatorio,
     apiGetRelatorioFindByFilter,
     apiGetTotalRelatorio,
     apiGetUnidadeRelatorioByUser,
@@ -38,6 +39,8 @@ const Relatorio = () => {
 
     const [loading, setLoading] = useState(false);
     const [tableLoading, setTableLoading] = useState(false);
+    const [excelLoading, setExcelLoading] = useState(false);
+    
     const [page, setPage] = useState<number>(0);
     const [pageSize, setPageSize] = useState<number>(10);
     const [total, setTotal] = useState(0);
@@ -178,6 +181,34 @@ const Relatorio = () => {
             setTableLoading(false);
         }
     }
+    async function handleDownload() {
+        const body = {
+            'unidades': selectedUnidade,
+            'areasComerciais': selectedAreaComercial,
+            'agencias': selectedAgencia,
+            'vendedores': selectedVendedor,
+            'dataInicio': dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+            'dataFim': dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
+            'usuario_id': await userId
+        }
+        try {
+            setExcelLoading(true);
+            const response = await apiGetDownloadRelatorio(body);
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement('a');
+            link.href = url;
+            const nome_arquivo = `${dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}_${dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.xlsx`;
+            link.setAttribute('download', nome_arquivo);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }catch (error: any) {
+            toastError(error.message);
+        }
+        finally {
+            setExcelLoading(false);
+        }
+    }
 
 
     return (
@@ -225,7 +256,7 @@ const Relatorio = () => {
                         {<h5>Total Inc: {totalData.total_valorinc}</h5>}
                         {<h5>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
                     </div>
-                    <Button className='rounded' type="button" icon="pi pi-file-excel" severity="success" data-pr-tooltip="CSV" />
+                    <Button className='rounded' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
                 </div>
 
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>

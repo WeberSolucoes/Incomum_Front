@@ -24,5 +24,6 @@ export enum ApiEndpoints {
     LIST_AGENCIA_RELATORIO_BY_USER = '/incomum/relatorio/agencia-by-user/', // '/incomum/relatorio/agencia-by-user/${id}/'
     LIST_RELATORIO_FINDALL_BY_FILTERS = '/incomum/relatorio/list-all-by-filter/',
     TOTAL_RELATORIO = '/incomum/relatorio/total-by-filter/',
+    EXCEL_RELATORIO = '/incomum/relatorio/download-relatorio/',
     //#endregion
 }
