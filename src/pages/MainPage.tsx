@@ -9,6 +9,8 @@ import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import UnidadeCadastro from '../components/specific/UnidadeCadastro';
 import { CodigoProvider } from '../contexts/CodigoProvider';
+import { apiGetUserId } from '../services/Api';
+import { toastError, toastWarning } from '../utils/customToast';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -17,14 +19,26 @@ const MainPage: React.FC = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const isAuthenticated = await auth.checkAuth(); // ou qualquer método assíncrono
+            const isAuthenticated = await auth.checkAuth();
             if (!isAuthenticated) {
                 navigate('/login');
             }
         };
-    
+        const checkToken = async () => {
+            try {
+                await apiGetUserId();
+            } catch (error: any) {
+                if(error.response.status === 401) {
+                    toastWarning("Por questões de segurança, realize o login novamente");
+                    navigate('/login');
+                    return
+                }
+                toastError(error.response.data.message);
+            }
+        }
         checkAuth();
-    } , []);
+        checkToken();
+    }, []);
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
     };
@@ -55,7 +69,7 @@ const MainPage: React.FC = () => {
             case MenuEnum.gerencial_faturamento_vendedor:
                 return <Teste message="Faturamento Vendedor" />;
             case MenuEnum.relatorios_simplicados_vendas:
-                return <Relatorio/>;
+                return <Relatorio />;
             case MenuEnum.usuario:
                 return <Teste message="Configurações de Usuário" />;
             case MenuEnum.perfil:
