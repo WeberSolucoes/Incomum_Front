@@ -10,7 +10,7 @@ import { InputNumber } from "primereact/inputnumber"
 import InputMask from 'react-input-mask';
 import { ToggleButton } from 'primereact/togglebutton';
 import { toastError, toastSucess } from "../../utils/customToast"
-import { MultiSelect } from "primereact/multiselect"
+import { Dropdown } from 'primereact/dropdown';
 
 
 function UnidadeCadastro() {
@@ -90,17 +90,18 @@ function UnidadeCadastro() {
         e.preventDefault();
         setLoading(true);
         try {
-            request.loj_endereco = `${rua}, ${numero}`;
-            request.aco_codigo = selectedAreas.map(area => ({ aco_codigo: area }));
+            request.loj_endereco = `${rua}`;
+            request.aco_codigo = selectedAreas; // Envie apenas a lista de ids
+    
             request.loj_situacao = checked ? 1 : 0;
-
+    
             let response;
             if (request.loj_codigo) {
                 response = await apiPutUpdateUnidade(request, request.loj_codigo);
             } else {
                 response = await apiPostCreateUnidade(request);
             }
-
+    
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Unidade salva com sucesso");
             } else {
@@ -113,6 +114,7 @@ function UnidadeCadastro() {
                 const data = error.response.data;
                 if (status === 400) {
                     toastError("Dados inválidos. Verifique os campos e tente novamente.");
+                    console.error("Error 400 details:", data);
                 } else if (status === 401) {
                     toastError("Não autorizado. Verifique suas credenciais.");
                 } else if (status === 500) {
@@ -221,7 +223,6 @@ function UnidadeCadastro() {
                             className="rounded"
                             style={{ width: '100%' }}
                         >
-                            {(inputProps: any) => <InputText {...inputProps} />}
                         </InputMask>
                     </FloatLabel>
                 </div>
@@ -234,7 +235,7 @@ function UnidadeCadastro() {
                 <div className="col-sm-2 mb-4">
                     <FloatLabel>
                         <label htmlFor="numero">Número</label>
-                        <InputNumber inputStyle={{width:'100px'}} value={numero} onChange={(e) => setNumero(e.target.value as any)} id="numero" aria-describedby="numero-help" className="rounded" style={{ width: '100%' }} />
+                        <InputNumber inputStyle={{width:'100px'}} id="numero" aria-describedby="numero-help" className="rounded" style={{ width: '100%' }} />
                     </FloatLabel>
                 </div>
             </div>
@@ -268,7 +269,6 @@ function UnidadeCadastro() {
                             className="rounded"
                             style={{ width: '100%' }}
                         >
-                            {(inputProps: any) => <InputText {...inputProps} />}
                         </InputMask>
                     </FloatLabel>
                 </div>
@@ -290,7 +290,6 @@ function UnidadeCadastro() {
                             className="rounded"
                             style={{ width: '100%' }}
                         >
-                            {(inputProps: any) => <InputText {...inputProps} />}
                         </InputMask>
                     </FloatLabel>
                 </div>
@@ -340,12 +339,11 @@ function UnidadeCadastro() {
                 <div className="col-sm mb-4">
                     <FloatLabel>
                         <label htmlFor="area_comercial">Área Comercial</label>
-                        <MultiSelect
+                        <Dropdown
                             value={selectedAreas}
                             options={areasComerciais}
                             onChange={handleMultiSelectChange}
                             placeholder="Selecione as Áreas Comerciais"
-                            display="chip"
                             style={{width:'100%'}}
                         />
                     </FloatLabel>
