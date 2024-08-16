@@ -79,6 +79,8 @@ export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => 
 
 export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
 
+export const apiGetAreas = () => axiosInstance.get(ApiEndpoints.LIST_AREAS);
+ 
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 
 export const apiGetUnidadeRelatorioByUser = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADE_RELATORIO_BY_USER}${id}/`);

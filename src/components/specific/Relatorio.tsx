@@ -21,6 +21,7 @@ import { toastError, toastWarning } from '../../utils/customToast';
 
 
 
+
 const Relatorio = () => {
     const [userId] = useState<Promise<number>>(async (): Promise<number> => {
         const responseUserId = await apiGetUserId();
