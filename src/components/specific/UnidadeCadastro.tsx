@@ -3,78 +3,157 @@ import { FloatLabel } from "primereact/floatlabel"
 import { InputText } from "primereact/inputtext"
 import { UnidadesCreateRequest } from "../../utils/apiObjects"
 import { useEffect, useState } from "react"
-import { apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from "../../services/Api"
-import { toastError, toastSucess } from "../../utils/customToast"
+import { apiGetAreas, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from "../../services/Api"
 import axios from "axios"
 import { useCodigo } from "../../contexts/CodigoProvider"
+import { InputNumber } from "primereact/inputnumber"
+import InputMask from 'react-input-mask';
+import { ToggleButton } from 'primereact/togglebutton';
+import { toastError, toastSucess } from "../../utils/customToast"
+import { MultiSelect } from "primereact/multiselect"
+
 
 function UnidadeCadastro() {
-    const { codigo } = useCodigo()
-    const [request, setRequest] = useState<UnidadesCreateRequest>({} as UnidadesCreateRequest)
-    const [rua, setRua] = useState()
-    const [numero, setNumero] = useState()
-    const [cidade, setCidade] = useState()
-    const [loading, setLoading] = useState(false)
+    const { codigo } = useCodigo();
+    const [request, setRequest] = useState<UnidadesCreateRequest>({} as UnidadesCreateRequest);
+    const [rua, setRua] = useState('');
+    const [numero, setNumero] = useState('');
+    const [cidade, setCidade] = useState('');
+    const [loading, setLoading] = useState(false);
+    const [areasComerciais, setAreasComerciais] = useState([]);
+    const [selectedAreas, setSelectedAreas] = useState([]);
+    const [checked, setChecked] = useState(false);
 
     useEffect(() => {
         const fetchData = async () => {
-            if (!codigo) return
-            const response = await apiGetUnidadeById(codigo)
-            const unidade: any = response.data
-            setRequest(({ ...response.data }));
-            const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${response.data['cid_codigo']}`);
-            setRua(unidade.loj_endereco.split(",")[0])
-            setNumero(unidade.loj_endereco.split(",")[1])
-            setCidade(responseCidade.data.nome)
-        }
-        fetchData();
+            if (!codigo) return;
+            try {
+                const response = await apiGetUnidadeById(codigo);
+                const unidade = response.data;
+                setRequest(unidade);
+                setSelectedAreas(unidade.areasComerciais.map((area: any) => area.aco_codigo));
+                setChecked(unidade.loj_situacao === 1);
 
-    }, [codigo])
+                const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
+                setRua(unidade.loj_endereco.split(",")[0]);
+                setNumero(unidade.loj_endereco.split(",")[1]);
+                setCidade(responseCidade.data.nome);
+            } catch (error) {
+                console.error("Error fetching data:", error);
+            }
+        };
+        fetchData();
+    }, [codigo]);
+
+    useEffect(() => {
+        const fetchAreasComerciais = async () => {
+            try {
+                const response = await apiGetAreas();
+                const data = response.data;
+                setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
+                    label: area.aco_descricao,
+                    value: area.aco_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar áreas comerciais:", error);
+            }
+        };
+        fetchAreasComerciais();
+    }, []);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setRequest(prevState => ({ ...prevState, [id]: value }));
     };
+
+    const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setRequest(prevState => ({ ...prevState, 'cep_codigo': value }));
+    };
+
+    const handleCnpjChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setRequest(prevState => ({ ...prevState, 'loj_cnpj': value }));
+    };
+
+    const handleFoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const value = e.target.value.replace(/\D/g, '');
+        setRequest(prevState => ({ ...prevState, 'loj_fone': value }));
+    };
+
+    const handleMultiSelectChange = (e: any) => {
+        setSelectedAreas(e.value);
+        setRequest(prevState => ({ ...prevState, areasComerciais: e.value }));
+    };
+
     const handlerSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        setLoading(true)
+        setLoading(true);
         try {
-            request.loj_endereco = `${rua}, ${numero}`
-            setRequest(prevState => ({ ...prevState }));
+            request.loj_endereco = `${rua}, ${numero}`;
+            request.aco_codigo = selectedAreas.map(area => ({ aco_codigo: area }));
+            request.loj_situacao = checked ? 1 : 0;
+
+            let response;
             if (request.loj_codigo) {
-                await apiPutUpdateUnidade(request, request.loj_codigo)
-                toastSucess("Unidade atualizada com sucesso");
+                response = await apiPutUpdateUnidade(request, request.loj_codigo);
+            } else {
+                response = await apiPostCreateUnidade(request);
             }
-            else {
-                await apiPostCreateUnidade(request);
-                toastSucess("Unidade criada com sucesso");
+
+            if (response.status === 200 || response.status === 201) {
+                toastSucess("Unidade salva com sucesso");
+            } else {
+                toastError("Erro ao salvar a unidade");
             }
         } catch (error: any) {
-            console.log(error)
-            if (error.response.code = 0) {
-                toastError("Algo de errado com o servidor, tente novamente mais tarde");
-                return
+            console.error("Error:", error);
+            if (error.response) {
+                const status = error.response.status;
+                const data = error.response.data;
+                if (status === 400) {
+                    toastError("Dados inválidos. Verifique os campos e tente novamente.");
+                } else if (status === 401) {
+                    toastError("Não autorizado. Verifique suas credenciais.");
+                } else if (status === 500) {
+                    toastError("Erro interno do servidor. Tente novamente mais tarde.");
+                } else {
+                    toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
+                }
+            } else {
+                toastError("Erro de conexão. Verifique sua rede e tente novamente.");
             }
-            toastError("Verifique os campos e tente novamente");
+        } finally {
+            setLoading(false);
         }
-        finally {
-            setLoading(false)
-        }
-    }
+    };
+
     const handleReset = (e: React.FormEvent) => {
         e.preventDefault();
-        setRequest({} as UnidadesCreateRequest)
-    }
+        setRequest({} as UnidadesCreateRequest);
+        setSelectedAreas([]);
+    };
 
     const handleCepApi = async (e: React.FocusEvent<HTMLInputElement>) => {
         e.preventDefault();
-        const cep = e.target.value
-        const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-        const data = response.data;
-        setRua(data.logradouro);
-        setCidade(data.localidade);
-        setRequest(prevState => ({ ...prevState, 'cid_codigo': `${data.ibge}` }));
-        setRequest(prevState => ({ ...prevState, 'loj_bairro': `${data.bairro}` }))
-    }
+        const cep = e.target.value.replace('-', '');
+        if (cep.length === 8) {
+            try {
+                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+                const data = response.data;
+                setRua(data.logradouro);
+                setCidade(data.localidade);
+                setRequest(prevState => ({
+                    ...prevState,
+                    'cid_codigo': `${data.ibge}`,
+                    'loj_bairro': `${data.bairro}`
+                }));
+            } catch (error) {
+                console.error("Error fetching CEP data:", error);
+            }
+        }
+    };
+
 
     return (
         <form onSubmit={handlerSubmit} >
@@ -99,10 +178,17 @@ function UnidadeCadastro() {
                     </FloatLabel>
                 </div>
                 <div className="col-sm-3 mb-4">
-                    <FloatLabel>
-                        <label htmlFor="situacao">Situação</label>
-                        <InputText value={request.loj_situacao} onChange={handleChange} id="loj_situacao" aria-describedby="situacao-help" className="rounded" style={{ width: '100%' }} />
-                    </FloatLabel>
+                        <label style={{display:'block',marginTop:'-24px'}} htmlFor="situacao">Situação</label>
+                        <ToggleButton
+                            value={request.loj_situacao}
+                            checked={checked}
+                            onChange={(e) => setChecked(e.value)}
+                            onLabel="ATIVO"   // Texto quando o botão está ativado
+                            offLabel="INATIVO" // Texto quando o botão está desativado
+                            onIcon="pi pi-check" // Você pode ajustar o ícone para representar "ATIVO"
+                            offIcon="pi pi-times"
+                            className="custom-toggle-button"
+                        />
                 </div>
             </div>
 
@@ -124,8 +210,19 @@ function UnidadeCadastro() {
             <div className="row">
                 <div className="col-sm-5 mb-4">
                     <FloatLabel>
-                        <label htmlFor="cep">CEP</label>
-                        <InputText value={request.cep_codigo} onBlur={handleCepApi} onChange={handleChange} id="cep_codigo" aria-describedby="cep-help" className="rounded" style={{ width: '100%' }} />
+                        <label htmlFor="cep_codigo">CEP</label>
+                        <InputMask
+                            mask="99999-999"
+                            value={request.cep_codigo || ''}
+                            onChange={handleCepChange}
+                            onBlur={handleCepApi}
+                            id="cep_codigo"
+                            aria-describedby="cep-help"
+                            className="rounded"
+                            style={{ width: '100%' }}
+                        >
+                            {(inputProps: any) => <InputText {...inputProps} />}
+                        </InputMask>
                     </FloatLabel>
                 </div>
                 <div className="col-sm-5 mb-4">
@@ -137,7 +234,7 @@ function UnidadeCadastro() {
                 <div className="col-sm-2 mb-4">
                     <FloatLabel>
                         <label htmlFor="numero">Número</label>
-                        <InputText value={numero} onChange={(e) => setNumero(e.target.value as any)} id="numero" aria-describedby="numero-help" className="rounded" style={{ width: '100%' }} />
+                        <InputNumber inputStyle={{width:'100px'}} value={numero} onChange={(e) => setNumero(e.target.value as any)} id="numero" aria-describedby="numero-help" className="rounded" style={{ width: '100%' }} />
                     </FloatLabel>
                 </div>
             </div>
@@ -160,8 +257,19 @@ function UnidadeCadastro() {
             <div className="row">
                 <div className="col-sm-5 mb-4">
                     <FloatLabel>
-                        <label htmlFor="fone">Fone</label>
-                        <InputText value={request.loj_fone} onChange={handleChange} id="loj_fone" aria-describedby="fone-help" className="rounded" style={{ width: '100%' }} />
+                        <label htmlFor="loj_fone">Fone</label>
+                        <InputMask
+                            mask="(99) 9 9999-9999"
+                            value={request.loj_fone || ''}
+                            onChange={handleFoneChange}
+                            onBlur={handleCepApi}
+                            id="loj_fone"
+                            aria-describedby="cep-help"
+                            className="rounded"
+                            style={{ width: '100%' }}
+                        >
+                            {(inputProps: any) => <InputText {...inputProps} />}
+                        </InputMask>
                     </FloatLabel>
                 </div>
                 <div className="col-sm-5 mb-4">
@@ -172,8 +280,18 @@ function UnidadeCadastro() {
                 </div>
                 <div className="col-sm-2 mb-4">
                     <FloatLabel>
-                        <label htmlFor="cnpj">CNPJ</label>
-                        <InputText value={request.loj_cnpj} onChange={handleChange} id="loj_cnpj" aria-describedby="cnpj-help" className="rounded" style={{ width: '100%' }} />
+                        <label htmlFor="loj_cnpj">CNPJ</label>
+                        <InputMask
+                            mask="99.999.999/9999-99"
+                            value={request.loj_cnpj|| ''}
+                            onChange={handleCnpjChange}
+                            id="loj_cnpj"
+                            aria-describedby="cep-help"
+                            className="rounded"
+                            style={{ width: '100%' }}
+                        >
+                            {(inputProps: any) => <InputText {...inputProps} />}
+                        </InputMask>
                     </FloatLabel>
                 </div>
             </div>
@@ -222,7 +340,14 @@ function UnidadeCadastro() {
                 <div className="col-sm mb-4">
                     <FloatLabel>
                         <label htmlFor="area_comercial">Área Comercial</label>
-                        <InputText id="area_comercial" aria-describedby="area_comercial-help" className="rounded" style={{ width: '100%' }} />
+                        <MultiSelect
+                            value={selectedAreas}
+                            options={areasComerciais}
+                            onChange={handleMultiSelectChange}
+                            placeholder="Selecione as Áreas Comerciais"
+                            display="chip"
+                            style={{width:'100%'}}
+                        />
                     </FloatLabel>
                 </div>
                 <div className="col-sm mb-4">

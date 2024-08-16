@@ -25,5 +25,6 @@ export enum ApiEndpoints {
     LIST_RELATORIO_FINDALL_BY_FILTERS = '/incomum/relatorio/list-all-by-filter/',
     TOTAL_RELATORIO = '/incomum/relatorio/total-by-filter/',
     EXPORT_TO_EXCEL = "EXPORT_TO_EXCEL",
+    LIST_AREAS = "incomum/relatorio/list-all-areas/", 
     //#endregion
 }
