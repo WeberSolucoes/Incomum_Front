@@ -1,49 +1,69 @@
-import React, { useEffect, useState } from 'react';
-import { Sidebar } from 'primereact/sidebar';
-import { Button } from 'primereact/button';
-import { PanelMenu } from 'primereact/panelmenu';
-import { useAuth } from '../../contexts/AuthProvider';
-import { PermissionsListResponse } from '../../utils/apiObjects';
-import { menuItems, MenuItem } from '../../utils/MenuEnum';
+import React, { useState } from 'react';
+import { CSidebar, CSidebarHeader, CSidebarBrand, CNavItem, CNavGroup, CSidebarNav, CNavTitle } from '@coreui/react';
+import CIcon from '@coreui/icons-react';
+import { MenuItem, MenuEnum, menuItems } from '../../utils/MenuEnum';
+import * as icons from '@coreui/icons';
 
 interface SidebarMenuProps {
-    onMenuItemClick: (itemKey: string) => void;
+    onMenuItemClick: (itemKey: MenuEnum) => void;
 }
 
-const hasPermission = (userPermissions: PermissionsListResponse[], requiredPermissions: string[] | undefined) => {
-    if (!requiredPermissions || requiredPermissions.length === 0) return true;
-    const userPermissionNames = userPermissions.map(permission => permission.name);
-    return requiredPermissions.every(permission => userPermissionNames.includes(permission));
-};
 const SidebarMenu: React.FC<SidebarMenuProps> = ({ onMenuItemClick }) => {
-    const [visible, setVisible] = useState(false);
-    const { userPermissions } = useAuth();
+    const items = menuItems(onMenuItemClick);
+    const [openGroups, setOpenGroups] = useState<{ [key: number]: boolean }>({});
+    const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
 
-    useEffect(() => {
-        if (window.innerWidth > 768) {
-            setVisible(true);
-        }
-    },[])
-    // Filtra itens do menu com base nas permissões do usuário
-    const filterItems = (items: MenuItem[]): MenuItem[] => {
-        return items
-            .filter(item => hasPermission(userPermissions, item.requiredPermissions))
-            .map(item => ({
-                ...item,
-                items: item.items ? filterItems(item.items) : undefined
-            }));
+    const toggleGroup = (index: number) => {
+        setOpenGroups(prev => ({ ...prev, [index]: !prev[index] }));
     };
-  
-    const filteredItems = filterItems(menuItems(onMenuItemClick));
+
+    const toggleSidebar = () => {
+        setSidebarCollapsed(!sidebarCollapsed);
+    };
+
+    const renderMenuItems = (menuItems: MenuItem[]) => {
+        return menuItems.map((item, index) => {
+            if (item.items) {
+                return (
+                    <CNavGroup
+                        key={index}
+                        toggler={
+                            <div onClick={() => toggleGroup(index)} className="nav-link">
+                                {item.icon && <CIcon className="nav-icon" icon={icons[item.icon as keyof typeof icons]} />} 
+                                {!sidebarCollapsed && <span>{item.label}</span>}
+                            </div>
+                        }
+                        className={openGroups[index] ? "open" : ""}
+                    >
+                        {renderMenuItems(item.items)}
+                    </CNavGroup>
+                );
+            }
+            return (
+                <CNavItem
+                    key={index}
+                    href="#"
+                    onClick={() => item.command && item.command()}
+                    className="nav-link"
+                >
+                    {item.icon && <CIcon className="nav-icon" icon={icons[item.icon as keyof typeof icons]} />} 
+                    {!sidebarCollapsed && <span>{item.label}</span>}
+                </CNavItem>
+            );
+        });
+    };
 
     return (
-        <div>
-            <Button className='side-menu-buttom' icon="pi pi-bars" onClick={() => setVisible(true)} style={{position: 'fixed',zIndex: 999}}/>
-            <Sidebar visible={visible} onHide={() => setVisible(false)}>
-                <img src="https://incoback.com.br/static/img/logo.png" alt="logo" height={47.5} className="mb-3" />
-                <PanelMenu model={filteredItems} />
-            </Sidebar>
-        </div>
+        <CSidebar
+            className={`border-end ${sidebarCollapsed ? 'collapsed' : ''}`}
+            unfoldable={!sidebarCollapsed}
+            onShowChange={setSidebarCollapsed}
+        >
+            <CSidebarNav>
+                <CNavTitle>Incoback</CNavTitle>
+                {renderMenuItems(items)}
+            </CSidebarNav>
+        </CSidebar>
     );
 };
 

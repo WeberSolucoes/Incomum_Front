@@ -79,6 +79,28 @@ export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => 
 
 export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
 
+export const apiDeleteUnidade = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_UNIDADES}${id}/`)
+
+export const apiGetAgencia = () => axiosInstance.get(ApiEndpoints.LIST_AGENCIA)
+
+export const apiPostCreateAgencia = () => axiosInstance.get(ApiEndpoints.CREATE_AGENCIA)
+
+export const apiDeleteAgencia = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_AGENCIA}${id}/`)
+
+export const apiGetAgenciaById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_AGENCIA_BY_ID}${id}/`)
+
+export const apiPutUpdateAgencia = (id: number) => axiosInstance.get(`${ApiEndpoints.EDIT_AGENCIA}${id}/`)
+
+export const apiGetVendedor = () => axiosInstance.get(ApiEndpoints.LIST_VENDEDOR)
+
+export const apiPostCreateVendedor = () => axiosInstance.get(ApiEndpoints.CREATE_VENDEDOR)
+
+export const apiGetVendedorById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_VENDEDOR_BY_ID}${id}/`)
+
+export const apiPutUpdateVendedor = (id: number) => axiosInstance.get(`${ApiEndpoints.EDIT_VENDEDOR}${id}/`)
+
+export const apiDeleteVendedor = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_VENDEDOR}${id}/`)
+
 export const apiGetAreas = () => axiosInstance.get(ApiEndpoints.LIST_AREAS);
  
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);

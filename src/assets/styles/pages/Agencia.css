@@ -1,0 +1,109 @@
+.erp-form {
+    width:100%;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+  }
+  
+  .form-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  
+  .form-group.full-width {
+    flex: 100%;
+    margin-right: 0;
+  }
+  
+  .form-group:last-child {
+    margin-right: 0;
+  }
+  
+  label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #0152a1;
+  }
+  
+  input,
+  select {
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    padding: 10px;
+    background-color: #0152a1;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+  }
+  
+  .submit-btn:hover {
+    background-color: #0056b3;
+  }
+
+  .reset-btn {
+    background: none;
+    border: none;
+    color: red;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+  
+  .reset-btn i {
+    color: red;
+    margin-right: 8px;
+  }
+  
+  .reset-btn:hover {
+    opacity: 0.8;
+  }
+
+
+/* Remove a borda padrão dos inputs e aplica uma borda personalizada */
+.erp-form .form-group input[type="text"],
+.erp-form .form-group select {
+  border: 1px solid #ddd; /* Borda leve */
+  border-radius: 4px; /* Cantos arredondados */
+  padding: 8px; /* Espaçamento interno */
+  font-size: 14px; /* Tamanho da fonte */
+  outline: none; /* Remove o contorno padrão ao focar */
+  transition: border-color 0.3s ease; /* Transição suave na mudança de cor da borda */
+}
+
+/* Estilo ao focar no input */
+.erp-form .form-group input[type="text"]:focus,
+.erp-form .form-group select:focus {
+  border-color: #007bff; /* Cor da borda ao focar (azul padrão) */
+  box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2); /* Sombra suave ao focar */
+}
+
+/* Remove a borda preta dos inputs com erro */
+.erp-form .form-group input[type="text"].error,
+.erp-form .form-group select.error {
+  border-color: red; /* Cor da borda para inputs com erro */
+}
+/* Aplica estilização a todos os inputs */
+.erp-form input[type="text"], .erp-form select {
+    font-size: 18px; /* Aumenta o tamanho da fonte, ajuste conforme necessário */
+    text-transform: uppercase; /* Converte o texto para maiúsculas */
+    font-weight: 600;
+}
+  

@@ -20,8 +20,13 @@ const BarraDeFerramentas: React.FC<BarraDeFerramentasProps> = ({onCreateClick, o
 
     const centerContent = (
         <IconField iconPosition="left">
-            <InputIcon className="pi pi-search" />
-            <InputText style={{width: '60vw'}} placeholder="Buscar" onChange={(e) => onSearch(e.target.value)} onClick={onSearchClick}/>
+            <InputIcon className="pi pi-search" style={{ position: 'absolute', left: '10px', top: '70%', transform: 'translateY(-50%)' }} />
+            <InputText
+            style={{ width: '350%', paddingLeft: '2.5rem' }} // Ajuste do paddingLeft para deixar espaço para o ícone
+            placeholder="Buscar"
+            onChange={(e) => onSearch(e.target.value)}
+            onClick={onSearchClick}
+            />
         </IconField>
     );  
 

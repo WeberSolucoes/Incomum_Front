@@ -14,7 +14,7 @@ export enum ApiEndpoints {
     LIST_UNIDADES_BY_ID = '/incomum/loja/find-byid/', // '/incomum/loja/list-byid/${id}/'
     CREATE_UNIDADES = '/incomum/loja/create/',
     UPDATE_UNIDADES = '/incomum/loja/update/', // '/incomum/loja/update/${id}/'
-    DELETE_UNIDADES = '/unidades/delete/',
+    DELETE_UNIDADES = 'incomum/loja/delete/',
     //#endregion
 
     //#region relatorio_simplificado_endpoints
@@ -28,4 +28,17 @@ export enum ApiEndpoints {
     EXPORT_TO_EXCEL = "EXPORT_TO_EXCEL",
     LIST_AREAS = "incomum/relatorio/list-all-areas/", 
     //#endregion
+
+    LIST_AGENCIA = 'incomum/agencia/list-all/',
+    CREATE_AGENCIA = 'incomum/agencia/create/',
+    DELETE_AGENCIA = 'incomum/agencia/delete/',
+    LIST_AGENCIA_BY_ID = 'incomum/agencia/find-byid/',
+    EDIT_AGENCIA = 'incomum/agencia/update/',
+
+
+    LIST_VENDEDOR = 'incomum/vendedor/list-all/',
+    CREATE_VENDEDOR = 'incomum/vendedor/create/',
+    LIST_VENDEDOR_BY_ID = 'incomum/vendedor/find-byid/',
+    EDIT_VENDEDOR = 'incomum/vendedor/update/',
+    DELETE_VENDEDOR = 'incomum/vendedor/delete/'
 }

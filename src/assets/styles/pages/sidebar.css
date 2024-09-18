@@ -1,0 +1,207 @@
+/* Ajustar a largura do Sidebar */
+body{
+    overflow: auto;
+}
+
+.sidebar {
+    width: 300px; /* Largura do sidebar quando expandido */
+    transition: width 0.3s ease;
+    margin-top: -60px;
+    overflow-y: auto; /* Permite o scroll vertical quando o conteúdo excede a altura */
+    overflow-x: hidden;
+    
+}
+
+/* styles/CustomSidebar.css */
+.sidebar-nav {
+    --cui-sidebar-nav-link-hover-icon-color: inherit !important;
+
+}
+
+
+.sidebar-narrow-unfoldable {
+    position: relative !important; /* Sobrescreve o 'fixed' */
+}
+
+.sidebar-narrow-unfoldable {
+    position: absolute;
+    height: 1500px;
+
+}
+.nav-item .nav-link{
+    margin-left: -24px;
+}
+
+.CSidebar.collapsed {
+    width: 80px; /* Largura do sidebar quando colapsado */
+}
+
+/* Esconder o texto dos itens e submenus quando o sidebar estiver colapsado */
+.CSidebar.collapsed .nav-item span,
+.CSidebar.collapsed .nav-group > .nav-group-toggle > span {
+    display: none;
+}
+
+/* Ajuste os ícones para ficarem centralizados no modo colapsado */
+.CSidebar.collapsed .nav-icon {
+    margin-right: 0;
+    display: block;
+    text-align: center;
+}
+
+/* Ajustar a largura do conteúdo principal para corresponder ao sidebar */
+.content {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease;
+}
+
+.content.collapsed {
+    margin-left: 80px;
+}
+.CSidebar.collapsed .nav-link span {
+    display: none; /* Esconde o texto */
+}
+
+
+/* Garantir que o ícone seja centralizado quando o sidebar está colapsado */
+.CSidebar.collapsed .nav-link .nav-icon {
+    margin-right: 0;
+    display: block;
+    text-align: center;
+}
+/* Esconde o texto dos itens e submenus quando o sidebar estiver colapsado */
+.CSidebar.collapsed .nav-item span,
+.CSidebar.collapsed .nav-group > .nav-group-toggle > span {
+    display: none;
+}
+
+/* Esconde as setas dos submenus quando o sidebar estiver colapsado */
+.CSidebar.collapsed .nav-group-toggle::after {
+    display: none; /* Esconde a seta do submenu */
+}
+
+/* Ajuste os ícones para ficarem centralizados no modo colapsado */
+.CSidebar.collapsed .nav-icon {
+    margin-right: 0;
+    display: block;
+    text-align: center;
+}
+
+.sidebar-narrow-unfoldable .nav-link {
+    color: #0152a1 !important;
+    overflow: visible !important; /* Garante que o overflow seja visível e sobrescreve o anterior */
+}
+
+.sidebar-nav svg.nav-icon {
+    overflow: hidden;
+    color: #e87717;
+    font-size: large;
+    transition: none !important;
+}
+
+
+.icon:not(.icon-c-s):not(.icon-custom-size) {
+    width: 1.5rem !important;
+    height: 1.5rem !important;
+    font-size: initial !important;
+}
+.CSidebarHeader {
+    flex-shrink: 0; /* Fixa o header */
+}
+
+.CSidebarNav {
+    flex-grow: 1; /* Adiciona scroll para o conteúdo principal */
+    overflow-y: auto;
+}
+
+.CSidebarFooter {
+    flex-shrink: 0; /* Fixa o footer na parte de baixo */
+}
+.nav-item .nav-icon {
+    width: 1.25rem; /* Tamanho desejado para o ícone */
+    height: 1.25rem;
+    margin-right: 10px; /* Espaço entre o ícone e o texto */
+}
+
+/* Ajuste o sidebar para telas menores */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 100%; /* Largura total da tela quando em dispositivos móveis */
+        position: fixed; /* Fixar o sidebar para que ele não role com a página */
+        top: 0;
+        left: 0;
+        height: 100vh; /* Altura total da tela */
+        z-index: 1000; /* Para garantir que o sidebar fique acima de outros elementos */
+    }
+
+    .sidebar-narrow-unfoldable {
+        position: absolute;
+        height: 100%; /* Altura total do sidebar em dispositivos móveis */
+    }
+
+    .content {
+        margin-left: 0; /* Remover a margem para o conteúdo principal */
+    }
+
+    /* Esconder o sidebar em dispositivos móveis quando não estiver visível */
+    .sidebar.collapsed {
+        display: none;
+    }
+}
+
+/* Ajuste os ícones e o texto no modo colapsado */
+.CSidebar.collapsed .nav-link span,
+.CSidebar.collapsed .nav-group > .nav-group-toggle > span {
+    display: none;
+}
+
+.CSidebar.collapsed .nav-icon {
+    margin-right: 0;
+    display: block;
+    text-align: center;
+}
+
+/* Garantir que o ícone seja centralizado quando o sidebar está colapsado */
+.CSidebar.collapsed .nav-link .nav-icon {
+    margin-right: 0;
+    display: block;
+    text-align: center;
+}
+
+/* Esconde as setas dos submenus quando o sidebar estiver colapsado */
+.CSidebar.collapsed .nav-group-toggle::after {
+    display: none; /* Esconde a seta do submenu */
+}
+
+/* Ajuste o tamanho dos ícones */
+.nav-item .nav-icon {
+    width: 1.25rem; /* Tamanho desejado para o ícone */
+    height: 1.25rem;
+    margin-right: 10px; /* Espaço entre o ícone e o texto */
+}
+
+/* Estilos adicionais para a navbar responsiva */
+.navbar {
+    display: none; /* Esconder a navbar por padrão */
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        display: flex; /* Exibir a navbar em dispositivos móveis */
+        background-color: #f8f9fa;
+        padding: 0.5rem 1rem;
+    }
+
+    .navbar-toggler {
+        border: none;
+    }
+
+    .navbar-nav {
+        flex-direction: column;
+    }
+
+    .navbar-nav .nav-link {
+        padding: 0.5rem 1rem;
+    }
+}
+

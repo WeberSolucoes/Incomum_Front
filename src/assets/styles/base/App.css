@@ -1,5 +1,23 @@
 body{
     overflow: auto;
+    background-color: #f4f4f4 !important;
+}
+
+body, html {
+    zoom: 1; /* Certifique-se que está em 1 ou remova essa linha */
+    transform: none;
+    font-size: 100%; /* Voltar ao padrão */
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: white;
+    color: white;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .main-content {
@@ -9,6 +27,12 @@ body{
     padding: 20px;
 }
 
+.mdb-input-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 1rem;
+}
 
 .side-menu-buttom {
     color: #fff;
@@ -54,4 +78,10 @@ body{
 }
 .p-multiselect-panel{
     max-width: 200px;
+}
+
+.p-menubar-root-list{
+    margin-left: auto; /* Move a lista de itens para a direita */
+    margin-right: 100px;
+    margin-top: 10px;
 }

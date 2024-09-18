@@ -6,8 +6,6 @@ import { Button } from 'primereact/button';
 import { DataTable } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { MultiSelect } from 'primereact/multiselect';
-import { saveAs } from 'file-saver';
-import * as XLSX from 'xlsx';
 import {
     apiGetAgenciaRelatorioByUser,
     apiGetAreaComercialRelatorioByUser,
@@ -259,15 +257,15 @@ const Relatorio = () => {
 
     return (
         <>
-            <div className='container px-4'>
+            <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px'}} className='container px-4'>
 
                 <div className='row mt-3'>
-                    <h1>Relatório</h1>
+                    <h1 style={{marginTop:'-45px'}}>Relatório</h1>
                     <div className='col-sm-6 mb-3'>
-                        <Calendar locale={pt_br} style={{ width: '100%' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
+                        <Calendar locale={pt_br} style={{ width: '100%',marginTop:'15px' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
                     </div>
                     <div className='col-sm-6 mb-3'>
-                        <Calendar locale={pt_br} style={{ width: '100%' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
+                        <Calendar locale={pt_br} style={{ width: '100%', marginTop:'15px' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
                     </div>
                 </div>
                 <div className='row mt-3'>
@@ -293,7 +291,7 @@ const Relatorio = () => {
                     </div>
                 </div>
                 <div className="row my-3 d-flex justify-content-end align-items-center">
-                    <Button className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
+                    <Button style={{margin:'auto'}} className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
                 </div>
                 <div className=' row d-flex justify-content-between align-items-center gap-3'>
                     {<h5 className='col-sm-3 '>Total Liquido: {totalData.total_valorliquido}</h5>}
@@ -302,7 +300,7 @@ const Relatorio = () => {
 
                     <Button className='rounded col-sm-1  mb-3' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
                 </div>
-
+                <a href=''></a>
                 <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
                     <Column sortable field="fim_tipo" header="Tipo" />
                     <Column sortable field="tur_numerovenda" header="Núm. Venda" />
