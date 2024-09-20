@@ -18,6 +18,40 @@ body{
 
 }
 
+@media (max-width: 768px) {
+    .collapsed {
+        display: none;
+    }
+}
+
+@media (min-width: 769px) {
+    .collapsed {
+        display: block;
+    }
+}
+
+.hamburger-btn {
+    display: none; /* Esconde o botão por padrão */
+}
+
+@media (max-width: 768px) {
+    .hamburger-btn {
+        display: block; /* Exibe o botão em telas menores que 768px */
+        position: absolute;
+        top: 15px;
+        left: 15px;
+        z-index: 1001;
+    }
+}
+
+@media (max-width: 991.98px) {
+    .sidebar-backdrop.show {
+        opacity: 0 !important; /* Remove a opacidade do fundo *//* Remove o elemento completamente */
+    }
+}
+
+
+
 
 .sidebar-narrow-unfoldable {
     position: relative !important; /* Sobrescreve o 'fixed' */
@@ -135,8 +169,7 @@ body{
     }
 
     .sidebar-narrow-unfoldable {
-        position: absolute;
-        height: 100%; /* Altura total do sidebar em dispositivos móveis */
+        position: absolute; 
     }
 
     .content {

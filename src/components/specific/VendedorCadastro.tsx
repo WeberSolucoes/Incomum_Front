@@ -140,9 +140,45 @@ const Vendedor: React.FC = () => {
             }
         }
     };
+    const campoMapeamento: Record<keyof VendedorCreateRequest, string> = {
+        ven_codigo: 'Código',
+        ven_numero: 'Número',
+        ven_contacorrente: 'Conta',
+        ven_agencia: 'Agência',
+        ven_cep: 'Cep',
+        ven_descricao: "",
+        loj_codigo: "",
+        ven_endereco: "",
+        ven_bairro: "",
+        cid_codigo: "",
+        ven_fone: "",
+        ven_celular: "",
+        ven_cpf: "",
+        ven_situacao: "",
+        aco_codigo: "",
+        ven_descricaoweb: "",
+        ven_descricaoauxiliar: "",
+        ven_codigoimportacao: "",
+        ban_codigo: "",
+        ven_observacao: "",
+        ven_email: "",
+        sve_codigo: ""
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        const camposNumericos: Array<keyof VendedorCreateRequest> = ['ven_codigo', 'ven_cep', 'ven_numero','ven_contacorrente','ven_agencia'];
+
+        for (const campo of camposNumericos) {
+            const value = request[campo] as string; // Asserção de tipo
+            const isNumber = /^\d*$/.test(value);
+            if (value && !isNumber) {
+                toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
+                return; // Interrompe o envio do formulário
+            }
+        }
+
         setLoading(true);
         try {
             const cpfNumerico = request.ven_cpf?.replace(/\D/g, '') || ''; // Garante que será uma string

@@ -134,9 +134,48 @@ const Agencia: React.FC = () => {
           }
       }
   };
+  
+  const campoMapeamento: Record<keyof AgenciaCreateRequest, string> = {
+    age_codigo: 'Código',
+    age_numero: 'Número',
+    age_contacorrente: 'Conta',
+    age_agencia: 'Agência',
+    age_cep: 'Cep',
+    age_comissao: 'Comissão',
+    age_markup: 'Markup',
+    age_over: 'Over',
+    age_codigoprincipal: "",
+    ban_codigo: "",
+    age_codigocontabil: "",
+    age_codigoimportacao: "Importação",
+    age_descricao: "",
+    age_endereco: "",
+    age_bairro: "",
+    cid_codigo: "",
+    age_fone: "",
+    age_fax: "",
+    age_cnpj: "",
+    age_situacao: "",
+    aco_codigo: "",
+    age_observacao: "",
+    age_descricaosite: "",
+    age_inscricaomunicipal: "",
+    age_razaosocial: ""
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
+
+      const camposNumericos: Array<keyof AgenciaCreateRequest> = ['age_codigo', 'age_cep', 'age_numero','age_codigocontabil','age_codigoimportacao','age_comissao','age_contacorrente','age_markup','age_numero','age_over'];
+
+      for (const campo of camposNumericos) {
+          const value = request[campo] as string; // Asserção de tipo
+          const isNumber = /^\d*$/.test(value);
+          if (value && !isNumber) {
+              toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
+              return; // Interrompe o envio do formulário
+          }
+      }
 
       const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
 

@@ -75,6 +75,7 @@ const Unidade: React.FC = () => {
         const { id, value } = e.target;
         setRequest(prevState => ({ ...prevState, [id]: value }));
 
+
         if (id === 'loj_cnpj') {
             setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
         }
@@ -134,9 +135,49 @@ const Unidade: React.FC = () => {
             }
         }
     };
+    const campoMapeamento: Record<keyof UnidadesCreateRequest, string> = {
+        loj_codigo: 'Código',
+        loj_cep: 'CEP',
+        loj_numero: 'Número',
+        nem_codigo: 'Código NEM',
+        loj_vendacorte: 'Venda Corte',
+        loj_contrato: 'Contrato',
+        loj_codigofinanceiro: 'Código Financeiro',
+        loj_codigoempresa: 'Código Empresa',
+        loj_serie: 'Série NF',
+        loj_cortevendedor: 'Corte Vendedor',
+        cid_codigo: '',
+        aco_codigo: '',
+        loj_cnpj: '',
+        cep_codigo: '',
+        loj_fone: '',
+        loj_descricao: '',
+        loj_responsavel: '',
+        loj_email: '',
+        loj_endereco: '',
+        loj_bairro: '',
+        loj_fax: '',
+        loj_emailloja: '',
+        loj_emailfinanceiro: '',
+        loj_textorelatorio: '',
+        loj_emailbloqueio: '',
+        loj_situacao: ''
+    };
 
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
+        e.preventDefault()
+        
+        const camposNumericos: Array<keyof UnidadesCreateRequest> = ['loj_codigo', 'loj_cep', 'loj_numero','nem_codigo','loj_vendacorte','loj_contrato','loj_codigofinanceiro','loj_codigoempresa','loj_serie','loj_cortevendedor'];
+
+        for (const campo of camposNumericos) {
+            const value = request[campo] as string; // Asserção de tipo
+            const isNumber = /^\d*$/.test(value);
+            if (value && !isNumber) {
+                toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
+                return; // Interrompe o envio do formulário
+            }
+        }
+
 
         const cnpjNumerico = request.loj_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
 
@@ -258,21 +299,18 @@ const Unidade: React.FC = () => {
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="salario">Série NF</label>
+                    <label htmlFor="loj_serie">Série NF</label>
                     <input
                         type="text"
-                        id="loj_codigo"
-                        name="loj_codigo"
-                        value={request.loj_codigo || ''}
+                        id="loj_serie"
+                        name="loj_serie"
+                        value={request.loj_serie || ''}
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
                     <label htmlFor="contabil">Contabil</label>
                     <input
                         type="text"
-                        id="loj_codigo"
-                        name="loj_codigo"
-                        value={request.loj_codigo || ''}
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">

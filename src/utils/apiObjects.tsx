@@ -60,7 +60,7 @@ interface UnidadesCreateRequest {
     loj_contrato: number | any,
     loj_cortevendedor: number | any,
     nem_codigo: number | any,
-    aco_codigo: number | any
+    aco_codigo: number | any,
 
 }
 
@@ -122,7 +122,7 @@ interface VendedorCreateRequest{
     ven_codigo: number
     ven_descricao: string
     ven_cep: string
-    ven_numero: string
+    ven_numero: number
     loj_codigo: number | any,
     ven_endereco: string | null,
     ven_bairro: string | null,
@@ -133,10 +133,10 @@ interface VendedorCreateRequest{
     ven_situacao: number | any,
     aco_codigo: number | any,
     ven_descricaoweb: string | null,
-    ven_agencia: string | null,
+    ven_agencia: number | null,
     ven_descricaoauxiliar: string | null,
     ven_codigoimportacao: string | null,
-    ven_contacorrente: string | null,
+    ven_contacorrente: number | null,
     ban_codigo: string | null,
     ven_observacao: string | null,
     ven_email: string | null,
