@@ -9,9 +9,13 @@ body{
     margin-top: -60px;
     overflow-y: auto; /* Permite o scroll vertical quando o conteúdo excede a altura */
     overflow-x: hidden;
+    margin-top: -60px;
+    position: static !important;
     
 }
-
+.sidebar-nav{
+    width: 300px !important;
+}
 /* styles/CustomSidebar.css */
 .sidebar-nav {
     --cui-sidebar-nav-link-hover-icon-color: inherit !important;
@@ -237,4 +241,10 @@ body{
         padding: 0.5rem 1rem;
     }
 }
-
+.icon:not(.icon-c-s):not(.icon-custom-size) {
+    color:#e87717;
+    margin-right: 12px;
+}
+.p-menuitem-link, .p-menuitem-text {
+    color: #0152a1;
+}

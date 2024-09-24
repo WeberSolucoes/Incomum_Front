@@ -91,6 +91,7 @@ interface UnidadesByIdResponse {
 }
 
 interface AgenciaCreateRequest{
+    age_celular: string
     age_codigoprincipal: string
     ban_codigo: string
     age_codigocontabil: string

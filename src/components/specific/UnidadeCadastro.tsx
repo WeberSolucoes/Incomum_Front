@@ -115,8 +115,9 @@ const Unidade: React.FC = () => {
                 icon: 'pi pi-exclamation-triangle',
                 accept: handleConfirmDelete,
                 reject: () => console.log('Exclusão cancelada'),
-                acceptLabel: 'Confirmar',
+                acceptLabel: 'Sim, desejo excluir',
                 rejectLabel: 'Cancelar',
+                className: 'custom-confirm-dialog',
             });
         }
     };
@@ -299,8 +300,9 @@ const Unidade: React.FC = () => {
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="loj_serie">Série NF</label>
+                    <label style={{marginLeft:'-78px'}} htmlFor="loj_serie">Série NF</label>
                     <input
+                        style={{marginLeft:'-80px'}}
                         type="text"
                         id="loj_serie"
                         name="loj_serie"
@@ -308,14 +310,16 @@ const Unidade: React.FC = () => {
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="contabil">Contabil</label>
+                    <label style={{marginLeft:'-158px'}} htmlFor="contabil">Contabil</label>
                     <input
+                        style={{marginLeft:'-160px'}}
                         type="text"
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="loj_situacao">Situação</label>
+                    <label style={{marginLeft:'-238px'}} htmlFor="loj_situacao">Situação</label>
                     <select
+                        style={{marginLeft:'-240px', width:'105%'}}
                         id="loj_situacao"
                         name="loj_situacao"
                         value={request.loj_situacao || ''}
@@ -553,22 +557,25 @@ const Unidade: React.FC = () => {
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.loj_codigo && (
                 <button
-                    type="button"
-                    className="reset-btn"
-                    onClick={handleDeleteClick}
-                    disabled={loading}
+                style={{marginLeft:'700px',color:'white',width:'100px'}}
+                type="button"
+                className="reset-btn"
+                onClick={handleDeleteClick}
+                disabled={loading}
                 >
-                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir Unidade"}
+                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
                 </button>
                 )}
-                <button disabled={loading} type="submit" className="submit-btn">{loading ? 'Salvando...' : 'Salvar'}</button>
+                
                 <button
+                    style={{color:'white',backgroundColor:'red',marginLeft: request.loj_codigo ? '460px' : '700px',display: request.loj_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
                 >
                     <i className="fas fa-trash-alt"></i> Limpar
                 </button>
+                <button style={{width:'100px',height:'34px',padding:'inherit'}} disabled={loading} type="submit" className="submit-btn"><i style={{marginRight:'10px'}}className="fas fa-save"></i>{loading ? 'Salvando...' : 'Salvar'}</button>
                 <ConfirmDialog/>
             </div>
         </form>

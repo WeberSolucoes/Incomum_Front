@@ -36,7 +36,7 @@ const FormLayout: React.FC<FormLayoutProps> = ({ children, name }) => {
 
 
     return (
-        <div className="card p-4" style={{width:'1000px',margin:'auto', boxShadow: '10px 10px 100px rgba(0, 0, 0, 0.4),-2px -2px 6px rgba(255, 255, 255, 0.6)'}}>
+        <div className="card p-4" style={{width:'1000px',marginLeft:'350px', boxShadow: '10px 10px 100px rgba(0, 0, 0, 0.4),-2px -2px 6px rgba(255, 255, 255, 0.6)'}}>
             <h1 style={{color:"#0152a1"}}>{view === 'list' ? `Lista de ${name}` : `Cadastrar ${name}`}</h1>
             <BarraDeFerramentas onCreateClick={handleCreateClick} onSearch={handleSearch} onSearchClick={handleSearchClick} />
             {renderChildren}

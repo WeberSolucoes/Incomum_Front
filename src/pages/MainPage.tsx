@@ -6,13 +6,11 @@ import Relatorio from '../components/specific/Relatorio';
 import { MenuEnum } from '../utils/MenuEnum';
 import FormLayout from '../components/layout/FormLayout';
 import UnidadeList from '../components/specific/UnidadeList';
-import UnidadeCadastro from '../components/specific/UnidadeCadastro';
 import Vendedor from '../components/specific/VendedorCadastro';
 import AgenciaList from '../components/specific/AgenciaList';
 import VendedorList from '../components/specific/VendedorList';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import { toastError, toastWarning } from '../utils/customToast';
 import { useCodigo } from '../contexts/CodigoProvider'; // Importar o contexto
 import '../assets/styles/pages/Agencia.css';
 import '../assets/styles/pages/sidebar.css';
@@ -22,6 +20,7 @@ import '@coreui/icons/css/all.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Unidade from '../components/specific/UnidadeCadastro';
 import Agencia from '../components/specific/AgenciaCadastro';
+import Dashboard from '../components/specific/FaturamentoVendedor';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -70,7 +69,7 @@ const MainPage: React.FC = () => {
             case MenuEnum.gerencial_faturamento_comercial:
                 return <Teste message="Faturamento Comercial" />;
             case MenuEnum.gerencial_faturamento_vendedor:
-                return <Teste message="Faturamento Vendedor" />;
+                return <Dashboard />;
             case MenuEnum.relatorios_simplicados_vendas:
                 return <Relatorio />;
             case MenuEnum.usuario:

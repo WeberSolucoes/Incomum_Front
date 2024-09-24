@@ -114,8 +114,9 @@ const Agencia: React.FC = () => {
               icon: 'pi pi-exclamation-triangle',
               accept: handleConfirmDelete,
               reject: () => console.log('Exclusão cancelada'),
-              acceptLabel: 'Confirmar',
+              acceptLabel: 'Sim, desejo excluir',
               rejectLabel: 'Cancelar',
+              className: 'custom-confirm-dialog',
           });
       }
   };
@@ -160,7 +161,8 @@ const Agencia: React.FC = () => {
     age_observacao: "",
     age_descricaosite: "",
     age_inscricaomunicipal: "",
-    age_razaosocial: ""
+    age_razaosocial: "",
+    age_celular: ""
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -264,16 +266,16 @@ const Agencia: React.FC = () => {
           <input disabled type="text" id="age_codigo" name="age_codigo" value={request.age_codigo || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_codigoimportacao">Importação</label>
-          <input type="text" id="age_codigoimportacao" name="age_codigoimportacao" value={request.age_codigoimportacao || ''} onChange={handleInputChange} />
+          <label style={{marginLeft:'-78px'}} htmlFor="age_codigoimportacao">Importação</label>
+          <input style={{marginLeft:'-80px'}} type="text" id="age_codigoimportacao" name="age_codigoimportacao" value={request.age_codigoimportacao || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_codigocontabil">Contabil</label>
-          <input type="text" id="age_codigocontabil" name="age_codigocontabil" value={request.age_codigocontabil || ''} onChange={handleInputChange} />
+          <label style={{marginLeft:'-158px'}} htmlFor="age_codigocontabil">Contabil</label>
+          <input style={{marginLeft:'-160px'}} type="text" id="age_codigocontabil" name="age_codigocontabil" value={request.age_codigocontabil || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_situacao">Situação</label>
-          <select id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleSelectChange}>
+          <label style={{marginLeft:'-238px'}} htmlFor="age_situacao">Situação</label>
+          <select style={{marginLeft:'-240px', width:'105%'}} id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleSelectChange}>
             <option value="ativo">Ativo</option>
             <option value="inativo">Inativo</option>
           </select>
@@ -283,22 +285,22 @@ const Agencia: React.FC = () => {
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricao">Agencia Viagem</label>
-          <input style={{ width: '678px' }} type="text" id="age_descricao" name="age_descricao" value={request.age_descricao || ''} onChange={handleInputChange} />
+          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" value={request.age_descricao || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
           <label htmlFor="age_cnpj">Cnpj</label>
-          <input style={{ width: '218px' }} type="text" id="age_cnpj" name="age_cnpj" value={request.age_cnpj || ''} onChange={handleInputChange} />
+          <input style={{ width: '220px' }} type="text" id="age_cnpj" name="age_cnpj" value={request.age_cnpj || ''} onChange={handleInputChange} />
         </div>
       </div>
 
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricaosite">Agencia Site</label>
-          <input style={{ width: '678px' }} type="text" id="age_descricaosite" name="age_descricaosite" value={request.age_descricaosite || ''} onChange={handleInputChange} />
+          <input style={{ width: '679px' }} type="text" id="age_descricaosite" name="age_descricaosite" value={request.age_descricaosite || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
           <label htmlFor="age_inscricaomunicipal">Inscrição Municipal</label>
-          <input style={{ width: '218px' }} type="text" id="age_inscricaomunicipal" name="age_inscricaomunicipal" value={request.age_inscricaomunicipal || ''}  onChange={handleInputChange} />
+          <input style={{ width: '220px' }} type="text" id="age_inscricaomunicipal" name="age_inscricaomunicipal" value={request.age_inscricaomunicipal || ''}  onChange={handleInputChange} />
         </div>
       </div>
 
@@ -314,12 +316,17 @@ const Agencia: React.FC = () => {
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_cep">Cep</label>
-          <input type="text" id="age_cep" name="age_cep" value={request.age_cep || ''} onChange={(e) => setRequest(prevState => ({ ...prevState, age_cep: e.target.value }))} onBlur={handleCepApi} />
+          <input style={{ width: '80%' }} type="text" id="age_cep" name="age_cep" value={request.age_cep || ''} onChange={(e) => setRequest(prevState => ({ ...prevState, age_cep: e.target.value }))} onBlur={handleCepApi} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_cidade">Cidade</label>
-          <input type="text" id="age_cidade" name="age_cidade" value={request.cid_codigo || ''} onChange={handleInputChange} />
+          <label style={{marginLeft:'-58px' }} htmlFor="age_rua">Rua</label>
+          <input style={{ width: '190%',marginLeft:'-60px' }} type="text" id="age_rua" name="age_rua" value={request.age_endereco || ''} onChange={handleInputChange} />
         </div>
+        <div className="form-group">
+          <label style={{ marginLeft:'210px' }} htmlFor="age_numero">Numero</label>
+          <input style={{ width: '30%',marginLeft:'208px' }} type="text" id="age_numero" name="age_numero" value={request.age_numero || ''} onChange={handleInputChange} />
+        </div>
+
       </div>
 
       <div className="form-row">
@@ -328,32 +335,35 @@ const Agencia: React.FC = () => {
           <input type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_numero">Numero</label>
-          <input type="text" id="age_numero" name="age_numero" value={request.age_numero || ''} onChange={handleInputChange} />
+          <label htmlFor="age_cidade">Cidade</label>
+          <input type="text" id="cid_codigo" name="cid_codigo" value={request.cid_codigo || ''} onChange={handleInputChange} />
         </div>
       </div>
 
-      <div className="form-row">
-        <div className="form-group full-width">
-          <label htmlFor="age_endereco">Endereço</label>
-          <input type="text" id="age_endereco" name="age_endereco" value={request.age_endereco || ''} onChange={handleInputChange} />
-        </div>
-      </div>
 
-      <div className="form-row">
+      <div className="form-row my-custom-row"> {/* Adiciona uma classe ao contêiner */}
         <div className="form-group">
-          <label htmlFor="age_comissao">Comissão</label>
-          <input type="text" id="age_comissao" name="age_comissao" value={request.age_comissao || ''} onChange={handleInputChange} />
+            <label htmlFor="age_fone">Fone</label>
+            <input type="text" id="age_fone" name="age_fone" value={request.age_fone || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_over">Over</label>
-          <input type="text" id="age_over" name="age_over" value={request.age_over || ''} onChange={handleInputChange} />
+            <label htmlFor="age_celular">Celular</label>
+            <input type="text" id="age_celular" name="age_celular" value={request.age_celular || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_markup">Markup</label>
-          <input type="text" id="age_markup" name="age_markup" value={request.age_markup || ''} onChange={handleInputChange} />
+            <label htmlFor="age_comissao">Comissão</label>
+            <input type="text" id="age_comissao" name="age_comissao" value={request.age_comissao || ''} onChange={handleInputChange} />
         </div>
-      </div>
+        <div className="form-group">
+            <label htmlFor="age_over">Over</label>
+            <input type="text" id="age_over" name="age_over" value={request.age_over || ''} onChange={handleInputChange} />
+        </div>
+        <div className="form-group">
+            <label htmlFor="age_markup">Markup</label>
+            <input style={{ width: '178px' }} type="text" id="age_markup" name="age_markup" value={request.age_markup || ''} onChange={handleInputChange} />
+        </div>
+    </div>
+
 
       <div className="form-row">
         <div className="form-group">
@@ -408,22 +418,25 @@ const Agencia: React.FC = () => {
           {/* Condição para renderizar o botão de exclusão */}
           {request.age_codigo && (
           <button
-            type="button"
-            className="reset-btn"
-            onClick={handleDeleteClick}
-            disabled={loading}
-          >
-            <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir Agência"}
-          </button>
-          )}
-        <button type="submit" className="submit-btn">Enviar</button>
-        <button
+          style={{marginLeft:'700px',color:'white',width:'100px'}}
           type="button"
           className="reset-btn"
-          onClick={handleReset}
+          onClick={handleDeleteClick}
+          disabled={loading}
         >
-          <i className="fas fa-trash-alt"></i> Limpar
+            <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
         </button>
+        )}
+        
+        <button
+            style={{color:'white',backgroundColor:'red',marginLeft: request.age_codigo ? '460px' : '700px',display: request.age_codigo ? 'none' :''}}
+            type="button"
+            className="reset-btn"
+            onClick={handleReset}
+        >
+            <i className="fas fa-trash-alt"></i> Limpar
+        </button>
+        <button style={{width:'100px',height:'34px',padding:'inherit'}} disabled={loading} type="submit" className="submit-btn"><i style={{marginRight:'10px'}}className="fas fa-save"></i>{loading ? 'Salvando...' : 'Salvar'}</button>
         <ConfirmDialog/>
       </div>
     </form>

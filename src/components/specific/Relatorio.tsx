@@ -257,64 +257,65 @@ const Relatorio = () => {
 
     return (
         <>
-            <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px'}} className='container px-4'>
+            <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px',padding:'inherit'}} className='container px-4'>
+                <form style={{ backgroundColor: '#f9f9f9', width: '100%', margin: 'auto', padding: '20px', border: '1px solid #ddd', borderRadius: '5px',height:'90%' }} action="">
+                    <div className='row mt-3'>
+                        <h1 style={{marginTop:'-15px',color:'#0152a1'}}>Relatório</h1>
+                        <div className='col-sm-6 mb-3'>
+                            <Calendar locale={pt_br} style={{ width: '100%',marginTop:'15px' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' className="custom-calendar"  />
+                        </div>
+                        <div className='col-sm-6 mb-3'>
+                            <Calendar locale={pt_br} style={{ width: '100%', marginTop:'15px' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' className="custom-calendar"  />
+                        </div>
+                    </div>
+                    <div className='row mt-3'>
+                        <div className='col-sm-3 mb-3'>
+                            <MultiSelect value={selectedUnidade} style={{ width: '100%' }} showClear loading={loading}
+                                options={unidades} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                                onChange={(e) => handleSelectionChange('unidade', e.value)} optionLabel="name" placeholder="Unidade" className="w-full md:w-14rem" />
+                        </div>
+                        <div className='col-sm-3 mb-3'>
+                            <MultiSelect value={selectedAreaComercial} style={{ width: '100%' }} showClear loading={loading}
+                                options={areasComerciais} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                                onChange={(e) => handleSelectionChange('areaComercial', e.value)} optionLabel="name" placeholder="Área Comercial" className="w-full md:w-14rem" />
+                        </div>
+                        <div className='col-sm-3 mb-3'>
+                            <MultiSelect value={selectedAgencia} style={{ width: '100%' }} showClear loading={loading}
+                                options={agencias} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                                onChange={(e) => handleSelectionChange('agencia', e.value)} optionLabel="name" placeholder="Agência" className="w-full md:w-14rem" />
+                        </div>
+                        <div className='col-sm-3 mb-3'>
+                            <MultiSelect value={selectedVendedor} style={{ width: '100%' }} showClear loading={loading} onClick={handleVendedoresValues}
+                                options={vendedores} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
+                                onChange={(e) => handleSelectionChange('vendedor', e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
+                        </div>
+                    </div>
+                    <div className="row my-3 d-flex justify-content-end align-items-center">
+                        <Button style={{margin:'auto',backgroundColor:'#0152a1'}} className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
+                    </div>
+                    <div className=' row d-flex justify-content-between align-items-center gap-3'>
+                        {<h5 className='col-sm-3 '>Total Liquido: {totalData.total_valorliquido}</h5>}
+                        {<h5 className='col-sm-3 '>Total Inc: {totalData.total_valorinc}</h5>}
+                        {<h5 className='col-sm-3 '>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
 
-                <div className='row mt-3'>
-                    <h1 style={{marginTop:'-45px'}}>Relatório</h1>
-                    <div className='col-sm-6 mb-3'>
-                        <Calendar locale={pt_br} style={{ width: '100%',marginTop:'15px' }} value={dateStart} onChange={(e: any) => setDateStart(e.value)} showIcon placeholder="Data Inicial" dateFormat='dd/mm/yy' />
+                        <Button className='rounded col-sm-1  mb-3' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
                     </div>
-                    <div className='col-sm-6 mb-3'>
-                        <Calendar locale={pt_br} style={{ width: '100%', marginTop:'15px' }} value={dateEnd} onChange={(e: any) => setDateEnd(e.value)} showIcon placeholder="Data Final" dateFormat='dd/mm/yy' />
-                    </div>
-                </div>
-                <div className='row mt-3'>
-                    <div className='col-sm-3 mb-3'>
-                        <MultiSelect value={selectedUnidade} style={{ width: '100%' }} showClear loading={loading}
-                            options={unidades} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                            onChange={(e) => handleSelectionChange('unidade', e.value)} optionLabel="name" placeholder="Unidade" className="w-full md:w-14rem" />
-                    </div>
-                    <div className='col-sm-3 mb-3'>
-                        <MultiSelect value={selectedAreaComercial} style={{ width: '100%' }} showClear loading={loading}
-                            options={areasComerciais} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                            onChange={(e) => handleSelectionChange('areaComercial', e.value)} optionLabel="name" placeholder="Área Comercial" className="w-full md:w-14rem" />
-                    </div>
-                    <div className='col-sm-3 mb-3'>
-                        <MultiSelect value={selectedAgencia} style={{ width: '100%' }} showClear loading={loading}
-                            options={agencias} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                            onChange={(e) => handleSelectionChange('agencia', e.value)} optionLabel="name" placeholder="Agência" className="w-full md:w-14rem" />
-                    </div>
-                    <div className='col-sm-3 mb-3'>
-                        <MultiSelect value={selectedVendedor} style={{ width: '100%' }} showClear loading={loading} onClick={handleVendedoresValues}
-                            options={vendedores} filter emptyFilterMessage='Nenhum registro encontrado' emptyMessage='Nenhum registro encontrado'
-                            onChange={(e) => handleSelectionChange('vendedor', e.value)} optionLabel="name" placeholder="Vendedor" className="w-full md:w-14rem" />
-                    </div>
-                </div>
-                <div className="row my-3 d-flex justify-content-end align-items-center">
-                    <Button style={{margin:'auto'}} className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
-                </div>
-                <div className=' row d-flex justify-content-between align-items-center gap-3'>
-                    {<h5 className='col-sm-3 '>Total Liquido: {totalData.total_valorliquido}</h5>}
-                    {<h5 className='col-sm-3 '>Total Inc: {totalData.total_valorinc}</h5>}
-                    {<h5 className='col-sm-3 '>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
-
-                    <Button className='rounded col-sm-1  mb-3' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
-                </div>
-                <a href=''></a>
-                <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
-                    <Column sortable field="fim_tipo" header="Tipo" />
-                    <Column sortable field="tur_numerovenda" header="Núm. Venda" />
-                    <Column sortable field="tur_codigo" header="Num. Pct" />
-                    <Column sortable field="fim_valorliquido" header="Vlr Líq Venda" />
-                    <Column sortable field="fim_data" header="Data" />
-                    <Column sortable field="fim_markup" header="Mkp" />
-                    <Column sortable field="fim_valorinc" header="Inc" />
-                    <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
-                    <Column sortable field="aco_descricao" header="Área Comercial" />
-                    <Column sortable field="nome_loja" header="Agência" />
-                    <Column sortable field="ven_descricao" header="Vendedor" />
-                </DataTable>
-                <Paginator first={page * pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
+                    <a href=''></a>
+                    <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
+                        <Column sortable field="fim_tipo" header="Tipo" />
+                        <Column sortable field="tur_numerovenda" header="Núm. Venda" />
+                        <Column sortable field="tur_codigo" header="Num. Pct" />
+                        <Column sortable field="fim_valorliquido" header="Vlr Líq Venda" />
+                        <Column sortable field="fim_data" header="Data" />
+                        <Column sortable field="fim_markup" header="Mkp" />
+                        <Column sortable field="fim_valorinc" header="Inc" />
+                        <Column sortable field="fim_valorincajustado" header="Inc Ajustado" />
+                        <Column sortable field="aco_descricao" header="Área Comercial" />
+                        <Column sortable field="nome_loja" header="Agência" />
+                        <Column sortable field="ven_descricao" header="Vendedor" />
+                    </DataTable>
+                    <Paginator first={page * pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
+                </form>
             </div>
         </>
     );

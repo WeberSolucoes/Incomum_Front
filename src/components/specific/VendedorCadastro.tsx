@@ -7,6 +7,7 @@ import { VendedorCreateRequest } from "../../utils/apiObjects";
 import { apiDeleteVendedor, apiGetAreas, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
+import { InputTextarea } from "primereact/inputtextarea";
 
 const Vendedor: React.FC = () => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -120,8 +121,9 @@ const Vendedor: React.FC = () => {
                 icon: 'pi pi-exclamation-triangle',
                 accept: handleConfirmDelete,
                 reject: () => console.log('Exclusão cancelada'),
-                acceptLabel: 'Confirmar',
+                acceptLabel: 'Sim, desejo excluir',
                 rejectLabel: 'Cancelar',
+                className: 'custom-confirm-dialog',
             });
         }
     };
@@ -474,25 +476,39 @@ const Vendedor: React.FC = () => {
             </div>
 
             <div className="form-row">
+                <div className="form-group">
+                    <label htmlFor="ven_observacao">Observação</label>
+                    <input
+                        id="ven_observacao"
+                        value={request.ven_observacao || ''}
+                        onChange={handleInputChange}
+                    />
+                </div>
+            </div>
+
+            <div className="form-row">
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.ven_codigo && (
                 <button
-                    type="button"
-                    className="reset-btn"
-                    onClick={handleDeleteClick}
-                    disabled={loading}
-                >
-                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir Vendedor"}
-                </button>
-                )}
-                <button type="submit" className="submit-btn">Enviar</button>
-                <button
+                style={{marginLeft:'700px',color:'white',width:'100px'}}
                 type="button"
                 className="reset-btn"
-                onClick={handleReset}
+                onClick={handleDeleteClick}
+                disabled={loading}
                 >
-                <i className="fas fa-trash-alt"></i> Limpar
+                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
                 </button>
+                )}
+                
+                <button
+                    style={{color:'white',backgroundColor:'red',marginLeft: request.ven_codigo ? '460px' : '700px',display: request.ven_codigo ? 'none' :''}}
+                    type="button"
+                    className="reset-btn"
+                    onClick={handleReset}
+                >
+                    <i className="fas fa-trash-alt"></i> Limpar
+                </button>
+                <button style={{width:'100px',height:'34px',padding:'inherit'}} disabled={loading} type="submit" className="submit-btn"><i style={{marginRight:'10px'}}className="fas fa-save"></i>{loading ? 'Salvando...' : 'Salvar'}</button>
                 <ConfirmDialog/>
             </div>
         </form>

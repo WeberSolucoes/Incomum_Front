@@ -34,6 +34,10 @@
     font-weight: bold;
     color: #0152a1;
   }
+  .p-datepicker-trigger {
+    background-color: #0152a1; /* Cor de fundo do botão */
+    border: none; /* Remove a borda, se necessário */
+  }
   
   input,
   select {
@@ -45,7 +49,7 @@
   .submit-btn {
     width: 100%;
     padding: 10px;
-    background-color: #0152a1;
+    background-color: #001a40;
     color: white;
     border: none;
     border-radius: 4px;
@@ -56,19 +60,93 @@
   .submit-btn:hover {
     background-color: #0056b3;
   }
+  .card-p4{
+    margin-left: 350px !important;
+  }
+
+  .form-row:nth-child(1) .form-group input {
+    width: 60%; /* Ajuste o valor conforme a necessidade */
+  }
+  .my-custom-row input {
+    width: 90%;
+  }
+
+
+  .custom-confirm-dialog {
+    border-radius: 10px; /* Bordas arredondadas */
+  }
+
+  .custom-confirm-dialog .p-confirm-dialog-message {
+      font-weight: bold; /* Estilo da mensagem */
+  }
+
+  .custom-confirm-dialog .p-confirm-dialog-accept {
+    background-color: #0152a1;
+    color: white; /* Cor do texto do botão "Confirmar" */
+  }
+
+  .custom-confirm-dialog .p-confirm-dialog-reject {
+      color: #f44336; /* Cor do texto do botão "Cancelar" */
+  }
+  .custom-confirm-dialog .p-confirm-dialog-icon{
+    color: #f44336;
+
+  }
+
+  .generic-table-container {
+      padding: 20px; /* Adiciona espaçamento interno */
+      background-color: #f9f9f9; /* Cor de fundo leve */
+      border-radius: 8px; /* Bordas arredondadas */
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Sombra leve */
+  }
+
+  .custom-data-table {
+      border: 1px solid #dee2e6; /* Borda da tabela */
+      border-radius: 8px; /* Bordas arredondadas */
+  }
+
+  .custom-data-table .p-datatable-thead > tr > th {
+      font-weight: bold; /* Negrito para o texto do cabeçalho */
+      text-align: center; /* Centraliza o texto */
+  }
+
+  .custom-data-table .p-datatable-tbody > tr {
+      transition: background-color 0.3s ease; /* Transição suave para hover */
+  }
+
+  .custom-data-table .p-datatable-tbody > tr:hover {
+      background-color: #f1f1f1; /* Cor de fundo ao passar o mouse */
+  }
+
+  .custom-data-table .p-datatable-tbody > tr:nth-child(even) {
+      background-color: #f9f9f9; /* Cor de fundo para linhas pares */
+  }
+
+  .custom-data-table .p-datatable-tbody > tr:nth-child(odd) {
+      background-color: #ffffff; /* Cor de fundo para linhas ímpares */
+  }
+
+  .custom-data-table .p-button {
+      background-color:transparent ;
+      color: #0152a1; /* Cor do texto do botão */
+      border: none;
+  }
+
+
+  
 
   .reset-btn {
-    background: none;
+    background: red;
     border: none;
-    color: red;
+    color: none;
     font-size: 16px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
+    border-radius: 4px;
+    height: 34px;
+    width: 100px;
   }
   
   .reset-btn i {
-    color: red;
+    color: none;
     margin-right: 8px;
   }
   
