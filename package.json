@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "local": "vite --mode localhost",
-    "dev": "vite --mode development",
+    "dev": "vite --mode development --port 8080",
     "stage": "vite --mode stage",
     "prod": "vite --mode production",
     "build:dev": "tsc -b && vite build --mode development",
