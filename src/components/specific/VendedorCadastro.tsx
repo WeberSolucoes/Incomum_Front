@@ -143,7 +143,6 @@ const Vendedor: React.FC = () => {
         }
     };
     const campoMapeamento: Record<keyof VendedorCreateRequest, string> = {
-        ven_codigo: 'Código',
         ven_numero: 'Número',
         ven_contacorrente: 'Conta',
         ven_agencia: 'Agência',
