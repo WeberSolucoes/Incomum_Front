@@ -194,10 +194,12 @@ const Agencia: React.FC = () => {
           request.age_situacao = checked ? 1 : 0;
 
           let response;
-          if (request.age_codigo) {
-              response = await apiPutUpdateAgencia(request.age_codigo);
+           if (request.age_codigo) {
+              // Atualizar agência
+              await apiPutUpdateAgencia(request.age_codigo, request);
           } else {
-              response = await apiPostCreateAgencia();
+              // Criar nova agência
+              await apiPostCreateAgencia(request);
           }
 
           if (response.status === 200 || response.status === 201) {
