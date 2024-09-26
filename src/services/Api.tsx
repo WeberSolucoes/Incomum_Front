@@ -93,7 +93,7 @@ export const apiPutUpdateAgencia = (id: number) => axiosInstance.put(`${ApiEndpo
 
 export const apiGetVendedor = () => axiosInstance.get(ApiEndpoints.LIST_VENDEDOR)
 
-export const apiPostCreateAgencia = (data: VendedorCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_VENDEDOR, data);
+export const apiPostCreateVendedor = (data: VendedorCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_VENDEDOR, data);
 
 export const apiGetVendedorById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_VENDEDOR_BY_ID}${id}/`)
 
