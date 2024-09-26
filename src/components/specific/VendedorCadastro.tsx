@@ -197,10 +197,12 @@ const Vendedor: React.FC = () => {
             request.ven_situacao = checked ? 1 : 0;
 
             let response;
-            if (request.ven_codigo) {
-                response = await apiPutUpdateVendedor(request.ven_codigo);
+             if (request.ven_codigo) {
+                // Atualizar agência
+                await apiPutUpdateVendedor(request.ven_codigo, request);
             } else {
-                response = await apiPostCreateVendedor();
+                // Criar nova agência
+                await apiPostCreateVendedor(request);
             }
 
             if (response.status === 200 || response.status === 201) {
