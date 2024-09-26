@@ -37,7 +37,6 @@ interface VendedorListResponse {
 interface UnidadesCreateRequest {
     loj_cep: string,
     loj_numero: number,
-    loj_codigo: number | any,
     loj_descricao: string | null,
     loj_responsavel: string | null,
     loj_email: string | null,
@@ -98,7 +97,6 @@ interface AgenciaCreateRequest{
     age_codigoimportacao: string
     age_cep: string
     age_numero: string
-    age_codigo: number | any,
     age_descricao: string | null,
     age_endereco: string | null,
     age_bairro: string | null,
@@ -120,7 +118,6 @@ interface AgenciaCreateRequest{
 }
 
 interface VendedorCreateRequest{
-    ven_codigo: number
     ven_descricao: string
     ven_cep: string
     ven_numero: number
