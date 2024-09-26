@@ -270,6 +270,7 @@ const Vendedor: React.FC = () => {
                 <div className="form-group">
                     <label htmlFor="ven_codigo">Código</label>
                     <input
+                        style={{width:'120px'}}
                         disabled
                         type="text"
                         id="ven_codigo"
@@ -279,8 +280,9 @@ const Vendedor: React.FC = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="salario">Importação</label>
+                    <label style={{marginLeft:'-174px'}} htmlFor="salario">Importação</label>
                     <input
+                        style={{width:'120px',marginLeft:'-176px'}}
                         type="text"
                         id="ven_codigoimportacao" 
                         name="ven_codigoimportacao"
@@ -289,8 +291,9 @@ const Vendedor: React.FC = () => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="ven_situacao">Situação</label>
+                    <label style={{marginLeft:'-354px'}} htmlFor="ven_situacao">Situação</label>
                     <select
+                        style={{width:'194px',marginLeft:'-356px'}}
                         id="ven_situacao"
                         name="ven_situacao"
                         value={request.ven_situacao || ''}
