@@ -137,7 +137,6 @@ const Unidade: React.FC = () => {
         }
     };
     const campoMapeamento: Record<keyof UnidadesCreateRequest, string> = {
-        loj_codigo: 'Código',
         loj_cep: 'CEP',
         loj_numero: 'Número',
         nem_codigo: 'Código NEM',
