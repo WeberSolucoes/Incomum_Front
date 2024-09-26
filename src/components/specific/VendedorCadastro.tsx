@@ -195,16 +195,15 @@ const Vendedor: React.FC = () => {
             request.aco_codigo = selectedAreas; // Envie apenas a lista de ids
             request.ven_situacao = checked ? 1 : 0;
     
-            // Remover ven_codigo para criar um novo vendedor
-            const { ven_codigo, ...dataToSend } = request; // Spread para remover ven_codigo
     
             let response;
             if (request.ven_codigo) {
                 // Atualizar vendedor existente
-                response = await apiPutUpdateVendedor(request.ven_codigo, dataToSend);
+                response = await apiPutUpdateVendedor(request.ven_codigo, request);
             } else {
                 // Criar novo vendedor
-                response = await apiPostCreateVendedor(dataToSend);
+                const { ven_codigo, ...newRequest } = request; // Remove ven_codigo
+                response = await apiPostCreateVendedor(newRequest);
             }
     
             if (response.status === 200 || response.status === 201) {
