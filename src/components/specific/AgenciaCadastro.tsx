@@ -137,7 +137,6 @@ const Agencia: React.FC = () => {
   };
   
   const campoMapeamento: Record<keyof AgenciaCreateRequest, string> = {
-    age_codigo: 'Código',
     age_numero: 'Número',
     age_contacorrente: 'Conta',
     age_agencia: 'Agência',
