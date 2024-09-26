@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -83,21 +83,21 @@ export const apiDeleteUnidade = (id: number) => axiosInstance.delete(`${ApiEndpo
 
 export const apiGetAgencia = () => axiosInstance.get(ApiEndpoints.LIST_AGENCIA)
 
-export const apiPostCreateAgencia = () => axiosInstance.get(ApiEndpoints.CREATE_AGENCIA)
+export const apiPostCreateAgencia = (data: AgenciaCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_AGENCIA, data);
 
 export const apiDeleteAgencia = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_AGENCIA}${id}/`)
 
 export const apiGetAgenciaById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_AGENCIA_BY_ID}${id}/`)
 
-export const apiPutUpdateAgencia = (id: number) => axiosInstance.get(`${ApiEndpoints.EDIT_AGENCIA}${id}/`)
+export const apiPutUpdateAgencia = (id: number) => axiosInstance.put(`${ApiEndpoints.EDIT_AGENCIA}${id}/`)
 
 export const apiGetVendedor = () => axiosInstance.get(ApiEndpoints.LIST_VENDEDOR)
 
-export const apiPostCreateVendedor = () => axiosInstance.get(ApiEndpoints.CREATE_VENDEDOR)
+export const apiPostCreateAgencia = (data: VendedorCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_VENDEDOR, data);
 
 export const apiGetVendedorById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_VENDEDOR_BY_ID}${id}/`)
 
-export const apiPutUpdateVendedor = (id: number) => axiosInstance.get(`${ApiEndpoints.EDIT_VENDEDOR}${id}/`)
+export const apiPutUpdateVendedor = (id: number) => axiosInstance.put(`${ApiEndpoints.EDIT_VENDEDOR}${id}/`)
 
 export const apiDeleteVendedor = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_VENDEDOR}${id}/`)
 
