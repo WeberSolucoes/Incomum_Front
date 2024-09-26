@@ -257,7 +257,7 @@ const Relatorio = () => {
 
     return (
         <>
-            <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px',padding:'inherit'}} className='container px-4'>
+            <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px',padding:'inherit',width: '1000px',marginLeft: '300px';}} className='container px-4'>
                 <form style={{ backgroundColor: '#f9f9f9', width: '100%', margin: 'auto', padding: '20px', border: '1px solid #ddd', borderRadius: '5px',height:'90%' }} action="">
                     <div className='row mt-3'>
                         <h1 style={{marginTop:'-15px',color:'#0152a1'}}>Relatório</h1>
