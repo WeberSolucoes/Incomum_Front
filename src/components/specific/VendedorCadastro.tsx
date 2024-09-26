@@ -168,9 +168,9 @@ const Vendedor: React.FC = () => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-
-        const camposNumericos: Array<keyof VendedorCreateRequest> = ['ven_codigo', 'ven_cep', 'ven_numero','ven_contacorrente','ven_agencia'];
-
+    
+        const camposNumericos: Array<keyof VendedorCreateRequest> = ['ven_cep', 'ven_numero','ven_contacorrente','ven_agencia'];
+    
         for (const campo of camposNumericos) {
             const value = request[campo] as string; // Asserção de tipo
             const isNumber = /^\d*$/.test(value);
@@ -179,35 +179,38 @@ const Vendedor: React.FC = () => {
                 return; // Interrompe o envio do formulário
             }
         }
-
+    
         setLoading(true);
         try {
             const cpfNumerico = request.ven_cpf?.replace(/\D/g, '') || ''; // Garante que será uma string
-
+    
             if (!cpf.isValid(cpfNumerico)) {
                 toastError("CPF inválido.");
                 setCpfValido(false);
                 return;
             }
-
+    
             const enderecoCompleto = `${rua}, ${numero}`;
             request.ven_endereco = enderecoCompleto;
             request.aco_codigo = selectedAreas; // Envie apenas a lista de ids
             request.ven_situacao = checked ? 1 : 0;
-
+    
+            // Remover ven_codigo para criar um novo vendedor
+            const { ven_codigo, ...dataToSend } = request; // Spread para remover ven_codigo
+    
             let response;
-             if (request.ven_codigo) {
-                // Atualizar agência
-                await apiPutUpdateVendedor(request.ven_codigo, request);
+            if (request.ven_codigo) {
+                // Atualizar vendedor existente
+                response = await apiPutUpdateVendedor(request.ven_codigo, dataToSend);
             } else {
-                // Criar nova agência
-                await apiPostCreateVendedor(request);
+                // Criar novo vendedor
+                response = await apiPostCreateVendedor(dataToSend);
             }
-
+    
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Unidade salva com sucesso");
+                toastSucess("Vendedor salvo com sucesso");
             } else {
-                toastError("Erro ao salvar a unidade");
+                toastError("Erro ao salvar o vendedor");
             }
         } catch (error: any) {
             console.error("Erro:", error);
