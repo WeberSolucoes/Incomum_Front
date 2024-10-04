@@ -105,119 +105,61 @@ export const apiGetAreas = () => axiosInstance.get(ApiEndpoints.LIST_AREAS);
  
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 
-export const apiGetUnidadeRelatorioByUser = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADE_RELATORIO_BY_USER}${id}/`);
+export const apiGetUnidadeRelatorioByUser = () => 
+    axiosInstance.get(ApiEndpoints.LIST_UNIDADE_RELATORIO_BY_USER);
 
-export const apiGetAreaComercialRelatorioByUser = (id: number, unidades: number[] | null) => {
-    let unidadeUrl = '';
-    if (unidades)
-        for (let unidade of unidades) {
-            unidadeUrl += `unidade=${unidade}&`;
-        }
-    unidadeUrl = unidadeUrl.slice(0, -1);
-    return axiosInstance.get(`${ApiEndpoints.LIST_AREACOMERCIAL_RELATORIO_BY_USER}${id}/?${unidadeUrl}`);
-};
+export const apiGetAreaComercialRelatorioByUser = () => 
+    axiosInstance.get(ApiEndpoints.LIST_AREACOMERCIAL_RELATORIO_BY_USER);
 
-export const apiGetVendedorRelatorioByUser = (id: number, unidades: number[] | null) => {
-    let unidadeUrl = '';
-    if (unidades)
-        for (let unidade of unidades) {
-            unidadeUrl += `unidade=${unidade}&`;
-        }
-    unidadeUrl = unidadeUrl.slice(0, -1);
-    return axiosInstance.get(`${ApiEndpoints.LIST_VENDEDOR_RELATORIO_BY_USER}${id}/?${unidadeUrl}`);
-};
 
-export const apiGetAgenciaRelatorioByUser = (id: number, areas: number[] | null) => {
-    let areaUrl = '';
-    if (areas)
-        for (let area of areas) {
-            areaUrl += `areaComercial=${area}&`;
-        }
-    areaUrl = areaUrl.slice(0, -1);
-    return axiosInstance.get(`${ApiEndpoints.LIST_AGENCIA_RELATORIO_BY_USER}${id}/?${areaUrl}`);
-};
+export const apiGetVendedorRelatorioByUser = () => 
+    axiosInstance.get(ApiEndpoints.LIST_VENDEDOR_RELATORIO_BY_USER);
 
-export const apiGetRelatorioFindByFilter = (data: any) => {
-    let url = '';
-    if (data.areasComerciais)
-        for (let area of data.areasComerciais) {
-            url += `areaComercial=${area}&`;
-        }
-    if (data.agencias)
-        for (let agencia of data.agencias) {
-            url += `agencia=${agencia}&`;
-        }
-    if (data.vendedores)
-        for (let vendedor of data.vendedores) {
-            url += `vendedor=${vendedor}&`;
-        }
-    if (data.unidades)
-        for (let unidade of data.unidades) {
-            url += `unidade=${unidade}&`;
-        }
-    if (data.page && data.pageSize) {
-        url += `page=${data.page}&pageSize=${data.pageSize}&`
-    }
-    if (data.usuario_id){
-        url += `usuario_id=${data.usuario_id}&`
-    }
-    if (data.dataInicio && data.dataFim) {
-        url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
-    }
+export const apiGetAgenciaRelatorioByUser = () => 
+    axiosInstance.get(ApiEndpoints.LIST_AGENCIA_RELATORIO_BY_USER);
+
+export const apiGetRelatorioFindByFilter = (data) => {
+    const areaUrl = data.areasComerciais?.map((area) => `areasComerciais=${area}`).join('&') || '';
+    const agenciaUrl = data.agencias?.map((agencia) => `agencias=${agencia}`).join('&') || '';
+    const vendedorUrl = data.vendedores?.map((vendedor) => `vendedores=${vendedor}`).join('&') || '';
+    const unidadeUrl = data.unidades?.map((unidade) => `unidades=${unidade}`).join('&') || '';
+    
+    const dataRange = (data.dataInicio && data.dataFim) 
+        ? `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}` 
+        : '';
+
+    // Construa a URL
+    const url = [dataRange, areaUrl, agenciaUrl, vendedorUrl, unidadeUrl]
+        .filter(Boolean) // Remove entradas vazias
+        .join('&');
+
+    console.log('URL construída:', `${ApiEndpoints.LIST_RELATORIO_FINDALL_BY_FILTERS}?${url}`);
+
     return axiosInstance.get(`${ApiEndpoints.LIST_RELATORIO_FINDALL_BY_FILTERS}?${url}`);
 };
 
 export const apiGetTotalRelatorio = (data: any) => {
-    let url = '';
-    if (data.areasComerciais)
-        for (let area of data.areasComerciais) {
-            url += `areaComercial=${area}&`;
-        }
-    if (data.agencias)
-        for (let agencia of data.agencias) {
-            url += `agencia=${agencia}&`;
-        }
-    if (data.vendedores)
-        for (let vendedor of data.vendedores) {
-            url += `vendedor=${vendedor}&`;
-        }
-    if (data.unidades)
-        for (let unidade of data.unidades) {
-            url += `unidade=${unidade}&`;
-        }
-    if (data.usuario_id){
-        url += `usuario_id=${data.usuario_id}&`
-    }
-    if (data.dataInicio && data.dataFim) {
-        url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
-    }
+    const areaUrl = data.areasComerciais?.map((area: number) => `areaComercial=${area}`).join('&') || '';
+    const agenciaUrl = data.agencias?.map((agencia: number) => `agencia=${agencia}`).join('&') || '';
+    const vendedorUrl = data.vendedores?.map((vendedor: number) => `vendedor=${vendedor}`).join('&') || '';
+    const unidadeUrl = data.unidades?.map((unidade: number) => `unidade=${unidade}`).join('&') || '';
+    const usuario = data.usuario_id ? `usuario_id=${data.usuario_id}` : '';
+    const dataRange = data.dataInicio && data.dataFim ? `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}` : '';
+    
+    const url = [areaUrl, agenciaUrl, vendedorUrl, unidadeUrl, usuario, dataRange].filter(Boolean).join('&');
+    
     return axiosInstance.get(`${ApiEndpoints.TOTAL_RELATORIO}?${url}`);
 };
 
 export const apiGetDownloadRelatorio = (data: any) => {
-    let url = '';
-    if (data.areasComerciais)
-        for (let area of data.areasComerciais) {
-            url += `areaComercial=${area}&`;
-        }
-    if (data.agencias)
-        for (let agencia of data.agencias) {
-            url += `agencia=${agencia}&`;
-        }
-    if (data.vendedores)
-        for (let vendedor of data.vendedores) {
-            url += `vendedor=${vendedor}&`;
-        }
-    if (data.unidades)
-        for (let unidade of data.unidades) {
-            url += `unidade=${unidade}&`;
-        }
-    if (data.usuario_id){
-        url += `usuario_id=${data.usuario_id}&`
-    }
-    if (data.dataInicio && data.dataFim) {
-        url += `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}`;
-    }
+    const areaUrl = data.areasComerciais?.map((area: number) => `areaComercial=${area}`).join('&') || '';
+    const agenciaUrl = data.agencias?.map((agencia: number) => `agencia=${agencia}`).join('&') || '';
+    const vendedorUrl = data.vendedores?.map((vendedor: number) => `vendedor=${vendedor}`).join('&') || '';
+    const unidadeUrl = data.unidades?.map((unidade: number) => `unidade=${unidade}`).join('&') || '';
+    const usuario = data.usuario_id ? `usuario_id=${data.usuario_id}` : '';
+    const dataRange = data.dataInicio && data.dataFim ? `dataInicio=${data.dataInicio}&dataFim=${data.dataFim}` : '';
+    
+    const url = [areaUrl, agenciaUrl, vendedorUrl, unidadeUrl, usuario, dataRange].filter(Boolean).join('&');
+    
     return axiosInstance.get(`${ApiEndpoints.EXCEL_RELATORIO}?${url}`, { responseType: 'blob' });
-}
-//#endregion
+};
