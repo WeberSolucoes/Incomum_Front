@@ -20,240 +20,98 @@ import { pt_br } from '../../utils/Locale';
 import { toastError, toastWarning } from '../../utils/customToast';
 
 
-
-
 const Relatorio = () => {
-    const [userId] = useState<Promise<number>>(async (): Promise<number> => {
-        const responseUserId = await apiGetUserId();
-        return responseUserId.data.id
-    });
-
     const [unidades, setUnidades] = useState([]);
     const [areasComerciais, setAreasComerciais] = useState([]);
     const [agencias, setAgencias] = useState([]);
     const [vendedores, setVendedores] = useState([]);
 
-    const [selectedUnidade, setSelectedUnidade] = useState(null);
+    const [selectedUnidade, setSelectedUnidade] = useState([]);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
-    const [selectedAgencia, setSelectedAgencia] = useState(null);
-    const [selectedVendedor, setSelectedVendedor] = useState(null);
+    const [selectedAgencia, setSelectedAgencia] = useState([]);
+    const [selectedVendedor, setSelectedVendedor] = useState([]);
 
     const [loading, setLoading] = useState(false);
-    const [tableLoading, setTableLoading] = useState(false);
-    const [excelLoading, setExcelLoading] = useState(false);
-
-    const [page, setPage] = useState<number>(0);
-    const [pageSize, setPageSize] = useState<number>(10);
-    const [total, setTotal] = useState(0);
-
-    const [totalData, setTotalData] = useState<any>([]);
-
-    const [dateStart, setDateStart] = useState<Date | null>(new Date(new Date().getFullYear(), new Date().getMonth(), 1));
-    const [dateEnd, setDateEnd] = useState<Date | null>(new Date());
+    const [dateStart, setDateStart] = useState(null);
+    const [dateEnd, setDateEnd] = useState(null);
     const [data, setData] = useState([]);
+    const [total, setTotal] = useState(0);
+    const [tableLoading, setTableLoading] = useState(false);
 
     useEffect(() => {
-        const fetchData = async () => {
-            // puxar as unidades
-            handleUnidadesValues();
-            // puxar areas
-            handleAreasValues();
-            // puxar agencias
-            handleAgenciasValues();
-            // puxar vendedores
-            // handleVendedoresValues();
-        }
-        fetchData();
+        loadDadosIniciais();
     }, []);
-    useEffect(() => {
-        if (selectedAreaComercial == null)
-            setAreasComerciais('' as any);
-        if (selectedVendedor == null)
-            setVendedores('' as any);
-        if (selectedAgencia == null)
-            setAgencias('' as any);
-        setPage(0);
-    }, [selectedAreaComercial, selectedAgencia, selectedVendedor, selectedUnidade])
-    useEffect(() => {
-        handleAreasValues();
-    }, [selectedUnidade])
-    useEffect(() => {
-        handleAgenciasValues();
-    }, [selectedAreaComercial])
-    useEffect(() => {
-        setPage(page);
-        handleSubmit();
-    }, [page, pageSize]);
-    async function handleUnidadesValues() {
+
+    const loadDadosIniciais = async () => {
         try {
             setLoading(true);
-            const response = await apiGetUnidadeRelatorioByUser(await userId);
-            setUnidades(response.data.map((item: any) => ({ name: item.loj_descricao, value: item.loj_codigo })));
-        }
-        catch (error: any) {
-            toastError(error.message);
-        }
-        finally {
+            const [unidadesResponse, areasResponse, agenciasResponse, vendedoresResponse] = await Promise.all([
+                apiGetUnidadeRelatorioByUser(),
+                apiGetAreaComercialRelatorioByUser(),
+                apiGetAgenciaRelatorioByUser(),
+                apiGetVendedorRelatorioByUser(),
+            ]);
+    
+            console.log('Respostas da API:', { 
+                unidadesResponse, 
+                areasResponse, 
+                agenciasResponse, 
+                vendedoresResponse 
+            });
+    
+            // Mapear e extrair apenas os valores desejados
+            setUnidades(unidadesResponse.data.map(item => ({ label: item.loj_descricao, value: item.loj_codigo })));
+            setAreasComerciais(areasResponse.data.map(item => ({ label: item.aco_descricao, value: item.aco_codigo })));
+            setAgencias(agenciasResponse.data.map(item => ({ label: item.age_descricao, value: item.age_codigo })));
+            setVendedores(vendedoresResponse.data.map(item => ({ label: item.ven_descricao, value: item.ven_codigo })));
+        } catch (error) {
+            toastError('Erro ao carregar os dados iniciais');
+        } finally {
             setLoading(false);
+        }
+    };
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        setData([]);
+
+        // Verifica se as datas são válidas
+        if (!dateStart || !dateEnd) {
+            toastError('As datas de início e fim são obrigatórias.');
+            return;
         }
 
-    }
-    async function handleAreasValues() {
-        try {
-            setLoading(true);
-            const response = await apiGetAreaComercialRelatorioByUser(await userId, selectedUnidade);
-            setAreasComerciais(response.data.map((item: any) => ({ name: item.aco_descricao, value: item.aco_codigo })));
-        }
-        catch (error: any) {
-            toastError(error.message);
-        }
-        finally {
-            setLoading(false);
-        }
+        const params = {
+            dataInicio: dateStart.toISOString().split('T')[0],
+            dataFim: dateEnd.toISOString().split('T')[0],
+            unidades: selectedUnidade.length > 0 ? selectedUnidade : [],
+            areasComerciais: selectedAreaComercial.length > 0 ? selectedAreaComercial : [],
+            agencias: selectedAgencia.length > 0 ? selectedAgencia : [],
+            vendedores: selectedVendedor.length > 0 ? selectedVendedor : [],
+        };
 
-    }
-    async function handleVendedoresValues() {
-        try {
-            setLoading(true);
-            const response = await apiGetVendedorRelatorioByUser(await userId, selectedUnidade);
-            setVendedores(response.data.map((item: any) => ({ name: item.first_name + " " + item.last_name, value: item.id })));
-        }
-        catch (error: any) {
-            toastError(error.message);
-        }
-        finally {
-            setLoading(false);
-        }
-    }
-    async function handleAgenciasValues() {
-        try {
-            setLoading(true);
-            const response = await apiGetAgenciaRelatorioByUser(await userId, selectedAreaComercial);
-            setAgencias(response.data.map((item: any) => ({ name: item.age_descricao, value: item.age_codigo })));
-        }
-        catch (error: any) {
-            toastError(error.message);
-        }
-        finally {
-            setLoading(false);
-        }
-    }
-    function handleSelectionChange(name: string, value: any) {
-        if (name === 'unidade')
-            setSelectedUnidade(value);
-        if (name === 'areaComercial')
-            setSelectedAreaComercial(value);
-        if (name === 'agencia')
-            setSelectedAgencia(value);
-        if (name === 'vendedor')
-            setSelectedVendedor(value);
-    }
-    function handlePageChange(e: any) {
-        setPage(e.page);
-        setPageSize(e.rows);
-    }
-    async function handleSubmit() {
-        const body = {
-            'unidades': selectedUnidade,
-            'areasComerciais': selectedAreaComercial,
-            'agencias': selectedAgencia,
-            'vendedores': selectedVendedor,
-            'dataInicio': dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-            'dataFim': dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-            'page': page + 1,
-            'pageSize': pageSize,
-            'usuario_id': await userId
-        }
+        console.log('Parâmetros enviados para a API:', params);
+
         try {
             setTableLoading(true);
-            const response = await apiGetRelatorioFindByFilter(body);
-            console.log(response.data);
-            const totalResponse = await apiGetTotalRelatorio(body);
-            setTotal(response.data.count);
-            setData(response.data.results);
-            setTotalData(totalResponse.data);
-        }
-        catch (error: any) {
-            if (error.code == "ECONNABORTED") {
-                toastWarning("O servidor demorou para responder. Tente novamente mais tarde");
+            const response = await apiGetRelatorioFindByFilter(params);
+
+            if (Array.isArray(response.data) && response.data.length > 0) {
+                setData(response.data);
+                setTotal(response.data.length);
+            } else {
+                setData([]);
+                setTotal(0);
+                toastError('Nenhum resultado encontrado.');
             }
-        }
-        finally {
+        } catch (error) {
+            console.error('Erro ao realizar a consulta:', error);
+            toastError('Erro ao realizar a consulta');
+        } finally {
             setTableLoading(false);
         }
-    }
-    async function handleDownload() {
-        const body = {
-            'unidades': selectedUnidade,
-            'areasComerciais': selectedAreaComercial,
-            'agencias': selectedAgencia,
-            'vendedores': selectedVendedor,
-            'dataInicio': dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-            'dataFim': dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-'),
-            'usuario_id': await userId
-        }
-        try {
-            setExcelLoading(true);
-            toastWarning("Esta operação pode levar um tempo. Por favor, aguarde");
-            const response = await apiGetDownloadRelatorio(body);
-            const url = window.URL.createObjectURL(new Blob([response.data]));
-            const link = document.createElement('a');
-            link.href = url;
-            const nome_arquivo = `${dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}_${dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-')}.xlsx`;
-            link.setAttribute('download', nome_arquivo);
-            document.body.appendChild(link);
-            link.click();
-            document.body.removeChild(link);
-        } catch (error: any) {
-            toastError(error.message);
-        }
-        finally {
-            setExcelLoading(false);
-        }
-    }
+    };
 
-    const exportToExcel = async () => {
-      try {
-          const dataInicio = dateStart?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-          const dataFim = dateEnd?.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' }).replace(/\//g, '-');
-          const pageSize = 10; // Ajuste conforme necessário
-          let page = 1;
-          let allData: any[] = [];
-          let hasMoreData = true;
-  
-          while (hasMoreData) {
-              const response = await apiGetRelatorioFindByFilter({
-                  dataInicio,
-                  dataFim,
-                  unidade: selectedUnidade,
-                  areaComercial: selectedAreaComercial,
-                  agencia: selectedAgencia,
-                  vendedor: selectedVendedor,
-                  pageSize,
-                  page,
-                  export: 'true' // Indicador de que estamos exportando
-              });
-  
-              const data = response.data.results || response.data; // Ajuste conforme o formato da resposta
-              allData = allData.concat(data);
-              hasMoreData = data.length === pageSize;
-              page++;
-          }
-  
-          // Criar o workbook e adicionar a worksheet
-          const wb = XLSX.utils.book_new();
-          const ws = XLSX.utils.json_to_sheet(allData);
-          XLSX.utils.book_append_sheet(wb, ws, 'Relatório');
-  
-          // Gerar o blob e iniciar o download
-          const wbout = XLSX.write(wb, { bookType: 'xlsx', type: 'array' });
-          const blob = new Blob([wbout], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-          saveAs(blob, 'relatorio.xlsx');
-  
-      } catch (error) {
-          console.error('Erro ao exportar para Excel:', error);
-      }
-  };
 
     return (
         <>
@@ -293,15 +151,7 @@ const Relatorio = () => {
                     <div className="row my-3 d-flex justify-content-end align-items-center">
                         <Button style={{margin:'auto',backgroundColor:'#0152a1'}} className='rounded col-sm-2 mb-3' id='pesquisar' loading={tableLoading} label="Pesquisar" icon="pi pi-search" onClick={handleSubmit} />
                     </div>
-                    <div className=' row d-flex justify-content-between align-items-center gap-3'>
-                        {<h5 className='col-sm-3 '>Total Liquido: {totalData.total_valorliquido}</h5>}
-                        {<h5 className='col-sm-3 '>Total Inc: {totalData.total_valorinc}</h5>}
-                        {<h5 className='col-sm-3 '>Total Inc Ajustado: {totalData.total_valorincajustado}</h5>}
-
-                        <Button className='rounded col-sm-1  mb-3' type="button" icon="pi pi-file-excel" onClick={handleDownload} loading={excelLoading} severity="success" data-pr-tooltip="CSV" />
-                    </div>
-                    <a href=''></a>
-                    <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }}>
+                    <DataTable removableSort loading={tableLoading} scrollable scrollHeight="500px" emptyMessage="Nenhum registro encontrado" value={data} tableStyle={{ minWidth: '10rem' }} paginator rows={10} totalRecords={total} >
                         <Column sortable field="fim_tipo" header="Tipo" />
                         <Column sortable field="tur_numerovenda" header="Núm. Venda" />
                         <Column sortable field="tur_codigo" header="Num. Pct" />
@@ -314,7 +164,6 @@ const Relatorio = () => {
                         <Column sortable field="nome_loja" header="Agência" />
                         <Column sortable field="ven_descricao" header="Vendedor" />
                     </DataTable>
-                    <Paginator first={page * pageSize} rows={pageSize} totalRecords={total} rowsPerPageOptions={[5, 10, 20, 30]} onPageChange={handlePageChange} />
                 </form>
             </div>
         </>
