@@ -12,24 +12,29 @@ import RedefinirSenha from './pages/RedefinirSenha';
 import NotPage from './pages/404Page';
 import NotAuthorizePage from './pages/403Page';
 import { CodigoProvider } from './contexts/CodigoProvider';
+import { AuthProvider } from './contexts/AuthProvider';
 function App() {
   return (
-    <Router basename=''>
-      <CodigoProvider>
-        <Routes>
-          {/* <Route path="/" element={
-            <PrivateRoute requiredPermissions={[]} element={<MainPage />} />
-          } /> */}
-          <Route path='/' element={<MainPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/recuperar-senha" element={<RecuperarSenha />} />
-          <Route path="/redefinir-senha/" element={<RedefinirSenha />} />
+    <AuthProvider>
+      <Router basename=''>
+        <CodigoProvider>
+          
+            <Routes>
+              {/* <Route path="/" element={
+                <PrivateRoute requiredPermissions={[]} element={<MainPage />} />
+              } /> */}
+              <Route path='/' element={<MainPage />} />
+              <Route path="/login" element={<LoginPage />} />
+              <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+              <Route path="/redefinir-senha/" element={<RedefinirSenha />} />
 
-          <Route path="/nao-autorizado" element={<NotAuthorizePage />} />
-          <Route path="*" element={<NotPage />} /> {/* Rota 404 */}
-        </Routes>
-      </CodigoProvider>
-    </Router>
+              <Route path="/nao-autorizado" element={<NotAuthorizePage />} />
+              <Route path="*" element={<NotPage />} /> {/* Rota 404 */}
+            </Routes>
+          
+        </CodigoProvider>
+      </Router>
+    </AuthProvider>
   );
 }
 
