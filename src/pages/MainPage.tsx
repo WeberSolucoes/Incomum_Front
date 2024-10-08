@@ -24,13 +24,19 @@ import Dashboard from '../components/specific/FaturamentoVendedor';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
+    const [loading, setLoading] = useState(true); // Novo estado para verificar o carregamento da autenticação
     const auth = useAuth();
     const navigate = useNavigate();
     const { resetContext } = useCodigo(); // Usar o contexto
 
     useEffect(() => {
-        // Adicione verificações de autenticação se necessário
-    }, [auth, navigate]);
+        // Verifica se o usuário está autenticado
+        if (!auth.isAuthenticated) {
+            navigate('/login'); // Redireciona para a página de login se não estiver autenticado
+        } else {
+            setLoading(false); // Definir loading como false após autenticação
+        }
+    }, [auth.isAuthenticated, navigate]);
 
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
@@ -84,6 +90,11 @@ const MainPage: React.FC = () => {
                 return <div>Bem-vindo!</div>;
         }
     };
+
+    // Verificação se ainda está carregando a autenticação
+    if (loading) {
+        return <div>Carregando...</div>;
+    }
 
     return (
         <div>
