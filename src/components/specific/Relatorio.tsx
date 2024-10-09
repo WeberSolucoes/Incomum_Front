@@ -90,15 +90,11 @@ const Relatorio = () => {
                 const totalValorIncAjustado = response.data.resultados.reduce((sum, item) => sum + item.fim_valorincajustado, 0);
                 const totalValorLiquido = response.data.resultados.reduce((sum, item) => sum + item.fim_valorliquido, 0);
     
-                // Formatação dos totais
-                const totalValorIncFormatado = totalValorInc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const totalValorIncAjustadoFormatado = totalValorIncAjustado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const totalValorLiquidoFormatado = totalValorLiquido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
+                // Atualiza os totais como números
                 setTotals({
-                    totalValorInc: totalValorIncFormatado,
-                    totalValorIncAjustado: totalValorIncAjustadoFormatado,
-                    totalValorLiquido: totalValorLiquidoFormatado
+                    totalValorInc,
+                    totalValorIncAjustado,
+                    totalValorLiquido,
                 });
             } else {
                 setData([]);
