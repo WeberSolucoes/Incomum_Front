@@ -229,9 +229,21 @@ const Relatorio = () => {
                         <Column field="fim_data" header="Data" />
                         <Column field="fim_markup" header="Markup" />
                         <Column field="fim_tipo" header="Tipo" />
-                        <Column field="fim_valorinc" header="Valor Inicial" />
-                        <Column field="fim_valorincajustado" header="Valor Ajustado" />
-                        <Column field="fim_valorliquido" header="Valor Líquido" />
+                        <Column 
+                            field="fim_valorinc" 
+                            header="Valor Inicial" 
+                            body={(rowData) => formatCurrency(rowData.fim_valorinc)} 
+                        />
+                        <Column 
+                            field="fim_valorincajustado" 
+                            header="Valor Ajustado" 
+                            body={(rowData) => formatCurrency(rowData.fim_valorincajustado)} 
+                        />
+                        <Column 
+                            field="fim_valorliquido" 
+                            header="Valor Líquido" 
+                            body={(rowData) => formatCurrency(rowData.fim_valorliquido)} 
+                        />
                         <Column field="tur_codigo" header="Tur Código" />
                         <Column field="tur_numerovenda" header="Número da Venda" />
                     </DataTable>
