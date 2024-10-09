@@ -2,8 +2,13 @@ body{
     background-color: rgba(31, 23, 23, 0.05) !important;
 }
 
-.p-dropdown-panel .p-dropdown-item {
-    text-align: left; /* Garantir que os itens do painel também fiquem à esquerda */
+.p-dropdown-items {
+    padding: 8px;
+    margin: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start !important; /* Alinha os itens ao início (cima) */
+    align-items: flex-start !important; /* Alinha os itens à esquerda */
 }
 
 .container{
