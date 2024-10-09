@@ -225,27 +225,29 @@ const Relatorio = () => {
                         totalRecords={total} 
                         responsiveLayout="scroll"
                     >
-                        <Column field="fim_codigo" header="Código" />
-                        <Column field="fim_data" header="Data" />
+                        <Column field="fim_tipo" header="Código" />
+                        <Column field="tur_numerovenda" header="numero venda" />
+                        <Column field="tur_codigo" header="tur_codigo" />
+                        <Column field="fim_data" header="Tipo" />
                         <Column field="fim_markup" header="Markup" />
-                        <Column field="fim_tipo" header="Tipo" />
                         <Column 
                             field="fim_valorinc" 
                             header="Valor Inicial" 
                             body={(rowData) => formatCurrency(rowData.fim_valorinc)} 
                         />
-                        <Column 
+                         <Column 
                             field="fim_valorincajustado" 
                             header="Valor Ajustado" 
                             body={(rowData) => formatCurrency(rowData.fim_valorincajustado)} 
                         />
-                        <Column 
+                         <Column 
                             field="fim_valorliquido" 
                             header="Valor Líquido" 
                             body={(rowData) => formatCurrency(rowData.fim_valorliquido)} 
                         />
-                        <Column field="tur_codigo" header="Tur Código" />
-                        <Column field="tur_numerovenda" header="Número da Venda" />
+                        <Column field="aco_descricao" header="Comercial" />
+                        <Column field="age_descricao" header="Agencia" />
+                        <Column field="ven_descricao" header="Vendedor" />
                     </DataTable>
                     <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
                         <div>Total:</div>
