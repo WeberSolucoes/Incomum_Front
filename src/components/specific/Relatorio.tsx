@@ -225,19 +225,19 @@ const Relatorio = () => {
                         totalRecords={total} 
                         responsiveLayout="scroll"
                     >
-                        <Column field="fim_tipo" header="Código" />
-                        <Column field="tur_numerovenda" header="numero venda" />
-                        <Column field="tur_codigo" header="tur_codigo" />
-                        <Column field="fim_data" header="Tipo" />
+                        <Column field="fim_tipo" header="Tipo" />
+                        <Column field="tur_numerovenda" header="Num.Venda" />
+                        <Column field="tur_codigo" header="Num.Pct" />
+                        <Column field="fim_data" header="Data" />
                         <Column field="fim_markup" header="Markup" />
                         <Column 
                             field="fim_valorinc" 
-                            header="Valor Inicial" 
+                            header="Valor Inc" 
                             body={(rowData) => formatCurrency(rowData.fim_valorinc)} 
                         />
                          <Column 
                             field="fim_valorincajustado" 
-                            header="Valor Ajustado" 
+                            header="Valor Inc Ajustado" 
                             body={(rowData) => formatCurrency(rowData.fim_valorincajustado)} 
                         />
                          <Column 
