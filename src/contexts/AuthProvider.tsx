@@ -32,7 +32,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
     const login = async (email: string, senha: string, remember: boolean) => {
         try {
-            const response = await axios.post('http://3.21.123.210:8443/api/incomum/usuario/login/', {
+            const response = await axios.post('http://18.217.126.60:8443/api/incomum/usuario/login/', {
                 loginemail: email,
                 loginsenha: senha,
             });
