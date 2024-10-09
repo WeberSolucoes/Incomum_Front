@@ -143,6 +143,12 @@ const Relatorio = () => {
     const scrollToBottom = () => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
+    const formatCurrency = (value) => {
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL'
+        }).format(value);
+    };
 
     return (
         <>
@@ -231,9 +237,9 @@ const Relatorio = () => {
                     </DataTable>
                     <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
                         <div>Total:</div>
-                        <div>Valor Inicial: {totals.totalValorInc.toFixed(2).replace('.', ',')}</div>
-                        <div>Valor Ajustado: {totals.totalValorIncAjustado.toFixed(2).replace('.', ',')}</div>
-                        <div>Valor Líquido: {totals.totalValorLiquido.toFixed(2).replace('.', ',')}</div>
+                        <div>Valor Inicial: {formatCurrency(totals.totalValorInc)}</div>
+                        <div>Valor Ajustado: {formatCurrency(totals.totalValorIncAjustado)}</div>
+                        <div>Valor Líquido: {formatCurrency(totals.totalValorLiquido)}</div>
                     </div>
                 </div>
             </div>
