@@ -112,7 +112,7 @@ const Relatorio = () => {
 
     const handleExport = async () => {
         try {
-            const response = await axios.get('http://18.217.126.60:8443/api/incomum/relatorio/download-relatorio/', {
+            const response = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/download-relatorio/', {
                 params: {
                     dataInicio: dateStart?.toISOString().split('T')[0], // Adicionei a formatação
                     dataFim: dateEnd?.toISOString().split('T')[0],
