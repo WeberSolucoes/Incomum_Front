@@ -62,7 +62,7 @@ const Relatorio = () => {
     const handleSubmit = async (event) => {
         event.preventDefault();
         setData([]);
-    
+        
         if (!dateStart || !dateEnd) {
             toastError('As datas de início e fim são obrigatórias.');
             return;
@@ -71,7 +71,7 @@ const Relatorio = () => {
         const params = {
             dataInicio: dateStart.toISOString().split('T')[0],
             dataFim: dateEnd.toISOString().split('T')[0],
-            unidades: selectedUnidade ? [selectedUnidade] : [],
+            unidades: selectedUnidade ? [selectedUnidade] : [], 
             areasComerciais: selectedAreaComercial.length > 0 ? selectedAreaComercial : [],
             agencias: selectedAgencia ? [selectedAgencia] : [],
             vendedores: selectedVendedor ? [selectedVendedor] : [],
@@ -86,19 +86,15 @@ const Relatorio = () => {
                 setTotal(response.data.resultados.length);
     
                 // Cálculo dos totais
-                const totalValorInc = response.data.resultados.reduce((sum, item) => sum + (parseFloat(item.fim_valorinc) || 0), 0);
-                const totalValorIncAjustado = response.data.resultados.reduce((sum, item) => sum + (parseFloat(item.fim_valorincajustado) || 0), 0);
-                const totalValorLiquido = response.data.resultados.reduce((sum, item) => sum + (parseFloat(item.fim_valorliquido) || 0), 0);
+                const totalValorInc = response.data.resultados.reduce((sum, item) => sum + item.fim_valorinc, 0);
+                const totalValorIncAjustado = response.data.resultados.reduce((sum, item) => sum + item.fim_valorincajustado, 0);
+                const totalValorLiquido = response.data.resultados.reduce((sum, item) => sum + item.fim_valorliquido, 0);
     
-                // Formatação dos totais
-                const totalValorIncFormatado = totalValorInc.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const totalValorIncAjustadoFormatado = totalValorIncAjustado.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                const totalValorLiquidoFormatado = totalValorLiquido.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-    
+                // Atualiza os totais como números
                 setTotals({
-                    totalValorInc: totalValorIncFormatado,
-                    totalValorIncAjustado: totalValorIncAjustadoFormatado,
-                    totalValorLiquido: totalValorLiquidoFormatado
+                    totalValorInc,
+                    totalValorIncAjustado,
+                    totalValorLiquido,
                 });
             } else {
                 setData([]);
@@ -112,6 +108,7 @@ const Relatorio = () => {
             setTableLoading(false);
         }
     };
+
 
     const handleExport = async () => {
         try {
