@@ -2,6 +2,10 @@ body{
     background-color: rgba(31, 23, 23, 0.05) !important;
 }
 
+.p-dropdown-panel .p-dropdown-item {
+    text-align: left; /* Garantir que os itens do painel também fiquem à esquerda */
+}
+
 .container{
     background-color: white;
     border-radius: 12px;
