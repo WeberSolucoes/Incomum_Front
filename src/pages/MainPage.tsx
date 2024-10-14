@@ -15,8 +15,6 @@ import { useCodigo } from '../contexts/CodigoProvider'; // Importar o contexto
 import '../assets/styles/pages/Agencia.css';
 import '../assets/styles/pages/sidebar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import '@coreui/coreui/dist/css/coreui.min.css';
-import '@coreui/icons/css/all.min.css'; 
 import 'react-toastify/dist/ReactToastify.css';
 import Unidade from '../components/specific/UnidadeCadastro';
 import Agencia from '../components/specific/AgenciaCadastro';
