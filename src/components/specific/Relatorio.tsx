@@ -27,6 +27,9 @@ const Relatorio = () => {
     const [data, setData] = useState([]);
     const [total, setTotal] = useState(0);
     const [tableLoading, setTableLoading] = useState(false);
+    const [first, setFirst] = useState(0);
+    const [rows, setRows] = useState(10);
+    const [totalRecords, setTotalRecords] = useState(0);
 
     useEffect(() => {
         loadDadosIniciais();
@@ -149,6 +152,10 @@ const Relatorio = () => {
             currency: 'BRL'
         }).format(value);
     };
+    const onPageChange = (event) => {
+        setFirst(event.first);
+        setRows(event.rows);
+    };
 
     return (
         <>
@@ -221,9 +228,14 @@ const Relatorio = () => {
                 <div className='col-12'>
                     <DataTable 
                         value={data} 
-                        loading={tableLoading} 
-                        totalRecords={total} 
+                        loading={tableLoading}
                         responsiveLayout="scroll"
+                        paginator
+                        first={first}
+                        totalRecords={totalRecords} 
+                        rows={rows}
+                        onPage={onPageChange}
+                        rowsPerPageOptions={[10, 20, 50]} // Opções de paginação
                     >
                         <Column field="fim_tipo" header="Tipo" />
                         <Column field="tur_numerovenda" header="Num.Venda" />
