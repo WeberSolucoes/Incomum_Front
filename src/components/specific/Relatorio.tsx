@@ -8,6 +8,22 @@ import { Column } from 'primereact/column';
 import { apiGetRelatorioFindByFilter, apiGetUnidadeRelatorioByUser, apiGetAreaComercialRelatorioByUser, apiGetAgenciaRelatorioByUser, apiGetVendedorRelatorioByUser } from '../../services/Api';
 import { toastError,} from '../../utils/customToast';
 import axios from 'axios';
+import { locale, addLocale } from 'primereact/api';
+
+addLocale('pt-BR', {
+    firstDayOfWeek: 1,
+    dayNames: ['domingo', 'segunda-feira', 'terça-feira', 'quarta-feira', 'quinta-feira', 'sexta-feira', 'sábado'],
+    dayNamesShort: ['dom', 'seg', 'ter', 'qua', 'qui', 'sex', 'sáb'],
+    dayNamesMin: ['D', 'S', 'T', 'Q', 'Q', 'S', 'S'],
+    monthNames: ['JANEIRO', 'FEVEREIRO', 'MARÇO', 'ABRIL', 'MAIO', 'JUNHO', 'JULHO', 'AGOSTO', 'SETEMBRO', 'OUTUBRO', 'NOVEMBRO', 'DEZEMBRO'],
+    monthNamesShort: ['jan', 'fev', 'mar', 'abr', 'mai', 'jun', 'jul', 'ago', 'set', 'out', 'nov', 'dez'],
+    today: 'Hoje',
+    clear: 'Limpar',
+    dateFormat: 'dd/mm/yy',
+    weekHeader: 'Sm'
+});
+
+locale('pt-BR');
 
 
 const Relatorio = () => {
@@ -164,10 +180,10 @@ const Relatorio = () => {
                 <div className='row mt-3'>
                     <h1 style={{ marginTop: '-15px', color: '#0152a1' }}>Relatório</h1>
                     <div className='col-sm-6 mb-3'>
-                        <Calendar value={dateStart} onChange={(e) => setDateStart(e.value)} showIcon placeholder="Data Inicial" />
+                        <Calendar value={dateStart} onChange={(e) => setDateStart(e.value)} showIcon placeholder="Data Inicial" locale='pt-BR' dateFormat="dd/mm/yy" />
                     </div>
                     <div className='col-sm-6 mb-3'>
-                        <Calendar style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" />
+                        <Calendar style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy" />
                     </div>
                 </div>
                 <div className='row mt-3'>
