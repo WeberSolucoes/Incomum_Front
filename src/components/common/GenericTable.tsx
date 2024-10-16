@@ -1,55 +1,42 @@
 import React from 'react';
-import { Button } from 'primereact/button';
-import { Column } from 'primereact/column';
 import { DataTable } from 'primereact/datatable';
-import { useCodigo } from '../../contexts/CodigoProvider';
+import { Column } from 'primereact/column';
 
-interface GenericTableProps {
-    filteredItems: any[];
+interface GenericTableProps<T> {
+    filteredItems: T[];
     emptyMessage: string;
+    onCodeClick?: (codigo: number) => void; // Função chamada ao clicar no código
 }
 
-const GenericTable: React.FC<GenericTableProps> = ({ filteredItems, emptyMessage }) => {
-    const { codigo, setCodigo, setView } = useCodigo();
-
-    const createColumns = () => {
-        const keys = filteredItems.length > 0 ? Object.keys(filteredItems[0]) : [];
-
-        function onIdClick(rowData: any) {
-            setCodigo(rowData['codigo']);
-            setView('create');
-        }
-
-        return keys.map(key => (
-            <Column
-                key={key}
-                field={key}
-                sortable
-                header={capitalizeFirstLetter(key)}
-                body={key === 'codigo' ? (rowData: any) => <Button label={rowData[key]} onClick={() => onIdClick(rowData)} /> : undefined}
-            />
-        ));
-    };
-
-    const capitalizeFirstLetter = (string: string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1);
+const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericTableProps<T>) => {
+    const itemTemplate = (item: any) => {
+        return (
+            <span 
+                style={{ cursor: 'pointer', color: 'blue' }} 
+                onClick={() => onCodeClick && onCodeClick(item.codigo)} // Chama a função ao clicar no código
+            >
+                {item.codigo}
+            </span>
+        );
     };
 
     return (
-        <div>
-            <DataTable
-                paginator
-                rows={5}
-                emptyMessage={emptyMessage}
-                removableSort
-                rowsPerPageOptions={[5, 10, 25, 50]}
-                value={filteredItems.length > 0 ? filteredItems : []} // Garante que a tabela não quebre
-                tableStyle={{ minWidth: '10rem' }}
-                className="custom-data-table" // Classe para estilização
-            >
-                {createColumns()}
-            </DataTable>
-        </div>
+        <DataTable 
+            value={filteredItems} 
+            emptyMessage={emptyMessage} 
+            paginator 
+            rows={10} // Número padrão de itens por página
+            rowsPerPageOptions={[5, 10, 25, 50]} // Opções de quantidade de itens por página
+        >
+            <Column 
+                field="codigo" 
+                header="Código" 
+                body={itemTemplate} // Usa a função de template para renderizar o código
+            />
+            <Column field="descricao" header="Descrição" />
+            <Column field="responsavel" header="Responsável" />
+            <Column field="email" header="E-mail" />
+        </DataTable>
     );
 };
 
