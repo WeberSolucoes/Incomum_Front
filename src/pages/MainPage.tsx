@@ -3,15 +3,14 @@ import SidebarMenu from '../components/layout/SidebarMenu';
 import NavbarMenu from '../components/layout/NavbarMenu';
 import Teste from '../components/specific/Teste';
 import Relatorio from '../components/specific/Relatorio';
-import { MenuEnum } from '../utils/MenuEnum';
 import FormLayout from '../components/layout/FormLayout';
 import UnidadeList from '../components/specific/UnidadeList';
-import Vendedor from '../components/specific/VendedorCadastro';
+import VendedorCadastro from '../components/specific/VendedorCadastro';
 import AgenciaList from '../components/specific/AgenciaList';
 import VendedorList from '../components/specific/VendedorList';
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
-import { useCodigo } from '../contexts/CodigoProvider'; // Importar o contexto
+import { useCodigo } from '../contexts/CodigoProvider';
 import '../assets/styles/pages/Agencia.css';
 import '../assets/styles/pages/sidebar.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -22,65 +21,123 @@ import Dashboard from '../components/specific/FaturamentoVendedor';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
-    const [loading, setLoading] = useState(true); // Novo estado para verificar o carregamento da autenticação
+    const [isCreatingAgencia, setIsCreatingAgencia] = useState(false);
+    const [isCreatingVendedor, setIsCreatingVendedor] = useState(false);
+    const [isCreatingUnidade, setIsCreatingUnidade] = useState(false);
+    const [selectedUnidadeCode, setSelectedUnidadeCode] = useState<string | null>(null);
     const auth = useAuth();
     const navigate = useNavigate();
-    const { resetContext } = useCodigo(); // Usar o contexto
+    const { resetContext } = useCodigo();
 
     useEffect(() => {
-        // Verifica se o usuário está autenticado
-        if (!auth.isAuthenticated) {
-            navigate('/login'); // Redireciona para a página de login se não estiver autenticado
-        } else {
-            setLoading(false); // Definir loading como false após autenticação
-        }
-    }, [auth.isAuthenticated, navigate]);
+        // Adicione verificações de autenticação se necessário
+    }, [auth, navigate]);
 
     const handleMenuItemClick = (itemKey: string) => {
         setActiveComponent(itemKey);
-        resetContext(); // Resetar o contexto quando o item do menu for clicado
+        resetContext();
+        // Resetar estados de criação
+        setIsCreatingAgencia(false);
+        setIsCreatingVendedor(false);
+        setIsCreatingUnidade(false);
+        setSelectedUnidadeCode(null);
+    };
+
+    const handleCreateAgenciaClick = () => {
+        setIsCreatingAgencia(true);
+        setActiveComponent(null);
+    };
+
+    const handleCreateVendedorClick = () => {
+        setIsCreatingVendedor(true);
+        setActiveComponent(null);
+    };
+
+    const handleCreateUnidadeClick = () => {
+        setIsCreatingUnidade(true);
+        setSelectedUnidadeCode(null);
+        setActiveComponent(null);
+    };
+
+    const handleRecordClick = (itemType: string, codigo?: string) => {
+        switch (itemType) {
+            case 'unidade':
+                setSelectedUnidadeCode(codigo || null);
+                setIsCreatingUnidade(true);
+                break;
+            case 'agencia':
+                setIsCreatingAgencia(true);
+                break;
+            case 'vendedor':
+                setIsCreatingVendedor(true);
+                break;
+            default:
+                break;
+        }
+        setActiveComponent(null);
     };
 
     const renderComponent = () => {
+        if (isCreatingAgencia) {
+            return (
+                <FormLayout name='Agência'>
+                    <Agencia />
+                </FormLayout>
+            );
+        }
+
+        if (isCreatingVendedor) {
+            return (
+                <FormLayout name='Vendedor'>
+                    <VendedorCadastro />
+                </FormLayout>
+            );
+        }
+
+        if (isCreatingUnidade) {
+            return (
+                <FormLayout name={selectedUnidadeCode ? 'Editar Unidade' : 'Unidade'}>
+                    <Unidade code={selectedUnidadeCode} />
+                </FormLayout>
+            );
+        }
+
         switch (activeComponent) {
-            case MenuEnum.cadastro_unidades:
+            case 'cadastro_unidades':
                 return (
                     <FormLayout name='Unidade'>
-                        <UnidadeList search="" />
-                        <Unidade />
+                        <UnidadeList onCreateClick={handleCreateUnidadeClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
-            case MenuEnum.cadastro_agencias:
+            case 'cadastro_agencias':
                 return (
-                    <FormLayout name='Agencia'>
-                        <AgenciaList search="" />
-                        <Agencia />
+                    <FormLayout name='Agência'>
+                        <AgenciaList onCreateClick={handleCreateAgenciaClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
-            case MenuEnum.cadastro_vendedores:
+            case 'cadastro_vendedores':
                 return (
                     <FormLayout name='Vendedor'>
-                        <VendedorList search="" />
-                        <Vendedor />
+                        <VendedorList />
                     </FormLayout>
                 );
-            case MenuEnum.lancamento_opcao:
+            case 'lancamento_opcao':
                 return <Teste message="Lançamento Opção" />;
-            case MenuEnum.financeiro_opcao:
+            case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
-            case MenuEnum.gerencial_faturamento_unidades:
+            case 'gerencial_faturamento_unidades':
                 return <Teste message="Faturamento Unidades" />;
-            case MenuEnum.gerencial_faturamento_comercial:
+            case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
-            case MenuEnum.gerencial_faturamento_vendedor:
+            case 'gerencial_faturamento_vendedor':
                 return <Dashboard />;
-            case MenuEnum.relatorios_simplicados_vendas:
+            case 'relatorios_simplicados_vendas':
                 return <Relatorio />;
-            case MenuEnum.usuario:
+            case 'usuario':
                 return <Teste message="Configurações de Usuário" />;
-            case MenuEnum.perfil:
+            case 'perfil':
                 return <Teste message="Configurações de Perfil" />;
-            case MenuEnum.logout:
+            case 'logout':
                 auth.logout();
                 navigate('/login');
                 break;
@@ -88,11 +145,6 @@ const MainPage: React.FC = () => {
                 return <div>Bem-vindo!</div>;
         }
     };
-
-    // Verificação se ainda está carregando a autenticação
-    if (loading) {
-        return <div>Carregando...</div>;
-    }
 
     return (
         <div>
