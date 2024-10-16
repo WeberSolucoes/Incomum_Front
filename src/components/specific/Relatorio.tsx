@@ -194,7 +194,8 @@ const Relatorio = () => {
                             onChange={(e) => setSelectedUnidade(e.value)} 
                             placeholder="Unidade"
                             style={{width:'100%'}}
-                            panelStyle={{ width: '10%' }} // Largura do painel  
+                            panelStyle={{ width: '10%' }} // Largura do painel 
+                            showClear 
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -215,6 +216,7 @@ const Relatorio = () => {
                             onChange={(e) => setSelectedAgencia(e.value)} 
                             placeholder="Agência" 
                             style={{width:'100%'}} 
+                            showClear 
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -224,6 +226,7 @@ const Relatorio = () => {
                             onChange={(e) => setSelectedVendedor(e.value)} 
                             placeholder="Vendedor"
                             style={{width:'100%'}}
+                            showClear 
                         />
                     </div>
                 </div>
