@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
-import { MultiSelect } from 'primereact/multiselect';
 import { UnidadesCreateRequest } from '../../utils/apiObjects';
 import { useCodigo } from '../../contexts/CodigoProvider';
 import { apiDeleteUnidade, apiGetAreas, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from '../../services/Api';
@@ -217,12 +216,14 @@ const Unidade: React.FC = () => {
 
             let response;
             if (request.loj_codigo) {
+                console.log(request.loj_codigo||"1");
                 response = await apiPutUpdateUnidade(request, request.loj_codigo);
             } else {
+                console.log(request.loj_codigo||"2");
                 response = await apiPostCreateUnidade(request);
             }
 
-            if (response.status === 200 || response.status === 201) {
+            if (response.status ===  200 || response.status === 201) {
                 toastSucess("Unidade salva com sucesso");
             } else {
                 toastError("Erro ao salvar a unidade");
@@ -496,13 +497,17 @@ const Unidade: React.FC = () => {
                 <div className="form-group">
                     <label htmlFor="aco_codigo">Área Comercial</label>
                     <select
-                        id="aco_codigo"
-                        name="aco_codigo"
-                        value={request.aco_codigo || ''}
-                        onChange={handleSelectChange}>
-                        <option value="">Florianópolis</option>
-                        <option value="">Curitiba</option>
-                        <option value="">Poa</option>
+                    id="aco_codigo"
+                    name="aco_codigo"
+                    value={request.aco_codigo || ''}
+                    onChange={handleSelectChange}
+                    >
+                    <option value="">Selecione uma área comercial</option>
+                    {areasComerciais.map((area) => (
+                        <option key={area.value} value={area.value}>
+                        {area.label}
+                        </option>
+                    ))}
                     </select>
                 </div>
                 <div className="form-group">
@@ -583,4 +588,3 @@ const Unidade: React.FC = () => {
 };
 
 export default Unidade;
-
