@@ -61,6 +61,10 @@ const AgenciaList: React.FC = () => {
         setView('create'); // Muda para a visualização de criação
     };
 
+    const handleBackClick = () => {
+        setView('list'); // Volta para a visualização da lista
+    };
+
     return (
         <div>
             {view === 'list' ? ( // Verifica qual view deve ser renderizada
@@ -92,7 +96,15 @@ const AgenciaList: React.FC = () => {
                     />
                 </>
             ) : (
-                <AgenciaCadastro /> // Renderiza o componente de cadastro/edição
+                <>
+                    <Button
+                        label="Voltar"
+                        icon="pi pi-arrow-left"
+                        style={{ marginBottom: '1rem', backgroundColor: '#0152a1' }}
+                        onClick={handleBackClick} // Botão para voltar à lista
+                    />
+                    <AgenciaCadastro /> {/* Renderiza o componente de cadastro/edição */}
+                </>
             )}
         </div>
     );
