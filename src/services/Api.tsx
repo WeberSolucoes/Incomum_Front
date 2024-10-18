@@ -102,6 +102,8 @@ export const apiPutUpdateVendedor = (id: number) => axiosInstance.put(`${ApiEndp
 export const apiDeleteVendedor = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_VENDEDOR}${id}/`)
 
 export const apiGetAreas = () => axiosInstance.get(ApiEndpoints.LIST_AREAS);
+
+export const apiGetArea = () => axiosInstance.get(ApiEndpoints.LIST_AREA);
  
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 
