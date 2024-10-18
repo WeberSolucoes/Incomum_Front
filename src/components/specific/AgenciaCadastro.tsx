@@ -4,7 +4,7 @@ import axios from "axios";
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { AgenciaCreateRequest } from "../../utils/apiObjects";
-import { apiDeleteAgencia, apiGetAgenciaById, apiGetAreas, apiPostCreateAgencia, apiPostCreateUnidade, apiPutUpdateAgencia } from "../../services/Api";
+import { apiDeleteAgencia, apiGetAgenciaById, apiGetArea, apiPostCreateAgencia, apiPostCreateUnidade, apiPutUpdateAgencia } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cnpj } from "cpf-cnpj-validator";
 
@@ -59,7 +59,7 @@ const Agencia: React.FC = () => {
   useEffect(() => {
       const fetchAreasComerciais = async () => {
           try {
-              const response = await apiGetAreas();
+              const response = await apiGetArea();
               const data = response.data;
               setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
                   label: area.aco_descricao,
