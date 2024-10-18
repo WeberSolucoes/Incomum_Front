@@ -69,7 +69,7 @@ const Relatorio = () => {
     
         try {
             // Tenta carregar as agências
-            const agenciasResponse = await axios.get('http://127.0.0.1:8000/api/incomum/relatorio/agencia-by-user/');
+            const agenciasResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/agencia-by-user/');
             setAgencias(agenciasResponse.data.valores.map(item => ({ label: item.age_descricao, value: item.age_codigo })));
         } catch (error) {
             toastError('Erro ao carregar as agências');
@@ -77,7 +77,7 @@ const Relatorio = () => {
     
         try {
             // Tenta carregar os vendedores
-            const vendedoresResponse = await axios.get('http://127.0.0.1:8000/api/incomum/relatorio/vendedor-by-user/');
+            const vendedoresResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/vendedor-by-user/');
         
             // Log para verificar o que está sendo retornado pela API
             console.log('Dados dos vendedores:', vendedoresResponse.data);
@@ -99,7 +99,7 @@ const Relatorio = () => {
         }
         try {
             // Tenta carregar as áreas comerciais
-            const areasResponse = await axios.get('http://127.0.0.1:8000/api/incomum/relatorio/list-all-areas/');
+            const areasResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/list-all-areas/');
             setAreasComerciais(areasResponse.data.associacoes.map(item => ({ label: item.aco_descricao, value: item.aco_codigo })));
         } catch (error) {
             toastError('Erro ao carregar as áreas comerciais');
@@ -120,17 +120,17 @@ const Relatorio = () => {
     
             // Se houver uma unidade selecionada, busca áreas e vendedores associados
             if (unidadeId) {
-                areasResponse = await axios.get(`http://127.0.0.1:8000/api/incomum/relatorio/list-all-areas/`, {
+                areasResponse = await axios.get(`http://18.118.35.25:8443/api/incomum/relatorio/list-all-areas/`, {
                     params: { unidade: unidadeId }
                 });
     
-                vendedoresResponse = await axios.get(`http://127.0.0.1:8000/api/incomum/relatorio/vendedor-by-user/`, {
+                vendedoresResponse = await axios.get(`http://18.118.35.25:8443/api/incomum/relatorio/vendedor-by-user/`, {
                     params: { unidade: unidadeId }
                 });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais e vendedores
-                areasResponse = await axios.get('http://127.0.0.1:8000/api/incomum/relatorio/list-all-areas/');
-                vendedoresResponse = await axios.get('http://127.0.0.1:8000/api/incomum/relatorio/vendedor-by-user/');
+                areasResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/list-all-areas/');
+                vendedoresResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/vendedor-by-user/');
             }
     
             // Popula as áreas comerciais
@@ -163,7 +163,7 @@ const Relatorio = () => {
         console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
         if (selectedAreaComercial.length > 0) {
             try {
-                const response = await axios.get(`http://127.0.0.1:8000/api/incomum/relatorio/agencia-by-user/`, {
+                const response = await axios.get(`http://18.118.35.25:8443/api/incomum/relatorio/agencia-by-user/`, {
                     params: { area_comercial: selectedAreaComercial }  // Passa todas as áreas selecionadas
                 });
                 console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
