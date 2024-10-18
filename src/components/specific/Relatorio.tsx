@@ -46,7 +46,7 @@ const Relatorio = () => {
     const [rows, setRows] = useState(10);
     const [totalRecords, setTotalRecords] = useState(0);
 
-    const [soma_totais, setTotals] = useState({
+    const [soma_totais, setSomaTotais] = useState({
         total_valorinc: 0,
         total_valorincajustado: 0,
         total_valorliquido: 0
@@ -197,7 +197,6 @@ const Relatorio = () => {
     const handleSubmit = useCallback(async (event) => {
         event.preventDefault();
         setData([]);
-
         if (!dateStart || !dateEnd) {
             toastError('As datas de início e fim são obrigatórias.');
             return;
@@ -215,34 +214,32 @@ const Relatorio = () => {
         try {
             setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(params);
-    
-            if (response.data && Array.isArray(response.data.resultados) && response.data.resultados.length > 0) {
+            if (response.data && Array.isArray(response.data.resultados)) {
                 setData(response.data.resultados);
-                setTotal(response.data.resultados.length);
-    
+                setTotalRecords(response.data.resultados.length);
+
                 // Cálculo dos totais
                 const totalValorInc = response.data.resultados.reduce((sum, item) => sum + item.fim_valorinc, 0);
                 const totalValorIncAjustado = response.data.resultados.reduce((sum, item) => sum + item.fim_valorincajustado, 0);
                 const totalValorLiquido = response.data.resultados.reduce((sum, item) => sum + item.fim_valorliquido, 0);
-    
-                // Atualiza os totais como números
-                setTotals({
-                    totalValorInc,
-                    totalValorIncAjustado,
-                    totalValorLiquido,
+
+                // Atualiza os totais
+                setSomaTotais({
+                    total_valorinc: totalValorInc,
+                    total_valorincajustado: totalValorIncAjustado,
+                    total_valorliquido: totalValorLiquido,
                 });
             } else {
                 setData([]);
-                setTotal(0);
+                setTotalRecords(0);
                 toastError('Nenhum resultado encontrado.');
             }
         } catch (error) {
-            console.error('Erro ao realizar a consulta:', error);
             toastError('Erro ao realizar a consulta');
         } finally {
             setTableLoading(false);
         }
-    },[dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
+    }, [dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
 
     const onPageChange = (e) => {
         setFirst(e.first);
@@ -396,9 +393,9 @@ const Relatorio = () => {
                         <Column field="ven_descricao" header="Vendedor" />
                     </DataTable>
                     <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
-                        <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(totals.totalValorInc)}</div>
-                        <div>Valor Inc Ajustado: {formatCurrency(totals.totalValorIncAjustado)}</div>
-                        <div style={{marginRight:'30px'}}>Valor Líquido: {formatCurrency(totals.totalValorLiquido)}</div>
+                        <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(soma_totais.total_valorinc))}</div>
+                        <div>Valor Inc Ajustado: {formatCurrency(soma_totais.total_valorincajustado)}</div>
+                        <div style={{marginRight:'30px'}}>Valor Líquido: {formatCurrency(soma_totais.total_valorliquido)}</div>
                     </div>
                 </div>
             </div>
