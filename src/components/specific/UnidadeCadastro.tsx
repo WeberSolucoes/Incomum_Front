@@ -14,8 +14,10 @@ const Unidade: React.FC = () => {
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
+    const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
+    const [areacomercial, setAreaComercial] = useState('');
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
     const [cep, setCep] = useState('');
@@ -58,6 +60,7 @@ const Unidade: React.FC = () => {
             try {
                 const response = await apiGetAreas();
                 const data = response.data;
+                setAreaComercial(data.aco_codigo);
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
                     label: area.aco_descricao,
                     value: area.aco_codigo
@@ -178,12 +181,18 @@ const Unidade: React.FC = () => {
         }
 
         const cnpjNumerico = request.loj_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
+        console.log(request.loj_descricao);
+        if (!request.loj_descricao) {
+            toastError("Campo Unidade Venda inválido.");
+            setLoading(false);
+            return;
+        }
 
-        if (!cnpj.isValid(cnpjNumerico)) {
+        /*if (!cnpj.isValid(cnpjNumerico)) {
             toastError("CNPJ inválido.");
             setCnpjValido(false);
             return;
-        }
+        }*/
         if (request.loj_email && !/\S+@\S+\.\S+/.test(request.loj_email)) {
             toastError("Campo E-mail inválido.");
             setLoading(false);
@@ -210,8 +219,9 @@ const Unidade: React.FC = () => {
         try {
             const enderecoCompleto = `${rua}, ${numero}`;
             request.loj_endereco = enderecoCompleto;
-            request.aco_codigo = selectedAreas; // Envie apenas a lista de ids
             request.loj_situacao = checked ? 1 : 0;
+            request.cid_codigo = ibge;
+            request.aco_codigo = areacomercial;
 
             let response;
             if (request.loj_codigo) {
@@ -269,6 +279,7 @@ const Unidade: React.FC = () => {
 
             setRua(data.logradouro || '');
             setCidade(data.localidade || '');
+            setibge(data.ibge || '');
             setRequest(prevState => ({
                 ...prevState,
                 cid_codigo: data.localidade || '',
@@ -401,7 +412,7 @@ const Unidade: React.FC = () => {
                         type="text"
                         id="cid_codigo"
                         name="cid_codigo"
-                        value={request.cid_codigo || ''}
+                        value={cidade || ''}
                         onChange={handleInputChange} />
                 </div>
             </div>
