@@ -393,7 +393,7 @@ const Relatorio = () => {
                         <Column field="ven_descricao" header="Vendedor" />
                     </DataTable>
                     <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
-                        <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(soma_totais.total_valorinc))}</div>
+                        <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(soma_totais.total_valorinc)}</div>
                         <div>Valor Inc Ajustado: {formatCurrency(soma_totais.total_valorincajustado)}</div>
                         <div style={{marginRight:'30px'}}>Valor Líquido: {formatCurrency(soma_totais.total_valorliquido)}</div>
                     </div>
