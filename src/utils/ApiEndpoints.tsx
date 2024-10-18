@@ -27,6 +27,7 @@ export enum ApiEndpoints {
     EXCEL_RELATORIO = '/incomum/relatorio/download-relatorio/',
     EXPORT_TO_EXCEL = "EXPORT_TO_EXCEL",
     LIST_AREAS = "incomum/relatorio/list-all-areas/", 
+    LIST_AREA = "incomum/relatorio/list-all-areas/",
     //#endregion
 
     LIST_AGENCIA = 'incomum/agencia/list-all/',
