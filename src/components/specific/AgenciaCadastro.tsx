@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import '@fortawesome/fontawesome-free/css/all.min.css';
 import axios from "axios";
-import { toast } from "react-toastify";
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { AgenciaCreateRequest } from "../../utils/apiObjects";
@@ -17,7 +16,9 @@ const Agencia: React.FC = () => {
   const [rua, setRua] = useState('');
   const [numero, setNumero] = useState('');
   const [cidade, setCidade] = useState('');
+  const [ibge, setibge] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [areacomercial, setAreaComercial] = useState('');
   const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
   const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
@@ -189,9 +190,9 @@ const Agencia: React.FC = () => {
       try {
           const enderecoCompleto = `${rua}, ${numero}`;
           request.age_endereco = enderecoCompleto;
-          request.aco_codigo = selectedAreas;
           request.age_situacao = checked ? 1 : 0;
-
+          request.cid_codigo = ibge;
+          request.aco_codigo = areacomercial;
           let response;
            if (request.age_codigo) {
               // Atualizar agência
@@ -246,6 +247,7 @@ const Agencia: React.FC = () => {
             const data = response.data;
             setRua(data.logradouro || '');
             setCidade(data.localidade || '');
+            setibge(data.ibge || '');
             setRequest(prevState => ({
                 ...prevState,
                 age_bairro: data.bairro || '',
@@ -337,7 +339,7 @@ const Agencia: React.FC = () => {
         </div>
         <div className="form-group">
           <label htmlFor="age_cidade">Cidade</label>
-          <input type="text" id="cid_codigo" name="cid_codigo" value={request.cid_codigo || ''} onChange={handleInputChange} />
+          <input type="text" id="cid_codigo" name="cid_codigo" value={cidade || ''} onChange={handleInputChange} />
         </div>
       </div>
 
