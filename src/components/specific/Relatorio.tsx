@@ -242,7 +242,7 @@ const Relatorio = () => {
         } finally {
             setTableLoading(false);
         }
-    };[dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
+    }[dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
 
     const onPageChange = (e) => {
         setFirst(e.first);
