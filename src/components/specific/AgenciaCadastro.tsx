@@ -180,11 +180,11 @@ const Agencia: React.FC = () => {
 
       const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
 
-      if (!cnpj.isValid(cnpjNumerico)) {
+      /*if (!cnpj.isValid(cnpjNumerico)) {
           toastError("CNPJ inválido.");
           setCnpjValido(false);
           return;
-      }
+      }*/
       setLoading(true);
       try {
           const enderecoCompleto = `${rua}, ${numero}`;
