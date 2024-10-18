@@ -14,7 +14,7 @@ const Unidade: React.FC = () => {
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
-    const [ibge, setibge] = useState('');
+    const [ibge, setibge] = useState(0);
     const [loading, setLoading] = useState(false);
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [areacomercial, setAreaComercial] = useState('');
