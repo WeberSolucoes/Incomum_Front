@@ -215,26 +215,34 @@ const Relatorio = () => {
         try {
             setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(params);
-
-            if (response.data && Array.isArray(response.data.resultados)) {
+    
+            if (response.data && Array.isArray(response.data.resultados) && response.data.resultados.length > 0) {
                 setData(response.data.resultados);
-                setTotalRecords(response.data.totalRecords || 0);
-                setTotals(response.data.soma_totais || {
-                    total_valorinc: 0,
-                    total_valorincajustado: 0,
-                    total_valorliquido: 0
+                setTotal(response.data.resultados.length);
+    
+                // Cálculo dos totais
+                const totalValorInc = response.data.resultados.reduce((sum, item) => sum + item.fim_valorinc, 0);
+                const totalValorIncAjustado = response.data.resultados.reduce((sum, item) => sum + item.fim_valorincajustado, 0);
+                const totalValorLiquido = response.data.resultados.reduce((sum, item) => sum + item.fim_valorliquido, 0);
+    
+                // Atualiza os totais como números
+                setTotals({
+                    totalValorInc,
+                    totalValorIncAjustado,
+                    totalValorLiquido,
                 });
             } else {
                 setData([]);
-                setTotals({ total_valorinc: 0, total_valorincajustado: 0, total_valorliquido: 0 });
+                setTotal(0);
                 toastError('Nenhum resultado encontrado.');
             }
         } catch (error) {
+            console.error('Erro ao realizar a consulta:', error);
             toastError('Erro ao realizar a consulta');
         } finally {
             setTableLoading(false);
         }
-    }, [dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
+    };[dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencia, selectedVendedor]);
 
     const onPageChange = (e) => {
         setFirst(e.first);
