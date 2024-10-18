@@ -7,7 +7,6 @@ import { VendedorCreateRequest } from "../../utils/apiObjects";
 import { apiDeleteVendedor, apiGetAreas, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
-import { InputTextarea } from "primereact/inputtextarea";
 
 const Vendedor: React.FC = () => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -15,7 +14,9 @@ const Vendedor: React.FC = () => {
     const [rua, setRua] = useState(''); 
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
+    const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
+    const [areacomercial, setAreaComercial] = useState('');
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
@@ -30,7 +31,7 @@ const Vendedor: React.FC = () => {
                 const unidade = response.data;
                 setRequest(unidade);
                 setVenCodigo(unidade.ven_codigo); // Define o ID do vendedor
-
+                
                 // Verifica se o endereco está definido e não é null antes de usar split
                 if (unidade.loj_endereco) {
                     const enderecoParts = unidade.loj_endereco.split(",");
@@ -66,6 +67,7 @@ const Vendedor: React.FC = () => {
             try {
                 const response = await apiGetAreas();
                 const data = response.data;
+                setAreaComercial(data.aco_codigo)
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
                     label: area.aco_descricao,
                     value: area.aco_codigo
@@ -192,9 +194,9 @@ const Vendedor: React.FC = () => {
     
             const enderecoCompleto = `${rua}, ${numero}`;
             request.ven_endereco = enderecoCompleto;
-            request.aco_codigo = selectedAreas; // Envie apenas a lista de ids
             request.ven_situacao = checked ? 1 : 0;
-    
+            request.cid_codigo = ibge;
+            request.aco_codigo = areacomercial;
     
             let response;
             if (request.ven_codigo) {
@@ -252,6 +254,7 @@ const Vendedor: React.FC = () => {
                 const data = response.data;
                 setRua(data.logradouro || '');
                 setCidade(data.localidade || '');
+                setibge(data.ibge || '');
                 setRequest(prevState => ({
                     ...prevState,
                     'cid_codigo': `${data.localidade}`,
@@ -335,12 +338,12 @@ const Vendedor: React.FC = () => {
             {/* Terceira linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="ven_fone">Vendedor Site 1</label>
+                    <label htmlFor="ven_descricaoweb">Vendedor Site 1</label>
                     <input
                         type="text"
-                        id="ven_fone"
-                        name="ven_fone"
-                        value={request.ven_fone || ''}
+                        id="ven_descricaoweb"
+                        name="ven_descricaoweb"
+                        value={request.ven_descricaoweb || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -379,7 +382,7 @@ const Vendedor: React.FC = () => {
                         type="text"
                         id="cid_codigo"
                         name="cid_codigo"
-                        value={request.cid_codigo || ''}
+                        value={cidade || ''}
                         onChange={handleInputChange}
                     />
                 </div>
