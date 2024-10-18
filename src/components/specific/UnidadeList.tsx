@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetUnidades } from '../../services/Api';
@@ -16,8 +16,8 @@ const UnidadeListConsolidada: React.FC = () => {
 
     const { setCodigo } = useCodigo(); // Acesso ao contexto
 
-    useEffect(() => {
-        const fetchData = async () => {
+    const handleSearch = async () => {
+        if (searchTerm) {
             try {
                 const response = await apiGetUnidades();
                 const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
@@ -26,26 +26,19 @@ const UnidadeListConsolidada: React.FC = () => {
                     responsavel: item.loj_email,
                     email: item.loj_cnpj,
                 }));
-                setItems(mappedData);
                 setOriginalItems(mappedData);
+                
+                const searchTermLower = searchTerm.toLowerCase();
+                const filteredItems = mappedData.filter(item =>
+                    item.descricao.toLowerCase().includes(searchTermLower) ||
+                    item.codigo.toString().toLowerCase().includes(searchTermLower) ||
+                    (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
+                    (item.email && item.email.toLowerCase().includes(searchTermLower))
+                );
+                setItems(filteredItems);
             } catch (error) {
                 toastError('Erro ao buscar as unidades');
             }
-        };
-
-        fetchData();
-    }, []);
-
-    const handleSearch = () => {
-        if (searchTerm) {
-            const searchTermLower = searchTerm.toLowerCase();
-            const filteredItems = originalItems.filter(item =>
-                item.descricao.toLowerCase().includes(searchTermLower) ||
-                item.codigo.toString().toLowerCase().includes(searchTermLower) ||
-                (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
-                (item.email && item.email.toLowerCase().includes(searchTermLower))
-            );
-            setItems(filteredItems);
         } else {
             setItems(originalItems);
         }
@@ -59,6 +52,10 @@ const UnidadeListConsolidada: React.FC = () => {
     const handleCreateClick = () => {
         setCodigo(null); // Resetando o código para criar uma nova unidade
         setView('create'); // Muda para a visualização de criação
+    };
+
+    const handleBackClick = () => {
+        setView('list'); // Volta para a visualização da lista
     };
 
     return (
@@ -92,7 +89,15 @@ const UnidadeListConsolidada: React.FC = () => {
                     />
                 </>
             ) : (
-                <UnidadeCadastro /> // Renderiza o componente de cadastro/edição
+                <>
+                    <Button
+                        label="Voltar"
+                        icon="pi pi-arrow-left"
+                        style={{ marginBottom: '1rem', backgroundColor: '#0152a1' }}
+                        onClick={handleBackClick} // Botão para voltar à lista
+                    />
+                    <UnidadeCadastro /> {/* Renderiza o componente de cadastro/edição */}
+                </>
             )}
         </div>
     );
