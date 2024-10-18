@@ -43,8 +43,7 @@ const LoginForm: React.FC = () => {
         <div className="d-flex justify-content-center align-items-center min-vh-100">
             <div className="card p-4 shadow-lg border-round w-full lg:w-4">
                 <div className="text-center mb-4">
-                    <img src="https://incoback.com.br/static/img/logo.png" alt="logo" height={50} className="mb-3" />
-                    <img src="https://incoback.com.br/static/img/25anos.jpg" alt="logo" height={50} className="mb-3" />
+                    <img src="https://incoback.com.br/static/img/incoback.jpg" alt="logo" height={60} className="mb-3" />
                 </div>
                 <form onSubmit={handleLogin}>
                     <GenericTextInput
@@ -66,7 +65,8 @@ const LoginForm: React.FC = () => {
                         <div className="flex align-items-center justify-content-between mb-6">
                             <div className="flex align-items-center">
                                 <Checkbox onChange={e => setChecked(e.checked ?? false)} checked={checked} className="mr-2" />
-                                <label style={{ marginLeft: '10px' }} htmlFor="rememberme">Lembrar de mim</label>
+                                <label style={{ marginLeft: '5px', marginBottom: '0px' }} htmlFor="rememberme">Lembrar de mim</label>
+
                             </div>
                         </div>
                         <Link to='/recuperar-senha'>Esqueceu sua senha?</Link>
