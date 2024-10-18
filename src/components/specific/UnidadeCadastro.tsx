@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { UnidadesCreateRequest } from '../../utils/apiObjects';
 import { useCodigo } from '../../contexts/CodigoProvider';
-import { apiDeleteUnidade, apiGetAreas, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from '../../services/Api';
+import { apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from '../../services/Api';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
@@ -58,7 +58,7 @@ const Unidade: React.FC = () => {
     useEffect(() => {
         const fetchAreasComerciais = async () => {
             try {
-                const response = await apiGetAreas();
+                const response = await apiGetArea();
                 const data = response.data;
                 setAreaComercial(data.aco_codigo);
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
