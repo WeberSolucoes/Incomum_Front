@@ -177,7 +177,6 @@ const Unidade: React.FC = () => {
             }
         }
 
-
         const cnpjNumerico = request.loj_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
 
         if (!cnpj.isValid(cnpjNumerico)) {
@@ -261,27 +260,28 @@ const Unidade: React.FC = () => {
         setCep(''); // Limpa o estado do CEP também
     };
 
-    const handleCepApi = async (e: React.FocusEvent<HTMLInputElement>) => {
-        const cep = e.target.value.replace('-', '');
-        if (cep.length === 8) {
-            try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-                const data = response.data;
-                setRua(data.logradouro || '');
-                setCidade(data.localidade || '');
-                setRequest(prevState => ({
-                    ...prevState,
-                    'cid_codigo': `${data.localidade}`,
-                    'loj_bairro': `${data.bairro}`,
-                    'loj_endereco': `${data.logradouro}`,
-                    loj_cep: prevState.loj_cep
-                }));
-            } catch (error) {
-                console.error("Erro ao buscar dados do CEP:", error);
-                toastError("Erro ao buscar dados do CEP.");
-            }
+    const handleCepApi = async (e) => {
+    const cep = e.target.value.replace('-', '');
+    if (cep.length === 8) {
+        try {
+            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+            const data = response.data;
+
+            setRua(data.logradouro || '');
+            setCidade(data.localidade || '');
+            setRequest(prevState => ({
+                ...prevState,
+                cid_codigo: data.localidade || '',
+                loj_bairro: data.bairro || '',
+                loj_endereco: data.logradouro || '',
+                loj_cep: prevState.loj_cep // Mantém o valor anterior do CEP
+            }));
+        } catch (error) {
+            console.error("Erro ao buscar dados do CEP:", error);
+            toastError("Erro ao buscar dados do CEP.");
         }
-    };
+    }
+};
 
     return (
         <>
@@ -588,3 +588,4 @@ const Unidade: React.FC = () => {
 };
 
 export default Unidade;
+
