@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { VendedorListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetVendedor } from '../../services/Api';
@@ -13,31 +13,31 @@ const VendedorList: React.FC = () => {
     const [originalItems, setOriginalItems] = useState<VendedorListResponse[]>([]); // Para armazenar os dados originais
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
+    const [dataFetched, setDataFetched] = useState(false); // Controle para saber se os dados foram buscados
 
     const { setCodigo } = useCodigo(); // Acesso ao contexto
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await apiGetVendedor();
-                const mappedData: VendedorListResponse[] = response.data.map((item: any) => ({
-                    codigo: item.ven_codigo,
-                    descricao: item.ven_descricao,
-                    responsavel: item.ven_cpf,
-                    email: item.ven_email,
-                }));
-                setItems(mappedData);
-                setOriginalItems(mappedData); // Armazena os dados originais
-            } catch (error) {
-                toastError('Erro ao buscar os vendedores');
-            }
-        };
-
-        fetchData();
-    }, []);
+    const fetchData = async () => {
+        try {
+            const response = await apiGetVendedor();
+            const mappedData: VendedorListResponse[] = response.data.map((item: any) => ({
+                codigo: item.ven_codigo,
+                descricao: item.ven_descricao,
+                responsavel: item.ven_cpf,
+                email: item.ven_email,
+            }));
+            setItems(mappedData);
+            setOriginalItems(mappedData); // Armazena os dados originais
+            setDataFetched(true); // Marca que os dados foram buscados
+        } catch (error) {
+            toastError('Erro ao buscar os vendedores');
+        }
+    };
 
     const handleSearch = () => {
-        if (searchTerm) {
+        if (!dataFetched) {
+            fetchData(); // Busca os dados apenas se ainda não foram buscados
+        } else {
             const searchTermLower = searchTerm.toLowerCase();
             const filteredItems = originalItems.filter(item =>
                 item.descricao.toLowerCase().includes(searchTermLower) ||
@@ -46,8 +46,6 @@ const VendedorList: React.FC = () => {
                 (item.email && item.email.toLowerCase().includes(searchTermLower))
             );
             setItems(filteredItems);
-        } else {
-            setItems(originalItems);
         }
     };
 
@@ -59,6 +57,10 @@ const VendedorList: React.FC = () => {
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create'); // Muda para a visualização de edição
+    };
+
+    const handleBackClick = () => {
+        setView('list'); // Volta para a visualização da lista
     };
 
     return (
@@ -76,7 +78,7 @@ const VendedorList: React.FC = () => {
                             label="Consultar"
                             icon="pi pi-search"
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
-                            onClick={handleSearch}
+                            onClick={handleSearch} // Chama a pesquisa ao clicar no botão
                         />
                         <Button
                             label="Criar"
@@ -92,7 +94,15 @@ const VendedorList: React.FC = () => {
                     />
                 </>
             ) : (
-                <VendedorCadastro /> // Renderiza o componente de cadastro/edição
+                <>
+                    <Button
+                        label="Voltar"
+                        icon="pi pi-arrow-left"
+                        style={{ marginBottom: '1rem', backgroundColor: '#0152a1' }}
+                        onClick={handleBackClick} // Botão para voltar à lista
+                    />
+                    <VendedorCadastro /> {/* Renderiza o componente de cadastro/edição */}
+                </>
             )}
         </div>
     );
