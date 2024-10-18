@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { VendedorCreateRequest } from "../../utils/apiObjects";
-import { apiDeleteVendedor, apiGetAreas, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
+import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 
@@ -65,7 +65,7 @@ const Vendedor: React.FC = () => {
     useEffect(() => {
         const fetchAreasComerciais = async () => {
             try {
-                const response = await apiGetAreas();
+                const response = await apiGetArea();
                 const data = response.data;
                 setAreaComercial(data.aco_codigo)
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
