@@ -7,6 +7,7 @@ import { AgenciaCreateRequest } from "../../utils/apiObjects";
 import { apiDeleteAgencia, apiGetAgenciaById, apiGetArea, apiPostCreateAgencia, apiPostCreateUnidade, apiPutUpdateAgencia } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cnpj } from "cpf-cnpj-validator";
+import { Button } from 'primereact/button';
 
 
 
