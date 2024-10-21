@@ -7,6 +7,7 @@ import { VendedorCreateRequest } from "../../utils/apiObjects";
 import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
+import { Button } from 'primereact/button';
 
 const Vendedor: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
