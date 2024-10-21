@@ -7,6 +7,7 @@ import { apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, 
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
+import { Button } from 'primereact/button';
 
 const Unidade: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
