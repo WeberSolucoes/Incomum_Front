@@ -10,7 +10,7 @@ import { cnpj } from "cpf-cnpj-validator";
 
 
 
-const Agencia: React.FC = () => {
+const Agencia: React.FC = ({onBackClick}) => {
   const { codigo } = useCodigo(); // Ajuste conforme a origem do código
   const [request, setRequest] = useState<AgenciaCreateRequest>({} as AgenciaCreateRequest);
   const [rua, setRua] = useState('');
@@ -418,21 +418,27 @@ const Agencia: React.FC = () => {
       </div>
 
       <div className="form-row">
+          <Button
+                label="Voltar"
+                icon="pi pi-arrow-left"
+                style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                onClick={onBackClick} // Chama a função passada como prop
+            />
           {/* Condição para renderizar o botão de exclusão */}
           {request.age_codigo && (
           <button
-          style={{marginLeft:'700px',color:'white',width:'100px'}}
-          type="button"
-          className="reset-btn"
-          onClick={handleDeleteClick}
-          disabled={loading}
-        >
+            style={{marginLeft:'0px',color:'white',width:'100px'}}
+            type="button"
+            className="reset-btn"
+            onClick={handleDeleteClick}
+            disabled={loading}
+          >
             <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
         </button>
         )}
         
         <button
-            style={{color:'white',backgroundColor:'red',marginLeft: request.age_codigo ? '460px' : '700px',display: request.age_codigo ? 'none' :''}}
+            style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.age_codigo ? '14px' : '0px',display: request.age_codigo ? 'none' :''}}
             type="button"
             className="reset-btn"
             onClick={handleReset}
