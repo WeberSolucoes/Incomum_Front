@@ -8,7 +8,7 @@ import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
 
-const Unidade: React.FC = () => {
+const Unidade: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<UnidadesCreateRequest>({} as UnidadesCreateRequest);
     const [rua, setRua] = useState('');
@@ -569,21 +569,27 @@ const Unidade: React.FC = () => {
 
             {/* Botões */}
             <div className="form-row">
+                <Button
+                        label="Voltar"
+                        icon="pi pi-arrow-left"
+                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                        onClick={onBackClick} // Chama a função passada como prop
+                    />
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.loj_codigo && (
                 <button
-                style={{marginLeft:'700px',color:'white',width:'100px'}}
-                type="button"
-                className="reset-btn"
-                onClick={handleDeleteClick}
-                disabled={loading}
+                    style={{marginLeft:'0px',color:'white',width:'100px'}}
+                    type="button"
+                    className="reset-btn"
+                    onClick={handleDeleteClick}
+                    disabled={loading}
                 >
                     <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
                 </button>
                 )}
                 
                 <button
-                    style={{color:'white',backgroundColor:'red',marginLeft: request.loj_codigo ? '460px' : '700px',display: request.loj_codigo ? 'none' :''}}
+                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.loj_codigo ? '14px' : '0px',display: request.loj_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
