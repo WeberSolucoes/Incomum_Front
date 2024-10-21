@@ -88,7 +88,7 @@ const VendedorList: React.FC = () => {
                         <Button
                             label="Criar"
                             icon="pi pi-plus"
-                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1;' }}
+                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
                             onClick={handleCreateClick} // Chama a função de criação ao clicar no botão
                         />
                     </div>
