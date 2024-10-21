@@ -62,6 +62,7 @@ const UnidadeListConsolidada: React.FC = () => {
         <div>
             {view === 'list' ? ( // Verifica qual view deve ser renderizada
                 <>
+                    <h1 style={{color:'#0152a1'}}>Lista de Unidades</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
@@ -90,13 +91,8 @@ const UnidadeListConsolidada: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <Button
-                        label="Voltar"
-                        icon="pi pi-arrow-left"
-                        style={{ marginBottom: '1rem', backgroundColor: '#0152a1' }}
-                        onClick={handleBackClick} // Botão para voltar à lista
-                    />
-                    <UnidadeCadastro /> {/* Renderiza o componente de cadastro/edição */}
+                    <h1 style={{color:'#0152a1'}}>Cadastro Unidade</h1>
+                    <UnidadeCadastro onBackClick={handleBackClick} /> 
                 </>
             )}
         </div>
