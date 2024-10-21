@@ -9,6 +9,7 @@ interface GenericTableProps<T> {
 }
 
 const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericTableProps<T>) => {
+    // Template para renderizar o item
     const itemTemplate = (item: any) => {
         return (
             <span 
@@ -36,6 +37,19 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
             <Column field="descricao" header="Descrição" />
             <Column field="responsavel" header="Responsável" />
             <Column field="email" header="E-mail" />
+            <Column
+                header="Editar" // Header do botão de editar
+                body={(rowData) => (
+                    <Button 
+                        icon="pi pi-pencil" 
+                        className="p-button-text p-button-rounded p-button-sm" 
+                        tooltip="Editar"
+                        tooltipOptions={{ position: 'top' }}
+                        onClick={() => onCodeClick && onCodeClick(rowData.codigo)} // Chama a mesma função ao clicar no botão
+                    />
+                )}
+                style={{ textAlign: 'center', width: '5rem' }}
+            />
         </DataTable>
     );
 };
