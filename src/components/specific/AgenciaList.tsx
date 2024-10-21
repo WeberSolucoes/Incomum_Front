@@ -63,6 +63,10 @@ const AgenciaList: React.FC = () => {
 
     const handleBackClick = () => {
         setView('list'); // Volta para a visualização da lista
+        window.scrollTo({
+            top: 0,  // Define a posição do topo da página
+            behavior: 'smooth' // Adiciona um efeito suave na rolagem
+        });
     };
 
     return (
