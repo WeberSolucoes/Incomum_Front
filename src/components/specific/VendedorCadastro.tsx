@@ -8,7 +8,7 @@ import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedo
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 
-const Vendedor: React.FC = () => {
+const Vendedor: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<VendedorCreateRequest>({} as VendedorCreateRequest);
     const [rua, setRua] = useState(''); 
@@ -496,21 +496,27 @@ const Vendedor: React.FC = () => {
             </div>
 
             <div className="form-row">
+                <Button
+                        label="Voltar"
+                        icon="pi pi-arrow-left"
+                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                        onClick={onBackClick} // Chama a função passada como prop
+                    />
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.ven_codigo && (
                 <button
-                style={{marginLeft:'700px',color:'white',width:'100px'}}
-                type="button"
-                className="reset-btn"
-                onClick={handleDeleteClick}
-                disabled={loading}
+                    style={{marginLeft:'0px',color:'white',width:'100px'}}
+                    type="button"
+                    className="reset-btn"
+                    onClick={handleDeleteClick}
+                    disabled={loading}
                 >
                     <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
                 </button>
                 )}
                 
                 <button
-                    style={{color:'white',backgroundColor:'red',marginLeft: request.ven_codigo ? '460px' : '700px',display: request.ven_codigo ? 'none' :''}}
+                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.ven_codigo ? '14px' : '0px',display: request.ven_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
