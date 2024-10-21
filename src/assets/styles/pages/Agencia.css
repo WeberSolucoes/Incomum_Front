@@ -192,4 +192,11 @@
     text-transform: uppercase; /* Converte o texto para maiúsculas */
     font-weight: 600;
 }
-  
+
+
+a {
+  text-decoration: none !important; 
+}
+.p-tabview .p-tabview-nav li .p-tabview-nav-link{
+  margin: 0 0 -1px 0 !important;
+}
