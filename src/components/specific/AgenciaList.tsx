@@ -69,6 +69,7 @@ const AgenciaList: React.FC = () => {
         <div>
             {view === 'list' ? ( // Verifica qual view deve ser renderizada
                 <>
+                    <h1 style={{color:'#0152a1'}}>Lista de Agência</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
@@ -97,13 +98,8 @@ const AgenciaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <Button
-                        label="Voltar"
-                        icon="pi pi-arrow-left"
-                        style={{ marginBottom: '1rem', backgroundColor: '#0152a1' }}
-                        onClick={handleBackClick} // Botão para voltar à lista
-                    />
-                    <AgenciaCadastro /> {/* Renderiza o componente de cadastro/edição */}
+                    <h1 style={{color:'#0152a1'}}>Cadastro Agência</h1>
+                    <AgenciaCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
         </div>
