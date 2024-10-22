@@ -10,13 +10,10 @@ interface GenericTableProps<T> {
 }
 
 const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericTableProps<T>) => {
-    // Template para renderizar o item
+    // Template para renderizar o item do código, agora sem função de clique
     const itemTemplate = (item: any) => {
         return (
-            <span 
-                style={{ cursor: 'pointer', color: 'blue' }} 
-                onClick={() => onCodeClick && onCodeClick(item.codigo)} // Chama a função ao clicar no código
-            >
+            <span style={{ cursor: 'default', color: 'black' }}>
                 {item.codigo}
             </span>
         );
@@ -30,14 +27,19 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
             rows={10} // Número padrão de itens por página
             rowsPerPageOptions={[5, 10, 25, 50]} // Opções de quantidade de itens por página
         >
+            {/* Coluna do Código sem ação de clique */}  
             <Column 
                 field="codigo" 
                 header="Código" 
-                body={itemTemplate} // Usa a função de template para renderizar o código
+                body={itemTemplate} // Usa o template de item sem ação de clique
             />
+            
+            {/* Outras colunas da tabela */}
             <Column field="descricao" header="Descrição" />
             <Column field="responsavel" header="Responsável" />
             <Column field="email" header="E-mail" />
+            
+            {/* Coluna do botão Editar */}
             <Column
                 header="Editar" // Header do botão de editar
                 body={(rowData) => (
@@ -46,10 +48,15 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
                         className="p-button-text p-button-rounded p-button-sm" 
                         tooltip="Editar"
                         tooltipOptions={{ position: 'top' }}
-                        onClick={() => onCodeClick && onCodeClick(rowData.codigo)} // Chama a mesma função ao clicar no botão
+                        onClick={() => {
+                            // Ação de clique associada apenas ao botão de editar
+                            if (onCodeClick) {
+                                onCodeClick(rowData.codigo);
+                            }
+                        }}
                     />
                 )}
-                style={{ textAlign: 'center', width: '5rem' }}
+                style={{ textAlign: 'center', width: '5rem' }} // Estilização do botão
             />
         </DataTable>
     );
