@@ -13,34 +13,40 @@ const UnidadeListConsolidada: React.FC = () => {
     const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
+    const [loading, setLoading] = useState(false); // Estado de carregamento
 
     const { setCodigo } = useCodigo(); // Acesso ao contexto
 
     const handleSearch = async () => {
-        if (searchTerm) {
-            try {
-                const response = await apiGetUnidades();
-                const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                    codigo: item.loj_codigo,
-                    descricao: item.loj_descricao,
-                    responsavel: item.loj_email,
-                    email: item.loj_cnpj,
-                }));
-                setOriginalItems(mappedData);
-                
-                const searchTermLower = searchTerm.toLowerCase();
-                const filteredItems = mappedData.filter(item =>
-                    item.descricao.toLowerCase().includes(searchTermLower) ||
-                    item.codigo.toString().toLowerCase().includes(searchTermLower) ||
-                    (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
-                    (item.email && item.email.toLowerCase().includes(searchTermLower))
-                );
-                setItems(filteredItems);
-            } catch (error) {
-                toastError('Erro ao buscar as unidades');
-            }
-        } else {
-            setItems(originalItems);
+        if (searchTerm.length < 3) {
+            toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
+            return; // Evita realizar a pesquisa se o termo de busca não atender à condição
+        }
+
+        setLoading(true); // Ativa o estado de carregamento
+
+        try {
+            const response = await apiGetUnidades();
+            const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
+                codigo: item.loj_codigo,
+                descricao: item.loj_descricao,
+                responsavel: item.loj_email,
+                email: item.loj_cnpj,
+            }));
+            setOriginalItems(mappedData);
+
+            const searchTermLower = searchTerm.toLowerCase();
+            const filteredItems = mappedData.filter(item =>
+                item.descricao.toLowerCase().includes(searchTermLower) ||
+                item.codigo.toString().toLowerCase().includes(searchTermLower) ||
+                (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
+                (item.email && item.email.toLowerCase().includes(searchTermLower))
+            );
+            setItems(filteredItems);
+        } catch (error) {
+            toastError('Erro ao buscar as unidades');
+        } finally {
+            setLoading(false); // Desativa o estado de carregamento
         }
     };
 
@@ -64,7 +70,7 @@ const UnidadeListConsolidada: React.FC = () => {
 
     return (
         <div>
-            {view === 'list' ? ( // Verifica qual view deve ser renderizada
+            {view === 'list' ? (
                 <>
                     <h1 style={{color:'#0152a1'}}>Lista de Unidades</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
@@ -75,10 +81,11 @@ const UnidadeListConsolidada: React.FC = () => {
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
                         <Button
-                            label="Consultar"
-                            icon="pi pi-search"
+                            label={loading ? 'Carregando...' : 'Consultar'}
+                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
                             onClick={handleSearch}
+                            disabled={loading} // Desabilita o botão durante o carregamento
                         />
                         <Button
                             label="Criar"
@@ -96,7 +103,7 @@ const UnidadeListConsolidada: React.FC = () => {
             ) : (
                 <>
                     <h1 style={{color:'#0152a1'}}>Cadastro Unidade</h1>
-                    <UnidadeCadastro onBackClick={handleBackClick} /> 
+                    <UnidadeCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
         </div>
