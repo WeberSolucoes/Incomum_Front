@@ -21,7 +21,8 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
 
     return (
         <DataTable 
-            value={filteredItems} 
+            value={filteredItems}
+            stripedRows 
             emptyMessage={emptyMessage} 
             paginator 
             rows={10} // Número padrão de itens por página
