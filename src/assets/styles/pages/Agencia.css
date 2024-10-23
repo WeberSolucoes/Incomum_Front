@@ -200,3 +200,22 @@ a {
 .p-tabview .p-tabview-nav li .p-tabview-nav-link{
   margin: 0 0 -1px 0 !important;
 }
+
+a {
+  color: #0152a1;
+  text-decoration: none !important; 
+}
+.p-tabview .p-tabview-nav li .p-tabview-nav-link{
+  margin: 0 0 -1px 0 !important;
+}
+
+.p-datatable .p-datatable-tbody > tr > td{
+  padding: 0.5rem 1rem !important;
+}
+
+.p-datatable.p-datatable-striped .p-datatable-tbody > tr.p-row-odd {
+  background-color: #e0e0e0 !important; 
+}
+th {
+  background-color: #e0e0e0 !important;
+}
