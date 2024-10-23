@@ -419,7 +419,7 @@ const Agencia: React.FC = ({onBackClick}) => {
       </div>
 
       <div className="form-row">
-          <Button
+           <Button
                 label="Voltar"
                 icon="pi pi-arrow-left"
                 style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
@@ -438,7 +438,7 @@ const Agencia: React.FC = ({onBackClick}) => {
         )}
         
         <button
-            style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.age_codigo ? '14px' : '0px',display: request.age_codigo ? 'none' :''}}
+            style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.age_codigo ? '0px' : '0px',display: request.age_codigo ? 'none' :''}}
             type="button"
             className="reset-btn"
             onClick={handleReset}
