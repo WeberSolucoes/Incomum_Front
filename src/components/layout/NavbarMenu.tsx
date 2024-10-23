@@ -17,15 +17,24 @@ const NavbarMenu: React.FC = () => {
 
     return (
         <Menubar
-            end={<Button label="Sair" icon="pi pi-sign-out" onClick={handleLogout} className="p-button-danger" />}
+            end={
+                <Button 
+                    icon="pi pi-sign-out" // Ícone de usuário
+                    onClick={handleLogout} 
+                    className="p-button-rounded p-button-danger" // Botão redondo com cor vermelha (perigosa)
+                    tooltip="Sair"
+                    tooltipOptions={{ position: 'bottom' }} // Tooltip para indicar a ação
+                    style={{ borderRadius:'16px',color:'#e87717',backgroundColor:'black',border:'none'}} 
+                />
+            }
             style={{
                 zIndex: 1000,
                 position: 'static',
                 top: 0,
                 width: '100%',
                 boxShadow: '0px 4px 6px rgba(0, 0, 0, 0.1)',
-                backgroundColor: '#0152a1',
-                height: '50px',
+                backgroundColor: '#0152a1', // Cor de fundo da navbar
+                height: '50px'
             }}
         />
     );
