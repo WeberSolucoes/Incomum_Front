@@ -427,15 +427,14 @@ const Agencia: React.FC = ({onBackClick}) => {
             />
           {/* Condição para renderizar o botão de exclusão */}
           {request.age_codigo && (
-          <button
+          <Button
+            label="Excluir"
+            icon="pi pi-trash"
             style={{marginLeft:'0px',color:'white',width:'100px'}}
             type="button"
             className="reset-btn"
             onClick={handleDeleteClick}
-            disabled={loading}
-          >
-            <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
-        </button>
+          />
         )}
         
         <button
