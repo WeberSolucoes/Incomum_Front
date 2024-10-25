@@ -72,7 +72,7 @@ const VendedorList: React.FC = () => {
         <div>
             {view === 'list' ? (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Lista de Vendedores</h1>
+                    <h1 style={{color:'#0152a1'}}>Consulta de Vendedores</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
