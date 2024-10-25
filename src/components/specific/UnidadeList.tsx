@@ -72,7 +72,7 @@ const UnidadeListConsolidada: React.FC = () => {
         <div>
             {view === 'list' ? (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Lista de Unidades</h1>
+                    <h1 style={{color:'#0152a1'}}>Consulta de Unidades</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
