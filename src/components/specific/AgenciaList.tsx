@@ -73,7 +73,7 @@ const AgenciaList: React.FC = () => {
         <div>
             {view === 'list' ? ( // Verifica qual view deve ser renderizada
                 <>
-                    <h1 style={{color:'#0152a1'}}>Lista de Agência</h1>
+                    <h1 style={{color:'#0152a1'}}>Consulta de Agências</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
