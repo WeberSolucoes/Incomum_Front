@@ -22,6 +22,19 @@ const AgenciaList: React.FC = () => {
 
     const { setCodigo } = useCodigo();
 
+    const getTitle = () => {
+        switch (activeIndex) {
+            case 0:
+                return 'Cadastro Agência';
+            case 1:
+                return 'Cadastro Agente';
+            case 2:
+                return 'Logo Agência';
+            default:
+                return 'Cadastro Agência';
+        }
+    };
+
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
             toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
@@ -108,7 +121,7 @@ const AgenciaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Cadastro Agência</h1>
+                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1> {/* Título dinâmico com base na aba ativa */}
                     <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
                         <TabPanel header="Dados Gerais">
                             {activeIndex === 0 && ( // Exibe o conteúdo apenas quando a aba "Dados Gerais" estiver ativa
