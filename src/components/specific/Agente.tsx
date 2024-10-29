@@ -156,19 +156,6 @@ const Agente: React.FC = ({ }) => {
     return (
         <>
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem', marginTop: '8px' }}>
-                <InputText
-                    style={{ width: '300px' }}
-                    placeholder="Buscar"
-                    value={searchTerm}
-                    onChange={(e) => setSearchTerm(e.target.value)}
-                />
-                <Button
-                    label={loading ? 'Carregando...' : 'Consultar'}
-                    icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'}
-                    style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
-                    disabled={loading}
-                    onClick={fetchAgentes}
-                />
                 <Button
                     label="Criar"
                     icon="pi pi-plus"
