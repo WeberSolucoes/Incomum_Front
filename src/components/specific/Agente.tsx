@@ -11,14 +11,14 @@ import { Dropdown } from "primereact/dropdown";
 import { toastSucess } from "../../utils/customToast";
 
 const bancos = [
-    { label: 'Banco do Brasil', value: 'BB' },
-    { label: 'Itaú', value: 'ITAU' },
-    { label: 'Bradesco', value: 'BRADESCO' },
-    { label: 'Santander', value: 'SANTANDER' },
-    { label: 'Caixa Econômica Federal', value: 'CEF' },
-    { label: 'Banrisul', value: 'BANRISUL' },
-    { label: 'Banco Safra', value: 'SAFRA' },
-    { label: 'Banco Original', value: 'ORIGINAL' },
+    { label: 'Banco do Brasil', value: '1' },
+    { label: 'Itaú', value: '2' },
+    { label: 'Bradesco', value: '3' },
+    { label: 'Santander', value: '4' },
+    { label: 'Caixa Econômica Federal', value: '5' },
+    { label: 'Banrisul', value: '6' },
+    { label: 'Banco Safra', value: '7' },
+    { label: 'Banco Original', value: '8' },
 ];
 
 
@@ -130,7 +130,7 @@ const Agente: React.FC = ({ }) => {
                 ban_codigo: request.ban_codigo,   // Adicionando campo 'agt_banco'
                 agt_agencia: request.agt_agencia,  // Adicionando campo 'agt_agencia'
                 agt_contacorrente: request.agt_contacorrente, // Adicionando campo 'agt_conta_corrente'
-                age_codigo: request.age_codigo, // O campo para a agência
+                age_codigo: request.age_codigo || 1,
             };
 
             const response = await axios.post('http://127.0.0.1:8000/api/incomum/agente/create/', payload);
