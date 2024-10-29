@@ -41,7 +41,7 @@ const Agente: React.FC = ({ }) => {
     // Função para carregar as agências do backend
     const fetchAgencias = async () => {
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/incomum/agencia/list-all/');
+            const response = await axios.get('http://18.118.35.25:8443/api/incomum/agencia/list-all/');
             setAgencias(response.data);
         } catch (error) {
             console.error('Erro ao buscar agências:', error);
@@ -52,7 +52,7 @@ const Agente: React.FC = ({ }) => {
     const fetchAgentes = async () => {
         setLoading(true);
         try {
-            const response = await axios.get('http://127.0.0.1:8000/api/incomum/agente/list-all/');
+            const response = await axios.get('http://18.118.35.25:8443/api/incomum/agente/list-all/');
             console.log('Dados dos agentes:', response.data);
 
             const mappedData = response.data.map((item: any) => ({
@@ -133,7 +133,7 @@ const Agente: React.FC = ({ }) => {
                 age_codigo: request.age_codigo || 1,
             };
 
-            const response = await axios.post('http://127.0.0.1:8000/api/incomum/agente/create/', payload);
+            const response = await axios.post('http://18.118.35.25:8443/api/incomum/agente/create/', payload);
 
             if (response.status === 201) {
                 toastSucess("Agente salvo com sucesso");
