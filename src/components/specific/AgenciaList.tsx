@@ -18,6 +18,7 @@ const AgenciaList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list');
     const [loading, setLoading] = useState(false); // Estado de carregamento
+    const [activeIndex, setActiveIndex] = useState(0); // Estado para controlar a aba ativa
 
     const { setCodigo } = useCodigo();
 
