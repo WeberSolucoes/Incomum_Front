@@ -7,6 +7,10 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import AgenciaCadastro from './AgenciaCadastro'; // Importa o componente de cadastro
+import { TabPanel, TabView } from 'primereact/tabview';
+import Agente from './Agente';
+import ImageUpload from './logo';
+
 
 const AgenciaList: React.FC = () => {
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
@@ -104,7 +108,23 @@ const AgenciaList: React.FC = () => {
             ) : (
                 <>
                     <h1 style={{color:'#0152a1'}}>Cadastro Agência</h1>
-                    <AgenciaCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
+                    <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+                        <TabPanel header="Dados Gerais">
+                            {activeIndex === 0 && ( // Exibe o conteúdo apenas quando a aba "Dados Gerais" estiver ativa
+                                <AgenciaCadastro onBackClick={handleBackClick} />
+                            )}
+                        </TabPanel>
+                        <TabPanel header="Agente">
+                            {activeIndex === 1 && ( // Exibe apenas o componente do Agente quando a aba "Agente" estiver ativa
+                                <Agente />
+                            )}
+                        </TabPanel>
+                        <TabPanel header="Logo Agência">
+                            {activeIndex === 2 && ( // Ajuste: Exibe o componente ImageUpload quando a aba "Logo Agência" estiver ativa
+                                <ImageUpload/>
+                            )}
+                        </TabPanel>
+                    </TabView>
                 </>
             )}
         </div>
