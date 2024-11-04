@@ -249,3 +249,6 @@ dl, ol, ul {
 .p-dialog .p-dialog-header {
   padding: 0px !important;
 }
+.p-dropdown-items{
+  display: block !important;
+}
