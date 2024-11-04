@@ -61,11 +61,8 @@ const Agencia: React.FC = ({onBackClick}) => {
     const fetchAreasComerciais = async () => {
         try {
             const response = await apiGetArea();
-            const data = response.data;
-            
-            // Verifique a estrutura de `data` para garantir que seja uma lista
-            console.log("Dados recebidos de áreas comerciais:", data);
-            
+            const data = response.data.associacoes; // Acesse o array dentro do objeto
+
             if (Array.isArray(data)) {
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
                     label: area.aco_descricao,
