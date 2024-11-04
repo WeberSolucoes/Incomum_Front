@@ -20,7 +20,9 @@ const AgenciaList: React.FC = () => {
     const [loading, setLoading] = useState(false); // Estado de carregamento
     const [activeIndex, setActiveIndex] = useState(0); // Estado para controlar a aba ativa
 
-    const { setCodigo } = useCodigo();
+    const { codigo, setCodigo } = useCodigo(); // Pega o estado e a função setCodigo de useCodigo
+    const [agenciaCadastrada, setAgenciaCadastrada] = useState(false); // Estado para verificar se a agência foi cadastrada
+
 
     const getTitle = () => {
         switch (activeIndex) {
@@ -69,13 +71,18 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodeClick = (codigo: number) => {
-        setCodigo(codigo);
-        setView('create'); // Muda para a visualização de edição
+        setCodigo(codigo);  // Atualiza o ID da agência com setCodigo
+        setAgenciaCadastrada(true); // Marca a agência como cadastrada
+        setView('create');
+        setActiveIndex(0);
     };
 
+
     const handleCreateClick = () => {
-        setCodigo(null); // Resetando o código para criar uma nova agência
-        setView('create'); // Muda para a visualização de criação
+        setCodigo(null);  // Limpa o ID da agência no estado
+        setAgenciaCadastrada(false); // Reseta o estado de agência cadastrada
+        setView('create');
+        setActiveIndex(0);
     };
 
 
@@ -85,6 +92,15 @@ const AgenciaList: React.FC = () => {
             top: 0,  // Define a posição do topo da página
             behavior: 'smooth' // Adiciona um efeito suave na rolagem
         });
+    };
+    
+    const handleTabChange = (e: any) => {
+        // Permite mudar de aba apenas se uma agência estiver cadastrada
+        if (e.index > 0 && !agenciaCadastrada) {
+            toastError('Você precisa cadastrar uma agência primeiro!');
+            return;
+        }
+        setActiveIndex(e.index);
     };
 
     return (
@@ -119,27 +135,28 @@ const AgenciaList: React.FC = () => {
                         onCodeClick={handleCodeClick} // Passa a função para o GenericTable
                     />
                 </>
-            ) : (
+                ) : view === 'create' ? (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1> {/* Título dinâmico com base na aba ativa */}
-                    <TabView activeIndex={activeIndex} onTabChange={(e) => setActiveIndex(e.index)}>
+                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
+                    <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
                         <TabPanel header="Dados Gerais">
-                            {activeIndex === 0 && ( // Exibe o conteúdo apenas quando a aba "Dados Gerais" estiver ativa
-                                <AgenciaCadastro onBackClick={handleBackClick} />
-                            )}
+                            <AgenciaCadastro 
+                                agenciaId={codigo} 
+                                onBackClick={handleBackClick} 
+                                onImageUploadClick={handleImageUploadClick}
+                                onAgencyRegistered={() => setAgenciaCadastrada(true)} // Callback para marcar como cadastrada
+                            />
                         </TabPanel>
                         <TabPanel header="Agente">
-                            {activeIndex === 1 && ( // Exibe apenas o componente do Agente quando a aba "Agente" estiver ativa
-                                <Agente />
-                            )}
+                            {activeIndex === 1 && <Agente />}
                         </TabPanel>
                         <TabPanel header="Logo Agência">
-                            {activeIndex === 2 && ( // Ajuste: Exibe o componente ImageUpload quando a aba "Logo Agência" estiver ativa
-                                <ImageUpload/>
-                            )}
+                            <ImageUpload agenciaId={codigo} />
                         </TabPanel>
                     </TabView>
                 </>
+            ) : (
+                <ImageUpload agenciaId={codigo!} />
             )}
         </div>
     );
