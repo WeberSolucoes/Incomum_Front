@@ -19,8 +19,8 @@ const AgenciaList: React.FC = () => {
     const [view, setView] = useState<'list' | 'create'>('list');
     const [loading, setLoading] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [tabsEnabled, setTabsEnabled] = useState(false);
-    const { codigo, setCodigo } = useCodigo(); // Obtém o código do contexto
+
+    const { codigo, setCodigo } = useCodigo();
     const [agenciaCadastrada, setAgenciaCadastrada] = useState(false);
 
     const getTitle = () => {
@@ -80,7 +80,6 @@ const AgenciaList: React.FC = () => {
         setAgenciaCadastrada(false);
         setView('create');
         setActiveIndex(0);
-        setTabsEnabled(false); // Reseta o estado de habilitação das abas ao criar nova agência
     };
 
     const handleImageUploadClick = () => {
@@ -95,21 +94,19 @@ const AgenciaList: React.FC = () => {
         });
     };
 
-    const handleTabChange = (event: any) => {
-        setActiveIndex(event.index);
-    };
-
-    // Função chamada após o cadastro da agência
-    const handleAgencyRegistered = () => {
-        setTabsEnabled(true); // Habilita as abas
-        setActiveIndex(1); // Muda para a aba "Agente" se desejar
+    const handleTabChange = (e: any) => {
+        if (e.index > 0 && !agenciaCadastrada) {
+            toastError('Você precisa cadastrar uma agência primeiro!');
+            return;
+        }
+        setActiveIndex(e.index);
     };
 
     return (
         <div>
             {view === 'list' ? (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>Consulta de Agências</h1>
+                    <h1 style={{color:'#0152a1'}}>Consulta de Agências</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
@@ -117,7 +114,7 @@ const AgenciaList: React.FC = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                        <Button
+                       <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'}
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
@@ -131,32 +128,34 @@ const AgenciaList: React.FC = () => {
                             onClick={handleCreateClick}
                         />
                     </div>
-                    <GenericTable
-                        filteredItems={items}
-                        emptyMessage="Nenhuma agência encontrada"
+                    <GenericTable 
+                        filteredItems={items} 
+                        emptyMessage="Nenhuma agência encontrada" 
                         onCodeClick={handleCodeClick}
                     />
                 </>
-            ) : (
+            ) : view === 'create' ? (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>Cadastro de Agência</h1>
+                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
-                        <TabPanel header="Dados Gerais" disabled={!tabsEnabled}>
-                            <AgenciaCadastro
-                                agenciaId={codigo}
-                                onBackClick={handleBackClick} // Usa a função de voltar
-                                onImageUploadClick={handleImageUploadClick} // Usa a função de upload de imagem
-                                onAgencyRegistered={handleAgencyRegistered} // Passa a função para habilitar as abas
+                        <TabPanel header="Dados Gerais">
+                            <AgenciaCadastro 
+                                agenciaId={codigo} 
+                                onBackClick={handleBackClick} 
+                                onImageUploadClick={handleImageUploadClick}
+                                onAgencyRegistered={() => setAgenciaCadastrada(true)} // Atualiza após cadastro
                             />
                         </TabPanel>
-                        <TabPanel header="Agente" disabled={!tabsEnabled}>
-                            <Agente />
+                        <TabPanel header="Agente">
+                            {activeIndex === 1 && <Agente />}
                         </TabPanel>
-                        <TabPanel header="Logo Agência" disabled={!tabsEnabled}>
+                        <TabPanel header="Logo Agência">
                             <ImageUpload agenciaId={codigo} />
                         </TabPanel>
                     </TabView>
                 </>
+            ) : (
+                <ImageUpload agenciaId={codigo!} />
             )}
         </div>
     );
