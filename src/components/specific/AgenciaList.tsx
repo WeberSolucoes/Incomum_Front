@@ -85,6 +85,10 @@ const AgenciaList: React.FC = () => {
         setActiveIndex(0);
     };
 
+    const handleImageUploadClick = () => {
+        setView('uploadImage');
+    };
+
 
     const handleBackClick = () => {
         setView('list'); // Volta para a visualização da lista
