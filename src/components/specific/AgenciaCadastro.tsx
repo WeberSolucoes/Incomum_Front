@@ -182,15 +182,15 @@ const Agencia: React.FC = ({onBackClick}) => {
       ];
   
       for (const campo of camposNumericos) {
-          const value = request[campo] as string; // Asserção de tipo
+          const value = request[campo] as string;
           const isNumber = /^\d*$/.test(value);
           if (value && !isNumber) {
               toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
-              return; // Interrompe o envio do formulário
+              return;
           }
       }
   
-      const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
+      const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
   
       /*if (!cnpj.isValid(cnpjNumerico)) {
           toastError("CNPJ inválido.");
@@ -201,35 +201,38 @@ const Agencia: React.FC = ({onBackClick}) => {
       setLoading(true);
       try {
           const enderecoCompleto = `${rua}, ${numero}`;
-          request.age_endereco = enderecoCompleto;
-          request.age_situacao = checked ? 1 : 0;
-          request.cid_codigo = ibge;
-          request.aco_codigo = areacomercial;
+          const updatedRequest = {
+              ...request,
+              age_endereco: enderecoCompleto,
+              age_situacao: checked ? 1 : 0,
+              cid_codigo: ibge,
+              aco_codigo: areacomercial // mantém o valor selecionado de aco_codigo
+          };
   
           let response;
-          if (request.age_codigo) {
-              // Atualizar agência
-              response = await apiPutUpdateAgencia(request.age_codigo, request);
+          if (updatedRequest.age_codigo) {
+              // Atualizar agência existente
+              response = await apiPutUpdateAgencia(updatedRequest.age_codigo, updatedRequest);
           } else {
               // Criar nova agência
-              response = await apiPostCreateAgencia(request);
+              response = await apiPostCreateAgencia(updatedRequest);
           }
   
           if (response.status === 200 || response.status === 201) {
-                toastSucess("Agência salva com sucesso");
-
-                if (!request.age_codigo) {
-                    // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado
-                    setRequest(prevState => ({
-                        ...prevState,
-                        age_codigo: response.data.age_codigo, // ID retornado pela API
-                        age_banco: prevState.age_banco, // Mantém o valor de age_banco
-                        aco_codigo: prevState.aco_codigo 
-                    }));
-                }
-            } else {
-                toastError("Erro ao salvar a agência");
-            }
+              toastSucess("Agência salva com sucesso");
+  
+              if (!updatedRequest.age_codigo) {
+                  // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado e preservar `aco_codigo`
+                  setRequest(prevState => ({
+                      ...prevState,
+                      age_codigo: response.data.age_codigo, // ID retornado
+                      age_banco: prevState.age_banco, // Mantém o valor de age_banco
+                      aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
+                  }));
+              }
+          } else {
+              toastError("Erro ao salvar a agência");
+          }
       } catch (error: any) {
           console.error("Erro:", error);
           if (error.response) {
@@ -251,7 +254,7 @@ const Agencia: React.FC = ({onBackClick}) => {
           setLoading(false);
       }
   };
-
+  
   const handleReset = (e: React.FormEvent) => {
       e.preventDefault();
       setRequest({} as AgenciaCreateRequest);
