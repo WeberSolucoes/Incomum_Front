@@ -1,9 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+port React, { useEffect, useRef } from 'react';
 import { FileUpload } from 'primereact/fileupload';
 import { Toast } from 'primereact/toast';
 
 
-const ImageUpload: React.FC = () => {
+interface ImageUploadProps {
+    agenciaId: number | null; // Recebe o ID da agência como prop
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     const toast = useRef<any>(null);
 
     const onTemplateUpload = (e: any) => {
@@ -11,11 +15,21 @@ const ImageUpload: React.FC = () => {
     };
 
     const onTemplateSelect = (e: any) => {
-        toast.current.show({ severity: 'info', summary: 'Arquivo selecionado', detail: e.files.length + ' arquivo(s) selecionado(s)' });
+        if (e.files.length > 1) {
+            toast.current.show({ severity: 'error', summary: 'Erro', detail: 'Você pode selecionar apenas uma imagem.' });
+            return; // Impede o upload se mais de um arquivo for selecionado
+        }
+        toast.current.show({ severity: 'info', summary: 'Arquivo selecionado', detail: e.files[0].name });
     };
+
+
 
     const invalidFileSizeMessageSummary = "Tamanho de arquivo inválido";
     const invalidFileSizeMessageDetail = "O arquivo excede o tamanho máximo permitido de 1MB.";
+
+    const onTemplateError = (e: any) => {
+        toast.current.show({ severity: 'error', summary: 'Erro no upload', detail: e.files[0].name + ' não foi enviado.' });
+    };
     
     
     useEffect(() => {
@@ -68,11 +82,10 @@ const ImageUpload: React.FC = () => {
     return (
         <div>
             <Toast ref={toast}></Toast>
-
+            <h2>Upload de Imagem para a Agência: {agenciaId}</h2>
             <FileUpload
-                name="demo[]"
-                url="http://127.0.0.1:8000/api/upload/"
-                multiple
+                name="age_imagem"
+                url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${agenciaId}/`}
                 accept="image/*"
                 maxFileSize={1000000}
                 onUpload={onTemplateUpload}
@@ -82,6 +95,8 @@ const ImageUpload: React.FC = () => {
                 cancelOptions={cancelOptions}
                 invalidFileSizeMessageSummary={invalidFileSizeMessageSummary}
                 invalidFileSizeMessageDetail={invalidFileSizeMessageDetail}
+                onError={onTemplateError}
+                multiple={false}
             />
         </div>
     );
