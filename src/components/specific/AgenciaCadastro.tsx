@@ -216,10 +216,18 @@ const Agencia: React.FC = ({onBackClick}) => {
           }
   
           if (response.status === 200 || response.status === 201) {
-              toastSucess("Agência salva com sucesso");
-          } else {
-              toastError("Erro ao salvar a agência");
-          }
+                toastSucess("Agência salva com sucesso");
+
+                if (!request.age_codigo) {
+                    // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado
+                    setRequest(prevState => ({
+                        ...prevState,
+                        age_codigo: response.data.age_codigo, // ID retornado pela API
+                    }));
+                }
+            } else {
+                toastError("Erro ao salvar a agência");
+            }
       } catch (error: any) {
           console.error("Erro:", error);
           if (error.response) {
