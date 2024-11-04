@@ -9,9 +9,14 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cnpj } from "cpf-cnpj-validator";
 import { Button } from 'primereact/button';
 
+interface AgenciaCadastroProps {
+  agenciaId: number | null;
+  onBackClick: () => void;
+  onImageUploadClick: () => void;
+  onAgencyRegistered: () => void; // Recebe a função para habilitar as abas
+}
 
-
-const Agencia: React.FC = ({onBackClick}) => {
+const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onAgencyRegistered}) => {
   const { codigo } = useCodigo(); // Ajuste conforme a origem do código
   const [request, setRequest] = useState<AgenciaCreateRequest>({} as AgenciaCreateRequest);
   const [rua, setRua] = useState('');
@@ -220,6 +225,7 @@ const Agencia: React.FC = ({onBackClick}) => {
   
           if (response.status === 200 || response.status === 201) {
               toastSucess("Agência salva com sucesso");
+              onAgencyRegistered();
   
               if (!updatedRequest.age_codigo) {
                   // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado e preservar `aco_codigo`
