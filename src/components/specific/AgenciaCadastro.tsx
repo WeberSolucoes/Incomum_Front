@@ -168,9 +168,13 @@ const Agencia: React.FC = ({onBackClick}) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
       e.preventDefault();
-
-      const camposNumericos: Array<keyof AgenciaCreateRequest> = ['age_codigo', 'age_cep', 'age_numero','age_codigocontabil','age_codigoimportacao','age_comissao','age_contacorrente','age_markup','age_numero','age_over'];
-
+  
+      const camposNumericos: Array<keyof AgenciaCreateRequest> = [
+          'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
+          'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
+          'age_markup', 'age_numero', 'age_over'
+      ];
+  
       for (const campo of camposNumericos) {
           const value = request[campo] as string; // Asserção de tipo
           const isNumber = /^\d*$/.test(value);
@@ -179,14 +183,15 @@ const Agencia: React.FC = ({onBackClick}) => {
               return; // Interrompe o envio do formulário
           }
       }
-
+  
       const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || ''; // Garante que será uma string
-
+  
       /*if (!cnpj.isValid(cnpjNumerico)) {
           toastError("CNPJ inválido.");
           setCnpjValido(false);
           return;
       }*/
+  
       setLoading(true);
       try {
           const enderecoCompleto = `${rua}, ${numero}`;
@@ -194,15 +199,16 @@ const Agencia: React.FC = ({onBackClick}) => {
           request.age_situacao = checked ? 1 : 0;
           request.cid_codigo = ibge;
           request.aco_codigo = areacomercial;
+  
           let response;
-           if (request.age_codigo) {
+          if (request.age_codigo) {
               // Atualizar agência
-              await apiPutUpdateAgencia(request.age_codigo, request);
+              response = await apiPutUpdateAgencia(request.age_codigo, request);
           } else {
               // Criar nova agência
-              await apiPostCreateAgencia(request);
+              response = await apiPostCreateAgencia(request);
           }
-
+  
           if (response.status === 200 || response.status === 201) {
               toastSucess("Agência salva com sucesso");
           } else {
