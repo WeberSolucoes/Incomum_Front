@@ -223,6 +223,8 @@ const Agencia: React.FC = ({onBackClick}) => {
                     setRequest(prevState => ({
                         ...prevState,
                         age_codigo: response.data.age_codigo, // ID retornado pela API
+                        age_banco: prevState.age_banco, // Mantém o valor de age_banco
+                        aco_codigo: prevState.aco_codigo 
                     }));
                 }
             } else {
