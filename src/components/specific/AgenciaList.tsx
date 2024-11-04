@@ -12,6 +12,7 @@ import Agente from './Agente';
 import ImageUpload from './logo';
 
 
+
 const AgenciaList: React.FC = () => {
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
