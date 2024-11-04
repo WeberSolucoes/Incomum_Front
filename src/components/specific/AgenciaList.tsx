@@ -14,14 +14,11 @@ import ImageUpload from './logo';
 
 const AgenciaList: React.FC = () => {
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
-    const [originalItems, setOriginalItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list');
     const [loading, setLoading] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-
-    const { codigo, setCodigo } = useCodigo();
-    const [agenciaCadastrada, setAgenciaCadastrada] = useState(false);
+    const [codigoSelecionado, setCodigoSelecionado] = useState<number | null>(null); // Estado para o código da agência selecionada
 
     const getTitle = () => {
         switch (activeIndex) {
@@ -51,16 +48,7 @@ const AgenciaList: React.FC = () => {
                 responsavel: item.age_responsavel,
                 email: item.age_email,
             }));
-            setOriginalItems(mappedData);
-
-            const searchTermLower = searchTerm.toLowerCase();
-            const filteredItems = mappedData.filter(item =>
-                item.descricao.toLowerCase().includes(searchTermLower) ||
-                item.codigo.toString().toLowerCase().includes(searchTermLower) ||
-                (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
-                (item.email && item.email.toLowerCase().includes(searchTermLower))
-            );
-            setItems(filteredItems);
+            setItems(mappedData);
         } catch (error) {
             toastError('Erro ao buscar as agências');
         } finally {
@@ -69,21 +57,14 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodeClick = (codigo: number) => {
-        setCodigo(codigo);
-        setAgenciaCadastrada(true);
-        setView('create');
-        setActiveIndex(0);
+        setCodigoSelecionado(codigo); // Armazena o código selecionado
+        setActiveIndex(0); // Inicializa na aba de Cadastro Agência
     };
 
     const handleCreateClick = () => {
-        setCodigo(null);
-        setAgenciaCadastrada(false);
-        setView('create');
-        setActiveIndex(0);
-    };
-
-    const handleImageUploadClick = () => {
-        setView('uploadImage');
+        setCodigoSelecionado(null); // Reseta o código ao criar um novo cadastro
+        setView('create'); // Altera para a view de criação
+        setActiveIndex(0); // Retorna para a aba de Cadastro Agência
     };
 
     const handleBackClick = () => {
@@ -94,19 +75,23 @@ const AgenciaList: React.FC = () => {
         });
     };
 
-    const handleTabChange = (e: any) => {
-        if (e.index > 0 && !agenciaCadastrada) {
-            toastError('Você precisa cadastrar uma agência primeiro!');
-            return;
+    const handleTabChange = (event: any) => {
+        // Permite mudar de aba apenas se uma agência estiver selecionada
+        if (codigoSelecionado !== null) {
+            setActiveIndex(event.index);
         }
-        setActiveIndex(e.index);
+    };
+
+    const handleCodigoUpdate = (novoCodigo: number) => {
+        setCodigoSelecionado(novoCodigo); // Atualiza o código da agência após a criação
+        setActiveIndex(0); // Retorna para a aba de Cadastro Agência
     };
 
     return (
         <div>
             {view === 'list' ? (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Consulta de Agências</h1>
+                    <h1 style={{ color: '#0152a1' }}>Consulta de Agências</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
@@ -114,7 +99,7 @@ const AgenciaList: React.FC = () => {
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
                         />
-                       <Button
+                        <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'}
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
@@ -134,28 +119,25 @@ const AgenciaList: React.FC = () => {
                         onCodeClick={handleCodeClick}
                     />
                 </>
-            ) : view === 'create' ? (
+            ) : (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
+                    <h1 style={{ color: '#0152a1' }}>Cadastro de Agência</h1>
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
                         <TabPanel header="Dados Gerais">
                             <AgenciaCadastro 
-                                agenciaId={codigo} 
-                                onBackClick={handleBackClick} 
-                                onImageUploadClick={handleImageUploadClick}
-                                onAgencyRegistered={() => setAgenciaCadastrada(true)} // Atualiza após cadastro
+                                agenciaId={codigoSelecionado} 
+                                onBackClick={handleBackClick}
+                                onCodigoUpdate={handleCodigoUpdate} // Passa a função para atualizar o código
                             />
                         </TabPanel>
                         <TabPanel header="Agente">
-                            {activeIndex === 1 && <Agente />}
+                            <Agente />
                         </TabPanel>
                         <TabPanel header="Logo Agência">
-                            <ImageUpload agenciaId={codigo} />
+                            <ImageUpload agenciaId={codigoSelecionado} />
                         </TabPanel>
                     </TabView>
                 </>
-            ) : (
-                <ImageUpload agenciaId={codigo!} />
             )}
         </div>
     );
