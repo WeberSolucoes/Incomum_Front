@@ -141,6 +141,24 @@ interface VendedorCreateRequest{
     sve_codigo: string | null,
 }
 
+interface AgenteCreateRequest{
+    agt_descricao: string
+    agt_cpf: number
+    age_codigo: number
+    agt_cep: string,  // Adicionando campo 'agt_cep'
+    agt_endereco: String,    // Adicionando campo 'agt_rua'
+    agt_numero: string,  // Adicionando campo 'agt_numero'
+    agt_bairro: string,  // Adicionando campo 'agt_bairro'
+    cid_codigo: string,  // Adicionando campo 'agt_cidade'
+    agt_fone: number,    // Adicionando campo 'agt_fone'
+    agt_celular: number,  // Adicionando campo 'agt_celular'
+    agt_comissao: number,     // Adicionando campo 'agt_over'
+    agt_email: string,   // Adicionando campo 'agt_email'
+    ban_codigo: number,   // Adicionando campo 'agt_banco'
+    agt_contacorrente: number, // Adicionando campo 'agt_conta_corrente  
+}
+
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -152,5 +170,7 @@ export type {
     VendedorListResponse,
     AgenciaCreateRequest,
     VendedorCreateRequest,
+    AgenteCreateRequest,
 
 }
+
