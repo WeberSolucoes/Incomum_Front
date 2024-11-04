@@ -9,6 +9,7 @@ import GenericTable from "../common/GenericTable";
 import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { toastSucess } from "../../utils/customToast";
+import { useCodigo } from "../../contexts/CodigoProvider";
 
 
 const bancos = [
