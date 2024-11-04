@@ -58,21 +58,30 @@ const Agencia: React.FC = ({onBackClick}) => {
   }, [codigo]);
 
   useEffect(() => {
-      const fetchAreasComerciais = async () => {
-          try {
-              const response = await apiGetArea();
-              const data = response.data;
-              setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
-                  label: area.aco_descricao,
-                  value: area.aco_codigo
-              })));
-          } catch (error) {
-              console.error("Erro ao buscar áreas comerciais:", error);
-              toastError("Erro ao buscar áreas comerciais.");
-          }
-      };
-      fetchAreasComerciais();
-  }, []);
+    const fetchAreasComerciais = async () => {
+        try {
+            const response = await apiGetArea();
+            const data = response.data;
+            
+            // Verifique a estrutura de `data` para garantir que seja uma lista
+            console.log("Dados recebidos de áreas comerciais:", data);
+            
+            if (Array.isArray(data)) {
+                setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
+                    label: area.aco_descricao,
+                    value: area.aco_codigo
+                })));
+            } else {
+                console.error("Dados inesperados para áreas comerciais:", data);
+                toastError("Erro: dados de áreas comerciais em formato inesperado.");
+            }
+        } catch (error) {
+            console.error("Erro ao buscar áreas comerciais:", error);
+            toastError("Erro ao buscar áreas comerciais.");
+        }
+    };
+    fetchAreasComerciais();
+}, []);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
