@@ -9,9 +9,11 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cnpj } from "cpf-cnpj-validator";
 import { Button } from 'primereact/button';
 
+interface AgenciaCadastroProps {
+    onCodigoUpdate: (codigo: number) => void; // Define a prop como uma função que recebe um número
+}
 
-
-const Agencia: React.FC = ({onBackClick}) => {
+const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) => {
   const { codigo } = useCodigo(); // Ajuste conforme a origem do código
   const [request, setRequest] = useState<AgenciaCreateRequest>({} as AgenciaCreateRequest);
   const [rua, setRua] = useState('');
@@ -229,6 +231,7 @@ const Agencia: React.FC = ({onBackClick}) => {
                       age_banco: prevState.age_banco, // Mantém o valor de age_banco
                       aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
                   }));
+                  onCodigoUpdate(novoCodigo);
               }
           } else {
               toastError("Erro ao salvar a agência");
