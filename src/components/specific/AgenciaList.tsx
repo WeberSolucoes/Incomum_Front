@@ -17,12 +17,11 @@ const AgenciaList: React.FC = () => {
     const [originalItems, setOriginalItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list');
-    const [loading, setLoading] = useState(false); // Estado de carregamento
-    const [activeIndex, setActiveIndex] = useState(0); // Estado para controlar a aba ativa
+    const [loading, setLoading] = useState(false);
+    const [activeIndex, setActiveIndex] = useState(0);
 
-    const { codigo, setCodigo } = useCodigo(); // Pega o estado e a função setCodigo de useCodigo
-    const [agenciaCadastrada, setAgenciaCadastrada] = useState(false); // Estado para verificar se a agência foi cadastrada
-
+    const { codigo, setCodigo } = useCodigo();
+    const [agenciaCadastrada, setAgenciaCadastrada] = useState(false);
 
     const getTitle = () => {
         switch (activeIndex) {
@@ -40,11 +39,10 @@ const AgenciaList: React.FC = () => {
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
             toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
-            return; // Não realiza a pesquisa se a condição não for atendida
+            return;
         }
 
-        setLoading(true); // Ativa o estado de carregamento
-
+        setLoading(true);
         try {
             const response = await apiGetAgencia();
             const mappedData: AgenciaListResponse[] = response.data.map((item: any) => ({
@@ -53,8 +51,8 @@ const AgenciaList: React.FC = () => {
                 responsavel: item.age_responsavel,
                 email: item.age_email,
             }));
-            setOriginalItems(mappedData); // Armazena os dados originais
-            
+            setOriginalItems(mappedData);
+
             const searchTermLower = searchTerm.toLowerCase();
             const filteredItems = mappedData.filter(item =>
                 item.descricao.toLowerCase().includes(searchTermLower) ||
@@ -66,21 +64,20 @@ const AgenciaList: React.FC = () => {
         } catch (error) {
             toastError('Erro ao buscar as agências');
         } finally {
-            setLoading(false); // Desativa o estado de carregamento
+            setLoading(false);
         }
     };
 
     const handleCodeClick = (codigo: number) => {
-        setCodigo(codigo);  // Atualiza o ID da agência com setCodigo
-        setAgenciaCadastrada(true); // Marca a agência como cadastrada
+        setCodigo(codigo);
+        setAgenciaCadastrada(true);
         setView('create');
         setActiveIndex(0);
     };
 
-
     const handleCreateClick = () => {
-        setCodigo(null);  // Limpa o ID da agência no estado
-        setAgenciaCadastrada(false); // Reseta o estado de agência cadastrada
+        setCodigo(null);
+        setAgenciaCadastrada(false);
         setView('create');
         setActiveIndex(0);
     };
@@ -89,17 +86,15 @@ const AgenciaList: React.FC = () => {
         setView('uploadImage');
     };
 
-
     const handleBackClick = () => {
-        setView('list'); // Volta para a visualização da lista
+        setView('list');
         window.scrollTo({
-            top: 0,  // Define a posição do topo da página
-            behavior: 'smooth' // Adiciona um efeito suave na rolagem
+            top: 0,
+            behavior: 'smooth'
         });
     };
-    
+
     const handleTabChange = (e: any) => {
-        // Permite mudar de aba apenas se uma agência estiver cadastrada
         if (e.index > 0 && !agenciaCadastrada) {
             toastError('Você precisa cadastrar uma agência primeiro!');
             return;
@@ -109,7 +104,7 @@ const AgenciaList: React.FC = () => {
 
     return (
         <div>
-            {view === 'list' ? ( // Verifica qual view deve ser renderizada
+            {view === 'list' ? (
                 <>
                     <h1 style={{color:'#0152a1'}}>Consulta de Agências</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
@@ -117,29 +112,29 @@ const AgenciaList: React.FC = () => {
                             style={{ width: '300px' }}
                             placeholder="Buscar"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)} // Atualiza o termo de busca
+                            onChange={(e) => setSearchTerm(e.target.value)}
                         />
                        <Button
-                            label={loading ? 'Carregando...' : 'Consultar'} // Muda o texto durante o carregamento
-                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
+                            label={loading ? 'Carregando...' : 'Consultar'}
+                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'}
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
-                            onClick={handleSearch} // Chama a pesquisa ao clicar no botão
-                            disabled={loading} // Desabilita o botão enquanto está carregando
+                            onClick={handleSearch}
+                            disabled={loading}
                         />
                         <Button
                             label="Criar"
                             icon="pi pi-plus"
                             style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
-                            onClick={handleCreateClick} // Chama a função de criação ao clicar no botão
+                            onClick={handleCreateClick}
                         />
                     </div>
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhuma agência encontrada" 
-                        onCodeClick={handleCodeClick} // Passa a função para o GenericTable
+                        onCodeClick={handleCodeClick}
                     />
                 </>
-                ) : view === 'create' ? (
+            ) : view === 'create' ? (
                 <>
                     <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
@@ -148,7 +143,7 @@ const AgenciaList: React.FC = () => {
                                 agenciaId={codigo} 
                                 onBackClick={handleBackClick} 
                                 onImageUploadClick={handleImageUploadClick}
-                                onAgencyRegistered={() => setAgenciaCadastrada(true)} // Callback para marcar como cadastrada
+                                onAgencyRegistered={() => setAgenciaCadastrada(true)} // Atualiza após cadastro
                             />
                         </TabPanel>
                         <TabPanel header="Agente">
