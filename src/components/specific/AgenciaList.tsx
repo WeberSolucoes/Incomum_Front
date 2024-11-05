@@ -128,7 +128,7 @@ const AgenciaList: React.FC = () => {
                     <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
                         <TabPanel header="Dados Gerais">
-                            <Agencia 
+                            <AgenciaCadastro 
                                 agenciaId={codigoSelecionado} 
                                 onBackClick={handleBackClick}
                                 onCodigoUpdate={handleCodigoUpdate}
