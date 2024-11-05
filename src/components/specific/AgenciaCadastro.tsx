@@ -204,8 +204,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             }
         }
         
-        const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
-        
         setLoading(true);
         try {
             const enderecoCompleto = `${rua}, ${numero}`;
@@ -217,16 +215,14 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
                 aco_codigo: areacomercial,
-                request.age_descricao = age_descricao,
+                age_descricao: request.age_descricao?.trim() || "abc" // Trim e valor padrão
             };
             
-            console.log("Dados enviados para atualização:", updatedRequest);
-            console.log("Valor de age_descricao:", updatedRequest.age_descricao);
+            console.log("Dados enviados para atualização:", JSON.stringify(updatedRequest, null, 2));
             
             let response;
             if (request.age_codigo) {
                 response = await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
-                console.log("Valor de age_descricao:", updatedRequest.age_descricao);
             } else {
                 response = await apiPostCreateAgencia(updatedRequest);
             }
@@ -235,7 +231,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
-                
                 if (!updatedRequest.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
                     onCodigoUpdate(novoCodigo);
@@ -269,6 +264,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             setLoading(false);
         }
     };
+
 
   const handleReset = (e: React.FormEvent) => {
       e.preventDefault();
