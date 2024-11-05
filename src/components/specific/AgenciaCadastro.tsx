@@ -187,13 +187,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
+        
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
             'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
             'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
             'age_markup', 'age_numero', 'age_over'
         ];
-    
+        
         // Validação dos campos numéricos
         for (const campo of camposNumericos) {
             const value = request[campo] as string;
@@ -203,13 +203,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 return;
             }
         }
-    
+        
         const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
-    
+        
         setLoading(true);
         try {
             const enderecoCompleto = `${rua}, ${numero}`;
-    
+            
             // Garante que age_descricao sempre seja enviado
             const updatedRequest = {
                 ...request,
@@ -219,29 +219,28 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 aco_codigo: areacomercial,
                 age_descricao: request.age_descricao || "" // Envia age_descricao mesmo se estiver vazio
             };
-    
+            
             console.log("Dados enviados para atualização:", updatedRequest);
-    
+            
             let response;
-            if (request.age_codigo) {
-                response = await apiPutUpdateAgencia(request.age_codigo, request);
+            if (updatedRequest.age_codigo) {
+                response = await apiPutUpdateAgencia(updatedRequest.age_codigo, updatedRequest);
             } else {
-                response = await apiPostCreateAgencia(request);
+                response = await apiPostCreateAgencia(updatedRequest);
             }
+            
             console.log("Resposta da API:", response.data);
-    
+            
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
-    
+                
                 if (!updatedRequest.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
                     onCodigoUpdate(novoCodigo);
-    
+                    
                     setRequest(prevState => ({
                         ...prevState,
-                        age_codigo: novoCodigo,
-                        age_banco: prevState.age_banco,
-                        aco_codigo: prevState.aco_codigo
+                        age_codigo: novoCodigo
                     }));
                 }
             } else {
