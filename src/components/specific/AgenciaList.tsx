@@ -14,25 +14,19 @@ import ImageUpload from './logo';
 
 
 const AgenciaList: React.FC = () => {
-    const { codigo,setCodigo } = useCodigo(); // Ajuste conforme a origem do código
+    const { codigo, setCodigo } = useCodigo(); // Ajuste conforme a origem do código
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list');
     const [loading, setLoading] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
     const [codigoSelecionado, setCodigoSelecionado] = useState<number | null>(null);
+    const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
 
     const getTitle = () => {
-        switch (activeIndex) {
-            case 0:
-                return 'Cadastro Agência';
-            case 1:
-                return 'Cadastro Agente';
-            case 2:
-                return 'Logo Agência';
-            default:
-                return 'Cadastro Agência';
-        }
+        return descricaoSelecionada 
+            ? `Cadastro Agência - ${descricaoSelecionada}` 
+            : 'Cadastro Agência'; // Título padrão se não houver descrição
     };
 
     const handleSearch = async () => {
@@ -62,6 +56,10 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodeClick = (codigo: number) => {
+        const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
+        if (agencia) {
+            setDescricaoSelecionada(agencia.descricao); // Atualiza a descrição selecionada
+        }
         setCodigo(codigo);
         setView('create'); // Abre a view de cadastro ao selecionar
         setActiveIndex(0);
@@ -69,6 +67,7 @@ const AgenciaList: React.FC = () => {
 
     const handleCreateClick = () => {
         setCodigo(null); // Reseta o código ao criar um novo cadastro
+        setDescricaoSelecionada(null); // Limpa a descrição ao criar um novo cadastro
         setView('create');
         setActiveIndex(0);
     };
@@ -76,6 +75,7 @@ const AgenciaList: React.FC = () => {
     const handleBackClick = () => {
         setView('list');
         setCodigo(null); // Limpa a seleção ao voltar para lista
+        setDescricaoSelecionada(null); // Limpa a descrição ao voltar para a lista
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -93,6 +93,10 @@ const AgenciaList: React.FC = () => {
     const handleCodigoUpdate = (novoCodigo: number) => {
         setCodigo(novoCodigo);
         toastSuccess("Cadastro realizado com sucesso! As abas estão liberadas.");
+        const agencia = items.find(item => item.codigo === novoCodigo); // Obtem a nova agencia
+        if (agencia) {
+            setDescricaoSelecionada(agencia.descricao); // Atualiza a descrição após o cadastro
+        }
     };
 
     return (
@@ -129,7 +133,7 @@ const AgenciaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
+                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1> {/* Título dinâmico */}
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
                         <TabPanel header="Dados Gerais">
                             <AgenciaCadastro 
