@@ -221,7 +221,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 age_endereco: enderecoCompleto,
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
-                aco_codigo: areacomercial // Mantém o valor selecionado de aco_codigo
+                aco_codigo: areacomercial, // Mantém o valor selecionado de aco_codigo
+                age_descricao: request.age_descricao || '' // Garante o valor de age_descricao
             };
 
             console.log("Dados enviados para atualização:", updatedRequest);
