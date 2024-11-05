@@ -224,12 +224,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
             let response;
             if (request.age_codigo) {
-                // Atualizar agência
-                await apiPutUpdateAgencia(request.age_codigo, request);
+                response = await apiPutUpdateAgencia(request.age_codigo, request);
             } else {
-                // Criar nova agência
-                response = await apiPostCreateAgencia(updatedRequest);
+                response = await apiPostCreateAgencia(request);
             }
+            console.log("Resposta da API:", response.data);
     
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
