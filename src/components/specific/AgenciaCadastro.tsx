@@ -28,37 +28,48 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
 
   useEffect(() => {
-      const fetchData = async () => {
-          if (codigo === null) return;
+    const fetchData = async () => {
+        if (codigo === null) return;
 
-          try {
-              const response = await apiGetAgenciaById(codigo);
-              const unidade = response.data;
-              setRequest(unidade);
+        try {
+            const response = await apiGetAgenciaById(codigo);
+            const unidade = response.data;
 
-              if (unidade.age_endereco) {
-                  const enderecoParts = unidade.age_endereco.split(",");
-                  setRua(enderecoParts[0] || '');
-                  setNumero(enderecoParts[1] || '');
-              } else {
-                  setRua('');
-                  setNumero('');
-              }
+            // Certifique-se de que unidade contém todas as propriedades esperadas
+            if (unidade) {
+                setRequest(unidade);
 
-              setCidade(unidade.cid_codigo || '');
-              setSelectedAreas(unidade.areasComerciais || []);
-              setChecked(unidade.age_situacao === 1);
+                // Verifica se o campo de endereço está definido
+                if (unidade.age_endereco) {
+                    const enderecoParts = unidade.age_endereco.split(",");
+                    setRua(enderecoParts[0] || ''); // Se não houver, setar string vazia
+                    setNumero(enderecoParts[1] || ''); // Se não houver, setar string vazia
+                } else {
+                    setRua('');
+                    setNumero('');
+                }
 
-              const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
-              setCidade(responseCidade.data.nome || '');
-          } catch (error) {
-              console.error("Erro ao buscar dados:", error);
-              toastError("Erro ao buscar dados da agência.");
-          }
-      };
-      fetchData();
-  }, [codigo]);
-
+                // Certifique-se de que cid_codigo está correto
+                setCidade(unidade.cid_codigo || ''); // Se não houver, setar string vazia
+                setSelectedAreas(unidade.areasComerciais || []);
+                setChecked(unidade.age_situacao === 1);
+                
+                // Verifica se a API de cidades responde corretamente
+                if (unidade.cid_codigo) {
+                    const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
+                    setCidade(responseCidade.data.nome || ''); // Se não houver, setar string vazia
+                }
+            } else {
+                console.error("Dados da agência não encontrados");
+                toastError("Agência não encontrada.");
+            }
+        } catch (error) {
+            console.error("Erro ao buscar dados:", error);
+            toastError("Erro ao buscar dados da agência.");
+        }
+    };
+    fetchData();
+}, [codigo]);
   useEffect(() => {
     const fetchAreasComerciais = async () => {
         try {
