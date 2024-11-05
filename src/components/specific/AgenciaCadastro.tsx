@@ -187,7 +187,9 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+    
+        console.log("Estado inicial do request:", request); // Verifica o estado inicial do request
+    
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
             'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
             'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
@@ -215,11 +217,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
                 aco_codigo: areacomercial,
-                age_descricao: request.age_descricao?.trim() || "abc" // Trim e valor padrão
+                age_descricao: request.age_descricao?.trim() || "abc" // Garante que age_descricao esteja definido
             };
-            
-            console.log("Dados enviados para atualização:", JSON.stringify(updatedRequest, null, 2));
-            
+    
+            console.log("Dados enviados para atualização:", JSON.stringify(updatedRequest, null, 2)); // Mostra os dados que estão sendo enviados
+    
             let response;
             if (request.age_codigo) {
                 response = await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
@@ -248,6 +250,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             if (error.response) {
                 const status = error.response.status;
                 const data = error.response.data;
+                console.error("Detalhes do erro:", data); // Verifique detalhes do erro
                 if (status === 400) {
                     toastError("Dados inválidos. Verifique os campos e tente novamente.");
                 } else if (status === 401) {
