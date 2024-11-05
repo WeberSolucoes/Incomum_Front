@@ -86,7 +86,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             <h2>Upload de Imagem para a Agência: {codigo}</h2>
             <FileUpload
                 name="age_imagem"
-                url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${agenciaId}/`}
+                url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${codigo}/`}
                 accept="image/*"
                 maxFileSize={1000000}
                 onUpload={onTemplateUpload}
