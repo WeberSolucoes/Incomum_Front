@@ -39,10 +39,10 @@ const AgenciaList: React.FC = () => {
             toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
             return;
         }
-
+    
         setLoading(true);
         try {
-            const response = await apiGetAgencia();
+            const response = await apiGetAgencia(searchTerm); // Passando o termo de pesquisa
             const mappedData: AgenciaListResponse[] = response.data.map((item: any) => ({
                 codigo: item.age_codigo,
                 descricao: item.age_descricao,
@@ -51,6 +51,7 @@ const AgenciaList: React.FC = () => {
             }));
             setItems(mappedData);
         } catch (error) {
+            console.error(error); // Log do erro para debug
             toastError('Erro ao buscar as agências');
         } finally {
             setLoading(false);
