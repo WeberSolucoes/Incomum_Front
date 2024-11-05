@@ -8,6 +8,7 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
+    const { codigo } = useCodigo(); // Ajuste conforme a origem do código
     const toast = useRef<any>(null);
 
     const onTemplateUpload = (e: any) => {
@@ -82,7 +83,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     return (
         <div>
             <Toast ref={toast}></Toast>
-            <h2>Upload de Imagem para a Agência: {agenciaId}</h2>
+            <h2>Upload de Imagem para a Agência: {codigo}</h2>
             <FileUpload
                 name="age_imagem"
                 url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${agenciaId}/`}
