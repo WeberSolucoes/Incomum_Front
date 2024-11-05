@@ -194,7 +194,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
             'age_markup', 'age_numero', 'age_over'
         ];
-        
+    
         // Validação dos campos numéricos
         for (const campo of camposNumericos) {
             const value = request[campo] as string;
@@ -204,7 +204,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 return;
             }
         }
-        
+    
         setLoading(true);
         try {
             const enderecoCompleto = `${rua}, ${numero}`;
@@ -227,7 +227,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             } else {
                 response = await apiPostCreateAgencia(updatedRequest);
             }
-            
+    
             console.log("Resposta da API:", response.data);
     
             // Verifica se a resposta foi bem-sucedida antes de mostrar o toast de sucesso
@@ -236,13 +236,14 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 if (!updatedRequest.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
                     onCodigoUpdate(novoCodigo);
-                    
+    
                     setRequest(prevState => ({
                         ...prevState,
                         age_codigo: novoCodigo
                     }));
                 }
             } else {
+                // Este ponto só deve ser alcançado se a resposta não for 200/201
                 toastError("Erro ao salvar a agência");
             }
         } catch (error: any) {
@@ -262,13 +263,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
             } else {
+                // Se o erro não tem resposta, exibe o erro de conexão
                 toastError("Erro de conexão. Verifique sua rede e tente novamente.");
             }
         } finally {
             setLoading(false);
         }
     };
-
 
   const handleReset = (e: React.FormEvent) => {
       e.preventDefault();
