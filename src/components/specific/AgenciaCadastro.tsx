@@ -225,7 +225,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             let response;
             if (request.age_codigo) {
                 // Atualizar agência
-                await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
+                await apiPutUpdateAgencia(request.age_codigo, request);
             } else {
                 // Criar nova agência
                 response = await apiPostCreateAgencia(updatedRequest);
