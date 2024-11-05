@@ -255,6 +255,9 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError("Dados inválidos. Verifique os campos e tente novamente.");
                 } else if (status === 401) {
                     toastError("Não autorizado. Verifique suas credenciais.");
+                } else if (status === 500) {
+                    // Erro 500, não deve entrar aqui se os dados forem válidos
+                    toastError("Erro interno do servidor. Tente novamente mais tarde.");
                 } else {
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
