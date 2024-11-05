@@ -225,6 +225,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
               toastSucess("Agência salva com sucesso");
   
               if (!updatedRequest.age_codigo) {
+                  onCodigoUpdate(response.data.age_codigo);
                   // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado e preservar `aco_codigo`
                   setRequest(prevState => ({
                       ...prevState,
@@ -232,7 +233,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                       age_banco: prevState.age_banco, // Mantém o valor de age_banco
                       aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
                   }));
-                  onCodigoUpdate(novoCodigo);
               }
           } else {
               toastError("Erro ao salvar a agência");
