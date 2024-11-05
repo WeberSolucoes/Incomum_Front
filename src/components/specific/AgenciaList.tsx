@@ -14,6 +14,7 @@ import ImageUpload from './logo';
 
 
 const AgenciaList: React.FC = () => {
+    const { codigo,setCodigo } = useCodigo(); // Ajuste conforme a origem do código
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list');
@@ -61,7 +62,7 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodeClick = (codigo: number) => {
-        setCodigoSelecionado(codigo);
+        setCodigo(codigo);
         setView('create'); // Abre a view de cadastro ao selecionar
         setActiveIndex(0);
     };
