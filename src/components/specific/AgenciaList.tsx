@@ -68,14 +68,14 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCreateClick = () => {
-        setCodigoSelecionado(null); // Reseta o código ao criar um novo cadastro
+        setCodigo(null); // Reseta o código ao criar um novo cadastro
         setView('create');
         setActiveIndex(0);
     };
 
     const handleBackClick = () => {
         setView('list');
-        setCodigoSelecionado(null); // Limpa a seleção ao voltar para lista
+        setCodigo(null); // Limpa a seleção ao voltar para lista
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -83,7 +83,7 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleTabChange = (event: any) => {
-        if (codigoSelecionado !== null) {
+        if (codigo !== null) {
             setActiveIndex(event.index);
         } else {
             toastError("Selecione ou cadastre uma agência primeiro.");
@@ -91,7 +91,7 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodigoUpdate = (novoCodigo: number) => {
-        setCodigoSelecionado(novoCodigo);
+        setCodigo(novoCodigo);
         toastSuccess("Cadastro realizado com sucesso! As abas estão liberadas.");
     };
 
