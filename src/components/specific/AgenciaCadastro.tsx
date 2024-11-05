@@ -223,11 +223,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 cid_codigo: ibge,
                 aco_codigo: areacomercial // Mantém o valor selecionado de aco_codigo
             };
+
+            console.log("Dados enviados para atualização:", updatedRequest);
     
             let response;
             if (request.age_codigo) {
               // Atualizar agência
-              await apiPutUpdateAgencia(request.age_codigo, request);
+              await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
             } else {
                 // Criar nova agência
                 response = await apiPostCreateAgencia(updatedRequest);
