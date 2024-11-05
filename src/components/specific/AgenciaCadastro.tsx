@@ -187,8 +187,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        console.log("Estado inicial do request:", request); // Verifica o estado inicial do request
+        console.log("Estado inicial do request:", request);
     
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
             'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
@@ -217,10 +216,10 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
                 aco_codigo: areacomercial,
-                age_descricao: request.age_descricao?.trim() || "" // Garante que age_descricao esteja definido
+                age_descricao: request.age_descricao?.trim() || ""
             };
     
-            console.log("Dados enviados para atualização:", JSON.stringify(updatedRequest, null, 2)); // Mostra os dados que estão sendo enviados
+            console.log("Dados enviados para atualização:", JSON.stringify(updatedRequest, null, 2));
     
             let response;
             if (request.age_codigo) {
@@ -230,7 +229,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             }
             
             console.log("Resposta da API:", response.data);
-            
+    
+            // Verifica se a resposta foi bem-sucedida antes de mostrar o toast de sucesso
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
                 if (!updatedRequest.age_codigo) {
@@ -250,12 +250,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             if (error.response) {
                 const status = error.response.status;
                 const data = error.response.data;
-                console.error("Detalhes do erro:", data); // Verifique detalhes do erro
+                console.error("Detalhes do erro:", data);
                 if (status === 400) {
                     toastError("Dados inválidos. Verifique os campos e tente novamente.");
                 } else if (status === 401) {
                     toastError("Não autorizado. Verifique suas credenciais.");
                 } else if (status === 500) {
+                    // Erro 500, não deve entrar aqui se os dados forem válidos
                     toastError("Erro interno do servidor. Tente novamente mais tarde.");
                 } else {
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
