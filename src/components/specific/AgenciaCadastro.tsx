@@ -206,59 +206,50 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
     
-        // Validação do CNPJ (descomentar se necessário)
-        /*if (!cnpj.isValid(cnpjNumerico)) {
-            toastError("CNPJ inválido.");
-            setCnpjValido(false);
-            return;
-        }*/
-    
         setLoading(true);
         try {
             const enderecoCompleto = `${rua}, ${numero}`;
+    
+            // Garante que age_descricao sempre seja enviado
             const updatedRequest = {
                 ...request,
                 age_endereco: enderecoCompleto,
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
-                aco_codigo: areacomercial, // Mantém o valor selecionado de aco_codigo
-                ...(request.age_descricao ? { age_descricao: request.age_descricao } : {})
+                aco_codigo: areacomercial,
+                age_descricao: request.age_descricao || "" // Envia age_descricao mesmo se estiver vazio
             };
-
+    
             console.log("Dados enviados para atualização:", updatedRequest);
     
             let response;
             if (request.age_codigo) {
-              // Atualizar agência
-              await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
+                // Atualizar agência
+                await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
             } else {
                 // Criar nova agência
                 response = await apiPostCreateAgencia(updatedRequest);
             }
     
-            // Verifica se a resposta foi bem-sucedida
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
     
                 if (!updatedRequest.age_codigo) {
-                    const novoCodigo = response.data.age_codigo; // Captura o novo código retornado
-                    onCodigoUpdate(novoCodigo); // Atualiza o código no componente pai
+                    const novoCodigo = response.data.age_codigo;
+                    onCodigoUpdate(novoCodigo);
     
-                    // Atualiza o estado com o novo código
                     setRequest(prevState => ({
                         ...prevState,
-                        age_codigo: novoCodigo, // ID retornado
-                        age_banco: prevState.age_banco, // Mantém o valor de age_banco
-                        aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
+                        age_codigo: novoCodigo,
+                        age_banco: prevState.age_banco,
+                        aco_codigo: prevState.aco_codigo
                     }));
                 }
             } else {
-                // Se a resposta não for bem-sucedida
                 toastError("Erro ao salvar a agência");
             }
         } catch (error: any) {
             console.error("Erro:", error);
-            // Manipulação de erro da resposta
             if (error.response) {
                 const status = error.response.status;
                 const data = error.response.data;
@@ -272,14 +263,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
             } else {
-                // Mensagem de erro de conexão
                 toastError("Erro de conexão. Verifique sua rede e tente novamente.");
             }
         } finally {
             setLoading(false);
         }
     };
-  
+
   const handleReset = (e: React.FormEvent) => {
       e.preventDefault();
       setRequest({} as AgenciaCreateRequest);
