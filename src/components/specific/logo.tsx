@@ -84,7 +84,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     return (
         <div>
             <Toast ref={toast}></Toast>
-            <h2>Upload de Imagem para a Agência: {codigo}</h2>
             <FileUpload
                 name="age_imagem"
                 url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${codigo}/`}
