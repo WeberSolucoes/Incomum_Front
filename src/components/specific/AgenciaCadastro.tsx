@@ -174,90 +174,92 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     age_celular: ""
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-      e.preventDefault();
-  
-      const camposNumericos: Array<keyof AgenciaCreateRequest> = [
-          'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
-          'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
-          'age_markup', 'age_numero', 'age_over'
-      ];
-  
-      for (const campo of camposNumericos) {
-          const value = request[campo] as string;
-          const isNumber = /^\d*$/.test(value);
-          if (value && !isNumber) {
-              toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
-              return;
-          }
-      }
-  
-      const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
-  
-      /*if (!cnpj.isValid(cnpjNumerico)) {
-          toastError("CNPJ inválido.");
-          setCnpjValido(false);
-          return;
-      }*/
-  
-      setLoading(true);
-      try {
-          const enderecoCompleto = `${rua}, ${numero}`;
-          const updatedRequest = {
-              ...request,
-              age_endereco: enderecoCompleto,
-              age_situacao: checked ? 1 : 0,
-              cid_codigo: ibge,
-              aco_codigo: areacomercial // mantém o valor selecionado de aco_codigo
-          };
-  
-          let response;
-          if (updatedRequest.age_codigo) {
-              // Atualizar agência existente
-              response = await apiPutUpdateAgencia(updatedRequest.age_codigo, updatedRequest);
-          } else {
-              
-              response = await apiPostCreateAgencia(updatedRequest);
-              onCodigoUpdate(novoCodigo);
-          }
-  
-          if (response.status === 200 || response.status === 201) {
-              toastSucess("Agência salva com sucesso");
-  
-              if (!updatedRequest.age_codigo) {
-                  onCodigoUpdate(response.data.age_codigo);
-                  // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado e preservar `aco_codigo`
-                  setRequest(prevState => ({
-                      ...prevState,
-                      age_codigo: response.data.age_codigo, // ID retornado
-                      age_banco: prevState.age_banco, // Mantém o valor de age_banco
-                      aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
-                  }));
-              }
-          } else {
-              toastError("Erro ao salvar a agência");
-          }
-      } catch (error: any) {
-          console.error("Erro:", error);
-          if (error.response) {
-              const status = error.response.status;
-              const data = error.response.data;
-              if (status === 400) {
-                  toastError("Dados inválidos. Verifique os campos e tente novamente.");
-              } else if (status === 401) {
-                  toastError("Não autorizado. Verifique suas credenciais.");
-              } else if (status === 500) {
-                  toastError("Erro interno do servidor. Tente novamente mais tarde.");
-              } else {
-                  toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
-              }
-          } else {
-              toastError("Erro de conexão. Verifique sua rede e tente novamente.");
-          }
-      } finally {
-          setLoading(false);
-      }
-  };
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+    
+        const camposNumericos: Array<keyof AgenciaCreateRequest> = [
+            'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
+            'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
+            'age_markup', 'age_numero', 'age_over'
+        ];
+    
+        // Validação dos campos numéricos
+        for (const campo of camposNumericos) {
+            const value = request[campo] as string;
+            const isNumber = /^\d*$/.test(value);
+            if (value && !isNumber) {
+                toastError(`O campo '${campoMapeamento[campo]}' deve conter apenas números.`);
+                return;
+            }
+        }
+    
+        const cnpjNumerico = request.age_cnpj?.replace(/\D/g, '') || '';
+    
+        // Validação do CNPJ (descomentar se necessário)
+        /*if (!cnpj.isValid(cnpjNumerico)) {
+            toastError("CNPJ inválido.");
+            setCnpjValido(false);
+            return;
+        }*/
+    
+        setLoading(true);
+        try {
+            const enderecoCompleto = `${rua}, ${numero}`;
+            const updatedRequest = {
+                ...request,
+                age_endereco: enderecoCompleto,
+                age_situacao: checked ? 1 : 0,
+                cid_codigo: ibge,
+                aco_codigo: areacomercial // Mantém o valor selecionado de aco_codigo
+            };
+    
+            let response;
+            if (updatedRequest.age_codigo) {
+                // Atualizar agência existente
+                response = await apiPutUpdateAgencia(updatedRequest.age_codigo, updatedRequest);
+            } else {
+                // Criar nova agência
+                response = await apiPostCreateAgencia(updatedRequest);
+                const novoCodigo = response.data.age_codigo; // Captura o novo código retornado
+                onCodigoUpdate(novoCodigo); // Atualiza o código no componente pai
+            }
+    
+            if (response.status === 200 || response.status === 201) {
+                toastSucess("Agência salva com sucesso");
+    
+                if (!updatedRequest.age_codigo) {
+                    // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado
+                    setRequest(prevState => ({
+                        ...prevState,
+                        age_codigo: response.data.age_codigo, // ID retornado
+                        age_banco: prevState.age_banco, // Mantém o valor de age_banco
+                        aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
+                    }));
+                }
+            } else {
+                toastError("Erro ao salvar a agência");
+            }
+        } catch (error: any) {
+            console.error("Erro:", error);
+            if (error.response) {
+                const status = error.response.status;
+                const data = error.response.data;
+                if (status === 400) {
+                    toastError("Dados inválidos. Verifique os campos e tente novamente.");
+                } else if (status === 401) {
+                    toastError("Não autorizado. Verifique suas credenciais.");
+                } else if (status === 500) {
+                    toastError("Erro interno do servidor. Tente novamente mais tarde.");
+                } else {
+                    toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
+                }
+            } else {
+                toastError("Erro de conexão. Verifique sua rede e tente novamente.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
   
   const handleReset = (e: React.FormEvent) => {
       e.preventDefault();
