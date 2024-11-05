@@ -83,14 +83,14 @@ const UnidadeListConsolidada: React.FC = () => {
                         <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
-                            style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
+                            style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
                             disabled={loading} // Desabilita o botão durante o carregamento
                         />
                         <Button
                             label="Criar"
                             icon="pi pi-plus"
-                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
+                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleCreateClick} // Chama a função de criação ao clicar no botão
                         />
                     </div>
