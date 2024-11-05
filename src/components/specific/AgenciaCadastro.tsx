@@ -220,27 +220,31 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             } else {
                 // Criar nova agência
                 response = await apiPostCreateAgencia(updatedRequest);
-                const novoCodigo = response.data.age_codigo; // Captura o novo código retornado
-                onCodigoUpdate(novoCodigo); // Atualiza o código no componente pai
             }
     
-            if (response.status === 200 || response.status === 201) {
+            // Verifica se a resposta foi bem-sucedida
+            if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
     
                 if (!updatedRequest.age_codigo) {
-                    // Se for um novo cadastro, atualizar o campo `age_codigo` com o ID gerado
+                    const novoCodigo = response.data.age_codigo; // Captura o novo código retornado
+                    onCodigoUpdate(novoCodigo); // Atualiza o código no componente pai
+    
+                    // Atualiza o estado com o novo código
                     setRequest(prevState => ({
                         ...prevState,
-                        age_codigo: response.data.age_codigo, // ID retornado
+                        age_codigo: novoCodigo, // ID retornado
                         age_banco: prevState.age_banco, // Mantém o valor de age_banco
                         aco_codigo: prevState.aco_codigo // Mantém o valor de aco_codigo
                     }));
                 }
             } else {
+                // Se a resposta não for bem-sucedida
                 toastError("Erro ao salvar a agência");
             }
         } catch (error: any) {
             console.error("Erro:", error);
+            // Manipulação de erro da resposta
             if (error.response) {
                 const status = error.response.status;
                 const data = error.response.data;
@@ -254,6 +258,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
             } else {
+                // Mensagem de erro de conexão
                 toastError("Erro de conexão. Verifique sua rede e tente novamente.");
             }
         } finally {
