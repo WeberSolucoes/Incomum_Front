@@ -223,8 +223,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             console.log("Dados enviados para atualização:", updatedRequest);
             
             let response;
-            if (updatedRequest.age_codigo) {
-                response = await apiPutUpdateAgencia(updatedRequest.age_codigo, updatedRequest);
+            if (request.age_codigo) {
+                response = await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
             } else {
                 response = await apiPostCreateAgencia(updatedRequest);
             }
