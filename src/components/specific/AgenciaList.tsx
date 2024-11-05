@@ -43,6 +43,7 @@ const AgenciaList: React.FC = () => {
         setLoading(true);
         try {
             const response = await apiGetAgencia(searchTerm); // Passando o termo de pesquisa
+            console.log(response.data); // Para verificar o que está sendo retornado
             const mappedData: AgenciaListResponse[] = response.data.map((item: any) => ({
                 codigo: item.age_codigo,
                 descricao: item.age_descricao,
