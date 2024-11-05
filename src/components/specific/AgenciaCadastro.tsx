@@ -263,8 +263,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
             } else {
-                // Se o erro não tem resposta, exibe o erro de conexão
-                toastError("Erro de conexão. Verifique sua rede e tente novamente.");
+                console.error("Detalhes do erro:", data);
             }
         } finally {
             setLoading(false);
