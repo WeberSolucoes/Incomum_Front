@@ -19,7 +19,7 @@ const AgenciaList: React.FC = () => {
     const [view, setView] = useState<'list' | 'create'>('list');
     const [loading, setLoading] = useState(false);
     const [activeIndex, setActiveIndex] = useState(0);
-    const [codigoSelecionado, setCodigoSelecionado] = useState<number | null>(null); // Estado para o código da agência selecionada
+    const [codigoSelecionado, setCodigoSelecionado] = useState<number | null>(null);
 
     const getTitle = () => {
         switch (activeIndex) {
@@ -58,18 +58,20 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleCodeClick = (codigo: number) => {
-        setCodigoSelecionado(codigo); // Armazena o código selecionado
-        setActiveIndex(0); // Inicializa na aba de Cadastro Agência
+        setCodigoSelecionado(codigo);
+        setView('create'); // Abre a view de cadastro ao selecionar
+        setActiveIndex(0);
     };
 
     const handleCreateClick = () => {
         setCodigoSelecionado(null); // Reseta o código ao criar um novo cadastro
-        setView('create'); // Altera para a view de criação
-        setActiveIndex(0); // Retorna para a aba de Cadastro Agência
+        setView('create');
+        setActiveIndex(0);
     };
 
     const handleBackClick = () => {
         setView('list');
+        setCodigoSelecionado(null); // Limpa a seleção ao voltar para lista
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
@@ -77,15 +79,16 @@ const AgenciaList: React.FC = () => {
     };
 
     const handleTabChange = (event: any) => {
-        // Permite mudar de aba apenas se uma agência estiver selecionada
         if (codigoSelecionado !== null) {
             setActiveIndex(event.index);
+        } else {
+            toastError("Selecione ou cadastre uma agência primeiro.");
         }
     };
 
     const handleCodigoUpdate = (novoCodigo: number) => {
-        setCodigoSelecionado(novoCodigo); // Atualiza o código da agência após a criação
-        setActiveIndex(0); // Retorna para a aba de Cadastro Agência
+        setCodigoSelecionado(novoCodigo);
+        toastSuccess("Cadastro realizado com sucesso! As abas estão liberadas.");
     };
 
     return (
@@ -122,13 +125,13 @@ const AgenciaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{ color: '#0152a1' }}>Cadastro de Agência</h1>
+                    <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
                     <TabView activeIndex={activeIndex} onTabChange={handleTabChange}>
                         <TabPanel header="Dados Gerais">
-                            <AgenciaCadastro 
+                            <Agencia 
                                 agenciaId={codigoSelecionado} 
                                 onBackClick={handleBackClick}
-                                onCodigoUpdate={handleCodigoUpdate} // Passa a função para atualizar o código
+                                onCodigoUpdate={handleCodigoUpdate}
                             />
                         </TabPanel>
                         <TabPanel header="Agente">
