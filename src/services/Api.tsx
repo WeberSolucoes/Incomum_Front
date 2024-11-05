@@ -89,7 +89,7 @@ export const apiDeleteAgencia = (id: number) => axiosInstance.delete(`${ApiEndpo
 
 export const apiGetAgenciaById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_AGENCIA_BY_ID}${id}/`)
 
-export const apiPutUpdateAgencia = (id: number) => axiosInstance.put(`${ApiEndpoints.EDIT_AGENCIA}${id}/`)
+export const apiPutUpdateAgencia = (id: number,data: AgenciaCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_AGENCIA}${id}/`, data)
 
 export const apiGetVendedor = () => axiosInstance.get(ApiEndpoints.LIST_VENDEDOR)
 
