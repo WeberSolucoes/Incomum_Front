@@ -245,8 +245,19 @@ const Unidade: React.FC = ({onBackClick}) => {
                 response = await apiPutUpdateUnidade(request, request.loj_codigo);
             }
 
-            if (response.status ===  200 || response.status === 201) {
-                toastSucess("Unidade salva com sucesso");
+            if (response && (response.status === 200 || response.status === 201)) {
+                toastSucess("Loja salva com sucesso");
+                
+                // Verifique se 'loj_codigo' não está presente no request
+                if (!request.loj_codigo) {
+                    const novoCodigo = response.data.loj_codigo;  // Pegue o 'loj_codigo' retornado
+                    onCodigoUpdate(novoCodigo);  // Chame a função para atualizar o código
+            
+                    setRequest(prevState => ({
+                        ...prevState,
+                        loj_codigo: novoCodigo  // Atualize o estado com o novo 'loj_codigo'
+                    }));
+                }
             } else {
                 toastError("Erro ao salvar a unidade");
             }
