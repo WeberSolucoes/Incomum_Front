@@ -163,7 +163,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
           setLoading(true);
           try {
               await apiDeleteAgencia(request.age_codigo);
-              form.reset();
               toastSucess('Cadastro excluído com sucesso.');
           } catch (error) {
               console.error('Erro ao excluir o cadastro:', error);
