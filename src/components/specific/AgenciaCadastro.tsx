@@ -192,7 +192,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
             'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
             'age_codigoimportacao', 'age_comissao', 'age_contacorrente',
-            'age_markup', 'age_numero', 'age_over'
+            'age_markup', 'age_numero', 'age_over','aco_codigo'
         ];
     
         // Validação dos campos numéricos
