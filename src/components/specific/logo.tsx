@@ -109,6 +109,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
                 invalidFileSizeMessageSummary={invalidFileSizeMessageSummary}
                 invalidFileSizeMessageDetail={invalidFileSizeMessageDetail}
                 onError={onTemplateError}
+                value={currentImageUrl ? [{ name: 'Imagem Atual', url: currentImageUrl }] : []}
                 multiple={false}
             />
         </div>
