@@ -103,18 +103,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   };
 
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const { id, value } = e.target;
-    
-    setRequest(prevState => {
-      // Atualiza o valor baseado no id, se for relacionado à área comercial
-      if (id === 'aco_codigo') {
-        return { 
-          ...prevState, 
-          areaComercial: value // Atualiza o campo da área comercial
-        };
-      }
-      return prevState; // Retorna o estado atual se não for o 'aco_codigo'
-    });
+    const { value } = e.target;
+
+    // Atualiza o valor de aco_codigo no estado
+    setRequest((prevState) => ({
+      ...prevState,
+      aco_codigo: value,
+    }));
   };
 
   const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
