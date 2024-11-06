@@ -140,6 +140,7 @@ const Unidade: React.FC = ({onBackClick}) => {
             setLoading(true);
             try {
                 await apiDeleteUnidade(request.loj_codigo);
+                form.reset();
                 toastSucess("Cadastro excluído com sucesso.");
             } catch (error) {
                 console.error('Erro ao excluir o cadastro:', error);
