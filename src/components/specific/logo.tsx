@@ -14,7 +14,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
-        if (agenciaId) {
+        if (codigo) {
             // Buscar a imagem atual da agência
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
                 .then(response => {
@@ -24,12 +24,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
                     toast.current.show({ severity: 'warn', summary: 'Imagem não encontrada', detail: 'Nenhuma imagem atual para esta agência.' });
                 });
         }
-    }, [agenciaId]);
+    }, [codigo]);
 
     const onTemplateUpload = (e: any) => {
         toast.current.show({ severity: 'success', summary: 'Upload realizado', detail: e.files.length + ' arquivo(s) enviado(s)' });
         // Atualizar a imagem após o upload
-        if (agenciaId) {
+        if (codigo) {
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
                 .then(response => setCurrentImageUrl(response.data.age_imagem));
         }
