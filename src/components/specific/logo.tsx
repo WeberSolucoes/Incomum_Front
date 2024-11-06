@@ -16,7 +16,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     useEffect(() => {
         if (codigo) {
             // Buscar a imagem atual da agência
-            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
+            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image; // Pegando a imagem Base64
                     setCurrentImageUrl(`data:image/png;base64,${imageData}`); // Adicionando o prefixo "data:image/png;base64,"
@@ -31,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
         toast.current.show({ severity: 'success', summary: 'Upload realizado', detail: e.files.length + ' arquivo(s) enviado(s)' });
         // Atualizar a imagem após o upload
         if (codigo) {
-            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
+            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image;
                     setCurrentImageUrl(`data:image/png;base64,${imageData}`);
