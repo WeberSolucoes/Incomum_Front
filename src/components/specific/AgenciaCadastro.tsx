@@ -179,7 +179,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     age_fax: "",
     age_cnpj: "",
     age_situacao: "",
-    aco_codigo: "",
     age_observacao: "",
     age_descricaosite: "",
     age_inscricaomunicipal: "",
@@ -217,7 +216,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 age_endereco: enderecoCompleto,
                 age_situacao: checked ? 1 : 0,
                 cid_codigo: ibge,
-                aco_codigo: areacomercial,
+                aco_codigo: request.aco_codigo?.trim() || ""
                 age_descricao: request.age_descricao?.trim() || ""
             };
     
