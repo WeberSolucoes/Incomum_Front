@@ -19,7 +19,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image; // Pegando a imagem Base64
-                    setCurrentImageUrl(`data:image/png;base64,${imageData}`); // Adicionando o prefixo "data:image/png;base64,"
+                    setCurrentImageUrl(imageData); // Adicionando o prefixo "data:image/png;base64,"
                 })
                 .catch(() => {
                     toast.current.show({ severity: 'warn', summary: 'Imagem não encontrada', detail: 'Nenhuma imagem atual para esta agência.' });
@@ -34,7 +34,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image;
-                    setCurrentImageUrl(`data:image/png;base64,${imageData}`);
+                    setCurrentImageUrl(imageData);
                 });
         }
     };
