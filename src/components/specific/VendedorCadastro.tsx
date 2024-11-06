@@ -180,11 +180,14 @@ const Vendedor: React.FC = ({onBackClick}) => {
             request.ven_situacao = checked ? 1 : 0;
             request.cid_codigo = ibge;
             request.aco_codigo = areacomercial;
+
+            console.log("Dados do request antes do envio:", request); 
     
             let response;
             if (request.ven_codigo) {
                 // Atualizar vendedor existente
                 response = await apiPutUpdateVendedor(request.ven_codigo, request);
+                
             } else {
                 // Criar novo vendedor
                 const { ven_codigo, ...newRequest } = request; // Remove ven_codigo
