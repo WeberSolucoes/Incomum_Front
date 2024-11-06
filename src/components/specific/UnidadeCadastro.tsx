@@ -235,12 +235,14 @@ const Unidade: React.FC = ({onBackClick}) => {
             aco_codigo: request.aco_codigo || "";
 
             let response;
-            if (request.loj_codigo) {
-                console.log(request.loj_codigo||"1");
-                response = await apiPutUpdateUnidade(request, request.loj_codigo);
-            } else {
-                console.log(request.loj_codigo||"2");
+            if (!request.loj_codigo) {
+                // Criação de novo registro
+                console.log("Criando novo registro...");
                 response = await apiPostCreateUnidade(request);
+            } else {
+                // Atualização de registro existente
+                console.log("Atualizando registro existente...");
+                response = await apiPutUpdateUnidade(request, request.loj_codigo);
             }
 
             if (response.status ===  200 || response.status === 201) {
