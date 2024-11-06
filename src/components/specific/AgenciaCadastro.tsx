@@ -93,6 +93,15 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     fetchAreasComerciais();
 }, []);
 
+    const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const { id, value } = e.target;
+      setRequest(prevState => ({ ...prevState, [id]: value }));
+
+      if (id === 'loj_cnpj') {
+        setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
+      }
+    };
+    
   const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const selectedValue = e.target.value;
       console.log("Valor selecionado:", selectedValue);  // Verifica o valor capturado
