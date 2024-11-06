@@ -248,7 +248,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             // Verifica se a resposta foi bem-sucedida antes de mostrar o toast de sucesso
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
-                if (!updatedRequest.age_codigo) {
+                if (!request.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
     
                     setRequest(prevState => ({
