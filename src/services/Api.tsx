@@ -97,7 +97,7 @@ export const apiPostCreateVendedor = (data: VendedorCreateRequest) => axiosInsta
 
 export const apiGetVendedorById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_VENDEDOR_BY_ID}${id}/`)
 
-export const apiPutUpdateVendedor = (id: number) => axiosInstance.put(`${ApiEndpoints.EDIT_VENDEDOR}${id}/`)
+export const apiPutUpdateVendedor = (id: number,data: VendedorCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_VENDEDOR}${id}/`, data)
 
 export const apiDeleteVendedor = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_VENDEDOR}${id}/`)
 
