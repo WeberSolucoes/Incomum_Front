@@ -99,7 +99,7 @@ const Relatorio = () => {
         }
         try {
             // Tenta carregar as áreas comerciais
-            const areasResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/list-all-areas/');
+            const areasResponse = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/list-all-area/');
             setAreasComerciais(areasResponse.data.associacoes.map(item => ({ label: item.aco_descricao, value: item.aco_codigo })));
         } catch (error) {
             toastError('Erro ao carregar as áreas comerciais');
