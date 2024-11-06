@@ -100,11 +100,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       setRequest(prevState => ({ ...prevState, aco_codigo: selectedValue }));
     };
 
-  const handleSelectChange  = (e: { value: number }) => {
-      setSelectedAreas(e.value);
-      setRequest(prevState => ({ ...prevState, areasComerciais: e.value }));
-  };
-
   const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value.replace(/\D/g, '');
       setRequest(prevState => ({ ...prevState, 'cep_codigo': value }));
