@@ -63,24 +63,6 @@ const Vendedor: React.FC = ({onBackClick}) => {
         fetchData();
     }, [codigo]);
 
-    useEffect(() => {
-        const fetchAreasComerciais = async () => {
-            try {
-                const response = await apiGetArea();
-                const data = response.data;
-                setAreaComercial(data.aco_codigo)
-                setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
-                    label: area.aco_descricao,
-                    value: area.aco_codigo
-                })));
-            } catch (error) {
-                console.error("Erro ao buscar áreas comerciais:", error);
-                toastError("Erro ao buscar áreas comerciais.");
-            }
-        };
-        fetchAreasComerciais();
-    }, []);
-
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
         setRequest(prevState => ({ ...prevState, [id]: value }));
