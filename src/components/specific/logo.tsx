@@ -9,32 +9,31 @@ interface ImageUploadProps {
 }
 
 const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
-    const { codigo } = useCodigo(); // Ajuste conforme a origem do código
     const toast = useRef<any>(null);
     const [currentImageUrl, setCurrentImageUrl] = useState<string | null>(null);
 
     useEffect(() => {
-        if (codigo) {
+        if (agenciaId) {
             // Buscar a imagem atual da agência
-            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
+            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${agenciaId}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image; // Pegando a imagem Base64
-                    setCurrentImageUrl(imageData); // Adicionando o prefixo "data:image/png;base64,"
+                    setCurrentImageUrl(imageData); // Atualizando o estado da imagem
                 })
                 .catch(() => {
                     toast.current.show({ severity: 'warn', summary: 'Imagem não encontrada', detail: 'Nenhuma imagem atual para esta agência.' });
                 });
         }
-    }, [codigo]);
+    }, [agenciaId]);
 
     const onTemplateUpload = (e: any) => {
         toast.current.show({ severity: 'success', summary: 'Upload realizado', detail: e.files.length + ' arquivo(s) enviado(s)' });
         // Atualizar a imagem após o upload
-        if (codigo) {
-            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem/`)
+        if (agenciaId) {
+            axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${agenciaId}/imagem/`)
                 .then(response => {
                     const imageData = response.data.image;
-                    setCurrentImageUrl(imageData);
+                    setCurrentImageUrl(imageData); // Atualizando a imagem
                 });
         }
     };
@@ -53,6 +52,18 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     const onTemplateError = (e: any) => {
         toast.current.show({ severity: 'error', summary: 'Erro no upload', detail: e.files[0].name + ' não foi enviado.' });
     };
+
+    // Criar um "arquivo fictício" para exibir no value do FileUpload
+    const fakeFile = currentImageUrl
+        ? [
+            {
+                name: 'Imagem Atual',
+                type: 'image/png', // Tipo da imagem
+                size: currentImageUrl.length, // Tamanho da imagem base64
+                objectURL: `data:image/png;base64,${currentImageUrl}`, // URL Base64 da imagem
+            },
+        ]
+        : [];
 
     const chooseOptions = { 
         label: 'Selecionar Arquivos', 
@@ -93,12 +104,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             {currentImageUrl && (
                 <div style={{ marginBottom: '1rem' }}>
                     <h4>Imagem Atual</h4>
-                    <img src={currentImageUrl} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px' }} />
+                    <img src={`data:image/png;base64,${currentImageUrl}`} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px' }} />
                 </div>
             )}
             <FileUpload
                 name="age_imagem"
-                url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${codigo}/`}
+                url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${agenciaId}/`}
                 accept="image/*"
                 maxFileSize={1000000}
                 onUpload={onTemplateUpload}
@@ -109,7 +120,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
                 invalidFileSizeMessageSummary={invalidFileSizeMessageSummary}
                 invalidFileSizeMessageDetail={invalidFileSizeMessageDetail}
                 onError={onTemplateError}
-                multiple={false}
+                value={fakeFile} // Passando o arquivo fictício no value
+                multiple={false} // Impede o upload de mais de um arquivo
             />
         </div>
     );
