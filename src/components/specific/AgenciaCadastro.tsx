@@ -128,6 +128,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       setSelectedAreas(e.value);
       setRequest(prevState => ({ ...prevState, areasComerciais: e.value }));
   };
+  const handleBancoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setRequest((prevRequest) => ({
+            ...prevRequest,
+            [name]: value
+        }));
+    };
 
   const handleDeleteClick = () => {
       if (request.age_codigo) {
@@ -413,10 +420,10 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="ban_codigo">Banco</label>
-          <select id="ban_codigo" name="ban_codigo" value={request.ban_codigo || ''} onChange={handleSelectChange}>
-            <option value="Caixa">Caixa</option>
-            <option value="Bradesco">Bradesco</option>
-            <option value="Santander">Santander</option>
+          <select id="ban_codigo" name="ban_codigo" value={request.ban_codigo || ''} onChange={handleBancoChange}>
+            <option value="1">Caixa</option>
+            <option value="2">Bradesco</option>
+            <option value="3">Santander</option>
           </select>
         </div>
         <div className="form-group">
