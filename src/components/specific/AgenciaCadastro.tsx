@@ -264,7 +264,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
                 }
             } else {
-                console.error("Detalhes do erro:", data);
+                console.error("Detalhes do erro:");
             }
         } finally {
             setLoading(false);
