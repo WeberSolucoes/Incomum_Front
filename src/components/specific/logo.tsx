@@ -92,8 +92,8 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             <Toast ref={toast}></Toast>
             {currentImageUrl && (
                 <div style={{ marginBottom: '1rem' }}>
-                    <h4>Imagem Atual</h4>
-                    <img src={currentImageUrl} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px' }} />
+                    <h4 style={{ backgroundColor: '#0152a1',marginLeft:'400px',marginTop:'6px' }} >Imagem Atual</h4>
+                    <img src={currentImageUrl} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px',marginLeft:'320px' }} />
                 </div>
             )}
             <FileUpload
