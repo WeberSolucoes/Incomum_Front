@@ -135,6 +135,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             [name]: value
         }));
     };
+  const handleAtivoChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+        const { name, value } = event.target;
+        setRequest((prevRequest) => ({
+            ...prevRequest,
+            [name]: value, // Atualiza o valor do estado baseado no 'name' do campo
+        }));
+    };
 
   const handleDeleteClick = () => {
       if (request.age_codigo) {
@@ -327,9 +334,9 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         </div>
         <div className="form-group">
           <label style={{marginLeft:'-238px'}} htmlFor="age_situacao">Situação</label>
-          <select style={{marginLeft:'-240px', width:'105%'}} id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleSelectChange}>
-            <option value="ativo">Ativo</option>
-            <option value="inativo">Inativo</option>
+          <select style={{marginLeft:'-240px', width:'105%'}} id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleAtivoChange}>
+            <option value="1">Ativo</option>
+            <option value="0">Inativo</option>
           </select>
         </div>
       </div>
