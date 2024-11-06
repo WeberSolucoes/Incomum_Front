@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState  } from 'react';
 import { FileUpload } from 'primereact/fileupload';
 import { Toast } from 'primereact/toast';
 import { useCodigo } from '../../contexts/CodigoProvider';
-
+import axios from 'axios';
 
 interface ImageUploadProps {
     agenciaId: number | null; // Recebe o ID da agência como prop
