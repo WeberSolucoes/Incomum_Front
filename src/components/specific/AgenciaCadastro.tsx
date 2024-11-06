@@ -412,8 +412,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
       <div className="form-row">
         <div className="form-group">
-          <label htmlFor="age_banco">Banco</label>
-          <select id="age_banco" name="age_banco" value={request.ban_codigo || ''} onChange={handleSelectChange}>
+          <label htmlFor="ban_codigo">Banco</label>
+          <select id="ban_codigo" name="ban_codigo" value={request.ban_codigo || ''} onChange={handleSelectChange}>
             <option value="Caixa">Caixa</option>
             <option value="Bradesco">Bradesco</option>
             <option value="Santander">Santander</option>
