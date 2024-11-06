@@ -62,14 +62,19 @@ const Unidade: React.FC = ({onBackClick}) => {
                 const response = await apiGetArea();
                 const data = response.data;
 
-                // Verifique se `data` possui o formato esperado
-                console.log('Áreas Comerciais recebidas:', data);
+                console.log('Dados recebidos da API:', data);
 
-                // Atualiza `areasComerciais` com os dados recebidos
-                setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
-                    label: area.aco_descricao,
-                    value: area.aco_codigo
-                })));
+                // Acessa o array correto dentro de `data.associacoes`
+                const areas = data.associacoes;
+                if (Array.isArray(areas)) {
+                    setAreasComerciais(areas.map((area: { aco_descricao: string; aco_codigo: number }) => ({
+                        label: area.aco_descricao,
+                        value: area.aco_codigo
+                    })));
+                } else {
+                    console.error("Estrutura inesperada de dados:", data);
+                    toastError("Erro ao processar dados das áreas comerciais.");
+                }
             } catch (error) {
                 console.error("Erro ao buscar áreas comerciais:", error);
                 toastError("Erro ao buscar áreas comerciais.");
