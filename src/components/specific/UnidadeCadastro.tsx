@@ -551,9 +551,9 @@ const Unidade: React.FC = ({onBackClick}) => {
                     <label htmlFor="departamento">N Venda Corte</label>
                     <input
                         type="text"
-                        id="loj_codigo"
-                        name="loj_codigo"
-                        value={request.loj_codigo || ''}
+                        id="loj_vendacorte"
+                        name="loj_vendacorte"
+                        value={request.loj_vendacorte || ''}
                         onChange={handleInputChange} />
                 </div>
                 <div className="form-group">
