@@ -18,7 +18,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
             // Buscar a imagem atual da agência
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
                 .then(response => {
-                    setCurrentImageUrl(response.data.age_imagem); // Ajuste conforme o nome do campo no backend
+                    setCurrentImageUrl(response.data.image); // Ajuste conforme o nome do campo no backend
                 })
                 .catch(() => {
                     toast.current.show({ severity: 'warn', summary: 'Imagem não encontrada', detail: 'Nenhuma imagem atual para esta agência.' });
@@ -31,7 +31,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
         // Atualizar a imagem após o upload
         if (codigo) {
             axios.get(`http://18.118.35.25:8443/api/incomum/agencia/${codigo}/imagem`)
-                .then(response => setCurrentImageUrl(response.data.age_imagem));
+                .then(response => setCurrentImageUrl(response.data.image));
         }
     };
 
