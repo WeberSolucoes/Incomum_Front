@@ -251,7 +251,6 @@ const Unidade: React.FC = ({onBackClick}) => {
                 // Verifique se 'loj_codigo' não está presente no request
                 if (!request.loj_codigo) {
                     const novoCodigo = response.data.loj_codigo;  // Pegue o 'loj_codigo' retornado
-                    onCodigoUpdate(novoCodigo);  // Chame a função para atualizar o código
             
                     setRequest(prevState => ({
                         ...prevState,
