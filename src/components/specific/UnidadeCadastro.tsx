@@ -61,7 +61,11 @@ const Unidade: React.FC = ({onBackClick}) => {
             try {
                 const response = await apiGetArea();
                 const data = response.data;
-                setAreaComercial(data.aco_codigo);
+
+                // Verifique se `data` possui o formato esperado
+                console.log('Áreas Comerciais recebidas:', data);
+
+                // Atualiza `areasComerciais` com os dados recebidos
                 setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
                     label: area.aco_descricao,
                     value: area.aco_codigo
@@ -88,6 +92,7 @@ const Unidade: React.FC = ({onBackClick}) => {
         const { id, value } = e.target;
         setRequest(prevState => ({ ...prevState, [id]: value }));
     };
+
 
     const handleCepChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const value = e.target.value.replace(/\D/g, '');
