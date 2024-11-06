@@ -424,8 +424,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
           <input type="text" id="age_agencia" name="age_agencia" value={request.age_agencia || ''} onChange={handleInputChange} />
         </div>
         <div className="form-group">
-          <label htmlFor="age_conta">Conta</label>
-          <input type="text" id="age_conta" name="age_conta" value={request.age_contacorrente|| ''} onChange={handleInputChange} />
+          <label htmlFor="age_contacorrente">Conta</label>
+          <input type="text" id="age_contacorrente" name="age_contacorrente" value={request.age_contacorrente|| ''} onChange={handleInputChange} />
         </div>
       </div>
 
