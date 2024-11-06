@@ -250,7 +250,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 toastSucess("Agência salva com sucesso");
                 if (!updatedRequest.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
-                    onCodigoUpdate(novoCodigo);
     
                     setRequest(prevState => ({
                         ...prevState,
@@ -322,7 +321,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_codigo">Codigo</label>
-          <input disabled type="text" id="age_codigo" name="age_codigo" value={request.age_codigo || ''} onChange={handleInputChange} />
+          <input disabled type="text" id="age_codigo" name="age_codigo" value={request.loj_codigo} onChange={handleInputChange} />
         </div>
         <div className="form-group">
           <label style={{marginLeft:'-78px'}} htmlFor="age_codigoimportacao">Importação</label>
