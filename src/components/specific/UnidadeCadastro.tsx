@@ -232,7 +232,7 @@ const Unidade: React.FC = ({onBackClick}) => {
             request.loj_endereco = enderecoCompleto;
             request.loj_situacao = checked ? 1 : 0;
             request.cid_codigo = ibge;
-            request.aco_codigo = areacomercial;
+            aco_codigo: request.aco_codigo || "";
 
             let response;
             if (request.loj_codigo) {
