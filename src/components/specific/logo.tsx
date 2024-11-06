@@ -90,12 +90,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
     return (
         <div>
             <Toast ref={toast}></Toast>
-            {currentImageUrl && (
-                <div style={{ marginBottom: '1rem' }}>
-                    <h4 style={{ color: '#0152a1',marginLeft:'400px',marginTop:'6px' }} >Logo Atual</h4>
-                    <img src={currentImageUrl} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px',marginLeft:'320px' }} />
-                </div>
-            )}
+            
             <FileUpload
                 name="age_imagem"
                 url={`http://18.118.35.25:8443/api/incomum/agencia/upload/${codigo}/`}
@@ -111,6 +106,12 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ agenciaId }) => {
                 onError={onTemplateError}
                 multiple={false}
             />
+            {currentImageUrl && (
+                <div style={{ marginBottom: '1rem' }}>
+                    <h4 style={{ color: '#0152a1',marginLeft:'400px',marginTop:'6px' }} >Logo Atual</h4>
+                    <img src={currentImageUrl} alt="Imagem da Agência" style={{ width: '100%', maxWidth: '300px', borderRadius: '10px',marginLeft:'320px' }} />
+                </div>
+            )}
         </div>
     );
 };
