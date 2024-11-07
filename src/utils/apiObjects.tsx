@@ -157,6 +157,13 @@ interface AgenteCreateRequest{
     ban_codigo: number,   // Adicionando campo 'agt_banco'
     agt_contacorrente: number, // Adicionando campo 'agt_conta_corrente  
 }
+interface AeroportoCreateRequest{
+    aer_descricao: string;
+    cid_codigo: number;
+    aer_observacao: string;
+    aer_fone: string;
+    aer_email: string;
+}
 
 
 export type {
@@ -171,6 +178,8 @@ export type {
     AgenciaCreateRequest,
     VendedorCreateRequest,
     AgenteCreateRequest,
+    AeroportoCreateRequest,
+
 
 }
 
