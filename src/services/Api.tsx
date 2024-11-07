@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,11 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiCreateAeroporto = (data: AeroportoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_AEROPORTO, data);
+
+export const apiPutAeroporto = (id: number, data: AeroportoCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_AEROPORTO}${id}/`, data);
+
 export const apiGetUserId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
 
 export const apiGetPermissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
