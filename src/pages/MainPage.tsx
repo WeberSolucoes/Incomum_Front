@@ -18,6 +18,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import Unidade from '../components/specific/UnidadeCadastro';
 import Agencia from '../components/specific/AgenciaCadastro';
 import Dashboard from '../components/specific/FaturamentoVendedor';
+import AeroportoList from '../components/specific/AeroportoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -119,6 +120,12 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Vendedor'>
                         <VendedorList />
+                    </FormLayout>
+                );
+            case 'cadastro_aeroporto':
+                return (
+                    <FormLayout name='Aeroporto'>
+                        <AeroportoList />
                     </FormLayout>
                 );
             case 'lancamento_opcao':
