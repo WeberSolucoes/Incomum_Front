@@ -41,5 +41,11 @@ export enum ApiEndpoints {
     CREATE_VENDEDOR = 'incomum/vendedor/create/',
     LIST_VENDEDOR_BY_ID = 'incomum/vendedor/find-byid/',
     EDIT_VENDEDOR = 'incomum/vendedor/update/',
-    DELETE_VENDEDOR = 'incomum/vendedor/delete/'
+    DELETE_VENDEDOR = 'incomum/vendedor/delete/',
+
+    LIST_AEROPORTO = 'incomum/aeroporto/list-all/',
+    CREATE_AEROPORTO = 'incomum/aeroporto/create/',
+    LIST_AEROPORTO_BY_ID = 'incomum/aeroporto/find-byid/',
+    EDIT_AEROPORTO = 'incomum/aeroporto/update/',
+    DELETE_AEROPORTO = 'incomum/aeroporto/delete/'
 }
