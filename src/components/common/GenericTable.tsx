@@ -7,10 +7,11 @@ interface GenericTableProps<T> {
     filteredItems: T[];
     emptyMessage: string;
     onCodeClick?: (codigo: number) => void; // Função chamada ao clicar no código
+    columns?: { field?: string; header?: string }[]; // Colunas dinâmicas, com valores opcionais
 }
 
-const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericTableProps<T>) => {
-    // Template para renderizar o item do código, agora sem função de clique
+const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns }: GenericTableProps<T>) => {
+    // Template para renderizar o item do código
     const itemTemplate = (item: any) => {
         return (
             <span style={{ cursor: 'default', color: 'black' }}>
@@ -18,6 +19,16 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
             </span>
         );
     };
+
+    // Colunas padrão (caso não sejam passadas colunas)
+    const defaultColumns = [
+        { field: 'descricao', header: 'Descrição' },
+        { field: 'responsavel', header: 'Responsável' },
+        { field: 'email', header: 'E-mail' },
+    ];
+
+    // Se as colunas não forem passadas, usa as colunas padrão
+    const finalColumns = columns?.length ? columns : defaultColumns;
 
     return (
         <DataTable 
@@ -35,10 +46,14 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick }: GenericT
                 body={itemTemplate} // Usa o template de item sem ação de clique
             />
             
-            {/* Outras colunas da tabela */}
-            <Column field="descricao" header="Descrição" />
-            <Column field="responsavel" header="Responsável" />
-            <Column field="email" header="E-mail" />
+            {/* Colunas dinâmicas passadas como parâmetro ou as colunas padrão */}
+            {finalColumns.map((col, index) => (
+                <Column 
+                    key={index} 
+                    field={col.field || 'defaultField'} // Valor padrão para field
+                    header={col.header || 'Default Header'} // Valor padrão para header
+                />
+            ))}
             
             {/* Coluna do botão Editar */}
             <Column
