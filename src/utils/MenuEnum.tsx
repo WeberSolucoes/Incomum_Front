@@ -56,7 +56,8 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_vendedores);
-                },
+                }
+            },
             {
                 label: "Aeroporto",
                 icon: "cilUser",
