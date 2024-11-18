@@ -34,6 +34,23 @@ interface VendedorListResponse {
     "email": string | null,
 }
 
+interface AreaComercialResponse {
+    "codigo": number,
+    "descricao": string,
+    "situacao": number,
+    "rateio": number,
+}
+
+interface LojaComercialResponse{
+    "lojcodigo": number,
+    "acocodigo": number,
+}
+
+interface LojaComercialCreateRequest {
+    loj_codigo: number,
+    aco_codigo: number,
+}
+
 interface UnidadesCreateRequest {
     loj_cep: string,
     loj_numero: number,
@@ -165,6 +182,13 @@ interface AeroportoCreateRequest{
     aer_email: string;
 }
 
+interface AreaComercialCreateRequest{
+    aco_codigo: number | any;
+    aco_descricao: string;
+    aco_situacao: number;
+    aco_rateio: number; 
+}
+
 
 export type {
     LoginRequest,
@@ -179,7 +203,10 @@ export type {
     VendedorCreateRequest,
     AgenteCreateRequest,
     AeroportoCreateRequest,
-
+    AreaComercialCreateRequest,
+    AreaComercialResponse,
+    LojaComercialCreateRequest,
+    LojaComercialResponse,
 
 }
 
