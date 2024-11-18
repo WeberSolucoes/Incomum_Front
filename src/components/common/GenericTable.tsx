@@ -8,9 +8,10 @@ interface GenericTableProps<T> {
     emptyMessage: string;
     onCodeClick?: (codigo: number) => void; // Função chamada ao clicar no código
     columns?: { field?: string; header?: string }[]; // Colunas dinâmicas, com valores opcionais
+    showEditButton?: boolean; // Parâmetro para controlar se o botão de editar deve ser exibido
 }
 
-const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns }: GenericTableProps<T>) => {
+const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns, showEditButton = true }: GenericTableProps<T>) => {
     // Template para renderizar o item do código
     const itemTemplate = (item: any) => {
         return (
@@ -22,6 +23,7 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns }:
 
     // Colunas padrão (caso não sejam passadas colunas)
     const defaultColumns = [
+        { field: 'codigo', header: 'Código', body:{itemTemplate} },
         { field: 'descricao', header: 'Descrição' },
         { field: 'responsavel', header: 'Responsável' },
         { field: 'email', header: 'E-mail' },
@@ -39,13 +41,6 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns }:
             rows={10} // Número padrão de itens por página
             rowsPerPageOptions={[5, 10, 25, 50]} // Opções de quantidade de itens por página
         >
-            {/* Coluna do Código sem ação de clique */}  
-            <Column 
-                field="codigo" 
-                header="Código" 
-                body={itemTemplate} // Usa o template de item sem ação de clique
-            />
-            
             {/* Colunas dinâmicas passadas como parâmetro ou as colunas padrão */}
             {finalColumns.map((col, index) => (
                 <Column 
@@ -55,25 +50,27 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns }:
                 />
             ))}
             
-            {/* Coluna do botão Editar */}
-            <Column
-                header="Editar" // Header do botão de editar
-                body={(rowData) => (
-                    <Button 
-                        icon="pi pi-pencil" 
-                        className="p-button-text p-button-rounded p-button-sm" 
-                        tooltip="Editar"
-                        tooltipOptions={{ position: 'top' }}
-                        onClick={() => {
-                            // Ação de clique associada apenas ao botão de editar
-                            if (onCodeClick) {
-                                onCodeClick(rowData.codigo);
-                            }
-                        }}
-                    />
-                )}
-                style={{ textAlign: 'center', width: '5rem' }} // Estilização do botão
-            />
+            {/* Coluna do botão Editar, que só será exibida se showEditButton for true */}
+            {showEditButton && (
+                <Column
+                    header="Editar" // Header do botão de editar
+                    body={(rowData) => (
+                        <Button 
+                            icon="pi pi-pencil" 
+                            className="p-button-text p-button-rounded p-button-sm" 
+                            tooltip="Editar"
+                            tooltipOptions={{ position: 'top' }}
+                            onClick={() => {
+                                // Ação de clique associada apenas ao botão de editar
+                                if (onCodeClick) {
+                                    onCodeClick(rowData.codigo);
+                                }
+                            }}
+                        />
+                    )}
+                    style={{ textAlign: 'center', width: '5rem' }} // Estilização do botão
+                />
+            )}
         </DataTable>
     );
 };
