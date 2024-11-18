@@ -6,6 +6,7 @@ export enum MenuEnum {
     cadastro_unidades = 'cadastro_unidades',
     cadastro_vendedores = 'cadastro_vendedores',
     cadastro_aeroporto ='cadastro_aeroporto',
+    cadastro_AreaComercial = 'cadastro_AreaComercial',
     lancamento_opcao = 'lancamento_opcao',
     financeiro_opcao = 'financeiro_opcao',
     gerencial_faturamento_unidades = 'gerencial_faturamento_unidades',
@@ -65,6 +66,14 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_aeroporto);
                 }
+            },
+            {
+                label: "Área Comercial",
+                icon: "cilBuilding",
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_AreaComercial)
+                }   
             }
         ]
     },
