@@ -15,8 +15,16 @@ export enum ApiEndpoints {
     CREATE_UNIDADES = '/incomum/loja/create/',
     UPDATE_UNIDADES = '/incomum/loja/update/', // '/incomum/loja/update/${id}/'
     DELETE_UNIDADES = 'incomum/loja/delete/',
+    LIST_LOJAS_VINCULADAS = '/incomum/loja/find-vinculadas/',
     //#endregion
 
+    //#region relatorio_simplificado_endpoints
+    LIST_LOJACOMERCIAL = '/incomum/lojaComercial/list-all/',
+    LIST_LOJACOMERCIAL_BY_ID = '/incomum/lojaComercial/find-byid/',
+    CREATE_LOJACOMERCIAL = '/incomum/lojaComercial/create/',
+    EDIT_LOJACOMERCIAL = '/incomum/lojaComercial/update/',
+    DELETE_LOJACOMERCIAL = '/incomum/lojaComercial/delete/',
+    
     //#region relatorio_simplificado_endpoints
     LIST_UNIDADE_RELATORIO_BY_USER = '/incomum/relatorio/loja-by-user/', // '/incomum/relatorio/loja-by-user/${id}/'
     LIST_AREACOMERCIAL_RELATORIO_BY_USER = '/incomum/relatorio/area-by-user/', // '/incomum/relatorio/area-by-user/${id}/'
@@ -47,5 +55,11 @@ export enum ApiEndpoints {
     CREATE_AEROPORTO = 'incomum/aeroporto/create/',
     LIST_AEROPORTO_BY_ID = 'incomum/aeroporto/find-byid/',
     EDIT_AEROPORTO = 'incomum/aeroporto/update/',
-    DELETE_AEROPORTO = 'incomum/aeroporto/delete/'
+    DELETE_AEROPORTO = 'incomum/aeroporto/delete/',
+
+    LIST_AREACOMERCIAL = 'incomum/areacomercial/list-all/',
+    CREATE_AREACOMERCIAL = 'incomum/areacomercial/create/',
+    LIST_AREACOMERCIAL_BY_ID = 'incomum/areacomercial/find-byid/',
+    EDIT_AREACOMERCIAL = 'incomum/areacomercial/update/',
+    DELETE_AREACOMERCIAL = 'incomum/areacomercial/delete/'
 }
