@@ -8,6 +8,8 @@ import UnidadeList from '../components/specific/UnidadeList';
 import VendedorCadastro from '../components/specific/VendedorCadastro';
 import AgenciaList from '../components/specific/AgenciaList';
 import VendedorList from '../components/specific/VendedorList';
+import AreaComercialList from '../components/specific/AreaComercialList';
+import AreaComercialCadastro from '../components/specific/AreaComercialCadastro'
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useCodigo } from '../contexts/CodigoProvider';
@@ -26,6 +28,7 @@ const MainPage: React.FC = () => {
     const [isCreatingVendedor, setIsCreatingVendedor] = useState(false);
     const [isCreatingUnidade, setIsCreatingUnidade] = useState(false);
     const [selectedUnidadeCode, setSelectedUnidadeCode] = useState<string | null>(null);
+    const [isCreatingAreaComercial, setIsCreatingAreaComercial] = useState(false);
     const auth = useAuth();
     const navigate = useNavigate();
     const { resetContext } = useCodigo();
@@ -41,9 +44,15 @@ const MainPage: React.FC = () => {
         setIsCreatingAgencia(false);
         setIsCreatingVendedor(false);
         setIsCreatingUnidade(false);
+        setIsCreatingAreaComercial(false);
         setSelectedUnidadeCode(null);
     };
 
+     const handleCreateAreaComercialClick = () => {
+        setIsCreatingAreaComercial(true);
+        setActiveComponent(null);
+    };
+    
     const handleCreateAgenciaClick = () => {
         setIsCreatingAgencia(true);
         setActiveComponent(null);
@@ -71,6 +80,9 @@ const MainPage: React.FC = () => {
                 break;
             case 'vendedor':
                 setIsCreatingVendedor(true);
+                break;
+            case 'AreaComercial':
+                setIsCreatingAreaComercial(true);
                 break;
             default:
                 break;
@@ -103,6 +115,14 @@ const MainPage: React.FC = () => {
             );
         }
 
+        if (isCreatingAreaComercial) {
+            return (
+                <FormLayout name='Área Comercial'>
+                    <AreaComercialCadastro />    
+                </FormLayout>
+            )
+        }
+
         switch (activeComponent) {
             case 'cadastro_unidades':
                 return (
@@ -126,6 +146,12 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Aeroporto'>
                         <AeroportoList />
+                    </FormLayout>
+                );
+            case 'cadastro_AreaComercial':
+                return (
+                    <FormLayout name='Área Comercial'>
+                        <AreaComercialList/>
                     </FormLayout>
                 );
             case 'lancamento_opcao':
