@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -112,6 +112,26 @@ export const apiGetArea = () => axiosInstance.get(ApiEndpoints.LIST_AREA);
  
 export const apiGetUnidadeById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_UNIDADES_BY_ID}${id}/`);
 
+export const apiGetAreaComercial = () => axiosInstance.get(ApiEndpoints.LIST_AREACOMERCIAL)
+
+export const apiPostCreateAreaComercial = (data: AreaComercialCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_AREACOMERCIAL, data)
+
+export const apiDeleteAreaComercial = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_AREACOMERCIAL}${id}/`)
+
+export const apiGetAreaComercialById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_AREACOMERCIAL_BY_ID}${id}/`)
+
+export const apiPutUpdateAreaComercial = (id: number, data: AreaComercialCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_AREACOMERCIAL}${id}/`,data)
+
+export const apiGetLojaComercial = () => axiosInstance.get(ApiEndpoints.LIST_LOJACOMERCIAL)
+
+export const apiPostCreateLojaComercial = (data: LojaComercialCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_LOJACOMERCIAL,data)
+
+export const apiGetLojaComercialById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_LOJACOMERCIAL_BY_ID}${id}/`)
+
+export const apiPutUpdateLojaComercial = (id: number, data: LojaComercialCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_LOJACOMERCIAL}${id}/`,data) 
+
+export const apiDeletLojaComercial = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_LOJACOMERCIAL}${id}/`)
+
 export const apiGetUnidadeRelatorioByUser = () => 
     axiosInstance.get(ApiEndpoints.LIST_UNIDADE_RELATORIO_BY_USER);
 
@@ -169,4 +189,8 @@ export const apiGetDownloadRelatorio = (data: any) => {
     const url = [areaUrl, agenciaUrl, vendedorUrl, unidadeUrl, usuario, dataRange].filter(Boolean).join('&');
     
     return axiosInstance.get(`${ApiEndpoints.EXCEL_RELATORIO}?${url}`, { responseType: 'blob' });
+};
+
+export const apiGetLojaByAreaComercial = (acoCodigo: number) => {
+    return axiosInstance.get(`${ApiEndpoints.LIST_LOJAS_VINCULADAS}${acoCodigo}/`);
 };
