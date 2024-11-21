@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,17 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetPadrao = () => axiosInstance.get(ApiEndpoints.LIST_PADRAO);
+
+export const apiGetPadraoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PADRAO_BY_ID}${id}/`);
+
+export const apiCreatePadrao = (data: PadraoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PADRAO, data);
+
+export const apiUpdatePadrao = (id: number, data: PadraoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_PADRAO}${id}/`, data);
+
+export const apiDeletePadrao = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PADRAO}${id}/`)
+
 
 export const apiGetAcomodacao = () => axiosInstance.get(ApiEndpoints.LIST_ACOMODACAO);
 
