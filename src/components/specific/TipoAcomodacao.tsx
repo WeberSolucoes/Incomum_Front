@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
-import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCompanhia, apiCreateMoeda, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetCompanhiaId, apiGetMoedaId, apiUpdateCompanhia, apiUpdateMoeda } from "../../services/Api";
+import { AcomodacaoCreateRequest, CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
+import { apiCreateAcomodacao, apiCreateCompanhia, apiCreateMoeda, apiDeleteAcomodacao, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetAcomodacaoId, apiGetCompanhiaId, apiGetMoedaId, apiUpdateAcomodacao, apiUpdateCompanhia, apiUpdateMoeda } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -12,7 +12,7 @@ import { Button } from "primereact/button";
 
 const TipoAcomodacao: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
-    const [request, setRequest] = useState<CompanhiaCreateRequest>({} as CompanhiaCreateRequest);
+    const [request, setRequest] = useState<AcomodacaoCreateRequest>({} as AcomodacaoCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
@@ -22,7 +22,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
-    const [com_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
+    const [tac_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -30,10 +30,10 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
         const fetchData = async () => {
             if (!codigo) return;
             try {
-                const response = await apiGetCompanhiaId(codigo);
+                const response = await apiGetAcomodacaoId(codigo);
                 const unidade = response.data;
                 setRequest(unidade);
-                setVenCodigo(unidade.com_codigo); // Define o ID do vendedor
+                setVenCodigo(unidade.tac_codigo); // Define o ID do vendedor
                 
                 if (unidade.loj_endereco) {
                     const enderecoParts = unidade.loj_endereco.split(",");
@@ -73,7 +73,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
     };
 
     const handleDeleteClick = () => {
-        if (com_codigo !== null && !showModal) { // Verifica se o modal não está aberto
+        if (tac_codigo !== null && !showModal) { // Verifica se o modal não está aberto
             setShowModal(true); // Abre o modal
             confirmDialog({
                 message: 'Tem certeza de que deseja excluir este cadastro?',
@@ -92,10 +92,10 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
     };
 
     const handleConfirmDelete = async () => {
-        if (com_codigo !== null) {
+        if (tac_codigo !== null) {
             setLoading(true);
             try {
-                await apiDeleteCompanhia(com_codigo);
+                await apiDeleteAcomodacao(tac_codigo);
                 toast.success('Cadastro excluído com sucesso.');
 
                 // Limpa os campos do formulário após exclusão
@@ -113,34 +113,34 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
         e.preventDefault();
         setLoading(true);
     
-        if (!request.com_descricao) {
-            toastError("O campo Logradouro é obrigatório.");
+        if (!request.tac_descricao) {
+            toastError("O campo Tipo Acomodação é obrigatório.");
             setLoading(false);
             return;
         }
     
         try {
             let response;
-            if (request.com_codigo) {
-                response = await apiUpdateCompanhia(request.com_codigo, request);
+            if (request.tac_codigo) {
+                response = await apiUpdateAcomodacao(request.tac_codigo, request);
             } else {
-                const { com_codigo, ...newRequest } = request;
-                response = await apiCreateCompanhia(newRequest);
+                const { tac_codigo, ...newRequest } = request;
+                response = await apiCreateAcomodacao(newRequest);
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Companhia salva com sucesso");
+                toastSucess("Acomodação salva com sucesso");
 
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
-                if (!request.com_codigo && response.data && response.data.com_codigo) {
+                if (!request.tac_codigo && response.data && response.data.tac_codigo) {
                     setRequest(prev => ({
                         ...prev,
-                        com_codigo: response.data.com_codigo
+                        tac_codigo: response.data.tac_codigo
                     }));
-                    setVenCodigo(response.data.com_codigo); // Atualize também o estado `cid_codigo`
+                    setVenCodigo(response.data.tac_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar a Companhia");
+                toastError("Erro ao salvar a Acomodação");
             }
         } catch (error: any) {
             console.error("Erro:", error);
@@ -165,7 +165,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
     };
 
     const handleReset = () => {
-        setRequest({} as CompanhiaCreateRequest);
+        setRequest({} as AcomodacaoCreateRequest);
         setSelectedAreas([]);
         setRua('');
         setNumero('');
@@ -179,24 +179,24 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_codigo">Codigo</label>
+                    <label htmlFor="tac_codigo">Codigo</label>
                     <input
                         type="text"
-                        id="com_codigo"
-                        name="com_codigo"
-                        value={request.com_codigo || ''}
+                        id="tac_codigo"
+                        name="tac_codigo"
+                        value={request.tac_codigo || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
                         disabled
                     />
                 </div>
                 <div className="form-group" style={{marginLeft:'500px'}}>
-                    <label htmlFor="com_codigo">Qtde Hospedes</label>
+                    <label htmlFor="tac_qtde">Qtde Hospedes</label>
                     <input
                         type="text"
-                        id="com_codigo"
-                        name="com_codigo"
-                        value={request.com_codigo || ''}
+                        id="tac_qtde"
+                        name="tac_qtde"
+                        value={request.tac_qtde || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
                     />
@@ -206,12 +206,12 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
             {/* Segunda linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_descricao">Tipo Acomodação</label>
+                    <label htmlFor="tac_descricao">Tipo Acomodação</label>
                     <input
                         type="text"
-                        id="com_descricao"
-                        name="com_descricao"
-                        value={request.com_descricao || ''}
+                        id="tac_descricao"
+                        name="tac_descricao"
+                        value={request.tac_descricao || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -219,12 +219,12 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="com_parcelaminima">Descrição Portugues</label>
+                    <label htmlFor="tac_descricaoportugues">Descrição Portugues</label>
                     <input
                         type="text"
-                        id="com_parcelaminima"
-                        name="com_parcelaminima"
-                        value={request.com_parcelaminima || ''}
+                        id="tac_descricaoportugues"
+                        name="tac_descricaoportugues"
+                        value={request.tac_descricaoportugues || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -232,11 +232,12 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="cep_uf">Descrição Ingles</label>
+                    <label htmlFor="tac_descricaoingles">Descrição Ingles</label>
                     <input
                         type="text"
-                        id="cep_uf"
-                        name="cep_uf"
+                        id="tac_descricaoingles"
+                        name="tac_descricaoingles"
+                        value={request.tac_descricaoingles || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -251,7 +252,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
                         onClick={onBackClick} // Chama a função passada como prop
                     />
                 {/* Condição para renderizar o botão de exclusão */}
-                {request.com_codigo && (
+                {request.tac_codigo && (
                 <button
                     style={{marginLeft:'0px',color:'white',width:'100px'}}
                     type="button"
@@ -265,7 +266,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
                 )}
                 
                 <button
-                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.com_codigo ? '14px' : '0px',display: request.com_codigo ? 'none' :''}}
+                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.tac_codigo ? '14px' : '0px',display: request.tac_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
