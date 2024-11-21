@@ -2,7 +2,7 @@ import Cep from "./Cep";
 import React, { useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
-import { apiGetCep, apiGetCompanhia, apiGetMoeda, apiGetPais, apiGetUnidades } from '../../services/Api';
+import { apiGetCep, apiGetCompanhia, apiGetMoeda, apiGetPais, apiGetRegime, apiGetUnidades } from '../../services/Api';
 import { toastError } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -27,10 +27,10 @@ const TipoRegimeList: React.FC = () => {
         setLoading(true); // Ativa o estado de carregamento
 
         try {
-            const response = await apiGetCompanhia();
+            const response = await apiGetRegime();
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                codigo: item.com_codigo,
-                descricao: item.com_descricao,
+                codigo: item.tre_codigo,
+                descricao: item.tre_descricao,
             }));
             setOriginalItems(mappedData);
 
