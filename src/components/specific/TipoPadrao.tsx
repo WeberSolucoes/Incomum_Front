@@ -136,7 +136,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Companhia salva com sucesso");
+                toastSucess("Padrão salvo com sucesso");
 
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.tpa_codigo && response.data && response.data.tpa_codigo) {
