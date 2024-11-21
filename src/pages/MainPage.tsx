@@ -21,6 +21,17 @@ import Unidade from '../components/specific/UnidadeCadastro';
 import Agencia from '../components/specific/AgenciaCadastro';
 import Dashboard from '../components/specific/FaturamentoVendedor';
 import AeroportoList from '../components/specific/AeroportoList';
+import PaisList from '../components/specific/PaisList';
+import CidadeList from '../components/specific/CidadeList';
+import MoedaList from '../components/specific/MoedaList';
+import CepList from '../components/specific/CepList';
+import DepartamentoList from '../components/specific/DepartamentoList';
+import CompanhiaList from '../components/specific/CompanhiaList';
+import AssinaturaList from '../components/specific/AssinaturaList';
+import ClasseList from '../components/specific/ClasseList';
+import TipoAcomodacaoList from '../components/specific/TipoAcomodocaoList';
+import TipoRegimeList from '../components/specific/TipoRegimeList';
+import TipoPadraoList from '../components/specific/TipoPadrãoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -152,6 +163,72 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Área Comercial'>
                         <AreaComercialList/>
+                    </FormLayout>
+                );
+            case 'cadastro_paises':
+                return (
+                    <FormLayout name='Países'>
+                        <PaisList />
+                    </FormLayout>
+                );
+            case 'cadastro_cidade':
+                return (
+                    <FormLayout name='Cidades'>
+                        <CidadeList />
+                    </FormLayout>
+                );
+            case 'cadastro_moeda':
+                return (
+                    <FormLayout name='Moeda'>
+                        <MoedaList />
+                    </FormLayout>
+                );
+            case 'cadastro_cep':
+                return (
+                    <FormLayout name='Cep'>
+                        <CepList />
+                    </FormLayout>
+                );
+            case 'cadastro_departamento':
+                return (
+                    <FormLayout name='Departamento'>
+                        <DepartamentoList />
+                    </FormLayout>
+                );
+            case 'cadastro_companhia':
+                return (
+                    <FormLayout name='Companhia'>
+                        <CompanhiaList />
+                    </FormLayout>
+                );
+            case 'cadastro_assinatura':
+                return (
+                    <FormLayout name='Assinatura'>
+                        <AssinaturaList />
+                    </FormLayout>
+                );
+            case 'cadastro_classe':
+                return (
+                    <FormLayout name='Classe'>
+                        <ClasseList />
+                    </FormLayout>
+                );
+            case 'cadastro_acomodacao':
+                return (
+                    <FormLayout name='Acomodacao'>
+                        <TipoAcomodacaoList />
+                    </FormLayout>
+                );
+            case 'cadastro_regime':
+                return (
+                    <FormLayout name='Regime'>
+                        <TipoRegimeList />
+                    </FormLayout>
+                );
+            case 'cadastro_padrao':
+                return (
+                    <FormLayout name='Padrao'>
+                        <TipoPadraoList />
                     </FormLayout>
                 );
             case 'lancamento_opcao':
