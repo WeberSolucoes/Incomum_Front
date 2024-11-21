@@ -116,5 +116,11 @@ export enum ApiEndpoints {
     CREATE_ACOMODACAO = '/incomum/acomodacao/create/',
     UPDATE_ACOMODACAO = '/incomum/acomodacao/update/', // '/incomum/loja/update/${id}/'
     DELETE_ACOMODACAO = 'incomum/acomodacao/delete/',
+
+    LIST_PADRAO = '/incomum/padrao/list-all/',
+    LIST_PADRAO_BY_ID = '/incomum/padrao/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_PADRAO = '/incomum/padrao/create/',
+    UPDATE_PADRAO = '/incomum/padrao/update/', // '/incomum/loja/update/${id}/'
+    DELETE_PADRAO = 'incomum/padrao/delete/',
     
 }
