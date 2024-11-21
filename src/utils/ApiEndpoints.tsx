@@ -61,5 +61,54 @@ export enum ApiEndpoints {
     CREATE_AREACOMERCIAL = 'incomum/areacomercial/create/',
     LIST_AREACOMERCIAL_BY_ID = 'incomum/areacomercial/find-byid/',
     EDIT_AREACOMERCIAL = 'incomum/areacomercial/update/',
-    DELETE_AREACOMERCIAL = 'incomum/areacomercial/delete/'
+    DELETE_AREACOMERCIAL = 'incomum/areacomercial/delete/',
+
+    LIST_PAIS = '/incomum/pais/list-all/',
+    LIST_PAIS_BY_ID = '/incomum/pais/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_PAIS = '/incomum/pais/create/',
+    UPDATE_PAIS = '/incomum/pais/update/', // '/incomum/loja/update/${id}/'
+    DELETE_PAIS = 'incomum/pais/delete/',
+
+    LIST_CIDADE = '/incomum/cidade/list-all/',
+    LIST_CIDADE_BY_ID = '/incomum/cidade/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_CIDADE = '/incomum/cidade/create/',
+    UPDATE_CIDADE = '/incomum/cidade/update/', // '/incomum/loja/update/${id}/'
+    DELETE_CIDADE = 'incomum/cidade/delete/',
+
+    LIST_MOEDA = '/incomum/moeda/list-all/',
+    LIST_MOEDA_BY_ID = '/incomum/moeda/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_MOEDA = '/incomum/moeda/create/',
+    UPDATE_MOEDA = '/incomum/moeda/update/', // '/incomum/loja/update/${id}/'
+    DELETE_MOEDA = 'incomum/moeda/delete/',
+
+    LIST_CEP = '/incomum/cep/list-all/',
+    LIST_CEP_BY_ID = '/incomum/cep/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_CEP = '/incomum/cep/create/',
+    UPDATE_CEP = '/incomum/cep/update/', // '/incomum/loja/update/${id}/'
+    DELETE_CEP = 'incomum/cep/delete/',
+
+    LIST_DEPARTAMENTO = '/incomum/departamento/list-all/',
+    LIST_DEPARTAMENTO_BY_ID = '/incomum/departamento/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_DEPARTAMENTO = '/incomum/departamento/create/',
+    UPDATE_DEPARTAMENTO = '/incomum/departamento/update/', // '/incomum/loja/update/${id}/'
+    DELETE_DEPARTAMENTO = 'incomum/departamento/delete/',
+
+    LIST_COMPANHIA = '/incomum/companhia/list-all/',
+    LIST_COMPANHIA_BY_ID = '/incomum/companhia/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_COMPANHIA = '/incomum/companhia/create/',
+    UPDATE_COMPANHIA = '/incomum/companhia/update/', // '/incomum/loja/update/${id}/'
+    DELETE_COMPANHIA = 'incomum/companhia/delete/',
+
+    LIST_ASSINATURA = '/incomum/assinatura/list-all/',
+    LIST_ASSINATURA_BY_ID = '/incomum/assinatura/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_ASSINATURA = '/incomum/assinatura/create/',
+    UPDATE_ASSINATURA = '/incomum/assinatura/update/', // '/incomum/loja/update/${id}/'
+    DELETE_ASSINATURA = 'incomum/assinatura/delete/',
+
+    LIST_CLASSE = '/incomum/classe/list-all/',
+    LIST_CLASSE_BY_ID = '/incomum/classe/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_CLASSE = '/incomum/classe/create/',
+    UPDATE_CLASSE = '/incomum/classe/update/', // '/incomum/loja/update/${id}/'
+    DELETE_CLASSE = 'incomum/classe/delete/',
+    
 }
