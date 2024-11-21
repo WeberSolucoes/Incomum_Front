@@ -259,6 +259,12 @@ interface PadraoCreateRequest{
     tpa_descricaoingles: string,
 }
 
+interface RegimeCreateRequest{
+    tre_descricao: string,
+    tre_descricaoportugues: string,
+    tre_descricaoingles: string,
+}
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -286,6 +292,7 @@ export type {
     ClasseCreateRequest,
     AcomodacaoCreateRequest,
     PadraoCreateRequest,
+    RegimeCreateRequest,
 
 }
 
