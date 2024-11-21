@@ -29,7 +29,7 @@ import DepartamentoList from '../components/specific/DepartamentoList';
 import CompanhiaList from '../components/specific/CompanhiaList';
 import AssinaturaList from '../components/specific/AssinaturaList';
 import ClasseList from '../components/specific/ClasseList';
-import TipoAcomodacaoList from '../components/specific/TipoAcomodocaoList';
+import TipoAcomodacaoList from '../components/specific/TipoAcomodacaoList';
 import TipoRegimeList from '../components/specific/TipoRegimeList';
 import TipoPadraoList from '../components/specific/TipoPadrãoList';
 
