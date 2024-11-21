@@ -189,6 +189,62 @@ interface AreaComercialCreateRequest{
     aco_rateio: number; 
 }
 
+interface MoedaCreateRequest{
+    moe_descricao: string,
+    moe_abreviacao: string,
+    moe_simbolo: string,
+    moe_codigogeral: number
+}
+
+interface CepCreateRequest{
+    cep_logradouro: string,
+    cep_bairro: string,
+    cid_codigo: number,
+    cep_numero: string,
+    tlo_codigo: number
+}
+
+interface CompanhiaCreateRequest{
+    com_descricao: string,
+    com_divisao: string,
+    com_parcelaminima: number,
+    com_sequencial: number,
+    com_sigla: string,
+    par_codigo: number
+}
+
+interface AssinaturaCreateRequest{
+    ass_descricao: string,
+    com_codigo: number,
+    ass_tipoassinatura: number,
+    ass_codigocontabil: number,
+    loj_codigobase: string,
+    cta_codigobase: number,
+    cta_codigosaida: number
+}
+
+interface PaisCreateRequest{
+    pai_descricao: string
+}
+
+interface DepartamentoCreateRequest{
+    dep_descricao: string
+}
+
+interface ClasseCreateRequest{
+    cla_descricao: string
+    cla_observacao: string
+}
+
+interface CidadeCreateRequest{
+    cid_descricao: string
+    cid_estado: string
+    reg_codigo: number
+    cid_pais: string 
+    cid_sigla: string 
+    pai_codigo: string
+}
+
 
 export type {
     LoginRequest,
@@ -207,6 +263,14 @@ export type {
     AreaComercialResponse,
     LojaComercialCreateRequest,
     LojaComercialResponse,
+    PaisCreateRequest,
+    CidadeCreateRequest,
+    MoedaCreateRequest,
+    CepCreateRequest,
+    DepartamentoCreateRequest,
+    CompanhiaCreateRequest,
+    AssinaturaCreateRequest,
+    ClasseCreateRequest,
 
 }
 
