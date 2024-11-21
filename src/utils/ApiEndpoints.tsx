@@ -122,5 +122,11 @@ export enum ApiEndpoints {
     CREATE_PADRAO = '/incomum/padrao/create/',
     UPDATE_PADRAO = '/incomum/padrao/update/', // '/incomum/loja/update/${id}/'
     DELETE_PADRAO = 'incomum/padrao/delete/',
+
+    LIST_REGIME = '/incomum/regime/list-all/',
+    LIST_REGIME_BY_ID = '/incomum/regime/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_REGIME = '/incomum/regime/create/',
+    UPDATE_REGIME = '/incomum/regime/update/', // '/incomum/loja/update/${id}/'
+    DELETE_REGIME = 'incomum/regime/delete/',
     
 }
