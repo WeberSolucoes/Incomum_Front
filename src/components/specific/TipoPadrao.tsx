@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
-import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCompanhia, apiCreateMoeda, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetCompanhiaId, apiGetMoedaId, apiUpdateCompanhia, apiUpdateMoeda } from "../../services/Api";
+import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest, PadraoCreateRequest } from "../../utils/apiObjects";
+import { apiCreateCompanhia, apiCreateMoeda, apiCreatePadrao, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiDeletePadrao, apiGetCompanhiaId, apiGetMoedaId, apiGetPadraoId, apiUpdateCompanhia, apiUpdateMoeda, apiUpdatePadrao } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -13,7 +13,7 @@ import { Checkbox } from "primereact/checkbox";
 
 const TipoPadrao: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
-    const [request, setRequest] = useState<CompanhiaCreateRequest>({} as CompanhiaCreateRequest);
+    const [request, setRequest] = useState<PadraoCreateRequest>({} as PadraoCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
@@ -23,7 +23,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
-    const [com_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
+    const [tpa_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
@@ -37,10 +37,10 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
         const fetchData = async () => {
             if (!codigo) return;
             try {
-                const response = await apiGetCompanhiaId(codigo);
+                const response = await apiGetPadraoId(codigo);
                 const unidade = response.data;
                 setRequest(unidade);
-                setVenCodigo(unidade.com_codigo); // Define o ID do vendedor
+                setVenCodigo(unidade.tpa_codigo); // Define o ID do vendedor
                 
                 if (unidade.loj_endereco) {
                     const enderecoParts = unidade.loj_endereco.split(",");
@@ -80,7 +80,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     };
 
     const handleDeleteClick = () => {
-        if (com_codigo !== null && !showModal) { // Verifica se o modal não está aberto
+        if (tpa_codigo !== null && !showModal) { // Verifica se o modal não está aberto
             setShowModal(true); // Abre o modal
             confirmDialog({
                 message: 'Tem certeza de que deseja excluir este cadastro?',
@@ -99,10 +99,10 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     };
 
     const handleConfirmDelete = async () => {
-        if (com_codigo !== null) {
+        if (tpa_codigo !== null) {
             setLoading(true);
             try {
-                await apiDeleteCompanhia(com_codigo);
+                await apiDeletePadrao(tpa_codigo);
                 toast.success('Cadastro excluído com sucesso.');
 
                 // Limpa os campos do formulário após exclusão
@@ -120,34 +120,34 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
         e.preventDefault();
         setLoading(true);
     
-        if (!request.com_descricao) {
-            toastError("O campo Logradouro é obrigatório.");
+        if (!request.tpa_descricao) {
+            toastError("O campo Tipo Padrão é obrigatório.");
             setLoading(false);
             return;
         }
     
         try {
             let response;
-            if (request.com_codigo) {
-                response = await apiUpdateCompanhia(request.com_codigo, request);
+            if (request.tpa_codigo) {
+                response = await apiUpdatePadrao(request.tpa_codigo, request);
             } else {
-                const { com_codigo, ...newRequest } = request;
-                response = await apiCreateCompanhia(newRequest);
+                const { tpa_codigo, ...newRequest } = request;
+                response = await apiCreatePadrao(newRequest);
             }
     
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Companhia salva com sucesso");
 
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
-                if (!request.com_codigo && response.data && response.data.com_codigo) {
+                if (!request.tpa_codigo && response.data && response.data.tpa_codigo) {
                     setRequest(prev => ({
                         ...prev,
-                        com_codigo: response.data.com_codigo
+                        tpa_codigo: response.data.tpa_codigo
                     }));
-                    setVenCodigo(response.data.com_codigo); // Atualize também o estado `cid_codigo`
+                    setVenCodigo(response.data.tpa_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar a Companhia");
+                toastError("Erro ao salvar o Padrão");
             }
         } catch (error: any) {
             console.error("Erro:", error);
@@ -172,7 +172,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     };
 
     const handleReset = () => {
-        setRequest({} as CompanhiaCreateRequest);
+        setRequest({} as PadraoCreateRequest);
         setSelectedAreas([]);
         setRua('');
         setNumero('');
@@ -186,21 +186,21 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_codigo">Codigo</label>
+                    <label htmlFor="tpa_codigo">Codigo</label>
                     <input
                         type="text"
-                        id="com_codigo"
-                        name="com_codigo"
-                        value={request.com_codigo || ''}
+                        id="tpa_codigo"
+                        name="tpa_codigo"
+                        value={request.tpa_codigo || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
                         disabled
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="com_codigo">Padrão Principal?</label>
+                    <label htmlFor="tpa_principal">Padrão Principal?</label>
                     <Checkbox
-                        id="exampleCheckbox"
+                        id="tpa_principal"
                         inputId="accept"
                         checked={isChecked}
                         onChange={handleCheckboxChange}
@@ -211,12 +211,12 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
             {/* Segunda linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_descricao">Tipo Padrão</label>
+                    <label htmlFor="tpa_descricao">Tipo Padrão</label>
                     <input
                         type="text"
-                        id="com_descricao"
-                        name="com_descricao"
-                        value={request.com_descricao || ''}
+                        id="tpa_descricao"
+                        name="tpa_descricao"
+                        value={request.tpa_descricao || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -224,12 +224,12 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="com_parcelaminima">Descrição Portugues</label>
+                    <label htmlFor="tpa_descricaoportugues">Descrição Portugues</label>
                     <input
                         type="text"
-                        id="com_parcelaminima"
-                        name="com_parcelaminima"
-                        value={request.com_parcelaminima || ''}
+                        id="tpa_descricaoportugues"
+                        name="tpa_descricaoportugues"
+                        value={request.tpa_descricaoportugues || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -237,11 +237,12 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="cep_uf">Descrição Ingles</label>
+                    <label htmlFor="tpa_descricaoingles">Descrição Ingles</label>
                     <input
                         type="text"
-                        id="cep_uf"
-                        name="cep_uf"
+                        id="tpa_descricaoingles"
+                        name="tpa_descricaoingles"
+                        value={request.tpa_descricaoingles || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -256,7 +257,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
                         onClick={onBackClick} // Chama a função passada como prop
                     />
                 {/* Condição para renderizar o botão de exclusão */}
-                {request.com_codigo && (
+                {request.tpa_codigo && (
                 <button
                     style={{marginLeft:'0px',color:'white',width:'100px'}}
                     type="button"
@@ -270,7 +271,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
                 )}
                 
                 <button
-                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.com_codigo ? '14px' : '0px',display: request.com_codigo ? 'none' :''}}
+                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.tpa_codigo ? '14px' : '0px',display: request.tpa_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
