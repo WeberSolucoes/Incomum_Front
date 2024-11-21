@@ -252,6 +252,13 @@ interface AcomodacaoCreateRequest{
     tac_descricaoingles: string,
 }
 
+interface PadraoCreateRequest{
+    tpa_descricao: string,
+    tpa_principal: number,
+    tpa_descricaoportugues: string,
+    tpa_descricaoingles: string,
+}
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -278,6 +285,7 @@ export type {
     AssinaturaCreateRequest,
     ClasseCreateRequest,
     AcomodacaoCreateRequest,
+    PadraoCreateRequest,
 
 }
 
