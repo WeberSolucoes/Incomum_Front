@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,86 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetClasse = () => axiosInstance.get(ApiEndpoints.LIST_CLASSE);
+
+export const apiGetClasseId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_CLASSE_BY_ID}${id}/`);
+
+export const apiCreateClasse = (data: ClasseCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_CLASSE, data);
+
+export const apiUpdateClasse = (id: number, data: ClasseCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_CLASSE}${id}/`, data);
+
+export const apiDeleteClasse = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_CLASSE}${id}/`)
+
+export const apiGetAssinatura = () => axiosInstance.get(ApiEndpoints.LIST_ASSINATURA);
+
+export const apiGetAssinaturaId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_ASSINATURA_BY_ID}${id}/`);
+
+export const apiCreateAssinatura = (data: AssinaturaCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_ASSINATURA, data);
+
+export const apiUpdateAssinatura = (id: number, data: AssinaturaCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_ASSINATURA}${id}/`, data);
+
+export const apiDeleteAssinatura = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_ASSINATURA}${id}/`)
+
+export const apiGetCompanhia = () => axiosInstance.get(ApiEndpoints.LIST_COMPANHIA);
+
+export const apiGetCompanhiaId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_COMPANHIA_BY_ID}${id}/`);
+
+export const apiCreateCompanhia = (data: CompanhiaCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_COMPANHIA, data);
+
+export const apiUpdateCompanhia = (id: number, data: CompanhiaCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_COMPANHIA}${id}/`, data);
+
+export const apiDeleteCompanhia = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_COMPANHIA}${id}/`)
+
+export const apiGetDepartamento = () => axiosInstance.get(ApiEndpoints.LIST_DEPARTAMENTO);
+
+export const apiGetDepartamentoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_DEPARTAMENTO_BY_ID}${id}/`);
+
+export const apiCreateDepartamento = (data: DepartamentoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_DEPARTAMENTO, data);
+
+export const apiUpdateDepartamento = (id: number, data: DepartamentoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_DEPARTAMENTO}${id}/`, data);
+
+export const apiDeleteDepartamento = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_DEPARTAMENTO}${id}/`)
+
+export const apiGetCep = () => axiosInstance.get(ApiEndpoints.LIST_CEP);
+
+export const apiGetCepId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_CEP_BY_ID}${id}/`);
+
+export const apiCreateCep = (data: CepCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_CEP, data);
+
+export const apiUpdateCep = (id: number, data: CepCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_CEP}${id}/`, data);
+
+export const apiDeleteCep = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_CEP}${id}/`)
+
+export const apiGetPais = () => axiosInstance.get(ApiEndpoints.LIST_PAIS);
+
+export const apiGetPaisId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PAIS_BY_ID}${id}/`);
+
+export const apiCreatePais = (data: PaisCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PAIS, data);
+
+export const apiUpdatePais = (id: number, data: PaisCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_PAIS}${id}/`, data);
+
+export const apiDeletePais = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PAIS}${id}/`)
+
+export const apiGetCidade = () => axiosInstance.get(ApiEndpoints.LIST_CIDADE);
+
+export const apiGetCidadeId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_CIDADE_BY_ID}${id}/`);
+
+export const apiCreateCidade = (data: CidadeCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_CIDADE, data);
+
+export const apiUpdateCidade = (id: number, data: CidadeCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_CIDADE}${id}/`, data);
+
+export const apiDeleteCidade = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_CIDADE}${id}/`);
+
+export const apiGetMoeda = () => axiosInstance.get(ApiEndpoints.LIST_MOEDA);
+
+export const apiGetMoedaId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_MOEDA_BY_ID}${id}/`);
+
+export const apiCreateMoeda = (data: MoedaCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_MOEDA, data);
+
+export const apiUpdateMoeda = (id: number, data: MoedaCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_MOEDA}${id}/`, data);
+
+export const apiDeleteMoeda = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_MOEDA}${id}/`);
 
 export const apiCreateAeroporto = (data: AeroportoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_AEROPORTO, data);
 
