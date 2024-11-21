@@ -96,7 +96,7 @@ const AeroportoList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhuma unidade encontrada" 
+                        emptyMessage="Nenhum Aeroporto encontrado" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
