@@ -97,7 +97,7 @@ const CompanhiaList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhum Cep encontrado" 
+                        emptyMessage="Nenhuma Companhia encontrada" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
