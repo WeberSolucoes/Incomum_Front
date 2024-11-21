@@ -47,35 +47,19 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
         requiredPermissions: ['Can view area comercial'],
         items: [
             {
-                label: "Unidades",
-                icon: "cilBuilding", // Ajuste o nome do ícone conforme sua escolha
-                requiredPermissions: ['Can view area comercial'],
+                label: "Aeroporto",
+                icon: "cilFlightTakeoff",
+                requiredPermissions: ["Can view area comercial"],
                 command: () => {
-                    onMenuItemClick(MenuEnum.cadastro_unidades);
+                    onMenuItemClick(MenuEnum.cadastro_aeroporto);
                 }
             },
             {
                 label: "Agências",
-                icon: "cilBuilding", // Ajuste o nome do ícone conforme sua escolha
-                requiredPermissions: ['Can view area comercial'],
+                icon: "cilBriefcase",
+                requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_agencias);
-                }
-            },
-            {
-                label: "Vendedores",
-                icon: "cilUser", // Ajuste o nome do ícone conforme sua escolha
-                requiredPermissions: ['Can view area comercial'],
-                command: () => {
-                    onMenuItemClick(MenuEnum.cadastro_vendedores);
-                }
-            },
-            {
-                label: "Aeroporto",
-                icon: "cilUser",
-                requiredPermissions: ['Can view area comercial'],
-                command: () => {
-                    onMenuItemClick(MenuEnum.cadastro_aeroporto);
                 }
             },
             {
@@ -85,7 +69,111 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_AreaComercial)
                 }   
-            }
+            },
+            {
+                label: "Assinatura",
+                icon: "cilPen",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_assinatura);
+                }
+            },
+            {
+                label: "Cep",
+                icon: "cilEnvelopeLetter",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_cep);
+                }
+            },
+            {
+                label: "Cidades",
+                icon: "cilHouse",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_cidade);
+                }
+            },
+            {
+                label: "Classe",
+                icon: "cilSchool",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_classe);
+                }
+            },
+            {
+                label: "Companhia",
+                icon: "cilIndustry",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_companhia);
+                }
+            },
+            {
+                label: "Departamento",
+                icon: "cilIndustry",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_departamento);
+                }
+            },
+            {
+                label: "Moeda",
+                icon: "cilDollar",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_moeda);
+                }
+            },
+            {
+                label: "Países",
+                icon: "cilGlobeAlt",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_paises);
+                }
+            },
+            {
+                label: "Tipo Acomodação",
+                icon: "cilSchool",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_acomodacao);
+                }
+            },
+            {
+                label: "Tipo Padrão",
+                icon: "cilSchool",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_padrao);
+                }
+            },
+            {
+                label: "Tipo Regime",
+                icon: "cilSchool",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_regime);
+                }
+            },
+            {
+                label: "Unidades",
+                icon: "cilBuilding",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_unidades);
+                }
+            },
+            {
+                label: "Vendedores",
+                icon: "cilUser",
+                requiredPermissions: ["Can view area comercial"],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_vendedores);
+                }
+            },
         ]
     },
     {
