@@ -245,6 +245,12 @@ interface CidadeCreateRequest{
     pai_codigo: string
 }
 
+interface AcomodacaoCreateRequest{
+    tac_descricao: string,
+    tac_qtde: number,
+    tac_descricaoportugues: string,
+    tac_descricaoingles: string,
+}
 
 export type {
     LoginRequest,
@@ -271,6 +277,7 @@ export type {
     CompanhiaCreateRequest,
     AssinaturaCreateRequest,
     ClasseCreateRequest,
+    AcomodacaoCreateRequest,
 
 }
 
