@@ -8,7 +8,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import TipoRegime from "./TipoRegime";
-import TipoPadrao from "./TipoPadrão";
+import TipoPadrao from "./TipoPadrao";
 
 const TipoPadraoList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
