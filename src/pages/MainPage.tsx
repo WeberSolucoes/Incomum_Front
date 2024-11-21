@@ -31,7 +31,7 @@ import AssinaturaList from '../components/specific/AssinaturaList';
 import ClasseList from '../components/specific/ClasseList';
 import TipoAcomodacaoList from '../components/specific/TipoAcomodacaoList';
 import TipoRegimeList from '../components/specific/TipoRegimeList';
-import TipoPadraoList from '../components/specific/TipoPadrãoList';
+import TipoPadraoList from '../components/specific/TipoPadraoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
