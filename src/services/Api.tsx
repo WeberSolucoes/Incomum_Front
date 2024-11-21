@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,16 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetRegime = () => axiosInstance.get(ApiEndpoints.LIST_REGIME);
+
+export const apiGetRegimeId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_REGIME_BY_ID}${id}/`);
+
+export const apiCreateRegime = (data: RegimeCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_REGIME, data);
+
+export const apiUpdateRegime = (id: number, data: RegimeCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_REGIME}${id}/`, data);
+
+export const apiDeleteRegime = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_REGIME}${id}/`)
 
 export const apiGetPadrao = () => axiosInstance.get(ApiEndpoints.LIST_PADRAO);
 
