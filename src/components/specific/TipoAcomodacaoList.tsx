@@ -30,8 +30,8 @@ const TipoAcomodacaoList: React.FC = () => {
         try {
             const response = await apiGetAcomodacao();
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                codigo: item.com_codigo,
-                descricao: item.com_descricao,
+                codigo: item.tac_codigo,
+                descricao: item.tac_descricao,
             }));
             setOriginalItems(mappedData);
 
