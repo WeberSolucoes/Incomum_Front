@@ -110,5 +110,11 @@ export enum ApiEndpoints {
     CREATE_CLASSE = '/incomum/classe/create/',
     UPDATE_CLASSE = '/incomum/classe/update/', // '/incomum/loja/update/${id}/'
     DELETE_CLASSE = 'incomum/classe/delete/',
+
+    LIST_ACOMODACAO = '/incomum/acomodacao/list-all/',
+    LIST_ACOMODACAO_BY_ID = '/incomum/acomodacao/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_ACOMODACAO = '/incomum/acomodacao/create/',
+    UPDATE_ACOMODACAO = '/incomum/acomodacao/update/', // '/incomum/loja/update/${id}/'
+    DELETE_ACOMODACAO = 'incomum/acomodacao/delete/',
     
 }
