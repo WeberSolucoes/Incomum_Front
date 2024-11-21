@@ -98,7 +98,7 @@ const TipoAcomodacaoList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhum Cep encontrado" 
+                        emptyMessage="Nenhuma Acomodação encontrada" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
