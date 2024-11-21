@@ -98,7 +98,7 @@ const TipoPadraoList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhum Regime encontrado" 
+                        emptyMessage="Nenhum Padrão encontrado" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
