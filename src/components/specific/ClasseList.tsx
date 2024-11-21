@@ -98,7 +98,7 @@ const ClasseList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhum Departamento encontrado" 
+                        emptyMessage="Nenhuma Classe encontrada" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
