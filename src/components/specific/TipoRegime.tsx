@@ -3,8 +3,8 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
-import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCompanhia, apiCreateMoeda, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetCompanhiaId, apiGetMoedaId, apiUpdateCompanhia, apiUpdateMoeda } from "../../services/Api";
+import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest, RegimeCreateRequest } from "../../utils/apiObjects";
+import { apiCreateCompanhia, apiCreateMoeda, apiCreateRegime, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiDeleteRegime, apiGetCompanhiaId, apiGetMoedaId, apiGetRegimeId, apiUpdateCompanhia, apiUpdateMoeda, apiUpdateRegime } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -12,7 +12,7 @@ import { Button } from "primereact/button";
 
 const TipoRegime: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
-    const [request, setRequest] = useState<CompanhiaCreateRequest>({} as CompanhiaCreateRequest);
+    const [request, setRequest] = useState<RegimeCreateRequest>({} as RegimeCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
@@ -22,7 +22,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
-    const [com_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
+    const [tre_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -30,10 +30,10 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
         const fetchData = async () => {
             if (!codigo) return;
             try {
-                const response = await apiGetCompanhiaId(codigo);
+                const response = await apiGetRegimeId(codigo);
                 const unidade = response.data;
                 setRequest(unidade);
-                setVenCodigo(unidade.com_codigo); // Define o ID do vendedor
+                setVenCodigo(unidade.tre_codigo); // Define o ID do vendedor
                 
                 if (unidade.loj_endereco) {
                     const enderecoParts = unidade.loj_endereco.split(",");
@@ -73,7 +73,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
     };
 
     const handleDeleteClick = () => {
-        if (com_codigo !== null && !showModal) { // Verifica se o modal não está aberto
+        if (tre_codigo !== null && !showModal) { // Verifica se o modal não está aberto
             setShowModal(true); // Abre o modal
             confirmDialog({
                 message: 'Tem certeza de que deseja excluir este cadastro?',
@@ -92,10 +92,10 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
     };
 
     const handleConfirmDelete = async () => {
-        if (com_codigo !== null) {
+        if (tre_codigo !== null) {
             setLoading(true);
             try {
-                await apiDeleteCompanhia(com_codigo);
+                await apiDeleteRegime(tre_codigo);
                 toast.success('Cadastro excluído com sucesso.');
 
                 // Limpa os campos do formulário após exclusão
@@ -113,34 +113,34 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
         e.preventDefault();
         setLoading(true);
     
-        if (!request.com_descricao) {
-            toastError("O campo Logradouro é obrigatório.");
+        if (!request.tre_descricao) {
+            toastError("O campo Tipo Regime é obrigatório.");
             setLoading(false);
             return;
         }
     
         try {
             let response;
-            if (request.com_codigo) {
-                response = await apiUpdateCompanhia(request.com_codigo, request);
+            if (request.tre_codigo) {
+                response = await apiUpdateRegime(request.tre_codigo, request);
             } else {
-                const { com_codigo, ...newRequest } = request;
-                response = await apiCreateCompanhia(newRequest);
+                const { tre_codigo, ...newRequest } = request;
+                response = await apiCreateRegime(newRequest);
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Companhia salva com sucesso");
+                toastSucess("Regime salvo com sucesso");
 
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
-                if (!request.com_codigo && response.data && response.data.com_codigo) {
+                if (!request.tre_codigo && response.data && response.data.tre_codigo) {
                     setRequest(prev => ({
                         ...prev,
-                        com_codigo: response.data.com_codigo
+                        tre_codigo: response.data.tre_codigo
                     }));
-                    setVenCodigo(response.data.com_codigo); // Atualize também o estado `cid_codigo`
+                    setVenCodigo(response.data.tre_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar a Companhia");
+                toastError("Erro ao salvar o Regime");
             }
         } catch (error: any) {
             console.error("Erro:", error);
@@ -165,7 +165,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
     };
 
     const handleReset = () => {
-        setRequest({} as CompanhiaCreateRequest);
+        setRequest({} as RegimeCreateRequest);
         setSelectedAreas([]);
         setRua('');
         setNumero('');
@@ -179,12 +179,12 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_codigo">Codigo</label>
+                    <label htmlFor="tre_codigo">Codigo</label>
                     <input
                         type="text"
-                        id="com_codigo"
-                        name="com_codigo"
-                        value={request.com_codigo || ''}
+                        id="tre_codigo"
+                        name="tre_codigo"
+                        value={request.tre_codigo || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
                         disabled
@@ -195,12 +195,12 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
             {/* Segunda linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="com_descricao">Tipo Regime</label>
+                    <label htmlFor="tre_descricao">Tipo Regime</label>
                     <input
                         type="text"
-                        id="com_descricao"
-                        name="com_descricao"
-                        value={request.com_descricao || ''}
+                        id="tre_descricao"
+                        name="tre_descricao"
+                        value={request.tre_descricao || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -208,12 +208,12 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="com_parcelaminima">Descrição Portugues</label>
+                    <label htmlFor="tre_descricaoportugues">Descrição Portugues</label>
                     <input
                         type="text"
-                        id="com_parcelaminima"
-                        name="com_parcelaminima"
-                        value={request.com_parcelaminima || ''}
+                        id="tre_descricaoportugues"
+                        name="tre_descricaoportugues"
+                        value={request.tre_descricaoportugues || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -221,11 +221,12 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="cep_uf">Descrição Ingles</label>
+                    <label htmlFor="tre_descricaoingles">Descrição Ingles</label>
                     <input
                         type="text"
-                        id="cep_uf"
-                        name="cep_uf"
+                        id="tre_descricaoingles"
+                        name="tre_descricaoingles"
+                        value={request.tre_descricaoingles || ''}
                         onChange={handleInputChange}
                     />
                 </div>
@@ -240,7 +241,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
                         onClick={onBackClick} // Chama a função passada como prop
                     />
                 {/* Condição para renderizar o botão de exclusão */}
-                {request.com_codigo && (
+                {request.tre_codigo && (
                 <button
                     style={{marginLeft:'0px',color:'white',width:'100px'}}
                     type="button"
@@ -254,7 +255,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
                 )}
                 
                 <button
-                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.com_codigo ? '14px' : '0px',display: request.com_codigo ? 'none' :''}}
+                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.tre_codigo ? '14px' : '0px',display: request.tre_codigo ? 'none' :''}}
                     type="button"
                     className="reset-btn"
                     onClick={handleReset}
