@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,16 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetAcomodacao = () => axiosInstance.get(ApiEndpoints.LIST_ACOMODACAO);
+
+export const apiGetAcomodacaoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_ACOMODACAO_BY_ID}${id}/`);
+
+export const apiCreateAcomodacao = (data: AcomodacaoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_ACOMODACAO, data);
+
+export const apiUpdateAcomodacao = (id: number, data: AcomodacaoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_ACOMODACAO}${id}/`, data);
+
+export const apiDeleteAcomodacao = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_ACOMODACAO}${id}/`)
 
 export const apiGetClasse = () => axiosInstance.get(ApiEndpoints.LIST_CLASSE);
 
