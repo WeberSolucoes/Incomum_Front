@@ -1,14 +1,13 @@
-import Cep from "./Cep";
+
 import React, { useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
-import { apiGetCep, apiGetCompanhia, apiGetMoeda, apiGetPais, apiGetUnidades } from '../../services/Api';
+import { apiGetPadrao } from '../../services/Api';
 import { toastError } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
-import TipoRegime from "./TipoRegime";
-import TipoPadrao from "./TipoPadrao";
+import TipoPadrao from "./TipoPadrão";
 
 const TipoPadraoList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -28,10 +27,10 @@ const TipoPadraoList: React.FC = () => {
         setLoading(true); // Ativa o estado de carregamento
 
         try {
-            const response = await apiGetCompanhia();
+            const response = await apiGetPadrao();
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                codigo: item.com_codigo,
-                descricao: item.com_descricao,
+                codigo: item.tpa_codigo,
+                descricao: item.tpa_descricao,
             }));
             setOriginalItems(mappedData);
 
