@@ -10,6 +10,7 @@ import AgenciaCadastro from './AgenciaCadastro'; // Importa o componente de cada
 import { TabPanel, TabView } from 'primereact/tabview';
 import Agente from './Agente';
 import ImageUpload from './logo';
+import useEnterKey from '../../hooks/useEnterKey';
 
 
 
@@ -54,6 +55,8 @@ const AgenciaList: React.FC = () => {
             setLoading(false);
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
