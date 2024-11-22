@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,28 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetServicoTuristico = () => axiosInstance.get(ApiEndpoints.LIST_SERVICOTURISTICO);
+
+export const apiGetServicoTuristicoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_SERVICOTURISTICO_BY_ID}${id}/`);
+
+export const apiCreateServicoTuristico = (data: SituacaoTuristicoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_SERVICOTURISTICO, data);
+
+export const apiUpdateServicoTuristico = (id: number, data: SituacaoTuristicoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_SERVICOTURISTICO}${id}/`, data);
+
+export const apiDeleteServicoTuristico = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_SERVICOTURISTICO}${id}/`)
+
+
+export const apiGetSituacaoTuristico = () => axiosInstance.get(ApiEndpoints.LIST_SITUACAOTURISTICO);
+
+export const apiGetSituacaoTuristicoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_SITUACAOTURISTICO_BY_ID}${id}/`);
+
+export const apiCreateSituacaoTuristico = (data: SituacaoTuristicoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_SITUACAOTURISTICO, data);
+
+export const apiUpdateSituacaoTuristico = (id: number, data: SituacaoTuristicoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_SITUACAOTURISTICO}${id}/`, data);
+
+export const apiDeleteSituacaoTuristico = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_SITUACAOTURISTICO}${id}/`)
+
 
 export const apiGetRegime = () => axiosInstance.get(ApiEndpoints.LIST_REGIME);
 
