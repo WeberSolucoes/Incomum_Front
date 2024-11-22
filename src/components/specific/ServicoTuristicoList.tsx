@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import ServicoTuristico from './ServicoTuristico';
+import useEnterKey from '../../hooks/useEnterKey';
 
 
 const ServicoTuristicoList: React.FC = () => {
@@ -49,6 +50,8 @@ const ServicoTuristicoList: React.FC = () => {
         }
     };
 
+    useEnterKey(handleSearch);
+    
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create'); // Muda para a visualização de edição
