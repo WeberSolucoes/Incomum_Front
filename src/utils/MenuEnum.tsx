@@ -11,6 +11,8 @@ export enum MenuEnum {
     cadastro_assinatura = 'cadastro_assinatura',
     cadastro_classe = 'cadastro_classe',
     cadastro_acomodacao = 'cadastro_acomodacao',
+    cadastro_situacaoturistico = "cadastro_situacaoturistico",
+    cadastro_servicoturistico = "cadastro_servicoturistico",
     cadastro_regime = 'cadastro_regime',
     cadastro_padrao = 'cadastro_padrao',
     cadastro_paises = 'cadastro_paises',
