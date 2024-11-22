@@ -9,6 +9,7 @@ import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Cidade from './Cidade'; // Importa o componente de cadastro
 import Moeda from './Moeda';
+import useEnterKey from '../../hooks/useEnterKey';
 
 const CepList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -50,6 +51,8 @@ const CepList: React.FC = () => {
         }
     };
 
+    useEnterKey(handleSearch);
+    
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create'); // Muda para a visualização de edição
