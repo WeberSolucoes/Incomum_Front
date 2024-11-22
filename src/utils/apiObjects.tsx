@@ -265,6 +265,17 @@ interface RegimeCreateRequest{
     tre_descricaoingles: string,
 }
 
+interface SituacaoTuristicoCreateRequest{
+    stu_descricao: string
+}
+
+interface ServicoTuristicoCreateRequest{
+    ser_descricao: string
+    cid_codigo: number
+    ser_livre: string
+
+}
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -293,6 +304,8 @@ export type {
     AcomodacaoCreateRequest,
     PadraoCreateRequest,
     RegimeCreateRequest,
+    SituacaoTuristicoCreateRequest,
+    ServicoTuristicoCreateRequest,
 
 }
 
