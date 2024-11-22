@@ -3,11 +3,12 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { AeroportoCreateRequest, UnidadesCreateRequest } from '../../utils/apiObjects';
 import { useCodigo } from '../../contexts/CodigoProvider';
-import { apiCreateAeroporto, apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutAeroporto, apiPutUpdateUnidade } from '../../services/Api';
+import { apiCreateAeroporto, apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutAeroporto, apiPutUpdateUnidade, apiGetCidade } from '../../services/Api';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
 import { Button } from 'primereact/button';
+import { Dropdown } from "primereact/dropdown";
 
 const Aeroporto: React.FC = ({}) => {
     const { codigo } = useCodigo();
@@ -21,6 +22,7 @@ const Aeroporto: React.FC = ({}) => {
     const [checked, setChecked] = useState(false);
     const [cep, setCep] = useState('');
     const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
+    const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -52,6 +54,23 @@ const Aeroporto: React.FC = ({}) => {
         };
         fetchData();
     }, [codigo]);
+
+    useEffect(() => {
+        const fetchUnidades = async () => {
+            try {
+                const response = await apiGetCidade();
+                const data = response.data;
+                setCidades(data.map((area: { cid_descricao: string; cid_codigo: number }) => ({
+                    label: area.cid_descricao,
+                    value: area.cid_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar Cidades:", error);
+                toastError("Erro ao buscar Cidades.");
+            }
+        };
+        fetchUnidades();
+    }, []);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -135,6 +154,11 @@ const Aeroporto: React.FC = ({}) => {
         setCep('');
     };
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setRequest(prevState => ({ ...prevState, [id]: value }));
+    };
+
 
     return (
         <>
@@ -170,13 +194,18 @@ const Aeroporto: React.FC = ({}) => {
             <div className="form-row">
                 <div className="form-group">
                     <label htmlFor="cid_codigo">Cidade</label>
-                    <input
-                        style={{width:'840px'}}
-                        type="text"
+                    <Dropdown
                         id="cid_codigo"
-                        name="cid_codigo"
-                        value={request.cid_codigo || ''}
-                        onChange={handleInputChange} />
+                        value={request.cid_codigo || null} // Valor selecionado
+                        options={Cidade} // Opções estáticas
+                        onChange={(e) => handleSelectChange(e)} // Callback ao alterar valor
+                        optionLabel="label" // Nome exibido no dropdown
+                        optionValue="value" // Valor interno enviado
+                        placeholder="Selecione um tipo de vencimento"
+                        showClear // Botão para limpar
+                        filter // Ativa a busca
+                        className="w-full"
+                    />
                 </div>
                 <div className="form-group">
                     <label htmlFor="loj_responsavel">UF</label>
