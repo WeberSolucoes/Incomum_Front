@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import VendedorCadastro from './VendedorCadastro'; // Importa o componente de cadastro
+import useEnterKey from '../../hooks/useEnterKey';
 
 const VendedorList: React.FC = () => {
     const [items, setItems] = useState<VendedorListResponse[]>([]);
@@ -49,6 +50,8 @@ const VendedorList: React.FC = () => {
             setLoading(false); // Desativa o estado de carregamento
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
