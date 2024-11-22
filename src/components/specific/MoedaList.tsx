@@ -8,6 +8,7 @@ import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Cidade from './Cidade'; // Importa o componente de cadastro
 import Moeda from './Moeda';
+import useEnterKey from '../../hooks/useEnterKey';
 
 const MoedaList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -48,6 +49,8 @@ const MoedaList: React.FC = () => {
             setLoading(false); // Desativa o estado de carregamento
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
