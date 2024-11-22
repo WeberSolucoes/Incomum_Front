@@ -8,6 +8,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Companhia from "./Companhia";
+import useEnterKey from '../../hooks/useEnterKey';
 
 const CompanhiaList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -48,6 +49,8 @@ const CompanhiaList: React.FC = () => {
             setLoading(false); // Desativa o estado de carregamento
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
