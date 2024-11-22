@@ -10,6 +10,7 @@ import AreaComercialCadastro from './AreaComercialCadastro'; // Importa o compon
 import Unidades from './Unidades'
 import { TabPanel, TabView } from 'primereact/tabview';
 import ImageUpload from './logo';
+import useEnterKey from '../../hooks/useEnterKey';
 
 const AreaComercialList: React.FC = () => {
     const { codigo, setCodigo } = useCodigo(); // Ajuste conforme a origem do código
@@ -52,6 +53,8 @@ const AreaComercialList: React.FC = () => {
             setLoading(false);
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         const AreaComercialList = items.find(item => item.codigo === codigo); // Encontre a área comercial selecionada
