@@ -9,6 +9,7 @@ import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Companhia from "./Companhia";
 import TipoAcomodacao from "./TipoAcomodacao";
+import useEnterKey from '../../hooks/useEnterKey';
 
 const TipoAcomodacaoList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -50,6 +51,8 @@ const TipoAcomodacaoList: React.FC = () => {
         }
     };
 
+    useEnterKey(handleSearch);
+    
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create'); // Muda para a visualização de edição
