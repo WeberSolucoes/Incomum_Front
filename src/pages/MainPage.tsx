@@ -32,6 +32,8 @@ import ClasseList from '../components/specific/ClasseList';
 import TipoAcomodacaoList from '../components/specific/TipoAcomodacaoList';
 import TipoRegimeList from '../components/specific/TipoRegimeList';
 import TipoPadraoList from '../components/specific/TipoPadraoList';
+import SituacaoTuristicoList from '../components/specific/SituacaoTuristicoList';
+import ServicoTuristicoList from '../components/specific/ServicoTuristicoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -229,6 +231,18 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Padrao'>
                         <TipoPadraoList />
+                    </FormLayout>
+                );
+            case 'cadastro_situacaoturistico':
+                return (
+                    <FormLayout name='Turistico'>
+                        <SituacaoTuristicoList />
+                    </FormLayout>
+                );
+            case 'cadastro_servicoturistico':
+                return (
+                    <FormLayout name='Servico'>
+                        <ServicoTuristicoList />
                     </FormLayout>
                 );
             case 'lancamento_opcao':
