@@ -128,5 +128,17 @@ export enum ApiEndpoints {
     CREATE_REGIME = '/incomum/regime/create/',
     UPDATE_REGIME = '/incomum/regime/update/', // '/incomum/loja/update/${id}/'
     DELETE_REGIME = 'incomum/regime/delete/',
+
+    LIST_SITUACAOTURISTICO = '/incomum/situacaoturistico/list-all/',
+    LIST_SITUACAOTURISTICO_BY_ID = '/incomum/situacaoturistico/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_SITUACAOTURISTICO = '/incomum/situacaoturistico/create/',
+    UPDATE_SITUACAOTURISTICO = '/incomum/situacaoturistico/update/', // '/incomum/loja/update/${id}/'
+    DELETE_SITUACAOTURISTICO = 'incomum/situacaoturistico/delete/',
+    
+    LIST_SERVICOTURISTICO = '/incomum/servicoturistico/list-all/',
+    LIST_SERVICOTURISTICO_BY_ID = '/incomum/servicoturistico/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_SERVICOTURISTICO = '/incomum/servicoturistico/create/',
+    UPDATE_SERVICOTURISTICO = '/incomum/servicoturistico/update/', // '/incomum/loja/update/${id}/'
+    DELETE_SERVICOTURISTICO = 'incomum/servicoturistico/delete/',
     
 }
