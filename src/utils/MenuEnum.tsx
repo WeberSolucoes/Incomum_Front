@@ -52,6 +52,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_aeroporto);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -60,6 +64,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_agencias);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -68,6 +76,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_AreaComercial)
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }   
             },
             {
@@ -76,6 +88,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_assinatura);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -84,6 +100,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_cep);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -92,6 +112,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_cidade);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -100,6 +124,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_classe);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -108,6 +136,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_companhia);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -116,6 +148,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_departamento);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -124,6 +160,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_moeda);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -132,6 +172,34 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_paises);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Situação Turistico",
+                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_situacaoturistico);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Serviço Turistico",
+                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_servicoturistico);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -140,6 +208,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_acomodacao);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -148,6 +220,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_padrao);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -156,6 +232,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_regime);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -164,6 +244,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_unidades);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
             {
@@ -172,6 +256,10 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_vendedores);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
                 }
             },
         ]
