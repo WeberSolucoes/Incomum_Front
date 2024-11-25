@@ -100,7 +100,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Bandeira",
-                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
+                icon: "cilFlagAlt", // Ajuste o nome do ícone conforme sua escolha
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_bandeira);
