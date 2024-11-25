@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,17 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetBandeira = () => axiosInstance.get(ApiEndpoints.LIST_BANDEIRA);
+
+export const apiGetBandeiraId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_BANDEIRA_BY_ID}${id}/`);
+
+export const apiCreateBandeira = (data: BandeiraCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_BANDEIRA, data);
+
+export const apiUpdateBandeira = (id: number, data: BandeiraCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_BANDEIRA}${id}/`, data);
+
+export const apiDeleteBandeira = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_BANDEIRA}${id}/`)
+
 
 export const apiGetServicoTuristico = () => axiosInstance.get(ApiEndpoints.LIST_SERVICOTURISTICO);
 
