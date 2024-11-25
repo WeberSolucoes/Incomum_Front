@@ -140,7 +140,7 @@ const Bandeira: React.FC = ({ onBackClick }) => {
                     setVenCodigo(response.data.ban_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar a Moeda");
+                toastError("Erro ao salvar Bandeira");
             }
         } catch (error: any) {
             console.error("Erro:", error);
