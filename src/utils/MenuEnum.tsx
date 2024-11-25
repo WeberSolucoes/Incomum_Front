@@ -7,6 +7,7 @@ export enum MenuEnum {
     cadastro_vendedores = 'cadastro_vendedores',
     cadastro_aeroporto ='cadastro_aeroporto',
     cadastro_AreaComercial = 'cadastro_AreaComercial',
+    cadastro_bandeira = 'cadastro_bandeira',
     cadastro_departamento = 'cadastro_departamento',
     cadastro_assinatura = 'cadastro_assinatura',
     cadastro_classe = 'cadastro_classe',
@@ -90,6 +91,18 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_assinatura);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Bandeira",
+                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_bandeira);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
