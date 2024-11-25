@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,17 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetFormaPagamento = () => axiosInstance.get(ApiEndpoints.LIST_FORMAPAGAMENTO);
+
+export const apiGetFormaPagamentoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_FORMAPAGAMENTO_BY_ID}${id}/`);
+
+export const apiCreateFormaPagamento = (data: FormaDePagamentoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_FORMAPAGAMENTO, data);
+
+export const apiUpdateFormaPagamento = (id: number, data: FormaDePagamentoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_FORMAPAGAMENTO}${id}/`, data);
+
+export const apiDeleteFormaPagamento = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_FORMAPAGAMENTO}${id}/`)
+
 
 export const apiGetBandeira = () => axiosInstance.get(ApiEndpoints.LIST_BANDEIRA);
 
