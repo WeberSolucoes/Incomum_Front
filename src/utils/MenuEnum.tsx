@@ -8,6 +8,7 @@ export enum MenuEnum {
     cadastro_aeroporto ='cadastro_aeroporto',
     cadastro_AreaComercial = 'cadastro_AreaComercial',
     cadastro_bandeira = 'cadastro_bandeira',
+    cadastro_formapagamento = 'cadastro_formapagamento',
     cadastro_departamento = 'cadastro_departamento',
     cadastro_assinatura = 'cadastro_assinatura',
     cadastro_classe = 'cadastro_classe',
@@ -163,6 +164,18 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_departamento);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Forma De Pagamento",
+                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_formapagamento);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
