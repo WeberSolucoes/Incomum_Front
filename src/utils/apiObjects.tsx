@@ -276,6 +276,12 @@ interface ServicoTuristicoCreateRequest{
 
 }
 
+interface BandeiraCreateRequest{
+    ban_descricao: string,
+    ban_codigocielo: number
+}
+
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -306,6 +312,7 @@ export type {
     RegimeCreateRequest,
     SituacaoTuristicoCreateRequest,
     ServicoTuristicoCreateRequest,
+    BandeiraCreateRequest,
 
 }
 
