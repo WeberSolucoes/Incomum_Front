@@ -42,7 +42,7 @@ const BandeiraList: React.FC = () => {
             );
             setItems(filteredItems);
         } catch (error) {
-            toastError('Erro ao buscar Moeda');
+            toastError('Erro ao buscar Bandeira');
         } finally {
             setLoading(false); // Desativa o estado de carregamento
         }
