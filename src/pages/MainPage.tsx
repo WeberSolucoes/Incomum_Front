@@ -35,6 +35,7 @@ import TipoPadraoList from '../components/specific/TipoPadraoList';
 import SituacaoTuristicoList from '../components/specific/SituacaoTuristicoList';
 import ServicoTuristicoList from '../components/specific/ServicoTuristicoList';
 import BandeiraList from '../components/specific/BandeiraList';
+import FormaPagamentoList from '../components/specific/FormaPagamentoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -250,6 +251,12 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Bandeira'>
                         <BandeiraList />
+                    </FormLayout>
+                );
+            case 'cadastro_formapagamento':
+                return (
+                    <FormLayout name='Forma De Pagamento'>
+                        <FormaPagamentoList />
                     </FormLayout>
                 );
             case 'lancamento_opcao':
