@@ -140,5 +140,11 @@ export enum ApiEndpoints {
     CREATE_SERVICOTURISTICO = '/incomum/servicoturistico/create/',
     UPDATE_SERVICOTURISTICO = '/incomum/servicoturistico/update/', // '/incomum/loja/update/${id}/'
     DELETE_SERVICOTURISTICO = 'incomum/servicoturistico/delete/',
+
+    LIST_BANDEIRA = '/incomum/bandeira/list-all/',
+    LIST_BANDEIRA_BY_ID = '/incomum/bandeira/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_BANDEIRA = '/incomum/bandeira/create/',
+    UPDATE_BANDEIRA = '/incomum/bandeira/update/', // '/incomum/loja/update/${id}/'
+    DELETE_BANDEIRA = 'incomum/bandeira/delete/',
     
 }
