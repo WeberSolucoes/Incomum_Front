@@ -134,7 +134,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Companhia",
-                icon: "cilIndustry",
+                icon: "cilWc",
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_companhia);
@@ -182,7 +182,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Situação Turistico",
-                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                icon: "cilClipboard", // Ajuste o nome do ícone conforme sua escolha
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_situacaoturistico);
@@ -194,7 +194,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Serviço Turistico",
-                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                icon: "cilCarAlt", // Ajuste o nome do ícone conforme sua escolha
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_servicoturistico);
@@ -206,7 +206,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Tipo Acomodação",
-                icon: "cilSchool",
+                icon: "cilSofa",
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_acomodacao);
@@ -218,7 +218,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Tipo Padrão",
-                icon: "cilSchool",
+                icon: "cilShortText",
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_padrao);
@@ -230,7 +230,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Tipo Regime",
-                icon: "cilSchool",
+                icon: "cilFastfood",
                 requiredPermissions: ["Can view area comercial"],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_regime);
