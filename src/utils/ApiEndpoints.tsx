@@ -146,5 +146,11 @@ export enum ApiEndpoints {
     CREATE_BANDEIRA = '/incomum/bandeira/create/',
     UPDATE_BANDEIRA = '/incomum/bandeira/update/', // '/incomum/loja/update/${id}/'
     DELETE_BANDEIRA = 'incomum/bandeira/delete/',
+
+    LIST_FORMAPAGAMENTO = '/incomum/formapagamento/list-all/',
+    LIST_FORMAPAGAMENTO_BY_ID = '/incomum/formapagamento/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_FORMAPAGAMENTO = '/incomum/formapagamento/create/',
+    UPDATE_FORMAPAGAMENTO = '/incomum/formapagamento/update/', // '/incomum/loja/update/${id}/'
+    DELETE_FORMAPAGAMENTO = 'incomum/formapagamento/delete/',
     
 }
