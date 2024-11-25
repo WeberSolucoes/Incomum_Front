@@ -74,7 +74,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Área Comercial",
-                icon: "cilBuilding",
+                icon: "cilContact",
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_AreaComercial)
