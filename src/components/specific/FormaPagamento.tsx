@@ -129,7 +129,7 @@ const FormaPagamento: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Cidade salva com sucesso");
+                toastSucess("Forma de Pagamento salva com sucesso");
     
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.for_codigo && response.data && response.data.for_codigo) {
@@ -140,7 +140,7 @@ const FormaPagamento: React.FC = ({ onBackClick }) => {
                     setVenCodigo(response.data.for_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar o Cidade");
+                toastError("Erro ao salvar a Forma de Pagamento");
             }
         } catch (error: any) {
             console.error("Erro:", error);
