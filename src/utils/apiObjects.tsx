@@ -281,6 +281,10 @@ interface BandeiraCreateRequest{
     ban_codigocielo: number
 }
 
+interface FormaDePagamentoCreateRequest{
+    for_descricao: string
+}
+
 
 export type {
     LoginRequest,
@@ -313,6 +317,7 @@ export type {
     SituacaoTuristicoCreateRequest,
     ServicoTuristicoCreateRequest,
     BandeiraCreateRequest,
+    FormaDePagamentoCreateRequest,
 
 }
 
