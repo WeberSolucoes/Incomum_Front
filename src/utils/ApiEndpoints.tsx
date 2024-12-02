@@ -152,5 +152,17 @@ export enum ApiEndpoints {
     CREATE_FORMAPAGAMENTO = '/incomum/formapagamento/create/',
     UPDATE_FORMAPAGAMENTO = '/incomum/formapagamento/update/', // '/incomum/loja/update/${id}/'
     DELETE_FORMAPAGAMENTO = 'incomum/formapagamento/delete/',
+
+    LIST_PARCEIRO = '/incomum/parceiro/list-all/',
+    LIST_PARCEIRO_BY_ID = '/incomum/parceiro/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_PARCEIRO = '/incomum/parceiro/create/',
+    UPDATE_PARCEIRO = '/incomum/parceiro/update/', // '/incomum/loja/update/${id}/'
+    DELETE_PARCEIRO = 'incomum/parceiro/delete/',
+
+    LIST_PARCEIROCONTATO = '/incomum/parceirocontato/list-all/',
+    LIST_PARCEIROCONTATO_BY_ID = '/incomum/parceirocontato/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_PARCEIROCONTATO = '/incomum/parceirocontato/create/',
+    UPDATE_PARCEIROCONTATO = '/incomum/parceirocontato/update/', // '/incomum/loja/update/${id}/'
+    DELETE_PARCEIROCONTATO = 'incomum/parceirocontato/delete/',
     
 }
