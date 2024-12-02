@@ -132,7 +132,7 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                             activeIndex={activeIndex}
                             onTabChange={(e) => {
                                 // Verifica se o usuário está tentando acessar "Contatos" (índice 1)
-                                if (e.index === 1 && !isCadastroConcluido) {
+                                if (e.index === 1 && !codigo) {
                                     toastError("Complete o cadastro em 'Dados Gerais' antes de acessar os contatos.");
                                     return;
                                 }
@@ -149,9 +149,6 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                         </TabPanel>
                         <TabPanel header="Contatos">
                             {activeIndex === 1 && <FornecedoresContato parceiroId={parceiroId} />}
-                        </TabPanel>
-                        <TabPanel header="Logo Agência">
-                            <ImageUpload agenciaId={parceiroId} />
                         </TabPanel>
                     </TabView>
                 </>
