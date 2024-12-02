@@ -4,12 +4,13 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { ParceiroCreateRequest, VendedorCreateRequest } from "../../utils/apiObjects";
-import { apiCreateParceiro, apiDeleteParceiro, apiDeleteVendedor, apiGetArea, apiGetParceiroId, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor, apiUpdateParceiro } from "../../services/Api";
+import { apiCreateParceiro, apiDeleteParceiro, apiDeleteVendedor, apiGetArea, apiGetCidade, apiGetParceiroId, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor, apiUpdateParceiro } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
+import { Dropdown } from "primereact/dropdown";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -25,6 +26,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [checked, setChecked] = useState(false);
     const [par_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
+    const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
 
     const exampleData = [
         { coluna1: 'Item 1', coluna2: 'Descrição 1' },
@@ -136,6 +138,24 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
             }
         }
     };
+
+    useEffect(() => {
+        const fetchUnidades = async () => {
+            try {
+                const response = await apiGetCidade();
+                const data = response.data;
+                setCidades(data.map((area: { cid_descricao: string; cid_codigo: number }) => ({
+                    label: area.cid_descricao,
+                    value: area.cid_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar áreas comerciais:", error);
+                toastError("Erro ao buscar áreas comerciais.");
+            }
+        };
+        fetchUnidades();
+    }, []);
+
     const campoMapeamento: Record<keyof VendedorCreateRequest, string> = {
         ven_numero: 'Número',
         ven_contacorrente: 'Conta',
@@ -193,6 +213,13 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Parceiro salvo com sucesso");
                 localStorage.setItem('par_codigo', request.par_codigo.toString());
+                if (!request.par_codigo && response.data && response.data.par_codigo) {
+                    setRequest(prev => ({
+                        ...prev,
+                        par_codigo: response.data.par_codigo
+                    }));
+                    setVenCodigo(response.data.par_codigo); // Atualize também o estado `cid_codigo`
+                }
             } else {
                 toastError("Erro ao salvar o Parceiro");
             }
@@ -277,6 +304,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_datacadastro"
                         value={request.par_datacadastro || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -310,6 +338,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_dataatualizacao"
                         value={request.par_dataatualizacao || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
             </div>
@@ -496,13 +525,18 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     />
                 </div>
                 <div className="form-group">
-                    <label htmlFor="cid_codigo">Cidade</label>
-                    <input
-                        type="text"
+                    <label htmlFor="ven_descricao">Cidade</label>
+                    <Dropdown
                         id="cid_codigo"
-                        name="cid_codigo"
-                        value={request.cid_codigo || ''}
-                        onChange={handleInputChange}
+                        value={request.cid_codigo || null} // Valor selecionado
+                        options={Cidade} // Opções estáticas
+                        onChange={(e) => handleSelectChange(e)} // Callback ao alterar valor
+                        optionLabel="label" // Nome exibido no dropdown
+                        optionValue="value" // Valor interno enviado
+                        placeholder="Selecione uma Cidade"
+                        showClear // Botão para limpar
+                        filter // Ativa a busca
+                        className="w-full"
                     />
                 </div>
                 <div className="form-group">
@@ -555,7 +589,8 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     </textarea>
                 </div>
                 <div className="form-group">
-                    <DataTable value={exampleData} style={{ borderCollapse: 'collapse', width: '500px', marginTop:'28px',backgroundColor:'white' }}>
+                    <label htmlFor="par_obs">Tipo De Parceiro</label>
+                    <DataTable value={exampleData} style={{ borderCollapse: 'collapse', width: '500px',backgroundColor:'white' }}>
                         <Column field="coluna1" header="Tipo" />
                         <Column field="coluna2" header="Descrição" />
                     </DataTable>
@@ -599,3 +634,4 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
 };
 
 export default Fornecedores;
+
