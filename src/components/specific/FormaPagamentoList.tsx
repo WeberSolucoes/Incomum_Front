@@ -49,6 +49,8 @@ const FormaPagamentoList: React.FC = () => {
         }
     };
 
+    useEnterKey(handleSearch);
+
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create'); // Muda para a visualização de edição
