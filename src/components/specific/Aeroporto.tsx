@@ -259,7 +259,7 @@ const Aeroporto: React.FC = ({}) => {
                 <Button
                         label="Voltar"
                         icon="pi pi-arrow-left"
-                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'680px',borderRadius:'4px' }}
                     />
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.aer_codigo && (
