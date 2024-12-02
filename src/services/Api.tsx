@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,29 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetParceiroContato = () => axiosInstance.get(ApiEndpoints.LIST_PARCEIROCONTATO);
+
+export const apiGetParceiroContatoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PARCEIROCONTATO_BY_ID}${id}/`);
+
+export const apiCreateParceiroContato = (data: ParceiroContatoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PARCEIROCONTATO, data);
+
+export const apiUpdateParceiroContato = (id: number, data: ParceiroContatoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_PARCEIROCONTATO}${id}/`, data);
+
+export const apiDeleteParceiroContato = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PARCEIROCONTATO}${id}/`)
+
+
+export const apiGetParceiro = () => axiosInstance.get(ApiEndpoints.LIST_PARCEIRO);
+
+export const apiGetParceiroId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PARCEIRO_BY_ID}${id}/`);
+
+export const apiCreateParceiro = (data: ParceiroCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PARCEIRO, data);
+
+export const apiUpdateParceiro = (id: number, data: ParceiroCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_PARCEIRO}${id}/`, data);
+
+export const apiDeleteParceiro = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PARCEIRO}${id}/`)
+
+
 
 export const apiGetFormaPagamento = () => axiosInstance.get(ApiEndpoints.LIST_FORMAPAGAMENTO);
 
