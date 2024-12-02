@@ -285,6 +285,51 @@ interface FormaDePagamentoCreateRequest{
     for_descricao: string
 }
 
+interface ParceiroCreateRequest{
+    par_descricao: string,
+    par_tipopessoa: string,
+    par_cnpjcpf: string,
+    par_rgie: string,
+    par_datanascfund: Date,
+    par_fone1: string,
+    par_fone2: string,
+    par_celular: string,
+    par_fax: string,
+    par_endereco: string,
+    par_bairro: string,
+    par_numero: string,
+    par_complemento: string,
+    cid_codigo: string,
+    par_cep: string,
+    par_obs: string,
+    par_email: string,
+    par_site: string,
+    par_datacadastro: Date,
+    par_dataatualizacao: Date,
+    spa_codigo: number,
+    tcr_codigo: number,
+    par_percentualdesconto: number,
+    par_diasprazo: number,
+    par_codigocontabil: number,
+    par_atualiza: string,
+    par_pagamentoentrada: number,
+    par_pagamentosaida: number,
+    cta_codigo: number,
+    par_razaosocial: string,
+    par_whatsapp: string,
+    par_codigoimportacao: number,
+}
+
+interface ParceiroContatoCreateRequest{
+    par_codigo: number,
+    tco_codigo: number,
+    pco_descricao: string,
+    pco_fone: string,
+    pco_celular: string,
+    pco_observacao:string,
+    pco_datacadastro:string,
+}
+
 
 export type {
     LoginRequest,
@@ -318,6 +363,8 @@ export type {
     ServicoTuristicoCreateRequest,
     BandeiraCreateRequest,
     FormaDePagamentoCreateRequest,
+    ParceiroCreateRequest,
+    ParceiroContatoCreateRequest,
 
 }
 
