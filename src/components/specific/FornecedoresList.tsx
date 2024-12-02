@@ -13,6 +13,7 @@ import ImageUpload from './logo';
 import Fornecedores from './Fornecedores';
 import FornecedoresContato from './FornecedoresContato';
 import { toast } from 'react-toastify';
+import useEnterKey from '../../hooks/useEnterKey';
 
 
 interface ParceiroListProps {
