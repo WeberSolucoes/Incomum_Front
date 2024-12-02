@@ -185,7 +185,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             {
                 label: "Fornecedores",
-                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                icon: "cilGroup", // Ajuste o nome do ícone conforme sua escolha
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_fornecedores);
