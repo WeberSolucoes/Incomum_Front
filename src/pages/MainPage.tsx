@@ -36,6 +36,7 @@ import SituacaoTuristicoList from '../components/specific/SituacaoTuristicoList'
 import ServicoTuristicoList from '../components/specific/ServicoTuristicoList';
 import BandeiraList from '../components/specific/BandeiraList';
 import FormaPagamentoList from '../components/specific/FormaPagamentoList';
+import FornecedoresList from '../components/specific/FornecedoresList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -257,6 +258,12 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Forma De Pagamento'>
                         <FormaPagamentoList />
+                    </FormLayout>
+                );
+            case 'cadastro_fornecedores':
+                return (
+                    <FormLayout name='Fornecedores'>
+                        <FornecedoresList parceiroId={null} />
                     </FormLayout>
                 );
             case 'lancamento_opcao':
