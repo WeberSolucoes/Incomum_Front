@@ -378,6 +378,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_razaosocial"
                         value={request.par_razaosocial || ''}
                         onChange={handleInputChange}
+                        style={{width:'398px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -478,6 +479,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         onChange={handleInputChange}
                         onBlur={handleCepApi}
                         maxLength={8} // Adicionado para limitar a quantidade de caracteres
+                        style={{width:'150px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -488,6 +490,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_endereco"
                         value={request.par_endereco || ''}
                         onChange={handleInputChange}
+                        style={{width:'450px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -498,6 +501,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_numero"
                         value={request.par_numero || ''}
                         onChange={handleInputChange}
+                        style={{width:'100px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -508,6 +512,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_complemento"
                         value={request.par_complemento || ''}
                         onChange={handleInputChange}
+                        style={{width:'280px'}}
                     />
                 </div>
             </div>
@@ -522,6 +527,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="par_bairro"
                         value={request.par_bairro || ''}
                         onChange={handleInputChange}
+                        style={{width:'450px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -537,6 +543,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         showClear // Botão para limpar
                         filter // Ativa a busca
                         className="w-full"
+                        style={{width:'450px',height:'37.6px'}}
                     />
                 </div>
                 <div className="form-group">
@@ -546,6 +553,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         id="ven_descricaoauxiliar"
                         name="ven_descricaoauxiliar"
                         onChange={handleInputChange}
+                        style={{width:'90px'}}
                     />
                 </div>
             </div>
