@@ -12,6 +12,7 @@ export enum MenuEnum {
     cadastro_departamento = 'cadastro_departamento',
     cadastro_assinatura = 'cadastro_assinatura',
     cadastro_classe = 'cadastro_classe',
+    cadastro_fornecedores = 'cadastro_fornecedores',
     cadastro_acomodacao = 'cadastro_acomodacao',
     cadastro_situacaoturistico = "cadastro_situacaoturistico",
     cadastro_servicoturistico = "cadastro_servicoturistico",
@@ -176,6 +177,18 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_formapagamento);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Fornecedores",
+                icon: "cilSchool", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_fornecedores);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
