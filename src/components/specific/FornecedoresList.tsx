@@ -72,6 +72,8 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
         }
     };
 
+    useEnterKey(handleSearch);
+
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
         setView('create');
