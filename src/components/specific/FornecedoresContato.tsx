@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { ParceiroContatoCreateRequest} from "../../utils/apiObjects";
-import {  apiCreateParceiroContato, apiDeleteParceiroContato, apiUpdateParceiroContato } from "../../services/Api";
+import {  apiCreateParceiroContato, apiDeleteParceiroContato, apiGetParceiroContato, apiUpdateParceiroContato } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import GenericTable from "../common/GenericTable";
@@ -13,22 +13,24 @@ import { Dialog } from "primereact/dialog";
 
 const ForncedoresContato: React.FC = (onBackClick) => {
     const [request, setRequest] = useState<ParceiroContatoCreateRequest>({} as ParceiroContatoCreateRequest);
-    const [loading, setLoading] = useState(false);
-    const [setAgencias] = useState<{ id: number; nome: string }[]>([]);
+    const [agencias, setAgencias] = useState<{ id: number; nome: string }[]>([]); // Corrigido o nome do estado
     const [modalVisible, setModalVisible] = useState(false);
-    const [filteredAgentes, setFilteredAgentes] = useState<Agente[]>([]);
-    const { codigo } = useCodigo();
-    const [editing, setEditing] = useState(false); // Novo estado para diferenciar criação e edição
-    const [agenteNome, setAgenteNome] = useState('');
-    const [pco_codigo, setVenCodigo] = useState<number | null>(null); 
+    const { codigo } = useCodigo(); // Presumo que esse hook retorna algum valor do código
+    const [editing, setEditing] = useState(false); // Estado para diferenciar entre criação e edição
+    const [agenteNome, setAgenteNome] = useState(''); // Nome do agente que está sendo editado
+    const [pco_codigo, setVenCodigo] = useState<number | null>(null); // Código do parceir
+    const [filteredAgentes, setFilteredAgentes] = useState<ParceiroContatoCreateRequest[]>([]); // Filtra os agentes que devem ser exibidos
+    const [loading, setLoading] = useState(false); // Estado para indicar se há carregamento de dados
+    const [registroEditar, setRegistroEditar] = useState<ParceiroContatoCreateRequest | null>(null); // Para armazenar o agente a ser editado
+    const [selectedAgente, setSelectedAgente] = useState<number | null>(null);
 
     const agenteColumns = [
-        { header: 'Código', field: 'codigo' },
-        { header: 'Descrição', field: 'descricao' },
-        { header: 'CPF', field: 'cpf' },
-        { header: 'Agência', field: 'agenciaCodigo' },
+        { field: "pco_codigo", header: "Código Contato" },
+        { field: "par_codigo", header: "Código Parceiro" },
+        { field: "pco_descricao", header: "Descrição" },
+        { field: "pco_observacao", header: "Observação" },
+        { field: "pco_fone", header: "Telefone" },
     ];
-
 
     useEffect(() => {
         console.log('Código da agência:', codigo);
@@ -45,6 +47,37 @@ const ForncedoresContato: React.FC = (onBackClick) => {
             }));
         }
     }, [codigo]);
+    
+
+    const fetchParceiroContatos = async () => {
+        setLoading(true);
+        try {
+            const response = await apiGetParceiroContato();
+            if (response.status === 200) {
+                // Mapeia os dados retornados da API para o formato esperado pela GenericTable
+                const data = Array.isArray(response.data) ? response.data : [];
+                const mappedData = data.map((item) => ({
+                    codigo: item.pco_codigo, // Adapta para o campo esperado
+                    descricao: item.pco_descricao,
+                    responsavel: item.pco_observacao, // Ajuste conforme necessário
+                    email: item.pco_fone, // Exemplo de adaptação
+                }));
+                setFilteredAgentes(mappedData); // Atualiza o estado com os dados transformados
+            } else {
+                toastError("Erro ao carregar os dados.");
+            }
+        } catch (error) {
+            console.error("Erro:", error);
+            toastError("Erro ao buscar os dados.");
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    
+    useEffect(() => {
+        fetchParceiroContatos();
+    }, []);
 
     const fetchAddressByCep = async (cep: string) => {
         if (cep.length === 8) { // Verifica se o CEP tem 8 caracteres
@@ -122,10 +155,10 @@ const ForncedoresContato: React.FC = (onBackClick) => {
                 response = await apiUpdateParceiroContato(request.pco_codigo, request);
             } else {
                 // Criar novo vendedor
-                const newRequest = { ...request, pco_codigo: 1 }; // Remove ven_codigo
+                const { pco_codigo, ...newRequest } = request; // Remove ven_codigo
                 response = await apiCreateParceiroContato(newRequest);
-                
             }
+    
     
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Parceiro Contato salvo com sucesso");
@@ -160,6 +193,33 @@ const ForncedoresContato: React.FC = (onBackClick) => {
     };
 
     const closeDialog = () => setModalVisible(false);
+    
+    useEffect(() => {
+        if (modalVisible && editing) {
+            console.log('Dados atualizados para edição:', request);
+        }
+    }, [modalVisible, request]);
+    
+    const handleEditAgente = (codigo) => {
+        const agenteParaEditar = filteredAgentes.find(agente => agente.codigo === codigo);
+        if (agenteParaEditar) {
+            setRequest({
+                pco_codigo: agenteParaEditar.pco_codigo || '',
+                pco_descricao: agenteParaEditar.pco_descricao || '',
+                pco_fone: agenteParaEditar.pco_fone || '',
+                pco_celular: agenteParaEditar.pco_celular || '',
+                pco_observacao: agenteParaEditar.pco_observacao || '',
+            });
+            setAgenteNome(agenteParaEditar.pco_descricao);
+            setSelectedAgente(codigo);
+            setEditing(true);
+            setModalVisible(true);
+        } else {
+            console.error('Agente não encontrado para edição:', codigo);
+        }
+    };
+    
+    
 
     return (
         <>
@@ -178,6 +238,7 @@ const ForncedoresContato: React.FC = (onBackClick) => {
                 emptyMessage="Nenhum Parceiro Contato encontrado"
                 filteredItems={filteredAgentes}
                 columns={agenteColumns}
+                onCodeClick={handleEditAgente}
             />
 
             <Dialog 
@@ -202,7 +263,7 @@ const ForncedoresContato: React.FC = (onBackClick) => {
                                 type="text"
                                 id="pco_codigo"
                                 name="pco_codigo"
-                                value={request.codigo || ''}
+                                value={request.pco_codigo || ''}
                                 onChange={handleInputChange}
                             />
                         </div>
@@ -306,3 +367,4 @@ const ForncedoresContato: React.FC = (onBackClick) => {
 };
 
 export default ForncedoresContato;
+
