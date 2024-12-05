@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest, BancoCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,17 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+export const apiGetBanco = () => axiosInstance.get(ApiEndpoints.LIST_BANCO);
+
+export const apiGetBancoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_BANCO_BY_ID}${id}/`);
+
+export const apiCreateBanco = (data: BancoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_BANCO, data);
+
+export const apiUpdateBanco = (id: number, data: BancoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_BANCO}${id}/`, data);
+
+export const apiDeleteBanco = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_BANCO}${id}/`)
+
 
 export const apiGetParceiroContato = () => axiosInstance.get(ApiEndpoints.LIST_PARCEIROCONTATO);
 
