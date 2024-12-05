@@ -20,6 +20,7 @@ export enum MenuEnum {
     cadastro_padrao = 'cadastro_padrao',
     cadastro_paises = 'cadastro_paises',
     cadastro_companhia = 'cadastro_companhia',
+    cadastro_banco = 'cadastro_banco',
     cadastro_cidade = 'cadastro_cidade',
     cadastro_cep = 'cadastro_cep',
     cadastro_moeda = 'cadastro_moeda',
@@ -172,18 +173,6 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 }
             },
             {
-                label: "Forma De Pagamento",
-                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
-                requiredPermissions: ['Can view area comercial'],
-                command: () => {
-                    onMenuItemClick(MenuEnum.cadastro_formapagamento);
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }
-            },
-            {
                 label: "Fornecedores",
                 icon: "cilGroup", // Ajuste o nome do ícone conforme sua escolha
                 requiredPermissions: ['Can view area comercial'],
@@ -323,10 +312,29 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
         requiredPermissions: ['Can view area comercial'],
         items: [
             {
-                label: 'Opção',
-                icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
-                command: () => { onMenuItemClick(MenuEnum.financeiro_opcao); }
-            }
+                label: "Banco",
+                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_banco);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Forma De Pagamento",
+                icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_formapagamento);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
         ]
     },
     {
