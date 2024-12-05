@@ -330,6 +330,10 @@ interface ParceiroContatoCreateRequest{
     pco_datacadastro:string,
 }
 
+interface BancoCreateRequest{
+    ban_descricao: string
+    ban_codigobancario: number
+}
 
 export type {
     LoginRequest,
@@ -365,6 +369,7 @@ export type {
     FormaDePagamentoCreateRequest,
     ParceiroCreateRequest,
     ParceiroContatoCreateRequest,
+    BancoCreateRequest,
 
 }
 
