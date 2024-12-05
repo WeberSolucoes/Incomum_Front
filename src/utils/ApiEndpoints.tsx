@@ -164,5 +164,11 @@ export enum ApiEndpoints {
     CREATE_PARCEIROCONTATO = '/incomum/parceirocontato/create/',
     UPDATE_PARCEIROCONTATO = '/incomum/parceirocontato/update/', // '/incomum/loja/update/${id}/'
     DELETE_PARCEIROCONTATO = 'incomum/parceirocontato/delete/',
+
+    LIST_BANCO = '/incomum/banco/list-all/',
+    LIST_BANCO_BY_ID = '/incomum/banco/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_BANCO = '/incomum/banco/create/',
+    UPDATE_BANCO = '/incomum/banco/update/', // '/incomum/loja/update/${id}/'
+    DELETE_BANCO = 'incomum/banco/delete/',
     
 }
