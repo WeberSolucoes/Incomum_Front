@@ -25,6 +25,10 @@ addLocale('pt-BR', {
 
 locale('pt-BR');
 
+headers: {
+    Authorization: `Bearer ${localStorage.getItem('token')}`,
+},
+
 
 const Relatorio = () => {
     const [unidades, setUnidades] = useState([]);
@@ -261,16 +265,19 @@ const Relatorio = () => {
         try {
             const response = await axios.get('http://18.118.35.25:8443/api/incomum/relatorio/download-relatorio/', {
                 params: {
-                    dataInicio: dateStart?.toISOString().split('T')[0], // Adicionei a formatação
+                    dataInicio: dateStart?.toISOString().split('T')[0],
                     dataFim: dateEnd?.toISOString().split('T')[0],
-                    unidade: selectedUnidade, // Envia apenas a unidade selecionada
+                    unidade: selectedUnidade,
                     areaComercial: selectedAreaComercial,
                     agencia: selectedAgencia,
                     vendedor: selectedVendedor,
                 },
-                responseType: 'blob',
+                headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Incluindo o token
+                },
+                responseType: 'blob', // Definindo o tipo de resposta como arquivo binário
             });
-
+    
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
