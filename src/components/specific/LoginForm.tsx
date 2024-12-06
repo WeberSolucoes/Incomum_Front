@@ -25,6 +25,7 @@ const LoginForm: React.FC = () => {
         e.preventDefault();
         setLoading(true);
         try {
+            // Chama o login do contexto, passando os parâmetros necessários
             await auth.login(email, senha, checked);
             toastSucess('Login efetuado com sucesso');
             navigate('/'); // Redireciona para a página principal após o login
@@ -35,6 +36,7 @@ const LoginForm: React.FC = () => {
             setLoading(false);
         }
     };
+
     if (auth.isAuthenticated) {
         return null; // Ou um componente de loading
     }
@@ -66,7 +68,6 @@ const LoginForm: React.FC = () => {
                             <div className="flex align-items-center">
                                 <Checkbox onChange={e => setChecked(e.checked ?? false)} checked={checked} className="mr-2" />
                                 <label style={{ marginLeft: '5px', marginBottom: '0px' }} htmlFor="rememberme">Lembrar de mim</label>
-
                             </div>
                         </div>
                         <Link to='/recuperar-senha'>Esqueceu sua senha?</Link>
