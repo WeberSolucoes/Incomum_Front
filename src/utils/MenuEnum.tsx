@@ -1,29 +1,31 @@
 // utils/MenuEnum.ts
 import * as icons from '@coreui/icons';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 
 export enum MenuEnum {
     cadastro_agencias = 'cadastro_agencias',
     cadastro_unidades = 'cadastro_unidades',
     cadastro_vendedores = 'cadastro_vendedores',
-    cadastro_aeroporto ='cadastro_aeroporto',
-    cadastro_AreaComercial = 'cadastro_AreaComercial',
-    cadastro_bandeira = 'cadastro_bandeira',
-    cadastro_formapagamento = 'cadastro_formapagamento',
     cadastro_departamento = 'cadastro_departamento',
     cadastro_assinatura = 'cadastro_assinatura',
     cadastro_classe = 'cadastro_classe',
-    cadastro_fornecedores = 'cadastro_fornecedores',
+    cadastro_steps = 'cadastro_steps',
     cadastro_acomodacao = 'cadastro_acomodacao',
+    cadastro_formapagamento = 'cadastro_formapagamento',
+    cadastro_bandeira = 'cadastro_bandeira',
     cadastro_situacaoturistico = "cadastro_situacaoturistico",
     cadastro_servicoturistico = "cadastro_servicoturistico",
+    cadastro_fornecedores = 'cadastro_fornecedores',
     cadastro_regime = 'cadastro_regime',
     cadastro_padrao = 'cadastro_padrao',
     cadastro_paises = 'cadastro_paises',
     cadastro_companhia = 'cadastro_companhia',
-    cadastro_banco = 'cadastro_banco',
     cadastro_cidade = 'cadastro_cidade',
     cadastro_cep = 'cadastro_cep',
     cadastro_moeda = 'cadastro_moeda',
+    cadastro_aeroporto = 'cadastro_aeroporto',
+    cadastro_banco = 'cadastro_banco',
     lancamento_opcao = 'lancamento_opcao',
     financeiro_opcao = 'financeiro_opcao',
     gerencial_faturamento_unidades = 'gerencial_faturamento_unidades',
@@ -45,13 +47,38 @@ export interface MenuItem {
     key?: MenuEnum;
 }
 
-export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuItem[] = (onMenuItemClick) => [
+export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuItem[] = (onMenuItemClick) => {
+    const [usuarioComercial, setUsuarioComercial] = useState(false);
 
-    {
+    // Obter o token do armazenamento (localStorage ou sessionStorage)
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    // Verifica a permissão ao carregar o componente
+    useEffect(() => {
+        if (token) {
+            axios.get('http://127.0.0.1:8000/api/incomum/usuario/permission/', {
+                headers: {
+                    Authorization: `Bearer ${token}`  // Passando o token no cabeçalho Authorization
+                }
+            })
+            .then(response => {
+                setUsuarioComercial(response.data.usuario_comercial);   // Atualiza o estado com a permissão recebida
+            })
+            .catch(error => {
+                console.error('Erro ao verificar permissões:', error);
+            });
+        } else {
+            console.error('Token não encontrado');
+        }
+    }, [token]);
+
+    // Exibe os itens do menu dependendo da permissão
+    return [
+        {
         label: 'Cadastro',
         icon: 'cilPenAlt', // Ajuste o nome do ícone conforme sua escolha
         requiredPermissions: ['Can view area comercial'],
-        items: [
+        items: !usuarioComercial ? [
             {
                 label: "Aeroporto",
                 icon: "cilFlightTakeoff",
@@ -75,18 +102,6 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                         behavior: 'smooth'
                     });
                 }
-            },
-            {
-                label: "Área Comercial",
-                icon: "cilContact",
-                requiredPermissions: ['Can view area comercial'],
-                command: () => {
-                    onMenuItemClick(MenuEnum.cadastro_AreaComercial)
-                    window.scrollTo({
-                        top: 0,
-                        behavior: 'smooth'
-                    });
-                }   
             },
             {
                 label: "Assinatura",
@@ -292,25 +307,25 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                     });
                 }
             },
-        ]
+        ] : []
     },
     {
         label: 'Lançamentos',
         icon: 'cilCalendar', // Ajuste o nome do ícone conforme sua escolha
         requiredPermissions: ['Can view area comercial'],
-        items: [
+        items: !usuarioComercial ? [
             {
                 label: 'Opção',
                 icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
                 command: () => { onMenuItemClick(MenuEnum.lancamento_opcao); }
-            }
-        ]
+            },
+        ] : []
     },
     {
         label: 'Financeiro',
         icon: 'cilWallet', // Ajuste o nome do ícone conforme sua escolha
         requiredPermissions: ['Can view area comercial'],
-        items: [
+        items: !usuarioComercial ? [
             {
                 label: "Banco",
                 icon: "cilCash", // Ajuste o nome do ícone conforme sua escolha
@@ -335,13 +350,13 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                     });
                 }
             },
-        ]
+        ] : []
     },
     {
         label: 'Gerencial',
         icon: 'cilCalendar', // Ajuste o nome do ícone conforme sua escolha
         requiredPermissions: ['Can view area comercial'],
-        items: [
+        items: !usuarioComercial ? [
             {
                 label: 'Faturamento Unidade',
                 icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
@@ -357,7 +372,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
                 command: () => { onMenuItemClick(MenuEnum.gerencial_faturamento_vendedor); }
             }
-        ]
+        ] : []
     },
     {
         label: 'Relatórios',
@@ -371,3 +386,5 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
         ]
     },
 ];
+}
+        
