@@ -25,9 +25,6 @@ addLocale('pt-BR', {
 
 locale('pt-BR');
 
-headers: {
-    Authorization: `Bearer ${localStorage.getItem('token')}`,
-},
 
 
 const Relatorio = () => {
