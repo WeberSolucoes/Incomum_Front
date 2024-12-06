@@ -56,11 +56,11 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
     // Verifica a permissão ao carregar o componente
     useEffect(() => {
         if (token) {
-            axios.get('http://127.0.0.1:8000/api/incomum/usuario/permission/', {
+            axios.get('http://18.118.35.25:8443/api/incomum/usuario/permission/', {
                 headers: {
                     Authorization: `Bearer ${token}`  // Passando o token no cabeçalho Authorization
                 }
-            })
+            }) 
             .then(response => {
                 setUsuarioComercial(response.data.usuario_comercial);   // Atualiza o estado com a permissão recebida
             })
