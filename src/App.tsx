@@ -13,6 +13,7 @@ import NotPage from './pages/404Page';
 import NotAuthorizePage from './pages/403Page';
 import { CodigoProvider } from './contexts/CodigoProvider';
 import { AuthProvider } from './contexts/AuthProvider';
+import React from 'react';
 function App() {
   return (
     <AuthProvider>
