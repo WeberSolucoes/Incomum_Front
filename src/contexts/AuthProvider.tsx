@@ -47,7 +47,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
                     const expirationTime = Date.now() + 2 * 60 * 60 * 1000; // 2 horas
                     localStorage.setItem('authExpiration', expirationTime.toString());
                 } else {
-                    sessionStorage.setItem('token', token);
+                    const sessionExpiration = Date.now() + 30 * 60 * 1000; // 30 minutos
+                    localStorage.setItem('authExpiration', sessionExpiration.toString());
                 }
             } else {
                 throw new Error(response.data.error_message || 'Erro ao efetuar login');
