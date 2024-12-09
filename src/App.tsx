@@ -30,7 +30,7 @@ function App() {
               <Route path="/redefinir-senha/" element={<RedefinirSenha />} />
 
               <Route path="/nao-autorizado" element={<NotAuthorizePage />} />
-              <Route path="*" element={<NotPage />} /> {/* Rota 404 */}
+              
             </Routes>
           
         </CodigoProvider>
