@@ -21,11 +21,11 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
         if (savedToken && expiration) {
             const isExpired = Date.now() > Number(expiration);
-            if (isExpired) {
-                logout(); // Faz logout se o token expirou
+            if (remember) {
+                localStorage.setItem('token', token);
+                // Expiração opcional
             } else {
-                setIsAuthenticated(true); // Mantém o estado de autenticação
-                setToken(savedToken); // Salva o token
+                sessionStorage.setItem('token', token);
             }
         }
     }, []);
