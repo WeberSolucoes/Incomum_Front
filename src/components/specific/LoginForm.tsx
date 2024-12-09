@@ -5,6 +5,7 @@ import { Checkbox } from 'primereact/checkbox';
 import GenericTextInput from '../common/GenericTextInput';
 import { toastSucess, toastError } from '../../utils/customToast';
 import { useAuth } from '../../contexts/AuthProvider';
+import background from "../../assets/images/incoback.jpg";
 
 const LoginForm: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -45,7 +46,7 @@ const LoginForm: React.FC = () => {
         <div className="d-flex justify-content-center align-items-center min-vh-100">
             <div className="card p-4 shadow-lg border-round w-full lg:w-4">
                 <div className="text-center mb-4">
-                    <img src="https://incoback.com.br/static/img/incoback.jpg" alt="logo" height={60} className="mb-3" />
+                    <img src={incoback} alt="logo" height={60} className="mb-3" />
                 </div>
                 <form onSubmit={handleLogin}>
                     <GenericTextInput
