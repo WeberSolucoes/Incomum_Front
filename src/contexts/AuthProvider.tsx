@@ -30,26 +30,21 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         }
     }, []);
 
-    const login = async (email: string, senha: string, remember: boolean) => {
+    const login = async (email: string, senha: string) => {
         try {
             const response = await axios.post('https://api.incoback.com.br/api/incomum/usuario/login/', {
                 loginemail: email,
                 loginsenha: senha,
             });
-
+    
             if (response.data.access) {
                 const token = response.data.access;
                 setIsAuthenticated(true);
                 setToken(token);
-
-                if (remember) {
-                    localStorage.setItem('token', token);
-                    const expirationTime = Date.now() + 2 * 60 * 60 * 1000; // 2 horas
-                    localStorage.setItem('authExpiration', expirationTime.toString());
-                } else {
-                    const sessionExpiration = Date.now() + 30 * 60 * 1000; // 30 minutos
-                    localStorage.setItem('authExpiration', sessionExpiration.toString());
-                }
+    
+                localStorage.setItem('token', token);
+                const expirationTime = Date.now() + 2 * 60 * 60 * 1000; // Expira em 2 horas
+                localStorage.setItem('authExpiration', expirationTime.toString());
             } else {
                 throw new Error(response.data.error_message || 'Erro ao efetuar login');
             }
