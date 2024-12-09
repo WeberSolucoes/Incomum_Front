@@ -10,7 +10,7 @@ import { toastError, toastSucess } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { Dropdown } from "primereact/dropdown";
 
-const Aeroporto: React.FC = ({}) => {
+const Aeroporto: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo();
     const [request, setRequest] = useState<AeroportoCreateRequest>({} as AeroportoCreateRequest);
     const [rua, setRua] = useState('');
@@ -260,6 +260,8 @@ const Aeroporto: React.FC = ({}) => {
                         label="Voltar"
                         icon="pi pi-arrow-left"
                         style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'680px',borderRadius:'4px' }}
+                        type="button"
+                        onClick={onBackClick}
                     />
                 {/* Condição para renderizar o botão de exclusão */}
                 {request.aer_codigo && (
