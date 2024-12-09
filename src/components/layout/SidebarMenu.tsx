@@ -3,6 +3,7 @@ import { PanelMenu } from 'primereact/panelmenu';
 import * as icons from '@coreui/icons'; // Importa todos os ícones da biblioteca CoreUI
 import { CIcon } from '@coreui/icons-react'; // O componente que renderiza ícones
 import { MenuItem, menuItems, MenuEnum } from '../../utils/MenuEnum'; // Importando o menu enum
+import incoback from "../../assets/images/incoback.jpg"
 
 interface SidebarMenuProps {
     onMenuItemClick: (itemKey: MenuEnum) => void;
@@ -43,7 +44,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onMenuItemClick }) => {
         }}>
             <div className="sidebar-header">
                 <img 
-                    src="https://incoback.com.br/static/img/incoback.jpg" 
+                    src={incoback} 
                     alt="Logo"
                     style={{ width: '80%', height: 'auto', padding: '10px',margin:'auto' }}
                 />
