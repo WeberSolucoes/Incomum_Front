@@ -203,7 +203,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                         onChange={(e) => handleSelectChange(e)} // Callback ao alterar valor
                         optionLabel="label" // Nome exibido no dropdown
                         optionValue="value" // Valor interno enviado
-                        placeholder="Selecione um tipo de vencimento"
+                        placeholder="Selecione uma Cidade"
                         showClear // Botão para limpar
                         filter // Ativa a busca
                         className="w-full"
