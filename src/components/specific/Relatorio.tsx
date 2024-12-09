@@ -125,7 +125,7 @@ const Relatorio = () => {
                     params: { unidade: unidadeId }
                 });
     
-                vendedoresResponse = await axios.get(`https://18.118.35.25/api/incomum/relatorio/vendedor-by-user/`, {
+                vendedoresResponse = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/vendedor-by-user/`, {
                     params: { unidade: unidadeId }
                 });
             } else {
