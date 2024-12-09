@@ -5,7 +5,7 @@ import { Checkbox } from 'primereact/checkbox';
 import GenericTextInput from '../common/GenericTextInput';
 import { toastSucess, toastError } from '../../utils/customToast';
 import { useAuth } from '../../contexts/AuthProvider';
-import background from "../../assets/images/incoback.jpg";
+import incoback from "../../assets/images/incoback.jpg";
 
 const LoginForm: React.FC = () => {
     const [email, setEmail] = useState<string>('');
