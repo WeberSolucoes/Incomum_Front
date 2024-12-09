@@ -17,15 +17,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     // Efeito para verificar o token ao carregar a página
     useEffect(() => {
         const savedToken = localStorage.getItem('token') || sessionStorage.getItem('token');
-        const expiration = localStorage.getItem('authExpiration');
-
+        const expiration = localStorage.getItem('authExpiration') || sessionStorage.getItem('authExpiration');
+    
         if (savedToken && expiration) {
             const isExpired = Date.now() > Number(expiration);
-            if (remember) {
-                localStorage.setItem('token', token);
-                // Expiração opcional
+            if (isExpired) {
+                logout();
             } else {
-                sessionStorage.setItem('token', token);
+                setIsAuthenticated(true);
+                setToken(savedToken);
             }
         }
     }, []);
