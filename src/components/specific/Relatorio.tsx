@@ -78,7 +78,7 @@ const Relatorio = () => {
     
         try {
             // Tenta carregar os vendedores
-            const vendedoresResponse = await axios.get('https://api.incoback.com.br/incomum/relatorio/vendedor-by-user/');
+            const vendedoresResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/vendedor-by-user/');
         
             // Log para verificar o que está sendo retornado pela API
             console.log('Dados dos vendedores:', vendedoresResponse.data);
