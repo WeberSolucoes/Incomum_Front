@@ -23,14 +23,16 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [cep, setCep] = useState('');
     const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
     const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const [aer_codigo, setVenCodigo] = useState<number | null>(null);
 
     useEffect(() => {
         const fetchData = async () => {
             if (!codigo) return;
             try {
-                const response = await apiGetUnidadeById(codigo);
+                const response = await apiGetAeroportoById(codigo);
                 const unidade = response.data;
                 setRequest(unidade);
+                setVenCodigo(unidade.aer_codigo); // Define o ID do vendedor
 
                 if (unidade.loj_endereco) {
                     const enderecoParts = unidade.loj_endereco.split(",");
