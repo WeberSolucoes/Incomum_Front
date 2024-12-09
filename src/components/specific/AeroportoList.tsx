@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
-import { apiGetUnidades } from '../../services/Api';
+import { apiGetAeroporto } from '../../services/Api';
 import { toastError } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
@@ -27,12 +27,10 @@ const AeroportoList: React.FC = () => {
         setLoading(true); // Ativa o estado de carregamento
 
         try {
-            const response = await apiGetUnidades();
+            const response = await apiGetAeroporto();
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                codigo: item.loj_codigo,
-                descricao: item.loj_descricao,
-                responsavel: item.loj_email,
-                email: item.loj_cnpj,
+                codigo: item.aer_codigo,
+                descricao: item.aer_descricao,
             }));
             setOriginalItems(mappedData);
 
