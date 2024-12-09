@@ -257,6 +257,8 @@ export const apiCreateAeroporto = (data: AeroportoCreateRequest) => axiosInstanc
 
 export const apiPutAeroporto = (id: number, data: AeroportoCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_AEROPORTO}${id}/`, data);
 
+export const apiGetAeroporto = () => axiosInstance.get(ApiEndpoints.LIST_AEROPORTO);
+
 export const apiGetUserId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
 
 export const apiGetPermissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
