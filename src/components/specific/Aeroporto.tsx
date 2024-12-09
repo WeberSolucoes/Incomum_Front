@@ -125,7 +125,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
             if (!updatedRequest.aer_codigo) {
                 response = await apiCreateAeroporto(updatedRequest);
             } else {
-                response = await apiPutAeroporto(updatedRequest, updatedRequest.aer_codigo);
+                response = await apiPutAeroporto(updatedRequest.aer_codigo, updatedRequest);
             }
 
             if (response && (response.status === 200 || response.status === 201)) {
