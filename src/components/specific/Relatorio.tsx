@@ -270,7 +270,7 @@ const Relatorio = () => {
                     vendedor: selectedVendedor,
                 },
                 headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token')}`, // Incluindo o token
+                    Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`, // Incluindo o token
                 },
                 responseType: 'blob', // Definindo o tipo de resposta como arquivo binário
             });
