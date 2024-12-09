@@ -30,8 +30,8 @@ const DepartamentoList: React.FC = () => {
         try {
             const response = await apiGetDepartamento();
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
-                codigo: item.cid_codigo,
-                descricao: item.cid_descricao,
+                codigo: item.dep_codigo,
+                descricao: item.dep_descricao,
             }));
             setOriginalItems(mappedData);
 
