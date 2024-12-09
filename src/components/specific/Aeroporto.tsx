@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { AeroportoCreateRequest, UnidadesCreateRequest } from '../../utils/apiObjects';
 import { useCodigo } from '../../contexts/CodigoProvider';
-import { apiCreateAeroporto, apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutAeroporto, apiPutUpdateUnidade, apiGetCidade } from '../../services/Api';
+import { apiCreateAeroporto, apiDeleteUnidade, apiGetArea, apiGetAeroportoById, apiPostCreateUnidade, apiPutAeroporto, apiPutUpdateUnidade, apiGetCidade } from '../../services/Api';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
