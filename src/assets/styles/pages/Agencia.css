@@ -228,7 +228,7 @@ a {
 }
 
 .p-datatable .p-datatable-tbody > tr > td{
-  padding: 0.5rem 1rem !important;
+  padding: 0.2rem 1rem !important;
 }
 
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr.p-row-odd {
