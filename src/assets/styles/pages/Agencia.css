@@ -238,9 +238,7 @@ a {
 .p-datatable.p-datatable-striped .p-datatable-tbody > tr.p-row-odd {
   background-color: #e0e0e0 !important; 
 }
-th {
-  background-color: #e0e0e0 !important;
-}
+
 
 .p-tabview .p-tabview-panels{
   padding: 0px !important;
