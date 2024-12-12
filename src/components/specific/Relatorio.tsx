@@ -375,7 +375,15 @@ const Relatorio = () => {
                         <Column field="fim_tipo" header="Tipo" />
                         <Column field="tur_numerovenda" header="Num.Venda" />
                         <Column field="tur_codigo" header="Num.Pct" />
-                        <Column field="fim_data" header="Data" />
+                        <Column 
+                            field="fim_data" 
+                            header="Data" 
+                            body={(rowData) => {
+                                if (!rowData.fim_data) return '';
+                                const date = new Date(rowData.fim_data);
+                                return new Intl.DateTimeFormat('pt-BR').format(date);
+                            }} 
+                        />
                         <Column field="fim_markup" header="Markup" />
                         <Column 
                             field="fim_valorinc" 
