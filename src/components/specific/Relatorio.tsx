@@ -354,7 +354,7 @@ const Relatorio = () => {
                             onClick={handleExport}
                             className="custom-button" // Estilos adicionais, se necessário
                         />
-                        <Button style={{backgroundColor:'#0152a1'}} type="submit" label="Consultar" icon="pi pi-search" />
+                        <Button style={{backgroundColor:'#0152a1', borderRadius: '10px'}} type="submit" label="Consultar" icon="pi pi-search" />
                     </div>
                 </div>
             </form>
