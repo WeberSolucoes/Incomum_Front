@@ -56,7 +56,7 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns, s
                     header="Editar" // Header do botão de editar
                     body={(rowData) => (
                         <Button 
-                            icon="cilPenAlt" 
+                            icon="pi pi-pencil" 
                             className="p-button-text p-button-rounded p-button-sm" 
                             tooltip="Editar"
                             tooltipOptions={{ position: 'top' }}
