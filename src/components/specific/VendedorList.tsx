@@ -16,7 +16,7 @@ const VendedorList: React.FC = () => {
     const [loading, setLoading] = useState(false); // Estado de carregamento
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
 
-    const { setCodigo } = useCodigo();
+    const { codigo,setCodigo } = useCodigo();
 
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
@@ -71,6 +71,8 @@ const VendedorList: React.FC = () => {
         });
     };
 
+    const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
+    
     return (
         <div>
             {view === 'list' ? (
@@ -105,7 +107,7 @@ const VendedorList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Cadastro Vendedor</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Vendedor' : `Editar Vendedor - ${paisDescricao}`}</h1>
                     <VendedorCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
