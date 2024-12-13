@@ -265,18 +265,18 @@ dl, ol, ul {
 }
 
 .p-datepicker {
-    max-width: 250px;
+    max-width: 350px;
 }
 
 .p-datepicker-calendar td {
-    padding: 5px;
+    padding: 0px !important;
 }
 
 .p-datepicker-header {
-    font-size: 13px;
+    font-size: 10px;
 }
 
 .p-datepicker-month-container {
-    font-size: 12px;
+    font-size: 10px;
 }
 
