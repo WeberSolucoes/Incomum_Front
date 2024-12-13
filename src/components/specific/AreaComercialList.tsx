@@ -24,7 +24,7 @@ const AreaComercialList: React.FC = () => {
 
     const getTitle = () => {
         return descricaoSelecionada 
-            ? `Cadastro Área Comercial - ${descricaoSelecionada}` 
+            ? `Editar Área Comercial - ${descricaoSelecionada}` 
             : 'Cadastro Área Comercial'; // Título padrão se não houver descrição
     };
 
