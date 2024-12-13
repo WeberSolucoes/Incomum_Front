@@ -372,7 +372,6 @@ const Relatorio = () => {
                         onPage={onPageChange}
                         rowsPerPageOptions={[10, 20, 50]} // Opções de paginação
                     >
-                        <Column field="fim_tipo" header="Tipo" />
                         <Column field="tur_numerovenda" header="Num.Venda" />
                         <Column field="tur_codigo" header="Num.Pct" />
                         <Column 
