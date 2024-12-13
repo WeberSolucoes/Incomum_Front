@@ -227,7 +227,7 @@ const Cidade: React.FC = ({ onBackClick }) => {
                         name="cid_pais"
                         value={request.cid_pais || ''}
                         onChange={handleInputChange}
-                        style={{width:'650px'}}
+                        style={{width:'740px'}}
                     />
                 </div>
             </div>
