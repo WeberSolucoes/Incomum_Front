@@ -264,17 +264,3 @@ dl, ol, ul {
     /* border: 1px solid gray; */
 }
 
-.p-calendar {
-    width: 100%;
-    max-width: 400px;
-    overflow: hidden;
-}
-
-.p-datepicker td {
-    text-align: center;
-    padding: 5px;
-}
-
-.p-datepicker td span {
-    font-size: 12px;
-}
