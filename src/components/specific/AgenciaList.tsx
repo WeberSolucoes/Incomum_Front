@@ -26,7 +26,7 @@ const AgenciaList: React.FC = () => {
 
     const getTitle = () => {
         return descricaoSelecionada 
-            ? `Cadastro Agência - ${descricaoSelecionada}` 
+            ? `Editar Agência - ${descricaoSelecionada}` 
             : 'Cadastro Agência'; // Título padrão se não houver descrição
     };
 
