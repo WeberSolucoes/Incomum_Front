@@ -16,7 +16,7 @@ const UnidadeListConsolidada: React.FC = () => {
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
     const [loading, setLoading] = useState(false); // Estado de carregamento
 
-    const { setCodigo } = useCodigo(); // Acesso ao contexto
+    const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
 
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
@@ -71,6 +71,8 @@ const UnidadeListConsolidada: React.FC = () => {
         });
     };
 
+    const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
+    
     return (
         <div>
             {view === 'list' ? (
@@ -105,7 +107,7 @@ const UnidadeListConsolidada: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Cadastro Unidade</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Unidade' : `Editar Unidade - ${paisDescricao}`}</h1>
                     <UnidadeCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
