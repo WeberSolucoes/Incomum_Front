@@ -257,3 +257,9 @@ dl, ol, ul {
 .p-dropdown-items{
   display: block !important;
 }
+.p-datepicker-calendar>thead>tr>th {
+    background-color: white !important;
+    text-align: center !important;
+    background: none !important;
+    /* border: 1px solid gray; */
+}
