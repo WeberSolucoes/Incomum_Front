@@ -349,7 +349,7 @@ const Relatorio = () => {
                 <div className='row mt-3'>
                     <div className='col-12 d-flex justify-content-end'>
                         <Button 
-                            style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none'}}
+                            style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none', borderRadius: '10px'}}
                             icon="pi pi-file-excel" 
                             onClick={handleExport}
                             className="custom-button" // Estilos adicionais, se necessário
