@@ -16,7 +16,7 @@ const AeroportoList: React.FC = () => {
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
     const [loading, setLoading] = useState(false); // Estado de carregamento
 
-    const { setCodigo } = useCodigo(); // Acesso ao contexto
+    const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
 
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
@@ -69,6 +69,8 @@ const AeroportoList: React.FC = () => {
         });
     };
 
+    const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
+
     return (
         <div>
             {view === 'list' ? (
@@ -103,7 +105,7 @@ const AeroportoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Cadastro Aeroporto</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Aeroporto' : `Editar Aeroporto - ${paisDescricao}`}</h1>
                     <Aeroporto onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
