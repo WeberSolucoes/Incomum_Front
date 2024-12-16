@@ -344,7 +344,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricao">Agencia Viagem</label>
-          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" value={request.age_descricao || ''} onChange={handleInputChange} />
+          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" value={request.age_descricao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label htmlFor="age_cnpj">Cnpj</label>
@@ -355,18 +355,18 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricaosite">Agencia Site</label>
-          <input style={{ width: '679px' }} type="text" id="age_descricaosite" name="age_descricaosite" value={request.age_descricaosite || ''} onChange={handleInputChange} />
+          <input style={{ width: '679px' }} type="text" id="age_descricaosite" name="age_descricaosite" value={request.age_descricaosite || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label htmlFor="age_inscricaomunicipal">Inscrição Municipal</label>
-          <input style={{ width: '220px' }} type="text" id="age_inscricaomunicipal" name="age_inscricaomunicipal" value={request.age_inscricaomunicipal || ''}  onChange={handleInputChange} />
+          <input style={{ width: '220px' }} type="text" id="age_inscricaomunicipal" name="age_inscricaomunicipal" value={request.age_inscricaomunicipal || ''}   onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
       </div>
 
       <div className="form-row">
         <div className="form-group full-width">
           <label htmlFor="age_razaosocial">Razão Social</label>
-          <input type="text" id="age_razaosocial" name="age_razaosocial" value={request.age_razaosocial || ''} onChange={handleInputChange} />
+          <input type="text" id="age_razaosocial" name="age_razaosocial" value={request.age_razaosocial || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
       </div>
 
@@ -379,7 +379,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         </div>
         <div className="form-group">
           <label style={{marginLeft:'-58px' }} htmlFor="age_rua">Rua</label>
-          <input style={{ width: '190%',marginLeft:'-60px' }} type="text" id="age_rua" name="age_rua" value={request.age_endereco || ''} onChange={handleInputChange} />
+          <input style={{ width: '190%',marginLeft:'-60px' }} type="text" id="age_rua" name="age_rua" value={request.age_endereco || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label style={{ marginLeft:'210px' }} htmlFor="age_numero">Numero</label>
@@ -391,11 +391,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_bairro">Bairro</label>
-          <input type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''} onChange={handleInputChange} />
+          <input type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label htmlFor="age_cidade">Cidade</label>
-          <input type="text" id="cid_codigo" name="cid_codigo" value={cidade || ''} onChange={handleInputChange} />
+          <input type="text" id="cid_codigo" name="cid_codigo" value={cidade || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
       </div>
 
@@ -469,7 +469,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group full-width">
           <label htmlFor="age_observacao">Observação</label>
-          <input id="age_observacao" name="age_observacao" value={request.age_observacao || ''} onChange={handleInputChange}/>
+          <input id="age_observacao" name="age_observacao" value={request.age_observacao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())}/>
         </div>
       </div>
 
