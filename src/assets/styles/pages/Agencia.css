@@ -284,3 +284,7 @@ dl, ol, ul {
     font-weight: 500;
 }
 
+dl, ol, ul {
+    margin-left: -32px;
+}
+
