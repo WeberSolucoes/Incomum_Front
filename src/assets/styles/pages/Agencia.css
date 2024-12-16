@@ -280,3 +280,7 @@ dl, ol, ul {
     font-size: 10px;
 }
 
+.fa-solid, .fas {
+    font-weight: 500;
+}
+
