@@ -102,7 +102,7 @@ const SubGrupoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro SubGrupo' : `Editar SubGrupo - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro SubGrupo' : `Cadastro SubGrupo - ${paisDescricao}`}</h1>
                     <SubGrupo onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
