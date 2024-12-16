@@ -43,7 +43,7 @@ const CentroCustoList: React.FC = () => {
             );
             setItems(filteredItems);
         } catch (error) {
-            toastError('Erro ao buscar Moeda');
+            toastError('Erro ao buscar Centro De Custo');
         } finally {
             setLoading(false); // Desativa o estado de carregamento
         }
