@@ -129,7 +129,7 @@ const AgenciaList: React.FC = () => {
                             disabled={loading}
                         />
                         <Button
-                            label="Criar"
+                            label="Adiconar"
                             icon="pi pi-plus"
                             style={{ marginLeft: 'auto', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px'  }}
                             onClick={handleCreateClick}
