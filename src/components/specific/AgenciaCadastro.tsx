@@ -203,6 +203,30 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Estado inicial do request:", request);
+
+        if (!request.age_descricao) {
+            toastError("O campo Agência Viagem é obrigatório.");
+            setLoading(false);
+            return;
+        }
+
+        if (!request.age_razaosocial) {
+            toastError("O campo Razão Social é obrigatório.");
+            setLoading(false);
+            return;
+        }
+
+        if (!request.age_cnpj) {
+            toastError("O campo Cnpj é obrigatório.");
+            setLoading(false);
+            return;
+        }
+
+        if (!request.aco_codigo) {
+            toastError("O campo Area Comercial é obrigatório.");
+            setLoading(false);
+            return;
+        }
     
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
             'age_codigo', 'age_cep', 'age_numero', 'age_codigocontabil',
