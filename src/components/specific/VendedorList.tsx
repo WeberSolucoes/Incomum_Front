@@ -93,7 +93,7 @@ const VendedorList: React.FC = () => {
                             disabled={loading} // Desabilita o botão durante o carregamento
                         />
                         <Button
-                            label="Criar"
+                            label="Adicionar"
                             icon="pi pi-plus"
                             style={{ marginLeft: 'auto', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleCreateClick} // Chama a função de criação
