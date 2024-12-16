@@ -25,7 +25,7 @@ const AgenciaList: React.FC = () => {
     const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
 
     const getTitle = () => {
-        const maxLength = 30;
+        const maxLength = 27;
         const truncatedDescricao = descricaoSelecionada 
             ? descricaoSelecionada.length > maxLength 
                 ? descricaoSelecionada.slice(0, maxLength) + '...' 
