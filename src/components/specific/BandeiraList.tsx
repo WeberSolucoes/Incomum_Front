@@ -105,7 +105,7 @@ const BandeiraList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Bandeira' : `Editar Bandeira - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Bandeira' : `Cadastro Bandeira - ${paisDescricao}`}</h1>
                     <Bandeira onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
