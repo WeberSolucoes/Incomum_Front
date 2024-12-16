@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest, BancoCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest, BancoCreateRequest, DespesasCreateRequest, CentroCustoCreateRequest, DespesasGeralCreateRequest, SubGrupoCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,54 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+
+export const apiGetDespesasGeral = () => axiosInstance.get(ApiEndpoints.LIST_DESPESASGERAL);
+
+export const apiGetDespesasGeralId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_DESPESASGERAL_BY_ID}${id}/`);
+
+export const apiCreateDespesasGeral = (data: DespesasGeralCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_DESPESASGERAL, data);
+
+export const apiUpdateDespesasGeral = (id: number, data: DespesasGeralCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_DESPESASGERAL}${id}/`, data);
+
+export const apiDeleteDespesasGeral = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_DESPESASGERAL}${id}/`)
+
+
+export const apiGetSubgrupo = () => axiosInstance.get(ApiEndpoints.LIST_SUBGRUPO);
+
+export const apiGetSubgrupoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_SUBGRUPO_BY_ID}${id}/`);
+
+export const apiCreateSubgrupo = (data: SubGrupoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_SUBGRUPO, data);
+
+export const apiUpdateSubgrupo = (id: number, data: SubGrupoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_SUBGRUPO}${id}/`, data);
+
+export const apiDeleteSubgrupo = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_SUBGRUPO}${id}/`)
+
+
+export const apiGetCentroCusto = () => axiosInstance.get(ApiEndpoints.LIST_CENTROCUSTO);
+
+export const apiGetCentroCustoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_CENTROCUSTO_BY_ID}${id}/`);
+
+export const apiCreateCentroCusto = (data: CentroCustoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_CENTROCUSTO, data);
+
+export const apiUpdateCentroCusto = (id: number, data: CentroCustoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_CENTROCUSTO}${id}/`, data);
+
+export const apiDeleteCentroCusto = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_CENTROCUSTO}${id}/`)
+
+
+
+
+export const apiGetDespesas = () => axiosInstance.get(ApiEndpoints.LIST_DESPESAS);
+
+export const apiGetDespesasId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_DESPESAS_BY_ID}${id}/`);
+
+export const apiCreateDespesas = (data: DespesasCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_DESPESAS, data);
+
+export const apiUpdateDespesas = (id: number, data: DespesasCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_DESPESAS}${id}/`, data);
+
+export const apiDeleteDespesas = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_DESPESAS}${id}/`)
+
+
 
 export const apiGetBanco = () => axiosInstance.get(ApiEndpoints.LIST_BANCO);
 
