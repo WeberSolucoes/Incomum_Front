@@ -105,7 +105,7 @@ const SituacaoTuristicoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Situação Turistico' : `Editar Stiuação Turistico - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Situação Turistico' : `Cadastro Stiuação Turistico - ${paisDescricao}`}</h1>
                     <SituacaoTuristico onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
