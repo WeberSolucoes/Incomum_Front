@@ -107,7 +107,7 @@ const AssinaturaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Assinatura' : `Editar Assinatura - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Assinatura' : `Cadastro Assinatura - ${paisDescricao}`}</h1>
                     <Assinatura onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
