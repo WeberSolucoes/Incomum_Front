@@ -45,7 +45,7 @@ const DespesasList: React.FC = () => {
             );
             setItems(filteredItems);
         } catch (error) {
-            toastError('Erro ao buscar a Cidade');
+            toastError('Erro ao buscar Despesas');
         } finally {
             setLoading(false); // Desativa o estado de carregamento
         }
