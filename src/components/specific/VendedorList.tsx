@@ -101,7 +101,7 @@ const VendedorList: React.FC = () => {
                     </div>
                     <GenericTable
                         filteredItems={items}
-                        emptyMessage="Nenhum vendedor encontrado"
+                        emptyMessage="Nenhum Vendedor encontrado"
                         onCodeClick={handleCodeClick}
                     />
                 </>
