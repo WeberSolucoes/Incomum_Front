@@ -104,7 +104,7 @@ const DespesasList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Despesa' : `Editar Despesas - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Despesa' : `Cadastro Despesas - ${paisDescricao}`}</h1>
                     <Despesas onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
