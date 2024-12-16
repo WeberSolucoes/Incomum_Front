@@ -96,7 +96,7 @@ const BancoList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhum Departamento encontrado" 
+                        emptyMessage="Nenhum Banco encontrado" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
