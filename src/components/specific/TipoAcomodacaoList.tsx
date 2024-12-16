@@ -107,7 +107,7 @@ const TipoAcomodacaoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Acomodação' : `Editar Tipo Acomodação - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Acomodação' : `Cadastro Tipo Acomodação - ${paisDescricao}`}</h1>
                     <TipoAcomodacao onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
