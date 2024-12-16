@@ -83,7 +83,7 @@ const UnidadeListConsolidada: React.FC = () => {
                             style={{ width: '300px' }}
                             placeholder="Buscar"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
+                            onChange={(e) => setSearchTerm(e.target.value.toUpperCase())}
                         />
                         <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
