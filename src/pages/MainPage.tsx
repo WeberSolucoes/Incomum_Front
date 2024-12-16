@@ -38,6 +38,10 @@ import BandeiraList from '../components/specific/BandeiraList';
 import FormaPagamentoList from '../components/specific/FormaPagamentoList';
 import FornecedoresList from '../components/specific/FornecedoresList';
 import BancoList from '../components/specific/BancoList';
+import DespesasList from '../components/specific/DespesasList';
+import DespesasGeralList from '../components/specific/DespesasGeralList';
+import SubGrupoList from '../components/specific/SubGrupoList';
+import CentroCustoList from '../components/specific/CentroCustoList';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -272,6 +276,30 @@ const MainPage: React.FC = () => {
                     <FormLayout name='Banco'>
                         <BancoList />
                     </FormLayout>
+                );
+            case 'cadastro_despesas':
+                return (
+                    <FormLayout name='Despesas'>
+                        <DespesasList />
+                   </FormLayout>
+                );
+            case 'cadastro_despesasgeral':
+                return (
+                    <FormLayout name='Despesas Geral'>
+                        <DespesasGeralList />
+                   </FormLayout>
+                );
+            case 'cadastro_subgrupo':
+                return (
+                    <FormLayout name='SubGrupo '>
+                        <SubGrupoList />
+                   </FormLayout>
+                );
+            case 'cadastro_centrocusto':
+                return (
+                    <FormLayout name='Centro De Custo'>
+                        <CentroCustoList />
+                   </FormLayout>
                 );
             case 'lancamento_opcao':
                 return <Teste message="Lançamento Opção" />;
