@@ -106,7 +106,7 @@ const DepartamentoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Departamento' : `Editar Departamento - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Departamento' : `Cadastro Departamento - ${paisDescricao}`}</h1>
                     <Departamento onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
