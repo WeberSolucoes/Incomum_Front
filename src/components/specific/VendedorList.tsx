@@ -107,7 +107,7 @@ const VendedorList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Vendedor' : `Editar Vendedor - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Vendedor' : `Cadastro Vendedor - ${paisDescricao}`}</h1>
                     <VendedorCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
