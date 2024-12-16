@@ -13,6 +13,10 @@ export enum MenuEnum {
     cadastro_steps = 'cadastro_steps',
     cadastro_acomodacao = 'cadastro_acomodacao',
     cadastro_formapagamento = 'cadastro_formapagamento',
+    cadastro_despesas = 'cadastro_despesas',
+    cadastro_despesasgeral = 'cadastro_despesasgeral',
+    cadastro_subgrupo = 'cadastro_subgrupo',
+    cadastro_centrocusto = 'cadastro_centrocusto',
     cadastro_bandeira = 'cadastro_bandeira',
     cadastro_situacaoturistico = "cadastro_situacaoturistico",
     cadastro_servicoturistico = "cadastro_servicoturistico",
@@ -344,6 +348,54 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_formapagamento);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Despesas",
+                icon: "cilTag", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_despesas);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Despesas Geral",
+                icon: "cilTags", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_despesasgeral);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "SubGrupo",
+                icon: "cilListNumbered", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_subgrupo);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Centro De Custo",
+                icon: "cilEuro", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_centrocusto);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
