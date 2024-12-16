@@ -107,7 +107,7 @@ const UnidadeListConsolidada: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Unidade' : `Editar Unidade - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Unidade' : `Cadastro Unidade - ${paisDescricao}`}</h1>
                     <UnidadeCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
