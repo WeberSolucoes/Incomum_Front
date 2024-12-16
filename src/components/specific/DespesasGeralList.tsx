@@ -10,6 +10,7 @@ import Cidade from './Cidade'; // Importa o componente de cadastro
 import Departamento from './Departamento';
 import Despesas from './Despesas';
 import DespesasGeral from './DespesasGeral';
+import useEnterKey from '../../hooks/useEnterKey';
 
 const DespesasGeralList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -50,6 +51,8 @@ const DespesasGeralList: React.FC = () => {
             setLoading(false); // Desativa o estado de carregamento
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
