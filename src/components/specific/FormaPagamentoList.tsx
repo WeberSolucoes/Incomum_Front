@@ -105,7 +105,7 @@ const FormaPagamentoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Forma De Pagamento' : `Editar Forma De Pagamento - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Forma De Pagamento' : `Cadastro Forma De Pagamento - ${paisDescricao}`}</h1>
                     <FormaPagamento onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
