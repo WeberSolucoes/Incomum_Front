@@ -106,7 +106,7 @@ const TipoRegimeList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Regime' : `Editar Tipo Regime - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Regime' : `Cadastro Tipo Regime - ${paisDescricao}`}</h1>
                     <TipoRegime onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
