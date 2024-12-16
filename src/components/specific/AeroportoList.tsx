@@ -105,7 +105,7 @@ const AeroportoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Aeroporto' : `Editar Aeroporto - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Aeroporto' : `Cadastro Aeroporto - ${paisDescricao}`}</h1>
                     <Aeroporto onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
