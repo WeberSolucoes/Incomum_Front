@@ -106,7 +106,7 @@ const MoedaList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Moeda' : `Editar Moeda - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Moeda' : `Cadastro Moeda - ${paisDescricao}`}</h1>
                     <Moeda onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
