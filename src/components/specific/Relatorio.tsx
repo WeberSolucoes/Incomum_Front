@@ -400,8 +400,16 @@ const Relatorio = () => {
                             body={(rowData) => formatCurrency(rowData.fim_valorliquido)} 
                         />
                         <Column field="aco_descricao" header="Comercial" />
-                        <Column field="age_descricao" header="Agencia" />
-                        <Column field="ven_descricao" header="Vendedor" />
+                        <Column 
+                            field="age_descricao" 
+                            header="Agência" 
+                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} 
+                        />
+                        <Column 
+                            field="ven_descricao" 
+                            header="Vendedor" 
+                            style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} 
+                        />
                     </DataTable>
                     <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
                         <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(soma_totais.total_valorinc)}</div>
