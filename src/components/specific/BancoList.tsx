@@ -7,6 +7,7 @@ import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Banco from './Banco';
+import useEnterKey from '../../hooks/useEnterKey';
 
 const BancoList: React.FC = () => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
@@ -47,6 +48,8 @@ const BancoList: React.FC = () => {
             setLoading(false); // Desativa o estado de carregamento
         }
     };
+
+    useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
