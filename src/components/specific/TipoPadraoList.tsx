@@ -106,7 +106,7 @@ const TipoPadraoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Padrão' : `Editar Tipo Padrão - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Tipo Padrão' : `Cadastro Tipo Padrão - ${paisDescricao}`}</h1>
                     <TipoPadrao onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
