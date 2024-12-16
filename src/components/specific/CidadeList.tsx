@@ -105,7 +105,7 @@ const CidadeList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Cidade' : `Editar Cidade - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Cidade' : `Cadastro Cidade - ${paisDescricao}`}</h1>
                     <Cidade onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
