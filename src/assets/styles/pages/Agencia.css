@@ -190,7 +190,7 @@
 .erp-form input[type="text"], .erp-form select {
     font-size: 18px; /* Aumenta o tamanho da fonte, ajuste conforme necessário */
     text-transform: uppercase; /* Converte o texto para maiúsculas */
-    font-weight: 600;
+    font-weight: 450;
 }
 
 
