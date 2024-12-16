@@ -105,7 +105,7 @@ const PaisList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo ? `Editar País - ${paisDescricao}` : 'Cadastro País'}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo ? `Cadastro País - ${paisDescricao}` : 'Cadastro País'}</h1>
                     <Pais onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
