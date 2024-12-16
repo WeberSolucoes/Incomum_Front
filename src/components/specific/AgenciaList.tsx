@@ -130,7 +130,7 @@ const AgenciaList: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhuma agência encontrada" 
+                        emptyMessage="Nenhuma Agência encontrada" 
                         onCodeClick={handleCodeClick}
                     />
                 </>
