@@ -335,6 +335,31 @@ interface BancoCreateRequest{
     ban_codigobancario: number
 }
 
+interface DespesasGeralCreateRequest{
+    grc_descricao: string
+    mgr_codigo: number
+}
+
+interface SubGrupoCreateRequest{
+    sbc_descricao: string
+    grc_codigo: number
+}
+
+interface DespesasCreateRequest{
+    mgr_descricao: string
+}
+
+interface CentroCustoCreateRequest{
+    cta_descricao: string
+    sbc_codigo: number
+    tdu_codigo: number
+    cta_codigocontabil: string
+    cta_exclusivo: number
+    cta_tipo:string
+    cta_rateio: number
+    cta_justificativa: string
+}
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -370,6 +395,10 @@ export type {
     ParceiroCreateRequest,
     ParceiroContatoCreateRequest,
     BancoCreateRequest,
+    DespesasCreateRequest,
+    DespesasGeralCreateRequest,
+    SubGrupoCreateRequest,
+    CentroCustoCreateRequest,
 
 }
 
