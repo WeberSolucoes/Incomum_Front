@@ -101,7 +101,7 @@ const UnidadeListConsolidada: React.FC = () => {
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhuma unidade encontrada" 
+                        emptyMessage="Nenhuma Unidade encontrada" 
                         onCodeClick={handleCodeClick} 
                     />
                 </>
