@@ -25,11 +25,18 @@ const AgenciaList: React.FC = () => {
     const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
 
     const getTitle = () => {
-        return descricaoSelecionada 
-            ? `Cadastro Agência - ${descricaoSelecionada}` 
+        const maxLength = 30;
+        const truncatedDescricao = descricaoSelecionada 
+            ? descricaoSelecionada.length > maxLength 
+                ? descricaoSelecionada.slice(0, maxLength) + '...' 
+                : descricaoSelecionada 
+            : '';
+        
+        return truncatedDescricao 
+            ? `Cadastro Agência - ${truncatedDescricao}` 
             : 'Cadastro Agência'; // Título padrão se não houver descrição
     };
-
+    
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
             toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
