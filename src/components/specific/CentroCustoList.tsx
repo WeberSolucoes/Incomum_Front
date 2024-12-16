@@ -102,7 +102,7 @@ const CentroCustoList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Centro Custo' : `Editar Centro Custo - ${paisDescricao}`}</h1>
+                    <h1 style={{color:'#0152a1'}}>{codigo === null ? 'Cadastro Centro Custo' : `Cadastro Centro Custo - ${paisDescricao}`}</h1>
                     <CentroCusto onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
