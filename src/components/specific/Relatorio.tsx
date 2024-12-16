@@ -371,6 +371,7 @@ const Relatorio = () => {
                         rows={rows}
                         onPage={onPageChange}
                         rowsPerPageOptions={[10, 20, 50]} // Opções de paginação
+                        className="custom-datatable" 
                     >
                         <Column field="tur_numerovenda" header="Num.Venda" />
                         <Column field="tur_codigo" header="Num.Pct" />
