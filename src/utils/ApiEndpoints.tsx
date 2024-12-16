@@ -170,5 +170,32 @@ export enum ApiEndpoints {
     CREATE_BANCO = '/incomum/banco/create/',
     UPDATE_BANCO = '/incomum/banco/update/', // '/incomum/loja/update/${id}/'
     DELETE_BANCO = 'incomum/banco/delete/',
+
+    LIST_DESPESAS = '/incomum/despesas/list-all/',
+    LIST_DESPESAS_BY_ID = '/incomum/despesas/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_DESPESAS = '/incomum/despesas/create/',
+    UPDATE_DESPESAS = '/incomum/despesas/update/', // '/incomum/loja/update/${id}/'
+    DELETE_DESPESAS = 'incomum/despesas/delete/',
+
+
+    LIST_CENTROCUSTO = '/incomum/centrocusto/list-all/',
+    LIST_CENTROCUSTO_BY_ID = '/incomum/centrocusto/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_CENTROCUSTO = '/incomum/centrocusto/create/',
+    UPDATE_CENTROCUSTO = '/incomum/centrocusto/update/', // '/incomum/loja/update/${id}/'
+    DELETE_CENTROCUSTO = 'incomum/centrocusto/delete/',
+
+
+    LIST_SUBGRUPO = '/incomum/subgrupo/list-all/',
+    LIST_SUBGRUPO_BY_ID = '/incomum/subgrupo/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_SUBGRUPO = '/incomum/subgrupo/create/',
+    UPDATE_SUBGRUPO = '/incomum/subgrupo/update/', // '/incomum/loja/update/${id}/'
+    DELETE_SUBGRUPO = 'incomum/subgrupo/delete/',
+
+
+    LIST_DESPESASGERAL = '/incomum/despesasgeral/list-all/',
+    LIST_DESPESASGERAL_BY_ID = '/incomum/despesasgeral/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_DESPESASGERAL = '/incomum/despesasgeral/create/',
+    UPDATE_DESPESASGERAL = '/incomum/despesasgeral/update/', // '/incomum/loja/update/${id}/'
+    DELETE_DESPESASGERAL = 'incomum/despesasgeral/delete/',
     
 }
