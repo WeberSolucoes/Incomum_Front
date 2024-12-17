@@ -428,8 +428,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
           <input style={{ width: '190%',marginLeft:'-60px' }} type="text" id="age_rua" name="age_rua" value={request.age_endereco || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
-          <label style={{ marginLeft:'210px' }} htmlFor="age_numero">Numero</label>
-          <input style={{ width: '30%',marginLeft:'208px' }} type="text" id="age_numero" name="age_numero" value={request.age_numero || ''} onChange={handleInputChange} />
+          <label style={{ marginLeft:'232px' }} htmlFor="age_numero">Numero</label>
+          <input style={{ width: '30%',marginLeft:'230px' }} type="text" id="age_numero" name="age_numero" value={request.age_numero || ''} onChange={handleInputChange} />
         </div>
 
       </div>
