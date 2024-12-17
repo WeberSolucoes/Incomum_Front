@@ -200,32 +200,45 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     age_celular: ""
   };
 
+    const ageDescricaoRef = useRef(null);
+    const ageRazaoSocialRef = useRef(null);
+    const ageCnpjRef = useRef(null);
+    const acoCodigoRef = useRef(null);
+
    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         console.log("Estado inicial do request:", request);
 
         if (!request.age_descricao) {
-            toastError("O campo Agência Viagem é obrigatório.");
-            setLoading(false);
-            return;
+          toastError("O campo Agência Viagem é obrigatório.");
+          ageDescricaoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          ageDescricaoRef.current.focus();
+          setLoading(false);
+          return;
         }
-
+    
         if (!request.age_razaosocial) {
-            toastError("O campo Razão Social é obrigatório.");
-            setLoading(false);
-            return;
+          toastError("O campo Razão Social é obrigatório.");
+          ageRazaoSocialRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          ageRazaoSocialRef.current.focus();
+          setLoading(false);
+          return;
         }
-
+    
         if (!request.age_cnpj) {
-            toastError("O campo Cnpj é obrigatório.");
-            setLoading(false);
-            return;
+          toastError("O campo Cnpj é obrigatório.");
+          ageCnpjRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          ageCnpjRef.current.focus();
+          setLoading(false);
+          return;
         }
-
+    
         if (!request.aco_codigo) {
-            toastError("O campo Area Comercial é obrigatório.");
-            setLoading(false);
-            return;
+          toastError("O campo Área Comercial é obrigatório.");
+          acoCodigoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
+          acoCodigoRef.current.focus();
+          setLoading(false);
+          return;
         }
     
         const camposNumericos: Array<keyof AgenciaCreateRequest> = [
@@ -368,11 +381,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricao">Agencia Viagem</label>
-          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" value={request.age_descricao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
+          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" ref={ageDescricaoRef} value={request.age_descricao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label htmlFor="age_cnpj">Cnpj</label>
-          <input style={{ width: '220px' }} type="text" id="age_cnpj" name="age_cnpj" value={request.age_cnpj || ''} onChange={handleInputChange} />
+          <input style={{ width: '220px' }} type="text" id="age_cnpj" name="age_cnpj" ref={ageCnpjRef} value={request.age_cnpj || ''} onChange={handleInputChange} />
         </div>
       </div>
 
@@ -390,7 +403,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group full-width">
           <label htmlFor="age_razaosocial">Razão Social</label>
-          <input type="text" id="age_razaosocial" name="age_razaosocial" value={request.age_razaosocial || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
+          <input type="text" id="age_razaosocial" name="age_razaosocial" ref={ageRazaoSocialRef} value={request.age_razaosocial || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
       </div>
 
@@ -475,6 +488,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
               name="aco_codigo"
               value={request.aco_codigo || ''}
               onChange={handleSelectChange}
+              ref={acoCodigoRef}
             >
               <option value="">Selecione uma área comercial</option>
               {areasComerciais.map((area) => (
