@@ -292,3 +292,7 @@ dl, ol, ul {
     padding: 0.7rem 1rem !important;
 }
 
+.input-error {
+  border: 1px solid red;
+}
+
