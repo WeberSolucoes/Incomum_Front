@@ -26,7 +26,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
   const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
-  const [errors, setErrors] = useState({});
+  const [error, setError] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -97,7 +97,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
       setRequest(prevState => ({ ...prevState, [id]: value }));
-      setErrors({ ...errors, [name]: false }); // Limpa o erro ao digitar
+      setError({ ...error, [name]: false }); // Limpa o erro ao digitar
 
       if (id === 'loj_cnpj') {
         setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
