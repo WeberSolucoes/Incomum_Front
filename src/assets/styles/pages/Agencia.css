@@ -185,6 +185,7 @@
 .erp-form .form-group input[type="text"].error,
 .erp-form .form-group select.error {
   border-color: red; /* Cor da borda para inputs com erro */
+  box-shadow: 0 0 0 0 !important;  
 }
 /* Aplica estilização a todos os inputs */
 .erp-form input[type="text"], .erp-form select {
