@@ -214,7 +214,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
         if (!request.age_descricao) {
           toastError("O campo Agência Viagem é obrigatório.");
-          setError(prevState => ({ ...prevState, age_descricao: true }));  
+          document.getElementById("age_descricao").classList.add("error");  
           ageDescricaoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageDescricaoRef.current.focus();
           setLoading(false);
@@ -223,7 +223,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         if (!request.age_razaosocial) {
           toastError("O campo Razão Social é obrigatório.");
-          setError(prevState => ({ ...prevState, age_razaosocial: true }));  
+          document.getElementById("age_razaosocial").classList.add("error");  
           ageRazaoSocialRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageRazaoSocialRef.current.focus();
           setLoading(false);
@@ -232,7 +232,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         if (!request.age_cnpj) {
           toastError("O campo Cnpj é obrigatório.");
-          setError(prevState => ({ ...prevState, age_cnpj: true }));  
+          document.getElementById("age_cnpj").classList.add("error");  
           ageCnpjRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageCnpjRef.current.focus();
           setLoading(false);
@@ -241,10 +241,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         if (!request.aco_codigo) {
           toastError("O campo Área Comercial é obrigatório.");
-          setError(prevState => ({ ...prevState, aco_codigo: true }));  
+          document.getElementById("aco_codigo").classList.add("error");  
           acoCodigoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           acoCodigoRef.current.focus();
           setLoading(false);
+            
           return;
         }
     
