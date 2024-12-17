@@ -99,6 +99,10 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       setRequest(prevState => ({ ...prevState, [id]: value }));
       setError({ ...error, [name]: false }); // Limpa o erro ao digitar
 
+      if (value) {
+        e.target.classList.remove("error"); // Remover a classe de erro
+      }
+
       if (id === 'loj_cnpj') {
         setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
       }
