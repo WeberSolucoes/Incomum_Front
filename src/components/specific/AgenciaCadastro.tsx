@@ -26,6 +26,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
   const [checked, setChecked] = useState(false);
   const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
+  const [errors, setErrors] = useState({});
 
   useEffect(() => {
     const fetchData = async () => {
@@ -96,6 +97,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       const { id, value } = e.target;
       setRequest(prevState => ({ ...prevState, [id]: value }));
+      setErrors({ ...errors, [name]: false }); // Limpa o erro ao digitar
 
       if (id === 'loj_cnpj') {
         setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
@@ -207,10 +209,12 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+        const newErrors = {};
         console.log("Estado inicial do request:", request);
 
         if (!request.age_descricao) {
           toastError("O campo Agência Viagem é obrigatório.");
+          setError(prevState => ({ ...prevState, age_descricao: true }));  
           ageDescricaoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageDescricaoRef.current.focus();
           setLoading(false);
@@ -219,6 +223,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         if (!request.age_razaosocial) {
           toastError("O campo Razão Social é obrigatório.");
+          setError(prevState => ({ ...prevState, age_razaosocial: true }));  
           ageRazaoSocialRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageRazaoSocialRef.current.focus();
           setLoading(false);
@@ -227,14 +232,16 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         if (!request.age_cnpj) {
           toastError("O campo Cnpj é obrigatório.");
+          setError(prevState => ({ ...prevState, age_cnpj: true }));  
           ageCnpjRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           ageCnpjRef.current.focus();
           setLoading(false);
-          return;
+          return ;
         }
     
         if (!request.aco_codigo) {
           toastError("O campo Área Comercial é obrigatório.");
+          setError(prevState => ({ ...prevState, aco_codigo: true }));  
           acoCodigoRef.current.scrollIntoView({ behavior: "smooth", block: "center" });
           acoCodigoRef.current.focus();
           setLoading(false);
@@ -285,6 +292,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             // Verifica se a resposta foi bem-sucedida antes de mostrar o toast de sucesso
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Agência salva com sucesso");
+                setErrors({});
                 if (!updatedRequest.age_codigo) {
                     const novoCodigo = response.data.age_codigo;
                     onCodigoUpdate(novoCodigo);
@@ -381,11 +389,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group">
           <label htmlFor="age_descricao">Agencia Viagem</label>
-          <input style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" ref={ageDescricaoRef} value={request.age_descricao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
+          <input className={error.age_descricao ? 'input-error' : ''} style={{ width: '679px' }} type="text" id="age_descricao" name="age_descricao" ref={ageDescricaoRef} value={request.age_descricao || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
         <div className="form-group">
           <label htmlFor="age_cnpj">Cnpj</label>
-          <input style={{ width: '220px' }} type="text" id="age_cnpj" name="age_cnpj" ref={ageCnpjRef} value={request.age_cnpj || ''} onChange={handleInputChange} />
+          <input className={error.age_cnpj ? 'input-error' : ''} style={{ width: '220px' }} type="text" id="age_cnpj" name="age_cnpj" ref={ageCnpjRef} value={request.age_cnpj || ''} onChange={handleInputChange} />
         </div>
       </div>
 
@@ -403,7 +411,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       <div className="form-row">
         <div className="form-group full-width">
           <label htmlFor="age_razaosocial">Razão Social</label>
-          <input type="text" id="age_razaosocial" name="age_razaosocial" ref={ageRazaoSocialRef} value={request.age_razaosocial || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
+          <input className={error.age_razaosocial ? 'input-error' : ''} type="text" id="age_razaosocial" name="age_razaosocial" ref={ageRazaoSocialRef} value={request.age_razaosocial || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
       </div>
 
@@ -489,6 +497,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
               value={request.aco_codigo || ''}
               onChange={handleSelectChange}
               ref={acoCodigoRef}
+              className={error.aco_codigo ? 'input-error' : ''}  
             >
               <option value="">Selecione uma área comercial</option>
               {areasComerciais.map((area) => (
