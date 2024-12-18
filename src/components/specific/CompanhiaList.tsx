@@ -70,6 +70,12 @@ const CompanhiaList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Companhia' },
+    ];
+
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,7 +107,8 @@ const CompanhiaList: React.FC = () => {
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhuma Companhia encontrada" 
-                        onCodeClick={handleCodeClick} 
+                        onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
