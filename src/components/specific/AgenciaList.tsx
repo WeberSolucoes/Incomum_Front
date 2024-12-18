@@ -112,7 +112,7 @@ const AgenciaList: React.FC = () => {
     const columns = [
         { field: 'codigo', header: 'Codigo' },
         { field: 'descricao', header: 'Descrição' },
-        { field: 'Cnpj', header: 'Cnpj' },
+        { field: 'cnpj', header: 'Cnpj' },
         { field: 'razaosocial', header: 'Razão Social' }
     ];
 
