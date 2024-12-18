@@ -70,6 +70,11 @@ const MoedaList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Moeda' },
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,7 +106,8 @@ const MoedaList: React.FC = () => {
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhuma Moeda encontrada" 
-                        onCodeClick={handleCodeClick} 
+                        onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
