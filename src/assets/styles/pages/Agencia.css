@@ -297,3 +297,7 @@ dl, ol, ul {
   border: 1px solid red;
 }
 
+.p-column-header-content{
+    width:1px;
+}
+
