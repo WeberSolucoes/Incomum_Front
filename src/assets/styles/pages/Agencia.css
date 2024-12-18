@@ -297,17 +297,10 @@ dl, ol, ul {
   border: 1px solid red;
 }
 
-.custom-first-column {
-    width: 100px !important; /* Ajuste conforme necessário */
-    min-width: 100px !important;
-    max-width: 100px !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* Aplica padding específico somente à tabela com essa classe */
-.p-datatable .custom-first-column {
-    padding: 0.5rem 0.75rem !important;
+.custom-table .p-column-header-content[data-pc-section="headercontent"] {
+    max-width: 1px; /* Ajuste para o tamanho desejado */
+    overflow: hidden; /* Ocultar conteúdo extra */
+    text-overflow: ellipsis; /* Adiciona "..." ao exceder */
+    white-space: nowrap; /* Não quebra linha */
 }
 
