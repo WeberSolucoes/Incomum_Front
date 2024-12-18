@@ -297,14 +297,17 @@ dl, ol, ul {
   border: 1px solid red;
 }
 
-/* Estiliza a primeira coluna da tabela */
-th:nth-child(1),
-td:nth-child(1) {
-    width: 50px;
-    text-align: left;
-    white-space: nowrap;
+.custom-first-column {
+    width: 100px !important; /* Ajuste conforme necessário */
+    min-width: 100px !important;
+    max-width: 100px !important;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
+/* Aplica padding específico somente à tabela com essa classe */
+.p-datatable .custom-first-column {
+    padding: 0.5rem 0.75rem !important;
+}
 
