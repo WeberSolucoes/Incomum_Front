@@ -72,7 +72,7 @@ const CidadeList: React.FC = () => {
     };
 
     const columns = [
-        { field: 'codigo', header: 'Codigo' },
+        { field: 'codigo', header: 'Codigo', style: { width: '6rem', textAlign: 'left' } },
         { field: 'descricao', header: 'Cidade' },
         { field: 'pais', header: 'País' },
         { field: 'estado', header: 'Estado' }
