@@ -40,6 +40,7 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns, s
             paginator 
             rows={10} // Número padrão de itens por página
             rowsPerPageOptions={[5, 10, 25, 50]} // Opções de quantidade de itens por página
+            className="custom-table"
         >
             {/* Colunas dinâmicas passadas como parâmetro ou as colunas padrão */}
             {finalColumns.map((col, index) => (
