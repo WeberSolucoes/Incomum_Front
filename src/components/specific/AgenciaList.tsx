@@ -146,7 +146,7 @@ const AgenciaList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhuma Agência encontrada" 
                         onCodeClick={handleCodeClick}
-                        columns=columns
+                        columns={columns}
                     />
                 </>
             ) : (
