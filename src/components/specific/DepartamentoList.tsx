@@ -70,6 +70,11 @@ const DepartamentoList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Departamento' },
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,7 +106,8 @@ const DepartamentoList: React.FC = () => {
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhum Departamento encontrado" 
-                        onCodeClick={handleCodeClick} 
+                        onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
