@@ -69,6 +69,11 @@ const SubGrupoList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Subgrupo' },
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,6 +106,7 @@ const SubGrupoList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhum SubGrupo encontrado" 
                         onCodeClick={handleCodeClick} 
+                        columns={columns}
                     />
                 </>
             ) : (
