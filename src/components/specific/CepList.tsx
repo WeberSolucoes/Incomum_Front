@@ -33,6 +33,7 @@ const CepList: React.FC = () => {
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
                 codigo: item.cep_codigo,
                 descricao: item.cep_bairro,
+                logradouro: item.cep_logradouro,
             }));
             setOriginalItems(mappedData);
 
@@ -71,6 +72,13 @@ const CepList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Bairro' },
+        { field: 'logradouro', header: 'Logradouro' },
+    ];
+
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -103,6 +111,7 @@ const CepList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhum Cep encontrado" 
                         onCodeClick={handleCodeClick} 
+                        columns={columns}
                     />
                 </>
             ) : (
