@@ -70,6 +70,12 @@ const TipoPadraoList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Tipo Padrão' },
+    ];
+
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,7 +107,8 @@ const TipoPadraoList: React.FC = () => {
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhum Padrão encontrado" 
-                        onCodeClick={handleCodeClick} 
+                        onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
