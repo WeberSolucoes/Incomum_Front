@@ -69,6 +69,11 @@ const CentroCustoList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Centro Custo' },
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
