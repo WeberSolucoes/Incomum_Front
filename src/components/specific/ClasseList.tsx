@@ -108,6 +108,7 @@ const ClasseList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhuma Classe encontrada" 
                         onCodeClick={handleCodeClick} 
+                        columns={columns}
                     />
                 </>
             ) : (
