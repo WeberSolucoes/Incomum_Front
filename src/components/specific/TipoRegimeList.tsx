@@ -70,6 +70,11 @@ const TipoRegimeList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Tipo Regime' },
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,7 +106,8 @@ const TipoRegimeList: React.FC = () => {
                     <GenericTable 
                         filteredItems={items} 
                         emptyMessage="Nenhum Regime encontrado" 
-                        onCodeClick={handleCodeClick} 
+                        onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
