@@ -297,7 +297,14 @@ dl, ol, ul {
   border: 1px solid red;
 }
 
-.p-column-header-content{
-    width:1px;
+/* Estiliza a primeira coluna da tabela */
+th:nth-child(1),
+td:nth-child(1) {
+    width: 50px;
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
+
 
