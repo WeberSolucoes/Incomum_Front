@@ -96,7 +96,7 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
     };
 
     const columns = [
-        { field: 'codigo', header: 'Codigo' },
+        { field: 'codigo', header: 'Codigo', style: { width: '6rem', textAlign: 'left' } },
         { field: 'descricao', header: 'Parceiro' },
         { field: 'email', header: 'Cnpj/Cpf' }
     ];
