@@ -102,7 +102,7 @@ const AreaComercialList: React.FC = () => {
 
     // Definindo as colunas dinamicamente
     const columns = [
-        { field: 'descricao', header: 'Descrição' },
+        { field: 'descricao', header: 'Descrição', style: { width: '6rem', textAlign: 'left' } },
         { field: 'situacao', header: 'Situação' },
         { field: 'rateio', header: 'Rateio' }
     ];
