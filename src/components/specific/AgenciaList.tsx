@@ -50,8 +50,8 @@ const AgenciaList: React.FC = () => {
             const mappedData: AgenciaListResponse[] = response.data.map((item: any) => ({
                 codigo: item.age_codigo,
                 descricao: item.age_descricao,
-                responsavel: item.age_responsavel,
-                email: item.age_email,
+                cnpj: item.age_cnpj,
+                razaosocial: item.age_razaosocial,
             }));
             setItems(mappedData.filter(item =>
                 item.descricao.toLowerCase().includes(searchTerm.toLowerCase())
@@ -109,6 +109,13 @@ const AgenciaList: React.FC = () => {
         }
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Descrição' },
+        { field: 'Cnpj', header: 'Cnpj' },
+        { field: 'razaosocial', header: 'Razão Social' }
+    ];
+
     return (
         <div>
             {view === 'list' ? (
@@ -139,6 +146,7 @@ const AgenciaList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhuma Agência encontrada" 
                         onCodeClick={handleCodeClick}
+                        columns=columns
                     />
                 </>
             ) : (
