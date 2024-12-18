@@ -299,7 +299,6 @@ dl, ol, ul {
 
 .custom-table .p-column-header-content[data-pc-section="headercontent"] {
     max-width: 1px; /* Ajuste para o tamanho desejado */
-    overflow: hidden; /* Ocultar conteúdo extra */
     text-overflow: ellipsis; /* Adiciona "..." ao exceder */
     white-space: nowrap; /* Não quebra linha */
 }
