@@ -60,7 +60,6 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
             const mappedData: AgenciaListResponse[] = response.data.map((item: any) => ({
                 codigo: item.par_codigo,
                 descricao: item.par_descricao,
-                responsavel: item.par_obs,
                 email: item.par_cnpjcpf,
             }));
             setItems(mappedData.filter(item =>
@@ -95,6 +94,13 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
         setView('list');
         setActiveIndex(0);
     };
+
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Parceiro' },
+        { field: 'email', header: 'Cnpj/Cpf' }
+    ];
+
 
     return (
         <div>
