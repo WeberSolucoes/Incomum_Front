@@ -71,7 +71,7 @@ const AeroportoList: React.FC = () => {
     };
 
     const columns = [
-        { field: 'codigo', header: 'Codigo' },
+        { field: 'codigo', header: 'Codigo', style: { width: '6rem', textAlign: 'left' } },
         { field: 'descricao', header: 'Aeroporto' },
         { field: 'fone', header: 'Fone' },
     ];
