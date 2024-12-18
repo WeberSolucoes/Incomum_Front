@@ -31,6 +31,8 @@ const CidadeList: React.FC = () => {
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
                 codigo: item.cid_codigo,
                 descricao: item.cid_descricao,
+                pais: item.cid_pais,
+                estado: item.cid_estado,
             }));
             setOriginalItems(mappedData);
 
@@ -69,6 +71,13 @@ const CidadeList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Descrição' },
+        { field: 'pais', header: 'País' },
+        { field: 'estado', header: 'Estado' }
+    ];
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
@@ -101,6 +110,7 @@ const CidadeList: React.FC = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhuma Cidade encontrada" 
                         onCodeClick={handleCodeClick} 
+                        columns={columns}
                     />
                 </>
             ) : (
