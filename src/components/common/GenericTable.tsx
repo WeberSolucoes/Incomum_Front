@@ -49,6 +49,7 @@ const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns, s
                     field={col.field || 'defaultField'} // Valor padrão para field
                     header={col.header || 'Default Header'} // Valor padrão para header
                     className="custom-first-column"
+                    style={{width:'100px'}}
                 />
             ))}
             
