@@ -132,6 +132,7 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                         filteredItems={items} 
                         emptyMessage="Nenhum Parceiro encontrado" 
                         onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : view === 'create' ? (
