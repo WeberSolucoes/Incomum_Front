@@ -71,6 +71,14 @@ const VendedorList: React.FC = () => {
         });
     };
 
+    const columns = [
+        { field: 'codigo', header: 'Codigo' },
+        { field: 'descricao', header: 'Vendedor' },
+        { field: 'responsavel', header: 'Cpf' },
+        { field: 'email', header: 'Email' }
+    ];
+
+
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
     
     return (
@@ -103,6 +111,7 @@ const VendedorList: React.FC = () => {
                         filteredItems={items}
                         emptyMessage="Nenhum Vendedor encontrado"
                         onCodeClick={handleCodeClick}
+                        columns={columns}
                     />
                 </>
             ) : (
