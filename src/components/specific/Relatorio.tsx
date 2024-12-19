@@ -156,14 +156,14 @@ const Relatorio = () => {
         }
     };
 
-    const fetchAgencias = async (selectedAreaComercial: string | any[]) => {
+    const fetchAgencias = async (selectedAreaComercial: string[] | any[]) => {
         // Verifica se selectedAreaComercial é uma matriz válida ou string com conteúdo
         if (Array.isArray(selectedAreaComercial) && selectedAreaComercial.length > 0) {
             try {
                 console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
     
                 const response = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/`, {
-                    params: { area_comercial: selectedAreaComercial },
+                    params: { 'area_comercial[]': selectedAreaComercial },
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Incluindo o token
                     },
