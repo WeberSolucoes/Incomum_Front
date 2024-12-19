@@ -157,20 +157,23 @@ const Relatorio = () => {
     };
 
     const fetchAgencias = async (selectedAreaComercial: string | any[]) => {
-        // Se áreas forem selecionadas, faz a requisição para buscar as agências
-        console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
-        if (selectedAreaComercial.length > 0) {
+        // Verifica se selectedAreaComercial é uma matriz válida ou string com conteúdo
+        if (Array.isArray(selectedAreaComercial) && selectedAreaComercial.length > 0) {
             try {
+                console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
+    
                 const response = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/`, {
                     params: { area_comercial: selectedAreaComercial },
                     headers: {
-                    Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`, // Incluindo o token
+                        Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Incluindo o token
                     },
-                    responseType: 'blob', // Definindo o tipo de resposta como arquivo binário// Passa todas as áreas selecionadas
+                    responseType: 'blob' // Definindo o tipo de resposta como arquivo binário
                 });
-                console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
+    
+                console.log('Resposta da API:', response.data);
+    
                 // Verifica se há resultados e os mapeia para o Dropdown
-                if (response.data.valores.length > 0) {
+                if (response.data.valores && response.data.valores.length > 0) {
                     setAgencias(response.data.valores.map(item => ({
                         label: item.age_descricao,
                         value: item.age_codigo
@@ -181,13 +184,15 @@ const Relatorio = () => {
                 }
             } catch (error) {
                 toastError('Erro ao carregar as agências');
-                console.error('Erro ao fazer a requisição:', error);  // Log do erro para diagnosticar
+                console.error('Erro ao fazer a requisição:', error); // Log do erro para diagnosticar
             }
         } else {
+            console.log('Nenhuma área comercial selecionada ou o valor é inválido.');
             // Se nenhuma área for selecionada, limpar as agências
             setAgencias([]);
         }
     };
+
 
 
     const handleAreaChange = (e) => {
