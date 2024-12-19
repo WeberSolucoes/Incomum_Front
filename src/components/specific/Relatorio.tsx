@@ -110,7 +110,7 @@ const Relatorio = () => {
     };
 
     const handleUnidadeChange = async (e) => {
-        const unidadeId = e ? e.value : null;  // Verifica se há unidade selecionada, caso contrário, null
+        const unidadeId = e ? e.value : null; // Verifica se há unidade selecionada, caso contrário, null
         setSelectedUnidade(unidadeId);
         setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
         setVendedores([]); // Limpa os vendedores ao trocar a unidade
@@ -121,9 +121,8 @@ const Relatorio = () => {
     
             // Se houver uma unidade selecionada, busca áreas e vendedores associados
             if (unidadeId) {
-                const areasResponse = await apiGetAreaComercialRelatorioByUser({ unidade: unidadeId });
-    
-                const vendedoresResponse = await apiGetVendedorRelatorioByUser({ unidade: unidadeId });
+                areasResponse = await apiGetAreaComercialRelatorioByUser({ unidade: unidadeId });
+                vendedoresResponse = await apiGetVendedorRelatorioByUser({ unidade: unidadeId });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais e vendedores
                 areasResponse = await apiGetAreaComercialRelatorioByUser();
@@ -133,7 +132,8 @@ const Relatorio = () => {
             // Popula as áreas comerciais
             if (areasResponse.data.associacoes.length > 0) {
                 setAreasComerciais(areasResponse.data.associacoes.map(item => ({
-                    label: item.aco_descricao, value: item.aco_codigo
+                    label: item.aco_descricao,
+                    value: item.aco_codigo
                 })));
             } else {
                 setAreasComerciais([]); // Se não houver áreas comerciais
@@ -143,7 +143,8 @@ const Relatorio = () => {
             // Popula os vendedores
             if (vendedoresResponse.data.vendedores.length > 0) {
                 setVendedores(vendedoresResponse.data.vendedores.map(item => ({
-                    label: item.ven_descricao, value: item.ven_codigo
+                    label: item.ven_descricao,
+                    value: item.ven_codigo
                 })));
             } else {
                 setVendedores([]); // Se não houver vendedores
