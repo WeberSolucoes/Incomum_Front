@@ -70,7 +70,7 @@ const Relatorio = () => {
     
         try {
             // Tenta carregar as agências
-            const agenciasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/');
+            const agenciasResponse = await apiGetAgenciaRelatorioByUser();
             setAgencias(agenciasResponse.data.valores.map(item => ({ label: item.age_descricao, value: item.age_codigo })));
         } catch (error) {
             toastError('Erro ao carregar as agências');
@@ -78,7 +78,7 @@ const Relatorio = () => {
     
         try {
             // Tenta carregar os vendedores
-            const vendedoresResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/vendedor-by-user/');
+            const vendedoresResponse = await apiGetVendedorRelatorioByUser();
         
             // Log para verificar o que está sendo retornado pela API
             console.log('Dados dos vendedores:', vendedoresResponse.data);
@@ -100,7 +100,7 @@ const Relatorio = () => {
         }
         try {
             // Tenta carregar as áreas comerciais
-            const areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/');
+            const areasResponse = await apiGetAreaComercialRelatorioByUser();
             setAreasComerciais(areasResponse.data.associacoes.map(item => ({ label: item.aco_descricao, value: item.aco_codigo })));
         } catch (error) {
             toastError('Erro ao carregar as áreas comerciais');
@@ -130,8 +130,8 @@ const Relatorio = () => {
                 });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais e vendedores
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/');
-                vendedoresResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/vendedor-by-user/');
+                areasResponse = await apiGetAreaComercialRelatorioByUser();
+                vendedoresResponse = await apiGetVendedorRelatorioByUser();
             }
     
             // Popula as áreas comerciais
