@@ -318,7 +318,8 @@ const Relatorio = () => {
                             placeholder="Unidade"
                             style={{width:'100%',textAlign: 'left' }}
                             panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                            showClear  
+                            showClear
+                            filter
                             emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
@@ -331,7 +332,8 @@ const Relatorio = () => {
                             display="chip" 
                             style={{width:'100%'}}
                             panelStyle={{ width: '100%' }} // Largura do painel
-                            showClear 
+                            showClear
+                            filter
                             emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
@@ -343,6 +345,7 @@ const Relatorio = () => {
                             placeholder="Agência" 
                             style={{width:'100%'}} 
                             showClear
+                            filter
                             emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
@@ -354,6 +357,7 @@ const Relatorio = () => {
                             placeholder="Vendedor"
                             style={{width:'100%'}}
                             showClear
+                            filter
                             emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
