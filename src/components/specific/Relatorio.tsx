@@ -319,6 +319,7 @@ const Relatorio = () => {
                             style={{width:'100%',textAlign: 'left' }}
                             panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
                             showClear  
+                            emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -331,6 +332,7 @@ const Relatorio = () => {
                             style={{width:'100%'}}
                             panelStyle={{ width: '100%' }} // Largura do painel
                             showClear 
+                            emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -341,6 +343,7 @@ const Relatorio = () => {
                             placeholder="Agência" 
                             style={{width:'100%'}} 
                             showClear
+                            emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -351,6 +354,7 @@ const Relatorio = () => {
                             placeholder="Vendedor"
                             style={{width:'100%'}}
                             showClear
+                            emptyFilterMessage="Nenhuma opção disponível" 
                         />
                     </div>
                 </div>
