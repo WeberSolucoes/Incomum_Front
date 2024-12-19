@@ -377,12 +377,15 @@ export const apiDeletLojaComercial = (id: number) => axiosInstance.delete(`${Api
 export const apiGetUnidadeRelatorioByUser = () => 
     axiosInstance.get(ApiEndpoints.LIST_UNIDADE_RELATORIO_BY_USER);
 
-export const apiGetAreaComercialRelatorioByUser = () => 
-    axiosInstance.get(ApiEndpoints.LIST_AREACOMERCIAL_RELATORIO_BY_USER);
+export const apiGetAreaComercialRelatorioByUser = (params = {}) => 
+    axiosInstance.get(ApiEndpoints.LIST_AREACOMERCIAL_RELATORIO_BY_USER, {
+        params: params,
+    });
 
-
-export const apiGetVendedorRelatorioByUser = () => 
-    axiosInstance.get(ApiEndpoints.LIST_VENDEDOR_RELATORIO_BY_USER);
+export const apiGetVendedorRelatorioByUser = (params = {}) => 
+    axiosInstance.get(ApiEndpoints.LIST_VENDEDOR_RELATORIO_BY_USER, {
+        params: params,
+    });
 
 export const apiGetAgenciaRelatorioByUser = () => 
     axiosInstance.get(ApiEndpoints.LIST_AGENCIA_RELATORIO_BY_USER);
