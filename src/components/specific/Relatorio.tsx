@@ -347,7 +347,6 @@ const Relatorio = () => {
                             placeholder="Agência" 
                             style={{width:'100%'}} 
                             showClear
-                            filter
                             emptyFilterMessage="Nenhuma opção disponível"
                             emptyMessage="Sem opções disponíveis"
                         />
@@ -360,7 +359,6 @@ const Relatorio = () => {
                             placeholder="Vendedor"
                             style={{width:'100%'}}
                             showClear
-                            filter
                             emptyFilterMessage="Nenhuma opção disponível"
                             emptyMessage="Sem opções disponíveis"
                         />
