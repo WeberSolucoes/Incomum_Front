@@ -166,18 +166,19 @@ const Relatorio = () => {
                     params: { 'area_comercial[]': selectedAreaComercial },
                     headers: {
                         Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Incluindo o token
-                    },
-                    responseType: 'blob' // Definindo o tipo de resposta como arquivo binário
+                    }
                 });
     
                 console.log('Resposta da API:', response.data);
     
                 // Verifica se há resultados e os mapeia para o Dropdown
                 if (response.data.valores && response.data.valores.length > 0) {
-                    setAgencias(response.data.valores.map(item => ({
-                        label: item.age_descricao,
-                        value: item.age_codigo
-                    })));
+                    setAgencias(
+                        response.data.valores.map((item: { age_descricao: string; age_codigo: string }) => ({
+                            label: item.age_descricao,
+                            value: item.age_codigo
+                        }))
+                    );
                 } else {
                     setAgencias([]); // Caso não haja agências
                     toastError('Nenhuma agência encontrada para esta área comercial.');
@@ -192,6 +193,7 @@ const Relatorio = () => {
             setAgencias([]);
         }
     };
+
 
 
 
