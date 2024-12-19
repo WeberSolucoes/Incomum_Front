@@ -320,7 +320,8 @@ const Relatorio = () => {
                             panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
                             showClear
                             filter
-                            emptyFilterMessage="Nenhuma opção disponível" 
+                            emptyFilterMessage="Nenhuma opção disponível"
+                            emptyMessage="Sem opções disponíveis"
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -334,7 +335,8 @@ const Relatorio = () => {
                             panelStyle={{ width: '100%' }} // Largura do painel
                             showClear
                             filter
-                            emptyFilterMessage="Nenhuma opção disponível" 
+                            emptyFilterMessage="Nenhuma opção disponível"
+                            emptyMessage="Sem opções disponíveis"
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -346,7 +348,8 @@ const Relatorio = () => {
                             style={{width:'100%'}} 
                             showClear
                             filter
-                            emptyFilterMessage="Nenhuma opção disponível" 
+                            emptyFilterMessage="Nenhuma opção disponível"
+                            emptyMessage="Sem opções disponíveis"
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
@@ -358,7 +361,8 @@ const Relatorio = () => {
                             style={{width:'100%'}}
                             showClear
                             filter
-                            emptyFilterMessage="Nenhuma opção disponível" 
+                            emptyFilterMessage="Nenhuma opção disponível"
+                            emptyMessage="Sem opções disponíveis"
                         />
                     </div>
                 </div>
