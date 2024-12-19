@@ -121,13 +121,9 @@ const Relatorio = () => {
     
             // Se houver uma unidade selecionada, busca áreas e vendedores associados
             if (unidadeId) {
-                areasResponse = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/`, {
-                    params: { unidade: unidadeId }
-                });
+                const areasResponse = await apiGetAreaComercialRelatorioByUser({ unidade: unidadeId });
     
-                vendedoresResponse = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/vendedor-by-user/`, {
-                    params: { unidade: unidadeId }
-                });
+                const vendedoresResponse = await apiGetVendedorRelatorioByUser({ unidade: unidadeId });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais e vendedores
                 areasResponse = await apiGetAreaComercialRelatorioByUser();
@@ -165,7 +161,11 @@ const Relatorio = () => {
         if (selectedAreaComercial.length > 0) {
             try {
                 const response = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/`, {
-                    params: { area_comercial: selectedAreaComercial }  // Passa todas as áreas selecionadas
+                    params: { area_comercial: selectedAreaComercial },
+                    headers: {
+                    Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}`, // Incluindo o token
+                    },
+                    responseType: 'blob', // Definindo o tipo de resposta como arquivo binário// Passa todas as áreas selecionadas
                 });
                 console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
                 // Verifica se há resultados e os mapeia para o Dropdown
