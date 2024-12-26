@@ -6,6 +6,7 @@ import { Calendar } from "primereact/calendar";
 import { Button } from "primereact/button"; 
 import { Chart } from "primereact/chart"; 
 import axios from "axios";
+import { apiGetAgencia,apiGetUnidade, } from '../../services/Api';
 
 const GraficoComFiltros = () => {
     const [dateStart, setDateStart] = useState(null);
@@ -21,7 +22,7 @@ const GraficoComFiltros = () => {
     useEffect(() => {
         const fetchUnidades = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/incomum/loja/list-all/");
+                const response = await apiGetUnidade();
                 const unidadesFormatadas = [
                     { label: "Todas as Unidades", value: "todos" },
                     ...response.data.map((unidade) => ({
@@ -37,7 +38,7 @@ const GraficoComFiltros = () => {
 
         const fetchAgencias = async () => {
             try {
-                const response = await axios.get("http://127.0.0.1:8000/api/incomum/agencia/list-all/");
+                const response = await apiGetAgencia();
                 const agenciasFormatadas = response.data.slice(0, 50).map((agencia) => ({
                     label: agencia.age_descricao,
                     value: agencia.age_codigo,
