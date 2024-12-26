@@ -42,6 +42,7 @@ import DespesasList from '../components/specific/DespesasList';
 import DespesasGeralList from '../components/specific/DespesasGeralList';
 import SubGrupoList from '../components/specific/SubGrupoList';
 import CentroCustoList from '../components/specific/CentroCustoList';
+import GraficoComFiltros from '../components/specific/Grafico';
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -306,7 +307,7 @@ const MainPage: React.FC = () => {
             case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
             case 'gerencial_faturamento_unidades':
-                return <Teste message="Faturamento Unidades" />;
+                return <GraficoComFiltros/>;
             case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
             case 'gerencial_faturamento_vendedor':
