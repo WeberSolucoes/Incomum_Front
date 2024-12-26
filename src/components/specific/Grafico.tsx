@@ -75,12 +75,12 @@ const GraficoComFiltros = () => {
     
         let endpoint = "";
         if (activeTab === 0) {
-            endpoint = "http://127.0.0.1:8000/api/incomum/relatorio/obter-dados-unidade/";
+            endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-unidade/";
             if (selectedUnidade !== "todos") {
                 params.loj_codigo = selectedUnidade;
             }
         } else if (activeTab === 1) {
-            endpoint = "http://127.0.0.1:8000/api/incomum/relatorio/obter-dados-agencia/";
+            endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-agencia/";
             if (selectedAgencias.length > 0 && !selectedAgencias.includes("todos")) {
                 params.age_codigo = selectedAgencias;
             }
