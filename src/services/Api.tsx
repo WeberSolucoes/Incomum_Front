@@ -326,6 +326,10 @@ export const apiPutUpdateUnidade = (data: UnidadesCreateRequest, id: number) => 
 
 export const apiGetUnidades = () => axiosInstance.get(ApiEndpoints.LIST_UNIDADES);
 
+export const apiGetGraficoAgencia = () => axiosInstance.get(ApiEndpoints.LIST_GRAFICO_AGENCIA);
+
+export const apiGetGraficoUnidade = () => axiosInstance.get(ApiEndpoints.LIST_GRAFICO_UNIDADE);
+
 export const apiDeleteUnidade = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_UNIDADES}${id}/`)
 
 export const apiGetAgencia = () => axiosInstance.get(ApiEndpoints.LIST_AGENCIA)
