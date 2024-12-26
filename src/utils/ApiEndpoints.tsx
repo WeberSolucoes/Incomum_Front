@@ -30,6 +30,8 @@ export enum ApiEndpoints {
     LIST_AREACOMERCIAL_RELATORIO_BY_USER = '/incomum/relatorio/area-by-user/', // '/incomum/relatorio/area-by-user/${id}/'
     LIST_VENDEDOR_RELATORIO_BY_USER = '/incomum/relatorio/vendedor-by-user/', // '/incomum/relatorio/vendedor-by-user/${id}/'
     LIST_AGENCIA_RELATORIO_BY_USER = '/incomum/relatorio/agencia-by-user/', // '/incomum/relatorio/agencia-by-user/${id}/'
+    LIST_GRAFICO_AGENCIA = '/incomum/relatorio/obter-dados-agencia/',
+    LIST_GRAFICO_UNIDADE = '/incomum/relatorio/obter-dados-unidade/',
     LIST_RELATORIO_FINDALL_BY_FILTERS = '/incomum/relatorio/list-all-by-filter/',
     TOTAL_RELATORIO = '/incomum/relatorio/total-by-filter/',
     EXCEL_RELATORIO = '/incomum/relatorio/download-relatorio/',
