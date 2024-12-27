@@ -39,7 +39,7 @@ const GraficoComFiltros = () => {
         const fetchAgencias = async () => {
             try {
                 const response = await apiGetAgencia();
-                const agenciasFormatadas = response.data.slice(0, 50).map((agencia) => ({
+                const agenciasFormatadas = response.data.map((agencia) => ({
                     label: agencia.age_descricao,
                     value: agencia.age_codigo,
                 }));
