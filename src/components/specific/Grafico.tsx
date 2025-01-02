@@ -103,13 +103,14 @@ const GraficoComFiltros = () => {
     
             // Se houver uma unidade selecionada, busca áreas comerciais associadas
             if (unidadeId) {
-                areasResponse = await apiGetArea(), {
+                areasResponse = await apiGetArea({
                     params: { unidade: unidadeId }
                 });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais
                 areasResponse = await apiGetArea();
             }
+
     
             // Popula as áreas comerciais
             if (areasResponse.data.associacoes.length > 0) {
