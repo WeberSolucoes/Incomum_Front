@@ -141,25 +141,32 @@ const GraficoComFiltros = () => {
     };
 
 
-    
     const fetchAgencias = async (selectedAreaComercial = [], unidadeId = null) => {
         console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
         console.log('Unidade Selecionada:', unidadeId);
     
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+    
         try {
             let response;
     
+            // Configuração do cabeçalho com o token
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Adiciona o token de autenticação
+                },
+                params: {
+                    area_comercial: selectedAreaComercial.length > 0 ? selectedAreaComercial : undefined,
+                    unidade: unidadeId || undefined,
+                },
+            };
+    
             // Se nenhum filtro (área comercial ou unidade) for selecionado, busca todas as agências
             if (selectedAreaComercial.length === 0 && !unidadeId) {
-                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/');
+                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/', config);
             } else {
                 // Faz a requisição com os filtros (área comercial e/ou unidade)
-                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/', {
-                    params: {
-                        area_comercial: selectedAreaComercial.length > 0 ? selectedAreaComercial : undefined,
-                        unidade: unidadeId || undefined,
-                    },
-                });
+                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/', config);
             }
     
             // Mapeia os resultados para o Dropdown
@@ -177,6 +184,8 @@ const GraficoComFiltros = () => {
             console.error('Erro ao fazer a requisição:', error); // Log do erro para diagnosticar
         }
     };
+
+    
 
     const handleAreaChange = (e) => {
         setSelectedAreaComercial(e.value); // Atualiza o estado com as áreas selecionadas
