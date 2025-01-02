@@ -37,7 +37,6 @@ const GraficoComFiltros = () => {
                     label: unidade.loj_descricao,
                     value: unidade.loj_codigo,
                 }));
-                ];
                 setUnidades(unidadesFormatadas);
             } catch (error) {
                 console.error("Erro ao carregar unidades:", error);
