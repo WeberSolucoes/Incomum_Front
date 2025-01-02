@@ -31,6 +31,7 @@ const GraficoComFiltros = () => {
 
 
     useEffect(() => {
+        setSelectedUnidade(null);
         const fetchUnidades = async () => {
             try {
                 const response = await apiGetUnidades();
