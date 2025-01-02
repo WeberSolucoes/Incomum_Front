@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { Chart } from "primereact/chart"; 
 import axios from "axios";
 import { toastError } from "../../utils/customToast";
-import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia } from '../../services/Api';
+import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia,apiGetArea } from '../../services/Api';
 
 
 const GraficoComFiltros = () => {
@@ -103,12 +103,12 @@ const GraficoComFiltros = () => {
     
             // Se houver uma unidade selecionada, busca áreas comerciais associadas
             if (unidadeId) {
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', {
+                areasResponse = await apiGetArea(), {
                     params: { unidade: unidadeId }
                 });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/');
+                areasResponse = await apiGetArea();
             }
     
             // Popula as áreas comerciais
