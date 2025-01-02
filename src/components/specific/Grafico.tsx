@@ -7,7 +7,7 @@ import { Button } from "primereact/button";
 import { Chart } from "primereact/chart"; 
 import axios from "axios";
 import { toastError } from "../../utils/customToast";
-import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia,apiGetArea } from '../../services/Api';
+import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia,apiGetArea,apiGetAreas } from '../../services/Api';
 
 
 const GraficoComFiltros = () => {
@@ -100,7 +100,7 @@ const GraficoComFiltros = () => {
     
             // Se houver uma unidade selecionada, busca áreas comerciais associadas
             if (unidadeId) {
-                areasResponse = await apiGetArea({
+                areasResponse = await apiGetAreas({
                     params: { unidade: unidadeId }
                 });
             } else {
