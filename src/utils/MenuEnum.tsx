@@ -414,16 +414,6 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
                 command: () => { onMenuItemClick(MenuEnum.gerencial_faturamento_unidades); }
             },
-            {
-                label: 'Faturamento Comercial',
-                icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
-                command: () => { onMenuItemClick(MenuEnum.gerencial_faturamento_comercial); }
-            },
-            {
-                label: 'Faturamento Vendedor',
-                icon: 'cilPencil', // Ajuste o nome do ícone conforme sua escolha
-                command: () => { onMenuItemClick(MenuEnum.gerencial_faturamento_vendedor); }
-            }
         ] : []
     },
     {
