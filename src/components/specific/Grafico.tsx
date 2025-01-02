@@ -106,7 +106,7 @@ const GraficoComFiltros = () => {
                 });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/');
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/');
             }
     
             // Popula as áreas comerciais
