@@ -392,7 +392,7 @@ const GraficoComFiltros = () => {
                                     placeholder="Unidade"
                                     style={{width:'100%',textAlign: 'left' }}
                                     panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                                    showClear={selectedUnidade && selectedUnidade.length > 0}
+                                    showClear={selectedUnidade !== null}
                                 />
                             </div>
                             <div className='col-sm-3 mb-3'>
