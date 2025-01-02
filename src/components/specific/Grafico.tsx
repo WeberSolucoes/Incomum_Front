@@ -102,6 +102,7 @@ const GraficoComFiltros = () => {
             if (unidadeId) {
                 await axios.get('https://api.incoback.com.br/api/list-all-areas/', {
                     params: { unidade: unidadeId },
+            });
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais
                 areasResponse = await apiGetArea();
