@@ -111,10 +111,7 @@ const GraficoComFiltros = () => {
     
             // Verifique qual URL você deve usar
             if (unidadeId) {
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
-                    params: { unidade: unidadeId },
-                    ...config, // Passa os headers junto com os params
-                });
+                areasResponse = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/${unidadeId}/`, config);
             } else {
                 areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', config);
             }
