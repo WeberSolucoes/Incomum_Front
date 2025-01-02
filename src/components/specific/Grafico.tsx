@@ -96,7 +96,7 @@ const GraficoComFiltros = () => {
         setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
         setAgencias([]); // Limpa as agências ao trocar a unidade
     
-        const token = localStorage.getItem('token'); // Ou de onde estiver armazenado o token
+        const token = localStorage.getItem('token'); // Obtém o token de autenticação
         console.log("unidadeId", unidadeId);  // Verifique o valor de unidadeId
         console.log("token", token);  // Verifique o valor do token
     
@@ -105,23 +105,41 @@ const GraficoComFiltros = () => {
     
             const config = {
                 headers: {
-                    Authorization: `Bearer ${token}`, // Adiciona o token de autenticação
+                    Authorization: `Bearer ${token}`, // Adiciona o token de autenticação nos headers
                 },
             };
     
-            // Verifique qual URL você deve usar
+            // Verifique se unidadeId foi fornecido e use a URL apropriada
             if (unidadeId) {
+                // Caso tenha unidadeId, envia na URL
                 areasResponse = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/${unidadeId}/`, config);
             } else {
+                // Caso contrário, busque todas as áreas comerciais
                 areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', config);
             }
     
-            // O restante do código para manipular a resposta...
+            // Verifique a resposta da API
+            console.log("Resposta da API:", areasResponse.data);
+    
+            // Verifica se há dados retornados na resposta
+            if (areasResponse.data.associacoes && areasResponse.data.associacoes.length > 0) {
+                // Popula as áreas comerciais com os dados recebidos
+                setAreasComerciais(areasResponse.data.associacoes.map(item => ({
+                    label: item.aco_descricao,
+                    value: item.aco_codigo
+                })));
+            } else {
+                // Caso não haja áreas comerciais, exibe uma mensagem
+                setAreasComerciais([]);
+                toastError('Nenhuma área comercial encontrada.');
+            }
         } catch (error) {
+            // Captura e exibe o erro
             toastError('Erro ao carregar as áreas comerciais.');
             console.error('Erro ao fazer a requisição:', error.response || error.message || error);
         }
     };
+
 
     
     const fetchAgencias = async (selectedAreaComercial = [], unidadeId = null) => {
