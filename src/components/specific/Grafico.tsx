@@ -116,7 +116,7 @@ const GraficoComFiltros = () => {
                     ...config, // Passa os headers junto com os params
                 });
             } else {
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', config);
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', config);
             }
     
             // O restante do código para manipular a resposta...
