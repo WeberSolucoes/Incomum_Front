@@ -58,6 +58,15 @@ const Relatorio = () => {
         loadDadosIniciais();
     }, []);
 
+    useEffect(() => {
+        const today = new Date();
+        const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1); // Primeiro dia do mês atual
+        const endOfDay = today; // Data final será o dia de hoje
+
+        setDateStart(startOfMonth);
+        setDateEnd(endOfDay);
+    }, []); 
+
     const loadDadosIniciais = async () => {
         setLoading(true);
         try {
