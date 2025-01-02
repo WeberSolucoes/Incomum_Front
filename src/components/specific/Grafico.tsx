@@ -101,12 +101,10 @@ const GraficoComFiltros = () => {
     
             // Se houver uma unidade selecionada, busca áreas comerciais associadas
             if (unidadeId) {
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
-                    params: { unidade: unidadeId }
-                });
+                areasResponse = await apiGetAreas(unidadeId);
             } else {
                 // Caso não haja unidade, busca todas as áreas comerciais
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/');
+                areasResponse = await apiGetArea();
             }
     
             // Popula as áreas comerciais
