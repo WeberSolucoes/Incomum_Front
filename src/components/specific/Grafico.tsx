@@ -8,6 +8,7 @@ import { Chart } from "primereact/chart";
 import axios from "axios";
 import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia } from '../../services/Api';
 
+
 const GraficoComFiltros = () => {
     const [dateStart, setDateStart] = useState(null);
     const [dateEnd, setDateEnd] = useState(null);
@@ -18,6 +19,14 @@ const GraficoComFiltros = () => {
     const [selectedAgencias, setSelectedAgencias] = useState([]);
     const [activeTab, setActiveTab] = useState(0); // Controle da aba ativa
     const [filteredAgencias, setFilteredAgencias] = useState([]);
+    const [areasComerciais, setAreasComerciais] = useState([]);
+    const [vendedores, setVendedores] = useState([]);
+    const [loading, setLoading] = useState(false);
+
+    const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
+    const [selectedVendedor, setSelectedVendedor] = useState(null);
+    const [selectedAgencia, setSelectedAgencia] = useState(null);
+
 
     useEffect(() => {
         const fetchUnidades = async () => {
@@ -39,8 +48,8 @@ const GraficoComFiltros = () => {
         const fetchAgencias = async () => {
             try {
                 const response = await apiGetAgencia();
-                const agenciasFormatadas = response.data.map((agencia) => ({
-                    label: agencia.age_descricao,
+                const agenciasFormatadas = response.data.map((agencia: { age_descricao: string; age_codigo: any; }) => ({
+                    label: agencia.age_descricao.toUpperCase(),
                     value: agencia.age_codigo,
                 }));
                 setAgencias(agenciasFormatadas);
@@ -53,17 +62,126 @@ const GraficoComFiltros = () => {
         fetchAgencias();
     }, []);
 
-    const handleFilter = (event) => {
-        const query = event.filter.trim();
-        if (query.length >= 3) {
-            const results = agencias.filter((agencia) =>
-                agencia.label.toLowerCase().includes(query.toLowerCase())
-            );
-            setFilteredAgencias(results);
-        } else {
-            setFilteredAgencias([]); // Esvazia os resultados se tiver menos de 3 caracteres
+    const loadDadosIniciais = async () => {
+        setLoading(true);
+        try {
+            // Carrega as unidades
+            const unidadesResponse = await apiGetUnidadeRelatorioByUser();
+            setUnidades(unidadesResponse.data.map(item => ({ label: item.loj_descricao, value: item.loj_codigo })));
+        } catch (error) {
+            toastError('Erro ao carregar as unidades');
+        }
+    
+        try {
+            // Carrega as agências
+            const agenciasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/');
+            setAgencias(agenciasResponse.data.valores.map(item => ({ label: item.age_descricao, value: item.age_codigo })));
+        } catch (error) {
+            toastError('Erro ao carregar as agências');
+        }
+    
+        try {
+            // Carrega as áreas comerciais
+            const areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/');
+            setAreasComerciais(areasResponse.data.associacoes.map(item => ({ label: item.aco_descricao, value: item.aco_codigo })));
+        } catch (error) {
+            toastError('Erro ao carregar as áreas comerciais');
+        } finally {
+            setLoading(false);
         }
     };
+    
+    const handleUnidadeChange = async (e) => {
+        const unidadeId = e ? e.value : null; // Verifica se há unidade selecionada, caso contrário, null
+        setSelectedUnidade(unidadeId);
+        setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
+        setAgencias([]); // Limpa as agências ao trocar a unidade
+    
+        try {
+            let areasResponse;
+    
+            // Se houver uma unidade selecionada, busca áreas comerciais associadas
+            if (unidadeId) {
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
+                    params: { unidade: unidadeId }
+                });
+            } else {
+                // Caso não haja unidade, busca todas as áreas comerciais
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/');
+            }
+    
+            // Popula as áreas comerciais
+            if (areasResponse.data.associacoes.length > 0) {
+                setAreasComerciais(areasResponse.data.associacoes.map(item => ({
+                    label: item.aco_descricao,
+                    value: item.aco_codigo
+                })));
+            } else {
+                setAreasComerciais([]); // Se não houver áreas comerciais
+                toastError('Nenhuma área comercial encontrada.');
+            }
+        } catch (error) {
+            toastError('Erro ao carregar as áreas comerciais.');
+            console.error('Erro ao fazer a requisição:', error);
+        }
+    };
+    
+    const fetchAgencias = async (selectedAreaComercial = [], unidadeId = null) => {
+        console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
+        console.log('Unidade Selecionada:', unidadeId);
+    
+        try {
+            let response;
+    
+            // Se nenhum filtro (área comercial ou unidade) for selecionado, busca todas as agências
+            if (selectedAreaComercial.length === 0 && !unidadeId) {
+                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/');
+            } else {
+                // Faz a requisição com os filtros (área comercial e/ou unidade)
+                response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/', {
+                    params: {
+                        area_comercial: selectedAreaComercial.length > 0 ? selectedAreaComercial : undefined,
+                        unidade: unidadeId || undefined,
+                    },
+                });
+            }
+    
+            // Mapeia os resultados para o Dropdown
+            if (response.data.valores.length > 0) {
+                setAgencias(response.data.valores.map(item => ({
+                    label: item.age_descricao,
+                    value: item.age_codigo,
+                })));
+            } else {
+                setAgencias([]); // Caso não haja resultados
+                toastError('Nenhuma agência encontrada.');
+            }
+        } catch (error) {
+            toastError('Erro ao carregar as agências');
+            console.error('Erro ao fazer a requisição:', error); // Log do erro para diagnosticar
+        }
+    };
+
+    const handleAreaChange = (e) => {
+        setSelectedAreaComercial(e.value); // Atualiza o estado com as áreas selecionadas
+        fetchAgencias(e.value); // Chama a função para buscar as agências com as áreas selecionadas
+    };
+
+    const handleFilter = (event) => {
+        const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
+        console.log("Filtro digitado (em maiúsculas):", query);
+    
+        if (query.length >= 3) {
+            const results = agencias.filter((agencia) =>
+                agencia.label.toUpperCase().includes(query)
+            );
+            console.log("Resultados filtrados:", results);
+            setFilteredAgencias(results);
+        } else {
+            setFilteredAgencias([]);
+        }
+    };
+    
 
     const handleConsultar = async (e) => {
         e.preventDefault();
@@ -187,8 +305,14 @@ const GraficoComFiltros = () => {
                         </div>
                         <div className="row mt-3">
                             <div className="col-12 d-flex justify-content-end">
+                                <Button 
+                                    style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none',borderRadius:'10px'}}
+                                    icon="pi pi-file-excel" 
+                                    className="custom-button" // Estilos adicionais, se necessário
+                                />
+
                                 <Button
-                                    style={{ backgroundColor: "#0152a1" }}
+                                    style={{ backgroundColor: "#0152a1",borderRadius:'10px' }}
                                     type="submit"
                                     label="Consultar"
                                     icon="pi pi-search"
@@ -234,8 +358,31 @@ const GraficoComFiltros = () => {
                                 />
                             </div>
                         </div>
-                        <div className="row mt-3">
-                            <div className="col-sm-3 mb-3">
+                        <div className='row mt-3'>
+                            <div className='col-sm-3 mb-3'>
+                                <Dropdown
+                                    value={selectedUnidade} 
+                                    options={unidades}
+                                    onChange={handleUnidadeChange}  
+                                    placeholder="Unidade"
+                                    style={{width:'100%',textAlign: 'left' }}
+                                    panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
+                                    showClear  
+                                />
+                            </div>
+                            <div className='col-sm-3 mb-3'>
+                                <MultiSelect
+                                    value={selectedAreaComercial} 
+                                    options={areasComerciais} 
+                                    onChange={handleAreaChange}  
+                                    placeholder="Área Comercial" 
+                                    display="chip" 
+                                    style={{width:'100%'}}
+                                    panelStyle={{ width: '100%' }} // Largura do painel
+                                    showClear 
+                                />
+                            </div>
+                            <div className='col-sm-3 mb-3'>
                                 <MultiSelect
                                     value={selectedAgencias}
                                     options={filteredAgencias} // Usando opções filtradas
@@ -247,14 +394,19 @@ const GraficoComFiltros = () => {
                                     onFilter={handleFilter} // Evento personalizado de filtro
                                     showClear
                                     optionLabel="label"
-                                    style={{width:'236px'}}
                                 />
                             </div>
                         </div>
                         <div className="row mt-3">
                             <div className="col-12 d-flex justify-content-end">
+                                <Button 
+                                    style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none',borderRadius:'10px'}}
+                                    icon="pi pi-file-excel" 
+                                    className="custom-button" // Estilos adicionais, se necessário
+                                />
+
                                 <Button
-                                    style={{ backgroundColor: "#0152a1" }}
+                                    style={{ backgroundColor: "#0152a1",borderRadius:'10px' }}
                                     type="submit"
                                     label="Consultar"
                                     icon="pi pi-search"
