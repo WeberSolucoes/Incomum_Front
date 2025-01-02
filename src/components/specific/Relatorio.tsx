@@ -318,7 +318,7 @@ const Relatorio = () => {
                             placeholder="Unidade"
                             style={{width:'100%',textAlign: 'left' }}
                             panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                            showClear
+                            showClear={selectedUnidade !== null}
                             filter
                             emptyFilterMessage="Nenhuma opção disponível"
                             emptyMessage="Sem opções disponíveis"
