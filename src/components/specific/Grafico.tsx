@@ -246,6 +246,7 @@ const GraficoComFiltros = () => {
                                     filterBy="label" // Filtra com base na descrição (label)
                                     onFilter={handleFilter} // Evento personalizado de filtro
                                     showClear
+                                    optionLabel="label"
                                     style={{width:'236px'}}
                                 />
                             </div>
