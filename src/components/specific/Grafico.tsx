@@ -17,7 +17,7 @@ const GraficoComFiltros = () => {
     const [areas, setAreas] = useState([]);
     const [agencias, setAgencias] = useState([]);
     const [chartData, setChartData] = useState(null);
-    const [selectedUnidade, setSelectedUnidade] = useState("todos");
+    const [selectedUnidade, setSelectedUnidade] = useState([]);
     const [selectedAgencias, setSelectedAgencias] = useState([]);
     const [activeTab, setActiveTab] = useState(0); // Controle da aba ativa
     const [filteredAgencias, setFilteredAgencias] = useState([]);
