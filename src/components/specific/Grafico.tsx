@@ -96,32 +96,31 @@ const GraficoComFiltros = () => {
         setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
         setAgencias([]); // Limpa as agências ao trocar a unidade
     
+        const token = localStorage.getItem('token'); // Ou de onde estiver armazenado o token
+
         try {
             let areasResponse;
-    
-            // Se houver uma unidade selecionada, busca áreas comerciais associadas
+        
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Adiciona o token de autenticação
+                },
+            };
+        
             if (unidadeId) {
-                areasResponse = await apiGetAreas(unidadeId);
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
+                    params: { unidade: unidadeId },
+                    ...config, // Passa os headers junto com os params
+                });
             } else {
-                // Caso não haja unidade, busca todas as áreas comerciais
-                areasResponse = await apiGetArea();
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', config);
             }
-    
-            // Popula as áreas comerciais
-            if (areasResponse.data.associacoes.length > 0) {
-                setAreasComerciais(areasResponse.data.associacoes.map(item => ({
-                    label: item.aco_descricao,
-                    value: item.aco_codigo
-                })));
-            } else {
-                setAreasComerciais([]); // Se não houver áreas comerciais
-                toastError('Nenhuma área comercial encontrada.');
-            }
+            
+            // O restante do código...
         } catch (error) {
             toastError('Erro ao carregar as áreas comerciais.');
             console.error('Erro ao fazer a requisição:', error);
         }
-    };
     
     const fetchAgencias = async (selectedAreaComercial = [], unidadeId = null) => {
         console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
