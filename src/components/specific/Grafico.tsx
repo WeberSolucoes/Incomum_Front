@@ -90,27 +90,38 @@ const GraficoComFiltros = () => {
         }
     };
     
-    const handleUnidadeChange = async (unidadeId: number | null) => {
+    const handleUnidadeChange = async (e) => {
+        const unidadeId = e ? e.value : null; // Verifica se há unidade selecionada, caso contrário, null
+        setSelectedUnidade(unidadeId);
+        setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
+        setAgencias([]); // Limpa as agências ao trocar a unidade
+    
         try {
-            let response;
+            let areasResponse;
+    
+            // Se houver uma unidade selecionada, busca áreas comerciais associadas
             if (unidadeId) {
-                // Requisição com unidadeId
-                response = await axios.get(`https://api.incoback.com.br/api/list-all-areas/${unidadeId}/`);
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
+                    params: { unidade: unidadeId }
+                });
             } else {
-                // Requisição sem unidadeId (todas as áreas comerciais)
-                response = await axios.get('https://api.incoback.com.br/api/list-all-areas/');
+                // Caso não haja unidade, busca todas as áreas comerciais
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/');
             }
     
-            // Verificar se a resposta contém a propriedade 'associacoes'
-            if (response.data && Array.isArray(response.data.associacoes)) {
-                setAreas(response.data.associacoes);
+            // Popula as áreas comerciais
+            if (areasResponse.data.associacoes.length > 0) {
+                setAreasComerciais(areasResponse.data.associacoes.map(item => ({
+                    label: item.aco_descricao,
+                    value: item.aco_codigo
+                })));
             } else {
-                console.error('Resposta inesperada da API:', response.data);
-                setAreas([]); // Definir como vazio em caso de erro
+                setAreasComerciais([]); // Se não houver áreas comerciais
+                toastError('Nenhuma área comercial encontrada.');
             }
         } catch (error) {
+            toastError('Erro ao carregar as áreas comerciais.');
             console.error('Erro ao fazer a requisição:', error);
-            setAreas([]); // Limpar áreas em caso de erro
         }
     };
     
