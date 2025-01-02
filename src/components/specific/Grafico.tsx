@@ -33,12 +33,10 @@ const GraficoComFiltros = () => {
         const fetchUnidades = async () => {
             try {
                 const response = await apiGetUnidades();
-                const unidadesFormatadas = [
-                    { label: "Todas as Unidades", value: "todos" },
-                    ...response.data.map((unidade) => ({
-                        label: unidade.loj_descricao,
-                        value: unidade.loj_codigo,
-                    })),
+                const unidadesFormatadas = response.data.map((unidade) => ({
+                    label: unidade.loj_descricao,
+                    value: unidade.loj_codigo,
+                }));
                 ];
                 setUnidades(unidadesFormatadas);
             } catch (error) {
