@@ -97,30 +97,35 @@ const GraficoComFiltros = () => {
         setAgencias([]); // Limpa as agências ao trocar a unidade
     
         const token = localStorage.getItem('token'); // Ou de onde estiver armazenado o token
-
+        console.log("unidadeId", unidadeId);  // Verifique o valor de unidadeId
+        console.log("token", token);  // Verifique o valor do token
+    
         try {
             let areasResponse;
-        
+    
             const config = {
                 headers: {
                     Authorization: `Bearer ${token}`, // Adiciona o token de autenticação
                 },
             };
-        
+    
+            // Verifique qual URL você deve usar
             if (unidadeId) {
                 areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', {
                     params: { unidade: unidadeId },
                     ...config, // Passa os headers junto com os params
                 });
             } else {
-                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-area/', config);
+                areasResponse = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/', config);
             }
-            
-            // O restante do código...
+    
+            // O restante do código para manipular a resposta...
         } catch (error) {
             toastError('Erro ao carregar as áreas comerciais.');
-            console.error('Erro ao fazer a requisição:', error);
+            console.error('Erro ao fazer a requisição:', error.response || error.message || error);
         }
+    };
+
     
     const fetchAgencias = async (selectedAreaComercial = [], unidadeId = null) => {
         console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
