@@ -14,6 +14,7 @@ const GraficoComFiltros = () => {
     const [dateStart, setDateStart] = useState(null);
     const [dateEnd, setDateEnd] = useState(null);
     const [unidades, setUnidades] = useState([]);
+    const [areas, setAreas] = useState([]);
     const [agencias, setAgencias] = useState([]);
     const [chartData, setChartData] = useState(null);
     const [selectedUnidade, setSelectedUnidade] = useState("todos");
@@ -89,37 +90,27 @@ const GraficoComFiltros = () => {
         }
     };
     
-    const handleUnidadeChange = async (e) => {
-        const unidadeId = e ? e.value : null; // Verifica se há unidade selecionada, caso contrário, null
-        setSelectedUnidade(unidadeId);
-        setSelectedAreaComercial([]); // Limpa as áreas comerciais ao trocar a unidade
-        setAgencias([]); // Limpa as agências ao trocar a unidade
-    
+    const handleUnidadeChange = async (unidadeId: number | null) => {
         try {
-            let areasResponse;
-    
-            // Se houver uma unidade selecionada, busca áreas comerciais associadas
+            let response;
             if (unidadeId) {
-                areasResponse = await (`https://api.incoback.com.br/api/incomum/relatorio/list-all-areas/${unidadeId}/`);
+                // Requisição com unidadeId
+                response = await axios.get(`https://api.incoback.com.br/api/list-all-areas/${unidadeId}/`);
             } else {
-                // Caso não haja unidade, busca todas as áreas comerciais
-                areasResponse = await apiGetArea();
+                // Requisição sem unidadeId (todas as áreas comerciais)
+                response = await axios.get('https://api.incoback.com.br/api/list-all-areas/');
             }
-
     
-            // Popula as áreas comerciais
-            if (areasResponse.data.associacoes.length > 0) {
-                setAreasComerciais(areasResponse.data.associacoes.map(item => ({
-                    label: item.aco_descricao,
-                    value: item.aco_codigo
-                })));
+            // Verificar se a resposta contém a propriedade 'associacoes'
+            if (response.data && Array.isArray(response.data.associacoes)) {
+                setAreas(response.data.associacoes);
             } else {
-                setAreasComerciais([]); // Se não houver áreas comerciais
-                toastError('Nenhuma área comercial encontrada.');
+                console.error('Resposta inesperada da API:', response.data);
+                setAreas([]); // Definir como vazio em caso de erro
             }
         } catch (error) {
-            toastError('Erro ao carregar as áreas comerciais.');
             console.error('Erro ao fazer a requisição:', error);
+            setAreas([]); // Limpar áreas em caso de erro
         }
     };
     
