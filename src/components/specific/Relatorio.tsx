@@ -299,7 +299,7 @@ const Relatorio = () => {
     return (
         <>
         <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'-40px',padding:'inherit',width: '1100px',marginLeft: '320px', boxShadow: '10px 10px 100px rgba(0, 0, 0, 0.4),-2px -2px 6px rgba(255, 255, 255, 0.6)'}} className="container px-4">
-            <h1 style={{ marginTop: '-15px', color: '#0152a1' }}>Relatório de Faturamento</h1>
+            <h1 style={{ marginTop: '10px', color: '#0152a1' }}>Relatório de Faturamento</h1>
             <form style={{ backgroundColor: '#f9f9f9', width: '100%', margin: 'auto', padding: '20px', border: '1px solid #ddd', borderRadius: '5px',height:'90%' }} onSubmit={handleSubmit}>
                 <div className='row mt-3'>
                     <div className='col-sm-6 mb-3'>
