@@ -328,7 +328,7 @@ const GraficoComFiltros = () => {
                 {
                     label: "Faturamento",
                     data: data.slice(0, limit), // Pega apenas os primeiros 5 ou 10 valores
-                    backgroundColor: ["#0152a1", "#e87717", "#17a2e8", "#f54291", "#42f554"], // Ajuste as cores
+                    backgroundColor: ["#0152a1", "#28a745", "#e87717", "#A11402", "#6f42c1"], // Ajuste as cores
                     borderWidth: 2,
                     borderColor: "#fff", // Cor da borda
                 },
