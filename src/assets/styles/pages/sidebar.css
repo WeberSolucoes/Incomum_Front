@@ -248,3 +248,97 @@ body{
 .p-menuitem-link, .p-menuitem-text {
     color: #0152a1;
 }
+
+.p-menubar-start {
+    display: none;
+}
+
+/* Exibe o botão de hambúrguer somente em dispositivos móveis (largura menor que 768px) */
+@media (max-width: 768px) {
+    .p-menubar-start {
+        display: block;
+    }
+}
+
+/* Sidebar */
+.sidebar {
+    position: absolute;
+    top: 50px;
+    left: 0;
+    width: 250px;
+    height: 180vh;
+    background-color: white;
+    padding: 10px;
+    border-right: 1px solid #dee2e6;
+    overflow-y: auto;
+    box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.4), -2px -2px 6px rgba(255, 255, 255, 0.6);
+    transform: translateX(0); /* Sidebar visível por padrão */
+    transition: transform 0.3s ease-in-out;
+}
+
+.sidebar-header img {
+    width: 80%;
+    height: auto;
+    padding: 10px;
+    margin: auto;
+}
+
+/* Estilos para telas pequenas */
+@media (max-width: 768px) {
+    /* Mostrar o botão hamburger em telas pequenas */
+    .hamburger-menu {
+        display: block;
+        background-color: white;
+    }
+
+    /* A sidebar será oculta por padrão e será movida para a esquerda */
+    .sidebar {
+        transform: translateX(-100%); /* Sidebar escondida */
+    }
+
+    .sidebar.open {
+        transform: translateX(0); /* Sidebar visível quando a classe 'open' for adicionada */
+    }
+    .p-menubar-button{
+        color: black;
+        background-color: white;
+        display: none;
+    }
+}
+/* Estilos gerais para o Sidebar */
+.sidebar-container {
+    transform: translateX(0); /* Sempre visível */
+    top: 50px !important;
+}
+
+/* Para dispositivos móveis (largura menor que 768px) */
+/* Configuração padrão (sidebar fechada) */
+@media (max-width: 768px) {
+    .sidebar-container {
+        transform: translateX(-100%); /* Oculto por padrão */
+        top: 50px !important;
+        height: 250vh !important;
+        box-shadow: none !important; /* Sem sombra quando fechada */
+        transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* Animação suave */
+    }
+
+    /* Quando a sidebar estiver visível */
+    .sidebar-container.mobile-visible {
+        transform: translateX(0); /* Visível quando `mobile-visible` é adicionado */
+        box-shadow: 10px 10px 100px rgba(0, 0, 0, 0.4), -2px -2px 6px rgba(255, 255, 255, 0.6) !important;
+    }
+
+    /* Botão fechar visível apenas em dispositivos móveis */
+    .close-sidebar {
+        display: block;
+    }
+}
+
+
+/* Para dispositivos desktop (largura maior ou igual a 768px) */
+@media (min-width: 768px) {
+    .close-sidebar {
+        display: none; /* Oculta o botão fechar */
+    }
+
+}
