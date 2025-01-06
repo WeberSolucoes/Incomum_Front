@@ -27,7 +27,7 @@ const GraficoComFiltros = () => {
     const [loading, setLoading] = useState(false);
     const [chartType, setChartType] = useState("pie"); // Defina o tipo de gráfico inicial como "pie"
     const [showLabels, setShowLabels] = useState(true); // Controle para mostrar ou remover valores
-
+    const isMobile = window.innerWidth <= 768;
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
     const [selectedAgencia, setSelectedAgencia] = useState(null);
@@ -294,10 +294,7 @@ const GraficoComFiltros = () => {
                 position: "top",
             },
             datalabels: {
-                display: () => {
-                    // Exibe valores apenas se a largura da tela for maior que 768px
-                    return window.innerWidth > 768;
-                },
+                display: !isMobile,
                 anchor: 'end', // Posição do rótulo
                 align: 'start',
                 color: '#FFFFFF',
@@ -337,6 +334,29 @@ const GraficoComFiltros = () => {
                 },
             ],
         };
+    };
+
+    const isUnidadeTab = activeTab === 0; // Verifica se a aba atual é "Unidades"
+    const topLimit = isUnidadeTab ? 3 : 5; // Mostra 3 itens para "Unidades" e 5 para "Agências"
+
+    // Criar a lista com os valores totais
+    const renderValueList = () => {
+        return (
+            <div className="value-list">
+                <h4>Top {topLimit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
+                <ul>
+                    {chartData.labels.slice(0, topLimit).map((label, index) => (
+                        <li key={index}>
+                            <strong>{label}:</strong> R${" "}
+                            {parseFloat(chartData.datasets[0].data[index]).toLocaleString("pt-BR", {
+                                minimumFractionDigits: 2,
+                                maximumFractionDigits: 2,
+                            })}
+                        </li>
+                    ))}
+                </ul>
+            </div>
+        );
     };
     
 
@@ -512,12 +532,11 @@ const GraficoComFiltros = () => {
 
             {chartData && (
                 <div className="mt-5">
-                    <Chart
-                        type={chartType} // O tipo do gráfico é dinâmico, baseado no estado chartType
-                        data={chartData}
-                        options={options}
-                        plugins={[ChartDataLabels]}
-                    />
+                    <div className="chart-container">
+                        <Chart type={isMobile ? "pie" : "bar"} data={chartData} options={options} plugins={[ChartDataLabels]} />
+                    </div>
+                    {/* Renderiza a lista apenas no celular */}
+                    {isMobile && renderValueList()}
                 </div>
             )}
         </div>
