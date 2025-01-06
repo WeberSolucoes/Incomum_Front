@@ -250,16 +250,17 @@ const GraficoComFiltros = () => {
         const params = {
             date_start: dateStart ? dateStart.toISOString().split("T")[0] : null,
             date_end: dateEnd ? dateEnd.toISOString().split("T")[0] : null,
+            num_agencias: numAgencias, // Envia o número de agências selecionadas pelo usuário
         };
     
         let endpoint = "";
         if (activeTab === 0) {
-            endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-unidade/";
+            endpoint = "http://127.0.0.1:8000/api/incomum/relatorio/obter-dados-unidade/";
             if (selectedUnidade !== "todos") {
                 params.loj_codigo = selectedUnidade;
             }
         } else if (activeTab === 1) {
-            endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-agencia/";
+            endpoint = "http://127.0.0.1:8000/api/incomum/relatorio/obter-dados-agencia/";
             if (selectedAgencias.length > 0 && !selectedAgencias.includes("todos")) {
                 params.age_codigo = selectedAgencias;
             }
@@ -268,14 +269,12 @@ const GraficoComFiltros = () => {
         try {
             const response = await axios.get(endpoint, { params });
     
-            // Verifique a resposta para garantir que temos as informações corretas
             console.log("Resposta da API:", response.data);
     
             if (Array.isArray(response.data.data) && Array.isArray(response.data.labels)) {
-                const labels = response.data.labels;
-                const data = response.data.data.map(item => item.toFixed(2)); // Formata os valores com 2 casas decimais
+                const labels = response.data.labels.slice(0, numAgencias); // Limita as labels para o número selecionado
+                const data = response.data.data.map(item => item.toFixed(2)).slice(0, numAgencias); // Limita os dados para o número selecionado
     
-                // Formata os dados para exibir as 5 ou 10 melhores
                 setChartData(formatChartData(data, labels));
             } else {
                 console.error("Formato inesperado na resposta da API:", response.data);
@@ -343,12 +342,12 @@ const GraficoComFiltros = () => {
     const renderValueList = () => {
         return (
             <div className="value-list">
-                <h4>Top {topLimit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
-                <ul style={{marginLeft:'4px'}}>
-                    {chartData.labels.slice(0, topLimit).map((label, index) => (
+                <h4>Top {numAgencias} Agências:</h4>
+                <ul style={{ marginLeft: '20px' }}>
+                    {chartData?.labels.slice(0, numAgencias).map((label, index) => (
                         <li key={index}>
                             <strong>{label}:</strong> R${" "}
-                            {parseFloat(chartData.datasets[0].data[index]).toLocaleString("pt-BR", {
+                            {parseFloat(chartData?.datasets[0].data[index]).toLocaleString("pt-BR", {
                                 minimumFractionDigits: 2,
                                 maximumFractionDigits: 2,
                             })}
@@ -358,7 +357,6 @@ const GraficoComFiltros = () => {
             </div>
         );
     };
-    
 
 
     return (
@@ -507,6 +505,17 @@ const GraficoComFiltros = () => {
                                     showClear
                                     optionLabel="label"
                                     style={{width:'253px'}}
+                                />
+                            </div>
+                            <div className='col-sm-3 mb-3' style={{marginTop:'-30px'}}>
+                                <label>Quantidade de Agências:</label>
+                                <input
+                                    type="number"
+                                    value={numAgencias}
+                                    onChange={handleNumAgenciasChange}
+                                    min="1" // Limita o mínimo para 1
+                                    max="10" // Limita o máximo para 10, você pode ajustar conforme necessário
+                                    
                                 />
                             </div>
                         </div>
