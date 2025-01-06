@@ -49,7 +49,6 @@ const NavbarMenu: React.FC = ({ toggleSidebar }) => {
                         icon="pi pi-bars" // Ícone de hambúrguer
                         onClick={toggleSidebar} // Aciona o toggle do Sidebar
                         className="p-button-rounded p-button-text"
-                        tooltip="Abrir menu"
                         tooltipOptions={{ position: 'bottom' }}
                         style={{ color: '#e87717' }}
                     />
