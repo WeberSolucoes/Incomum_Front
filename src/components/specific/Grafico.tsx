@@ -31,6 +31,8 @@ const GraficoComFiltros = () => {
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
     const [selectedAgencia, setSelectedAgencia] = useState(null);
+    const [numAgencias, setNumAgencias] = useState(5); // Estado para armazenar o número de agências selecionado
+
 
 
     useEffect(() => {
