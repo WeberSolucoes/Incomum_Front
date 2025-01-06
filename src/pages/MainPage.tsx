@@ -327,11 +327,15 @@ const MainPage: React.FC = () => {
         }
     };
 
+    const toggleSidebar = () => {
+        setIsSidebarVisible((prev) => !prev);
+    };
+
     return (
         <div>
-            <NavbarMenu />
+            <NavbarMenu toggleSidebar={toggleSidebar} />
             <div style={{ display: 'flex', marginTop: '60px' }}>
-                <SidebarMenu onMenuItemClick={handleMenuItemClick} />
+                <SidebarMenu  onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
                 <div style={{ padding: '20px', flex: 1, width: '1000px' }}>
                     {renderComponent()}
                 </div>
