@@ -303,3 +303,45 @@ dl, ol, ul {
     white-space: nowrap; /* Não quebra linha */
 }
 
+@media (max-width: 768px) {
+
+  .container.px-4{
+    width: 334px !important;
+    margin-left: 0px !important;
+  }
+  .px-4 {
+    width: 334px !important;
+    margin-left: 0px !important;
+  }
+  .endcalendar{
+    margin-left: 0px !important;
+  }
+}
+
+/* Estilo padrão para telas maiores (desktop) */
+.container-valores {
+  display: flex;
+  justify-content: space-between;
+  background-color: #f0f0f0;
+  font-weight: bold;
+  padding: 10px 0;
+}
+
+/* Estilo para telas menores (celular) */
+@media (max-width: 768px) {
+  .container-valores {
+      flex-direction: column; /* Torna os itens em uma coluna */
+      align-items: flex-start; /* Alinha os itens à esquerda */
+      padding: 10px; /* Ajusta o padding para celular */
+  }
+
+  .container-valores div {
+      margin-left: 0 !important;
+      margin-right: 0;
+      margin-bottom: 10px; /* Espaçamento entre os itens */
+  }
+
+  .container-valores div:last-child {
+      margin-bottom: 0; /* Remove o espaçamento do último item */
+  }
+}
