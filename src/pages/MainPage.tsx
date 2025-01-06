@@ -327,6 +327,8 @@ const MainPage: React.FC = () => {
         }
     };
 
+    const [isSidebarVisible, setIsSidebarVisible] = useState(false);
+
     const toggleSidebar = () => {
         setIsSidebarVisible((prev) => !prev);
     };
