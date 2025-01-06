@@ -14,7 +14,7 @@ import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useCodigo } from '../contexts/CodigoProvider';
 import '../assets/styles/pages/Agencia.css?v=145';
-import '../assets/styles/pages/sidebar.css?v=145'';
+import '../assets/styles/pages/sidebar.css?v=145';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
 import Unidade from '../components/specific/UnidadeCadastro';
