@@ -345,3 +345,21 @@ dl, ol, ul {
       margin-bottom: 0; /* Remove o espaçamento do último item */
   }
 }
+
+@media (max-width: 768px) {
+
+  .GraficoDiv{
+    width: 334px !important;
+    margin-left: 0px !important;
+  }
+  .GraficoDiv {
+    width: 334px !important;
+    margin-left: 0px !important;
+  }
+  .endcalendar{
+    margin-left: 0px !important;
+  }
+  .startcalendar{
+    width: 253px !important;
+  }
+}
