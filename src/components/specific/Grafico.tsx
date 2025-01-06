@@ -8,6 +8,7 @@ import { Chart } from "primereact/chart";
 import axios from "axios";
 import { toastError } from "../../utils/customToast";
 import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia,apiGetArea,apiGetAreas } from '../../services/Api';
+import ChartDataLabels from 'chartjs-plugin-datalabels';
 
 
 const GraficoComFiltros = () => {
@@ -24,6 +25,8 @@ const GraficoComFiltros = () => {
     const [areasComerciais, setAreasComerciais] = useState([]);
     const [vendedores, setVendedores] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [chartType, setChartType] = useState("pie"); // Defina o tipo de gráfico inicial como "pie"
+    const [showLabels, setShowLabels] = useState(true); // Controle para mostrar ou remover valores
 
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
@@ -217,6 +220,28 @@ const GraficoComFiltros = () => {
             setFilteredAgencias([]);
         }
     };
+
+
+    const detectChartTypeAndLabels = () => {
+        if (window.innerWidth <= 768) {
+            setChartType("pie"); // Para dispositivos móveis, usar gráfico de pizza
+            setShowLabels(false); // Remover valores do gráfico em dispositivos móveis
+        } else {
+            setChartType("bar"); // Para desktops, usar gráfico de barras
+            setShowLabels(true); // Mostrar valores no gráfico em desktops
+        }
+    };
+
+    useEffect(() => {
+        // Detecta tipo de gráfico e exibição de valores ao carregar a página
+        detectChartTypeAndLabels();
+        
+        // Adiciona um ouvinte para redimensionamento da janela
+        window.addEventListener("resize", detectChartTypeAndLabels);
+        
+        // Limpa o ouvinte ao desmontar o componente
+        return () => window.removeEventListener("resize", detectChartTypeAndLabels);
+    }, []);
     
 
     const handleConsultar = async (e) => {
@@ -244,27 +269,16 @@ const GraficoComFiltros = () => {
             const response = await axios.get(endpoint, { params });
     
             // Verifique a resposta para garantir que temos as informações corretas
-            console.log('Resposta da API:', response.data);
+            console.log("Resposta da API:", response.data);
     
             if (Array.isArray(response.data.data) && Array.isArray(response.data.labels)) {
-                // A resposta deve conter os dados de faturamento e labels (loj_descricao)
-                const labels = response.data.labels; // Aqui usamos as labels que vêm da resposta
-                const data = response.data.data;     // Dados de faturamento para cada unidade
+                const labels = response.data.labels;
+                const data = response.data.data.map(item => item.toFixed(2)); // Formata os valores com 2 casas decimais
     
-                // Agora, estamos garantindo que as labels sejam sempre as descrições da unidade (loj_descricao)
-                setChartData({
-                    labels,  // Labels são os nomes das unidades, como loj_descricao
-                    datasets: [
-                        {
-                            label: "Faturamento",
-                            data,  // Faturamento associado às unidades
-                            backgroundColor: ["#0152a1", "#e87717", "#17a2e8"],  // Defina as cores conforme necessário
-                            borderWidth: 2,
-                        },
-                    ],
-                });
+                // Formata os dados para exibir as 5 ou 10 melhores
+                setChartData(formatChartData(data, labels));
             } else {
-                console.error('Formato inesperado na resposta da API:', response.data);
+                console.error("Formato inesperado na resposta da API:", response.data);
             }
         } catch (error) {
             console.error("Erro ao buscar dados do gráfico:", error);
@@ -279,6 +293,26 @@ const GraficoComFiltros = () => {
             legend: {
                 position: "top",
             },
+            datalabels: {
+                display: () => {
+                    // Exibe valores apenas se a largura da tela for maior que 768px
+                    return window.innerWidth > 768;
+                },
+                anchor: 'end', // Posição do rótulo
+                align: 'start',
+                color: '#FFFFFF',
+                offset: 5,
+                font: {
+                    weight: 'bold',
+                    size: 10,
+                },
+                formatter: function (value) {
+                    return parseFloat(value).toLocaleString('pt-BR', {
+                        minimumFractionDigits: 2,
+                        maximumFractionDigits: 2,
+                    });
+                },
+            },
         },
     };
 
@@ -286,11 +320,29 @@ const GraficoComFiltros = () => {
         setChartData(null); // Limpar dados ao mudar de aba
         setActiveTab(e.index);
     };
+
+    const formatChartData = (data, labels) => {
+        const isMobile = window.innerWidth <= 768; // Verifica se é um dispositivo móvel
+        const limit = isMobile ? 5 : 10; // Exibe 5 categorias no celular, 10 no desktop
+    
+        return {
+            labels: labels.slice(0, limit), // Pega apenas as primeiras 5 ou 10 labels
+            datasets: [
+                {
+                    label: "Faturamento",
+                    data: data.slice(0, limit), // Pega apenas os primeiros 5 ou 10 valores
+                    backgroundColor: ["#0152a1", "#e87717", "#17a2e8", "#f54291", "#42f554"], // Ajuste as cores
+                    borderWidth: 2,
+                    borderColor: "#fff", // Cor da borda
+                },
+            ],
+        };
+    };
     
 
 
     return (
-        <div
+        <div className="GraficoDiv"
             style={{
                 backgroundColor: "white",
                 borderRadius: "10px",
@@ -325,6 +377,7 @@ const GraficoComFiltros = () => {
                                     placeholder="Data Inicial"
                                     locale="pt-BR"
                                     dateFormat="dd/mm/yy"
+                                    className="startcalendar"
                                 />
                             </div>
                             <div className="col-sm-6 mb-3">
@@ -336,6 +389,7 @@ const GraficoComFiltros = () => {
                                     locale="pt-BR"
                                     dateFormat="dd/mm/yy"
                                     style={{marginLeft:'-260px'}}
+                                    className="GraficoDiv"
                                 />
                             </div>
                         </div>
@@ -380,6 +434,7 @@ const GraficoComFiltros = () => {
                                     placeholder="Data Inicial"
                                     locale="pt-BR"
                                     dateFormat="dd/mm/yy"
+                                    className="startcalendar"
                                 />
                             </div>
                             <div className="col-sm-6 mb-3">
@@ -391,6 +446,7 @@ const GraficoComFiltros = () => {
                                     locale="pt-BR"
                                     dateFormat="dd/mm/yy"
                                     style={{marginLeft:'-260px'}}
+                                    className="GraficoDiv"
                                 />
                             </div>
                         </div>
@@ -430,6 +486,7 @@ const GraficoComFiltros = () => {
                                     onFilter={handleFilter} // Evento personalizado de filtro
                                     showClear
                                     optionLabel="label"
+                                    style={{width:'253px'}}
                                 />
                             </div>
                         </div>
@@ -455,7 +512,12 @@ const GraficoComFiltros = () => {
 
             {chartData && (
                 <div className="mt-5">
-                    <Chart type="bar" data={chartData} options={options} />
+                    <Chart
+                        type={chartType} // O tipo do gráfico é dinâmico, baseado no estado chartType
+                        data={chartData}
+                        options={options}
+                        plugins={[ChartDataLabels]}
+                    />
                 </div>
             )}
         </div>
