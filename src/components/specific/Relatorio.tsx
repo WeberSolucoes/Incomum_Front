@@ -315,7 +315,7 @@ const Relatorio = () => {
                         <Calendar value={dateStart} onChange={(e) => setDateStart(e.value)} showIcon placeholder="Data Inicial" locale='pt-BR' dateFormat="dd/mm/yy"  />
                     </div>
                     <div className='col-sm-6 mb-3'>
-                        <Calendar style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"  />
+                        <Calendar className='endcalendar' style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"  />
                     </div>
                 </div>
                 <div className='row mt-3'>
@@ -439,7 +439,7 @@ const Relatorio = () => {
                             style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }} 
                         />
                     </DataTable>
-                    <div style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
+                    <div className="container-valores" style={{ display: 'flex', justifyContent: 'space-between', backgroundColor: '#f0f0f0', fontWeight: 'bold', padding: '10px 0' }}>
                         <div style={{marginLeft:'30px'}}>Valor Inc: {formatCurrency(soma_totais.total_valorinc)}</div>
                         <div>Valor Inc Ajustado: {formatCurrency(soma_totais.total_valorincajustado)}</div>
                         <div style={{marginRight:'30px'}}>Valor Líquido: {formatCurrency(soma_totais.total_valorliquido)}</div>
