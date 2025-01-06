@@ -5,7 +5,11 @@ import { Button } from 'primereact/button';
 import { useNavigate } from 'react-router-dom';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 
-const NavbarMenu: React.FC = () => {
+interface NavbarMenuProps {
+    toggleSidebar: () => void; // Função para alternar o estado do Sidebar
+}
+
+const NavbarMenu: React.FC = ({ toggleSidebar }) => {
     const auth = useAuth();
     const navigate = useNavigate();
 
@@ -40,6 +44,18 @@ const NavbarMenu: React.FC = () => {
     return (
         <>
             <Menubar
+                start={
+                    <Button
+                        icon="pi pi-bars" // Ícone de hambúrguer
+                        onClick={toggleSidebar} // Aciona o toggle do Sidebar
+                        className="p-button-rounded p-button-text"
+                        tooltip="Abrir menu"
+                        tooltipOptions={{ position: 'bottom' }}
+                        style={{ color: '#e87717' }}
+                    />
+                }
+
+                
                 end={
                     <Button
                         icon="pi pi-sign-out" // Ícone de logout
