@@ -35,7 +35,7 @@ const SidebarMenu: React.FC<SidebarMenuProps> = ({ onMenuItemClick, visible, onH
             className={`sidebar-container ${visible ? 'mobile-visible' : ''}`}
             style={{
                 width: '250px',
-                height: '100vh',
+                height: '200vh',
                 position: 'absolute',
                 top: '50px',
                 left: 0,
