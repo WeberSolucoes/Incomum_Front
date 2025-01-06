@@ -33,6 +33,10 @@ const GraficoComFiltros = () => {
     const [selectedAgencia, setSelectedAgencia] = useState(null);
     const [numAgencias, setNumAgencias] = useState(5); // Estado para armazenar o número de agências selecionado
 
+    const handleNumAgenciasChange = (event) => {
+        setNumAgencias(event.target.value); // Atualiza o estado com o novo valor
+    };
+
 
 
     useEffect(() => {
