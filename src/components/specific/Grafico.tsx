@@ -344,7 +344,7 @@ const GraficoComFiltros = () => {
         return (
             <div className="value-list">
                 <h4>Top {topLimit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
-                <ul style={{marginLeft:'20px'}}>
+                <ul style={{marginLeft:'10px'}}>
                     {chartData.labels.slice(0, topLimit).map((label, index) => (
                         <li key={index}>
                             <strong>{label}:</strong> R${" "}
