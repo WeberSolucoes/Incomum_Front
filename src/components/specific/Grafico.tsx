@@ -31,6 +31,7 @@ const GraficoComFiltros = () => {
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
     const [selectedAgencia, setSelectedAgencia] = useState(null);
+    const [numAgencias, setNumAgencias] = useState(5); 
 
 
     useEffect(() => {
@@ -319,15 +320,14 @@ const GraficoComFiltros = () => {
     };
 
     const formatChartData = (data, labels) => {
-        const isMobile = window.innerWidth <= 768; // Verifica se é um dispositivo móvel
-        const limit = isMobile ? 5 : 10; // Exibe 5 categorias no celular, 10 no desktop
-    
+        const limit = Math.min(numAgencias, labels.length); // Usa o limite definido pelo usuário
+        
         return {
-            labels: labels.slice(0, limit), // Pega apenas as primeiras 5 ou 10 labels
+            labels: labels.slice(0, limit), // Pega as primeiras 'numAgencias' labels
             datasets: [
                 {
                     label: "Faturamento",
-                    data: data.slice(0, limit), // Pega apenas os primeiros 5 ou 10 valores
+                    data: data.slice(0, limit), // Pega os primeiros 'numAgencias' valores
                     backgroundColor: ["#0152a1", "#28a745", "#e87717", "#A11402", "#6f42c1"], // Ajuste as cores
                     borderWidth: 2,
                     borderColor: "#fff", // Cor da borda
@@ -336,16 +336,18 @@ const GraficoComFiltros = () => {
         };
     };
 
+
     const isUnidadeTab = activeTab === 0; // Verifica se a aba atual é "Unidades"
     const topLimit = isUnidadeTab ? 3 : 5; // Mostra 3 itens para "Unidades" e 5 para "Agências"
 
     // Criar a lista com os valores totais
     const renderValueList = () => {
+        const limit = Math.min(numAgencias, chartData.labels.length); // Garante que não exceda os dados disponíveis
         return (
             <div className="value-list">
-                <h4>Top {topLimit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
-                <ul style={{marginLeft:'4px'}}>
-                    {chartData.labels.slice(0, topLimit).map((label, index) => (
+                <h4>Top {limit} Agências:</h4>
+                <ul style={{ marginLeft: "4px" }}>
+                    {chartData.labels.slice(0, limit).map((label, index) => (
                         <li key={index}>
                             <strong>{label}:</strong> R${" "}
                             {parseFloat(chartData.datasets[0].data[index]).toLocaleString("pt-BR", {
@@ -357,6 +359,15 @@ const GraficoComFiltros = () => {
                 </ul>
             </div>
         );
+    };
+
+    const handleNumAgenciasChange = (e) => {
+        const value = e.target.value;
+    
+        // Permite valores temporários como vazio ou intermediários
+        if (value === "" || (Number(value) >= 1 && Number(value) <= 10)) {
+            setNumAgencias(value); // Atualiza o estado com o valor atual
+        }
     };
     
 
@@ -507,6 +518,16 @@ const GraficoComFiltros = () => {
                                     showClear
                                     optionLabel="label"
                                     style={{width:'253px'}}
+                                />
+                            </div>
+                            <div className="col-sm-3 mb-3" style={{ marginTop: "-30px" }}>
+                                <label>Quantidade de Agências:</label>
+                                <input
+                                    type="number"
+                                    value={numAgencias}
+                                    onChange={handleNumAgenciasChange}
+                                    min="1"
+                                    max="10"
                                 />
                             </div>
                         </div>
