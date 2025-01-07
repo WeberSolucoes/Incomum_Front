@@ -24,6 +24,7 @@ const NavbarMenu: React.FC = ({ toggleSidebar }) => {
             acceptLabel: 'Sim, desejo sair',
             rejectLabel: 'Cancelar',
             className: 'custom-confirm-dialog',
+            acceptClassName: 'custom-accept-button', // Classe para o botão aceitar
             style: { // Estilizando o modal de confirmação
                 width: '30vw',
                 borderRadius: '12px',
