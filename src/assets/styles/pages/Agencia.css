@@ -373,3 +373,6 @@ dl, ol, ul {
 .custom-accept-button{
   border-radius:10px !important;  
 }
+.custom-confirm-dialog .p-confirm-dialog-accept {
+    border-radius:10px !important;
+}
