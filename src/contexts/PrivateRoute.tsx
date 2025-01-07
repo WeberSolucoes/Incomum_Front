@@ -23,7 +23,7 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({ element, requiredPermission
 
     if (!isAuthenticated) {
         // Redireciona para login se o usuário não estiver autenticado
-        return <Navigate to="/login" state={{ from: location }} replace />;
+        return <Navigate to="/login/" state={{ from: location }} replace />;
     }
 
     const userPermissionNames = userPermissions.map((permission) => permission.name);
