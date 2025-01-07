@@ -320,14 +320,18 @@ const GraficoComFiltros = () => {
     };
 
     const formatChartData = (data, labels) => {
-        const limit = Math.min(numAgencias, labels.length); // Usa o limite definido pelo usuário
-        
+        const isUnidadeTab = activeTab === 0; // Aba "Unidades"
+        const limit = Math.min(
+            isUnidadeTab ? 3 : Number(numAgencias) || 1, // Top 3 para Unidades ou o valor selecionado para Agências
+            labels.length
+        );
+    
         return {
-            labels: labels.slice(0, limit), // Pega as primeiras 'numAgencias' labels
+            labels: labels.slice(0, limit), // Pega as primeiras 'limit' labels
             datasets: [
                 {
-                    label: "Faturamento",
-                    data: data.slice(0, limit), // Pega os primeiros 'numAgencias' valores
+                    label: isUnidadeTab ? "Faturamento Unidades" : "Faturamento Agências",
+                    data: data.slice(0, limit), // Pega os primeiros 'limit' valores
                     backgroundColor: ["#0152a1", "#28a745", "#e87717", "#A11402", "#6f42c1"], // Ajuste as cores
                     borderWidth: 2,
                     borderColor: "#fff", // Cor da borda
@@ -337,15 +341,21 @@ const GraficoComFiltros = () => {
     };
 
 
+
     const isUnidadeTab = activeTab === 0; // Verifica se a aba atual é "Unidades"
     const topLimit = isUnidadeTab ? 3 : 5; // Mostra 3 itens para "Unidades" e 5 para "Agências"
 
     // Criar a lista com os valores totais
     const renderValueList = () => {
-        const limit = Math.min(numAgencias, chartData.labels.length); // Garante que não exceda os dados disponíveis
+        const isUnidadeTab = activeTab === 0; // Aba "Unidades"
+        const limit = Math.min(
+            isUnidadeTab ? 3 : Number(numAgencias) || 1,
+            chartData.labels.length
+        );
+    
         return (
             <div className="value-list">
-                <h4>Top {limit} Agências:</h4>
+                <h4>Top {limit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
                 <ul style={{ marginLeft: "4px" }}>
                     {chartData.labels.slice(0, limit).map((label, index) => (
                         <li key={index}>
@@ -360,6 +370,7 @@ const GraficoComFiltros = () => {
             </div>
         );
     };
+
 
     const handleNumAgenciasChange = (e) => {
         const value = e.target.value;
