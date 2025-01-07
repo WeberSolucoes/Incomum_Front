@@ -366,4 +366,7 @@ dl, ol, ul {
     width: 420px !important;
     margin: auto !important;
   }
+  .mobile-adjust{
+    margin-top: 0px !important;
+    }
 }
