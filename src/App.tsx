@@ -25,11 +25,11 @@ function App() {
                 <PrivateRoute requiredPermissions={[]} element={<MainPage />} />
               } /> */}
               <Route path="/" element={<PrivateRoute element={<MainPage />} />} />
-              <Route path="/login" element={<LoginPage />} />
-              <Route path="/recuperar-senha" element={<RecuperarSenha />} />
+              <Route path="/login/" element={<LoginPage />} />
+              <Route path="/recuperar-senha/" element={<RecuperarSenha />} />
               <Route path="/redefinir-senha/" element={<RedefinirSenha />} />
               <Route path="/api/*" component={() => { window.location.href = '/api/incomum/'; }} />
-              <Route path="/nao-autorizado" element={<NotAuthorizePage />} />
+              <Route path="/nao-autorizado/" element={<NotAuthorizePage />} />
               <Route path="*" element={<NotPage />} /> {/* Rota 404 */}
               
             </Routes>
