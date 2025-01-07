@@ -370,3 +370,6 @@ dl, ol, ul {
     margin-top: 0px !important;
     }
 }
+.custom-accept-button{
+  border-radius:10px !important;  
+}
