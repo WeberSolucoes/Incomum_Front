@@ -172,6 +172,7 @@
   font-size: 14px; /* Tamanho da fonte */
   outline: none; /* Remove o contorno padrão ao focar */
   transition: border-color 0.3s ease; /* Transição suave na mudança de cor da borda */
+  height:34px;
 }
 
 /* Estilo ao focar no input */
