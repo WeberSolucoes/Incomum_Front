@@ -31,6 +31,7 @@ const AeroportoList: React.FC = () => {
             const mappedData: UnidadesListResponse[] = response.data.map((item: any) => ({
                 codigo: item.aer_codigo,
                 descricao: item.aer_descricao,
+                observacao: item.aer_observacao
             }));
             setOriginalItems(mappedData);
 
@@ -72,6 +73,7 @@ const AeroportoList: React.FC = () => {
     const columns = [
         { field: 'codigo', header: 'Codigo', style: { width: '6rem', textAlign: 'left' } },
         { field: 'descricao', header: 'Aeroporto' },
+        { field: 'observacao', header: 'Observação' },
     ];
 
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
