@@ -377,3 +377,19 @@ dl, ol, ul {
 .custom-confirm-dialog .p-confirm-dialog-accept {
     border-radius:10px !important;
 }
+.p-dropdown .p-dropdown-label.p-placeholder {
+    /* color: #6c757d; */
+    margin-top: -4px;
+}
+.p-dropdown {
+  display: inline-flex;
+  cursor: pointer;
+  position: relative;
+  user-select: none;
+  height: 34px;
+} 
+
+
+
+
+
