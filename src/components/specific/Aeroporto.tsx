@@ -189,7 +189,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                         name="aer_descricao"
                         value={request.aer_descricao || ''}
                         onChange={handleInputChange} 
-                        style={{width:'502px'}}/>
+                        style={{width:'499.4px'}}/>
                 </div>
             </div>
 
