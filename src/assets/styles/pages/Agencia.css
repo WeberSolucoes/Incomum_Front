@@ -404,6 +404,11 @@ input[placeholder="Buscar"]{
     color: #6c757d;
     margin-top:-4px;
 }
+.p-datepicker-trigger {
+    background-color: #0152a1;
+    border: none;
+    height: 34px;
+}
 
 
 
