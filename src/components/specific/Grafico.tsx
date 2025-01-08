@@ -539,6 +539,7 @@ const GraficoComFiltros = () => {
                                     onChange={handleNumAgenciasChange}
                                     min="1"
                                     max="10"
+                                    style={{height: '34px'}}
                                 />
                             </div>
                         </div>
