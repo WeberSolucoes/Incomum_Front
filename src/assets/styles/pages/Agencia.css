@@ -408,6 +408,9 @@ input[placeholder="Buscar"]{
     border: none;
     height: 34px;
 }
-
+.p-dropdown.p-dropdown-clearable .p-dropdown-label {
+    padding-right: 1.5rem;
+    margin-top: -4px;
+}
 
 
