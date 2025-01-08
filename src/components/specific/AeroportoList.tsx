@@ -83,7 +83,7 @@ const AeroportoList: React.FC = () => {
             {view === 'list' ? (
                 <>
                     <h1 style={{color:'#0152a1'}}>Consulta de Aeroporto</h1>
-                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem', marginTop: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
                             placeholder="Buscar"
