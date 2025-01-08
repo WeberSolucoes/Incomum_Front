@@ -378,7 +378,7 @@ dl, ol, ul {
     border-radius:10px !important;
 }
 .p-dropdown .p-dropdown-label.p-placeholder {
-    /* color: #6c757d; */
+    color: #6c757d;
     margin-top: -4px;
 }
 .p-dropdown {
@@ -391,8 +391,19 @@ dl, ol, ul {
 .p-inputtext {
     height: 34px;
 }
-
-
+input[placeholder="Buscar"]{
+  height: 34px;
+}
+.p-multiselect {
+    display: inline-flex;
+    user-select: none;
+    cursor: pointer;
+    height: 34px;
+}
+.p-multiselect .p-multiselect-label.p-placeholder {
+    color: #6c757d;
+    margin-top:-4px;
+}
 
 
 
