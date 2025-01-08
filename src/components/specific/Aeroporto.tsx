@@ -177,7 +177,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                         name="aer_codigo"
                         value={request.aer_codigo || ''}
                         onChange={handleInputChange}
-                        style={{width:'250px'}} />
+                        style={{width:'120px'}} />
                 </div>
             </div>
             <div className="form-row">
@@ -188,7 +188,8 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                         id="aer_descricao"
                         name="aer_descricao"
                         value={request.aer_descricao || ''}
-                        onChange={handleInputChange} />
+                        onChange={handleInputChange} 
+                        style={{width:'502px'}}/>
                 </div>
             </div>
 
