@@ -4,6 +4,7 @@ import { useState } from "react";
 import { toastError, toastSucess } from "../utils/customToast";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiPostMudarSenha } from "../services/Api";
+import incoback from "../../assets/images/incoback.jpg";
 
 export default function RedefinirSenha() {
     const { uid, token } = useParams<{ uid: string, token: string }>();
@@ -43,8 +44,7 @@ export default function RedefinirSenha() {
             <div className="d-flex justify-content-center align-items-center min-vh-100">
                 <div className="card p-4 shadow-lg border-round w-full lg:w-4">
                     <div className="text-center mb-4">
-                        <img src="https://incoback.com.br/static/img/logo.png" alt="logo" height={50} className="mb-3" />
-                        <img src="https://incoback.com.br/static/img/25anos.jpg" alt="logo" height={50} className="mb-3" />
+                        <img src={incoback} alt="logo" height={50} className="mb-3" />
                         <h2 className="text-900 font-medium mb-3">Esqueci minha senha</h2>
                     </div>
                     <form onSubmit={handleRecoverySenha}>
