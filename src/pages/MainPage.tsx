@@ -47,6 +47,7 @@ import { setTabs, setActiveTab, addTab, removeTab, setTabState } from '../hooks/
 import { useSelector, useDispatch } from 'react-redux'; 
 import { AgenciaListResponse } from '../utils/apiObjects';
 
+const MAX_TABS = 6; 
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
