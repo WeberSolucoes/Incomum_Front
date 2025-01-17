@@ -394,48 +394,50 @@ const MainPage: React.FC = () => {
     };
 
     return (
-        <div>
-          <NavbarMenu toggleSidebar={toggleSidebar} />
-          <div style={{ display: 'flex', marginTop: '60px' }}>
-            <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
-            <div style={{ padding: '20px', flex: 1, width: '1000px' }}>
-              <div className="p-tabview p-component ">
-                {/* Renderizando as abas manualmente */}
-                <div className="p-tabview-nav" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
-                  {tabs.map((tab) => (
-                    <div 
-                      key={tab.key} 
-                      className={`p-tabview-nav-item ${activeTab === tab.key ? 'p-highlight' : ''}`}
-                      onClick={() => dispatch(setActiveTab(tab.key))} // Atualiza a aba ativa no Redux
-                    >
-                      <span>{tab.title}</span>
-                      <button 
-                        className="p-tabview-close" 
-                        onClick={(e) => {
-                          e.stopPropagation(); // Impede o clique no botão de fechar de ativar a aba
-                          handleTabClose(tab.key);
-                        }}
-                      >
-                        &times;
-                      </button>
-                    </div>
-                  ))}
-                </div>
-      
-                {/* Renderizando o conteúdo diretamente com display: none para abas não ativas */}
+      <div>
+        <NavbarMenu toggleSidebar={toggleSidebar} />
+        <div style={{ display: 'flex', marginTop: '60px' }}>
+          <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
+          <div style={{ padding: '20px', flex: 1 }}>
+            <div className="p-tabview p-component">
+              {/* Renderizando as abas */}
+              <div className="p-tabview-nav" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
                 {tabs.map((tab) => (
-                  <div 
+                  <div
                     key={tab.key}
-                    style={{ display: activeTab === tab.key ? 'block' : 'none' }} // Controla a visibilidade com display
+                    className={`p-tabview-nav-item ${activeTab === tab.key ? 'p-highlight' : ''}`}
+                    onClick={() => dispatch(setActiveTab(tab.key))}
                   >
-                    {renderComponent(tab.key, tab.state)} {/* Renderiza o conteúdo da aba */}
+                    <span>{tab.title}</span>
+                    <button
+                      className="p-tabview-close"
+                      onClick={(e) => {
+                        e.stopPropagation(); // Impede o clique no botão de fechar de ativar a aba
+                        handleTabClose(tab.key);
+                      }}
+                    >
+                      &times;
+                    </button>
+                  </div>
+                ))}
+              </div>
+    
+              {/* Renderizando o conteúdo da aba */}
+              <div className="p-tabview-panels">
+                {tabs.map((tab) => (
+                  <div
+                    key={tab.key}
+                    className={`p-tabview-panel ${activeTab === tab.key ? 'p-active' : ''}`}
+                  >
+                    {activeTab === tab.key && renderComponent(tab.key, tab.state)}
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-      );
+      </div>
+    );
 };
 
 export default MainPage;
