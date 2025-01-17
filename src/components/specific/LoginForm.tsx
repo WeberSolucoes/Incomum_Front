@@ -73,7 +73,7 @@ const LoginForm: React.FC = () => {
                         </div>
                         <Link to='/recuperar-senha'>Esqueceu sua senha?</Link>
                     </div>
-                    <Button type='submit' label='Entrar' loading={loading} icon="pi pi-sign-in" className='w-100' />
+                    <Button type='submit' label='Entrar' loading={loading} icon="pi pi-sign-in" className='w-100' style={{backgroundColor:'#0152a1'}} />
                 </form>
             </div>
         </div>
