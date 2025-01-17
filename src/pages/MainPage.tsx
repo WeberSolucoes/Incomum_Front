@@ -43,6 +43,10 @@ import DespesasGeralList from '../components/specific/DespesasGeralList';
 import SubGrupoList from '../components/specific/SubGrupoList';
 import CentroCustoList from '../components/specific/CentroCustoList';
 import GraficoComFiltros from '../components/specific/Grafico';
+import { setTabs, setActiveTab, addTab, removeTab, setTabState } from '../hooks/tabSlice';
+import { useSelector, useDispatch } from 'react-redux'; 
+import { AgenciaListResponse } from '../utils/apiObjects';
+
 
 const MainPage: React.FC = () => {
     const [activeComponent, setActiveComponent] = useState<string | null>(null);
@@ -54,21 +58,76 @@ const MainPage: React.FC = () => {
     const auth = useAuth();
     const navigate = useNavigate();
     const { resetContext } = useCodigo();
+    const dispatch = useDispatch();
+    const { activeTab, tabs } = useSelector((state: any) => state.tabs); // Obter estado das abas do Redux
 
     useEffect(() => {
         // Adicione verificações de autenticação se necessário
     }, [auth, navigate]);
 
+    useEffect(() => {
+        const savedTabs = JSON.parse(localStorage.getItem('tabs') || '[]');
+        const savedActiveTab = localStorage.getItem('activeTab');
+        if (savedTabs.length > 0) {
+            dispatch(setTabs(savedTabs));
+        }
+        if (savedActiveTab) {
+            dispatch(setActiveTab(savedActiveTab));
+        }
+    }, [dispatch]);
+    
+    useEffect(() => {
+        localStorage.setItem('tabs', JSON.stringify(tabs));
+        if (activeTab) {
+          localStorage.setItem('activeTab', activeTab);
+        }
+    }, [tabs, activeTab, dispatch]);
+    
     const handleMenuItemClick = (itemKey: string) => {
-        setActiveComponent(itemKey);
-        resetContext();
-        // Resetar estados de criação
-        setIsCreatingAgencia(false);
-        setIsCreatingVendedor(false);
-        setIsCreatingUnidade(false);
-        setIsCreatingAreaComercial(false);
-        setSelectedUnidadeCode(null);
+        const existingTab = tabs.find((tab: any) => tab.key === itemKey);
+        if (existingTab) {
+          dispatch(setActiveTab(itemKey));
+        } else if (tabs.length < MAX_TABS) {
+          const newTab = { key: itemKey, title: itemKey, state: {} };
+          dispatch(addTab(newTab));
+          dispatch(setActiveTab(itemKey));
+        } else {
+          alert(`Você atingiu o limite máximo de ${MAX_TABS} abas abertas.`);
+        }
     };
+    
+    const handleTabClose = (itemKey: string) => {
+        const currentTab = tabs.find(tab => tab.key === itemKey);
+        if (currentTab) {
+            // Salva o estado da aba antes de fechá-la
+            console.log('Salvando estado da aba:', currentTab);
+            dispatch(setTabState({ key: itemKey, state: currentTab.state }));
+        }
+    
+        // Remove a aba do Redux
+        dispatch(removeTab(itemKey));
+    
+        // Atualiza a aba ativa para a primeira aba, caso a aba fechada seja a ativa
+        if (activeTab === itemKey) {
+            dispatch(setActiveTab(tabs[0]?.key || null));
+        }
+    };
+    
+    const [searchTerm, setSearchTerm] = useState<string>(''); // Para armazenar o termo de pesquisa
+    const [items, setItems] = useState<AgenciaListResponse[]>([]); 
+
+    useEffect(() => {
+        // Restaurando o estado da aba ao ativar
+        if (activeTab) {
+            const currentTab = tabs.find(tab => tab.key === activeTab);
+            if (currentTab && currentTab.state) {
+                const { searchTerm, items } = currentTab.state;
+                // Preenche o campo de pesquisa com o searchTerm restaurado
+                setSearchTerm(searchTerm); // Atualiza o valor do input com o valor de pesquisa salvo
+                setItems(items); // Atualiza os itens com os dados restaurados
+            }
+        }
+    }, [activeTab, tabs]);
 
      const handleCreateAreaComercialClick = () => {
         setIsCreatingAreaComercial(true);
@@ -146,157 +205,157 @@ const MainPage: React.FC = () => {
         }
 
         switch (activeComponent) {
-            case 'cadastro_unidades':
+            case 'Unidade':
                 return (
                     <FormLayout name='Unidade'>
                         <UnidadeList onCreateClick={handleCreateUnidadeClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
-            case 'cadastro_agencias':
+            case 'Agência':
                 return (
                     <FormLayout name='Agência'>
                         <AgenciaList onCreateClick={handleCreateAgenciaClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
-            case 'cadastro_vendedores':
+            case 'Vendedor':
                 return (
                     <FormLayout name='Vendedor'>
                         <VendedorList />
                     </FormLayout>
                 );
-            case 'cadastro_aeroporto':
+            case 'Aeroporto':
                 return (
                     <FormLayout name='Aeroporto'>
                         <AeroportoList />
                     </FormLayout>
                 );
-            case 'cadastro_AreaComercial':
+            case 'Área Comercial':
                 return (
                     <FormLayout name='Área Comercial'>
                         <AreaComercialList/>
                     </FormLayout>
                 );
-            case 'cadastro_paises':
+            case 'Países':
                 return (
                     <FormLayout name='Países'>
                         <PaisList />
                     </FormLayout>
                 );
-            case 'cadastro_cidade':
+            case 'Cidade':
                 return (
                     <FormLayout name='Cidades'>
                         <CidadeList />
                     </FormLayout>
                 );
-            case 'cadastro_moeda':
+            case 'Moeda':
                 return (
                     <FormLayout name='Moeda'>
                         <MoedaList />
                     </FormLayout>
                 );
-            case 'cadastro_cep':
+            case 'Cep':
                 return (
                     <FormLayout name='Cep'>
                         <CepList />
                     </FormLayout>
                 );
-            case 'cadastro_departamento':
+            case 'Departamento':
                 return (
                     <FormLayout name='Departamento'>
                         <DepartamentoList />
                     </FormLayout>
                 );
-            case 'cadastro_companhia':
+            case 'Companhia':
                 return (
                     <FormLayout name='Companhia'>
                         <CompanhiaList />
                     </FormLayout>
                 );
-            case 'cadastro_assinatura':
+            case 'Assinatura':
                 return (
                     <FormLayout name='Assinatura'>
                         <AssinaturaList />
                     </FormLayout>
                 );
-            case 'cadastro_classe':
+            case 'Classe':
                 return (
                     <FormLayout name='Classe'>
                         <ClasseList />
                     </FormLayout>
                 );
-            case 'cadastro_acomodacao':
+            case 'Acomodação':
                 return (
                     <FormLayout name='Acomodacao'>
                         <TipoAcomodacaoList />
                     </FormLayout>
                 );
-            case 'cadastro_regime':
+            case 'Regime':
                 return (
                     <FormLayout name='Regime'>
                         <TipoRegimeList />
                     </FormLayout>
                 );
-            case 'cadastro_padrao':
+            case 'Padrão':
                 return (
                     <FormLayout name='Padrao'>
                         <TipoPadraoList />
                     </FormLayout>
                 );
-            case 'cadastro_situacaoturistico':
+            case 'Situação Turistico':
                 return (
                     <FormLayout name='Turistico'>
                         <SituacaoTuristicoList />
                     </FormLayout>
                 );
-            case 'cadastro_servicoturistico':
+            case 'Serviço Turistico':
                 return (
                     <FormLayout name='Servico'>
                         <ServicoTuristicoList />
                     </FormLayout>
                 );
-            case 'cadastro_bandeira':
+            case 'Bandeira':
                 return (
                     <FormLayout name='Bandeira'>
                         <BandeiraList />
                     </FormLayout>
                 );
-            case 'cadastro_formapagamento':
+            case 'Forma Pagamento':
                 return (
                     <FormLayout name='Forma De Pagamento'>
                         <FormaPagamentoList />
                     </FormLayout>
                 );
-            case 'cadastro_fornecedores':
+            case 'Fornecedores':
                 return (
                     <FormLayout name='Fornecedores'>
                         <FornecedoresList parceiroId={null} />
                     </FormLayout>
                 );
-            case 'cadastro_banco':
+            case 'Banco':
                 return (
                     <FormLayout name='Banco'>
                         <BancoList />
                     </FormLayout>
                 );
-            case 'cadastro_despesas':
+            case 'Despesas':
                 return (
                     <FormLayout name='Despesas'>
                         <DespesasList />
                    </FormLayout>
                 );
-            case 'cadastro_despesasgeral':
+            case 'Despesas Geral':
                 return (
                     <FormLayout name='Despesas Geral'>
                         <DespesasGeralList />
                    </FormLayout>
                 );
-            case 'cadastro_subgrupo':
+            case 'SubGrupo':
                 return (
                     <FormLayout name='SubGrupo '>
                         <SubGrupoList />
                    </FormLayout>
                 );
-            case 'cadastro_centrocusto':
+            case 'Centro Custo':
                 return (
                     <FormLayout name='Centro De Custo'>
                         <CentroCustoList />
@@ -306,13 +365,13 @@ const MainPage: React.FC = () => {
                 return <Teste message="Lançamento Opção" />;
             case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
-            case 'gerencial_faturamento_unidades':
+            case 'Grafico':
                 return <GraficoComFiltros/>;
             case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
             case 'gerencial_faturamento_vendedor':
                 return <Dashboard />;
-            case 'relatorios_simplicados_vendas':
+            case 'Relatorio':
                 return <Relatorio />;
             case 'usuario':
                 return <Teste message="Configurações de Usuário" />;
@@ -335,15 +394,47 @@ const MainPage: React.FC = () => {
 
     return (
         <div>
-            <NavbarMenu toggleSidebar={toggleSidebar} />
-            <div style={{ display: 'flex', marginTop: '60px' }}>
-                <SidebarMenu  onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
-                <div style={{ padding: '20px', flex: 1, width: '1000px' }}>
-                    {renderComponent()}
+          <NavbarMenu toggleSidebar={toggleSidebar} />
+          <div style={{ display: 'flex', marginTop: '60px' }}>
+            <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
+            <div style={{ padding: '20px', flex: 1, width: '1000px' }}>
+              <div className="p-tabview p-component ">
+                {/* Renderizando as abas manualmente */}
+                <div className="p-tabview-nav" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
+                  {tabs.map((tab) => (
+                    <div 
+                      key={tab.key} 
+                      className={`p-tabview-nav-item ${activeTab === tab.key ? 'p-highlight' : ''}`}
+                      onClick={() => dispatch(setActiveTab(tab.key))} // Atualiza a aba ativa no Redux
+                    >
+                      <span>{tab.title}</span>
+                      <button 
+                        className="p-tabview-close" 
+                        onClick={(e) => {
+                          e.stopPropagation(); // Impede o clique no botão de fechar de ativar a aba
+                          handleTabClose(tab.key);
+                        }}
+                      >
+                        &times;
+                      </button>
+                    </div>
+                  ))}
                 </div>
+      
+                {/* Renderizando o conteúdo diretamente com display: none para abas não ativas */}
+                {tabs.map((tab) => (
+                  <div 
+                    key={tab.key}
+                    style={{ display: activeTab === tab.key ? 'block' : 'none' }} // Controla a visibilidade com display
+                  >
+                    {renderComponent(tab.key, tab.state)} {/* Renderiza o conteúdo da aba */}
+                  </div>
+                ))}
+              </div>
             </div>
+          </div>
         </div>
-    );
+      );
 };
 
 export default MainPage;
