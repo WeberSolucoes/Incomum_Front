@@ -421,18 +421,15 @@ const MainPage: React.FC = () => {
                   </div>
                 ))}
               </div>
-    
-              {/* Renderizando o conteúdo da aba */}
-              <div className="p-tabview-panels">
+              {/* Renderizando o conteúdo diretamente com display: none para abas não ativas */}
                 {tabs.map((tab) => (
-                  <div
+                  <div 
                     key={tab.key}
-                    className={`p-tabview-panel ${activeTab === tab.key ? 'p-active' : ''}`}
+                    style={{ display: activeTab === tab.key ? 'block' : 'none' }} // Controla a visibilidade com display
                   >
-                    {activeTab === tab.key && renderComponent(tab.key, tab.state)}
+                    {renderComponent(tab.key, tab.state)} {/* Renderiza o conteúdo da aba */}
                   </div>
                 ))}
-              </div>
             </div>
           </div>
         </div>
