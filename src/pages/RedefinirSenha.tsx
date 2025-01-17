@@ -4,7 +4,7 @@ import { useState } from "react";
 import { toastError, toastSucess } from "../utils/customToast";
 import { useNavigate, useParams } from "react-router-dom";
 import { apiPostMudarSenha } from "../services/Api";
-import incoback from "../../assets/images/incoback.jpg";
+import incoback from '../assets/images/incoback.jpg';
 
 export default function RedefinirSenha() {
     const { uid, token } = useParams<{ uid: string, token: string }>();
