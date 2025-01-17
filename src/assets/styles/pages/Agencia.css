@@ -348,6 +348,9 @@ dl, ol, ul {
 
 @media (max-width: 768px) {
 
+  .p-tabview-nav{
+    display: none !important;
+  }
   .GraficoDiv{
     width: 334px !important;
     margin-left: 0px !important;
@@ -408,9 +411,72 @@ input[placeholder="Buscar"]{
     border: none;
     height: 34px;
 }
+
 .p-dropdown.p-dropdown-clearable .p-dropdown-label {
     padding-right: 1.5rem;
     margin-top: -4px;
 }
 
+.p-tabview.p-component {
+  display: flex;
+  flex-direction: column;
+}
+
+/* Contêiner de navegação das abas */
+.p-tabview-nav {
+  display: flex;
+  flex-wrap: wrap;
+  border-bottom: 2px solid #ddd;
+  margin-bottom: 20px;
+  background-color: #fff;
+  position: absolute;
+  width: 83.5%;
+}
+
+/* Item de navegação de cada aba */
+.p-tabview-nav-item {
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px 5px 0 0;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f0f0f0;
+  margin-right: 5px;
+  height: 35px;
+  color: #0152a1;
+}
+
+.p-tabview-nav-item:hover {
+  background-color: #e0e0e0;
+}
+
+.p-tabview-nav-item.p-highlight {
+  color: #e87717;
+}
+
+/* Botão de fechar a aba */
+.p-tabview-close {
+  background: none;
+  border: none;
+  color: #888;
+  cursor: pointer;
+  font-size: 18px;
+  margin-left: 10px;
+}
+
+.p-tabview-close:hover {
+  color: #ff3b3b;
+}
+
+/* Conteúdo da aba */
+.p-tabview-content {
+  padding: 20px;
+  background-color: #f9f9f9;
+}
+
+.p-tabview-panel {
+  display: block;
+}
 
