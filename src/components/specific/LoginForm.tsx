@@ -33,7 +33,8 @@ const LoginForm: React.FC = () => {
             await auth.login(email, senha, checked);
             toastSucess('Login efetuado com sucesso');
             dispatch(resetTabs());
-            localStorage.clear(); // Limpa tudo no localStorage
+            localStorage.removeItem('tabs');// Remove a chave 'tabs'
+            localStorage.removeItem('activeTab'); 
             navigate('/'); // Redireciona para a página principal após o login
         } catch (error) {
             console.error('Erro ao fazer login:', error);
