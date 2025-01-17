@@ -34,7 +34,7 @@ export default function RecuperarSenha() {
                     </div>
                     <form onSubmit={handleEmail}>
                         <GenericTextInput icon='at' value={email} label='Email' id='email' onChange={(e) => setEmail(e.target.value)} />
-                        <Button type='submit' label='Enviar email' loading={loading} icon="pi pi-send" className='w-100' />
+                        <Button type='submit' label='Enviar email' loading={loading} icon="pi pi-send" className='w-100' style={{backgroundColor:'#0152a1'}} />
                     </form>
                 </div>
             </div>
