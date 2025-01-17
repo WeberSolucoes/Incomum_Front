@@ -172,7 +172,7 @@ const MainPage: React.FC = () => {
         setActiveComponent(null);
     };
 
-    const renderComponent = () => {
+    const renderComponent = (activeKey: string, tabState: any) => {
         if (isCreatingAgencia) {
             return (
                 <FormLayout name='Agência'>
@@ -205,7 +205,7 @@ const MainPage: React.FC = () => {
             )
         }
 
-        switch (activeComponent) {
+        switch (activeKey) {
             case 'Unidade':
                 return (
                     <FormLayout name='Unidade'>
