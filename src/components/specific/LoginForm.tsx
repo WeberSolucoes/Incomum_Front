@@ -6,6 +6,8 @@ import GenericTextInput from '../common/GenericTextInput';
 import { toastSucess, toastError } from '../../utils/customToast';
 import { useAuth } from '../../contexts/AuthProvider';
 import incoback from "../../assets/images/incoback.jpg";
+import { useDispatch } from 'react-redux';
+import { resetTabs } from '../../hooks/tabSlice';
 
 const LoginForm: React.FC = () => {
     const [email, setEmail] = useState<string>('');
@@ -14,6 +16,7 @@ const LoginForm: React.FC = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const navigate = useNavigate();
     const auth = useAuth();
+    const dispatch = useDispatch();
 
     // Redireciona se já estiver autenticado
     useEffect(() => {
@@ -29,6 +32,8 @@ const LoginForm: React.FC = () => {
             // Chama o login do contexto, passando os parâmetros necessários
             await auth.login(email, senha, checked);
             toastSucess('Login efetuado com sucesso');
+            dispatch(resetTabs());
+            localStorage.clear(); // Limpa tudo no localStorage
             navigate('/'); // Redireciona para a página principal após o login
         } catch (error) {
             console.error('Erro ao fazer login:', error);
