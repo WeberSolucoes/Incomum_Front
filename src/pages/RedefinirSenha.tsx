@@ -57,7 +57,7 @@ export default function RedefinirSenha() {
                             <li>1 caractere minúsculo</li>
                             <li>1 caractere especial</li>
                         </ul>
-                        <Button type='submit' label='Definir Nova Senha' loading={loading} icon="pi pi-key" className='w-100' />
+                        <Button type='submit' label='Definir Nova Senha' loading={loading} icon="pi pi-key" className='w-100' style={{backgroundColor:'#0152a1'}} />
                     </form>
                 </div>
             </div>
