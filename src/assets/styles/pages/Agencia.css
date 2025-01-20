@@ -487,3 +487,21 @@ input[placeholder="Buscar"]{
     color: #495057;
     border-radius: 16px;
 }
+
+/* Estilo global para garantir que as abas fiquem alinhadas à esquerda */
+.p-tabview-nav {
+  display: flex !important; /* Flexbox para a navegação */
+  justify-content: flex-start !important; /* Alinha as abas à esquerda */
+  padding-left: 0 !important; /* Remove o padding que pode estar centralizando */
+}
+
+.p-tabview-nav-link {
+  text-align: left !important; /* Alinha o título das abas à esquerda */
+  padding-left: 8px !important; /* Espaçamento à esquerda */
+}
+
+/* Estilo extra caso você queira remover o preenchimento da própria lista */
+.p-tabview-nav li {
+  padding-left: 0 !important; /* Remove o preenchimento extra das abas */
+}
+
