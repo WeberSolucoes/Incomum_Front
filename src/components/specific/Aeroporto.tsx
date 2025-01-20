@@ -25,6 +25,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
     const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
 
     useEffect(() => {
         const fetchData = async () => {
