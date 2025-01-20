@@ -417,13 +417,13 @@ input[placeholder="Buscar"]{
     margin-top: -4px;
 }
 
-.p-tabview.p-component {
+.p-tabview1.p-component1 {
   display: flex;
   flex-direction: column;
 }
 
 /* Contêiner de navegação das abas */
-.p-tabview-nav {
+.p-tabview-nav1 {
   display: flex;
   flex-wrap: wrap;
   border-bottom: 2px solid #ddd;
@@ -434,7 +434,7 @@ input[placeholder="Buscar"]{
 }
 
 /* Item de navegação de cada aba */
-.p-tabview-nav-item {
+.p-tabview-nav-item1 {
   padding: 10px 20px;
   cursor: pointer;
   border-radius: 5px 5px 0 0;
@@ -448,16 +448,16 @@ input[placeholder="Buscar"]{
   color: #0152a1;
 }
 
-.p-tabview-nav-item:hover {
+.p-tabview-nav-item1:hover {
   background-color: #e0e0e0;
 }
 
-.p-tabview-nav-item.p-highlight {
+.p-tabview-nav-item1.p-highlight1 {
   color: #e87717;
 }
 
 /* Botão de fechar a aba */
-.p-tabview-close {
+.p-tabview-close1 {
   background: none;
   border: none;
   color: #888;
@@ -466,17 +466,17 @@ input[placeholder="Buscar"]{
   margin-left: 10px;
 }
 
-.p-tabview-close:hover {
+.p-tabview-close1:hover {
   color: #ff3b3b;
 }
 
 /* Conteúdo da aba */
-.p-tabview-content {
+.p-tabview-content1 {
   padding: 20px;
   background-color: #f9f9f9;
 }
 
-.p-tabview-panel {
+.p-tabview-panel1 {
   display: block;
 }
 
