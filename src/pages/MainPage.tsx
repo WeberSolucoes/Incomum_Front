@@ -13,7 +13,7 @@ import AreaComercialCadastro from '../components/specific/AreaComercialCadastro'
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useCodigo } from '../contexts/CodigoProvider';
-import '../assets/styles/pages/Agencia.css?v=156';
+import '../assets/styles/pages/Agencia.css?v=157';
 import '../assets/styles/pages/sidebar.css?v=145';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
@@ -399,18 +399,18 @@ const MainPage: React.FC = () => {
         <div style={{ display: 'flex', marginTop: '60px' }}>
           <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
           <div style={{ padding: '20px', flex: 1 }}>
-            <div className="p-tabview p-component">
+            <div className="p-tabview1 p-component1">
               {/* Renderizando as abas */}
-              <div className="p-tabview-nav" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
+              <div className="p-tabview-nav1" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
                 {tabs.map((tab) => (
                   <div
                     key={tab.key}
-                    className={`p-tabview-nav-item ${activeTab === tab.key ? 'p-highlight' : ''}`}
+                    className={`p-tabview-nav-item1 ${activeTab === tab.key ? 'p-highlight1' : ''}`}
                     onClick={() => dispatch(setActiveTab(tab.key))}
                   >
                     <span>{tab.title}</span>
                     <button
-                      className="p-tabview-close"
+                      className="p-tabview-close1"
                       onClick={(e) => {
                         e.stopPropagation(); // Impede o clique no botão de fechar de ativar a aba
                         handleTabClose(tab.key);
