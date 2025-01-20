@@ -249,6 +249,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                       onChange={handleSelectChange} // Lida com a mudança de valor selecionado
                       value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
                       placeholder="Selecione uma Cidade"
+                      style={{height:'34px'}}  
                     />
                 </div>
                 <div className="form-group">
