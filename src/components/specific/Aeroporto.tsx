@@ -197,6 +197,15 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
 
     const validCidades = cidades.filter((cidade) => cidade.label && cidade.value);
 
+    const handleKeyDown = (e) => {
+        if (e.key === "Enter") {
+          if (searchTerm.length < 3) {
+            e.preventDefault(); // Previne o submit se o termo for inválido
+          }
+        }
+      };
+
+
 
     return (
         <>
@@ -249,7 +258,8 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                       onChange={handleSelectChange} // Lida com a mudança de valor selecionado
                       value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
                       placeholder="Selecione uma Cidade"
-                      style={{height:'34px'}}  
+                      style={{height:'34px'}}
+                      onKeyDown={handleKeyDown} // Previne erro ao pressionar Enter
                     />
                 </div>
                 <div className="form-group">
