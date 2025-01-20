@@ -23,7 +23,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [checked, setChecked] = useState(false);
     const [cep, setCep] = useState('');
     const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
-    const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
 
     useEffect(() => {
