@@ -480,3 +480,10 @@ input[placeholder="Buscar"]{
   display: block;
 }
 
+.p-multiselect.p-multiselect-chip .p-multiselect-token {
+    padding: 0rem 0.5rem;
+    margin-right: 0.5rem;
+    background: #dee2e6;
+    color: #495057;
+    border-radius: 16px;
+}
