@@ -234,20 +234,21 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                 <div className="form-group">
                     <label htmlFor="cid_codigo">Cidade</label>
                     <Select
-                        id="cid_codigo"
-                        name="cid_codigo"
-                        isClearable
-                        isLoading={loading} // Indicador de carregamento
-                        options={cidades} // Estado cidades atualizado com os dados crus da API
-                        onInputChange={(inputValue, { action }) => {
-                            if (action === "input-change") {
-                                setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                                fetchUnidades(inputValue); // Faz a chamada à API
-                            }
-                        }}
-                        onChange={handleSelectChange} // Lida com a mudança de valor selecionado
-                        value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
-                        placeholder="Selecione uma Cidade"
+                      id="cid_codigo"
+                      name="cid_codigo"
+                      isClearable
+                      isLoading={loading} // Indicador de carregamento
+                      options={cidades} // Estado cidades atualizado com os dados crus da API
+                      onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                          const uppercasedInput = inputValue.toUpperCase(); // Converte o valor digitado para maiúsculas
+                          setSearchTerm(uppercasedInput); // Atualiza o termo de pesquisa com a versão maiúscula
+                          fetchUnidades(uppercasedInput); // Faz a chamada à API com o valor maiúsculo
+                        }
+                      }}
+                      onChange={handleSelectChange} // Lida com a mudança de valor selecionado
+                      value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
+                      placeholder="Selecione uma Cidade"
                     />
                 </div>
                 <div className="form-group">
