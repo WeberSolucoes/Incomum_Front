@@ -9,6 +9,7 @@ import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { Dropdown } from "primereact/dropdown";
+import Select from 'react-select';
 
 const Aeroporto: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo();
@@ -57,22 +58,51 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         fetchData();
     }, [codigo]);
 
-    useEffect(() => {
-        const fetchUnidades = async () => {
-            try {
-                const response = await apiGetCidade();
-                const data = response.data;
-                setCidades(data.map((area: { cid_descricao: string; cid_codigo: number }) => ({
-                    label: area.cid_descricao,
-                    value: area.cid_codigo
-                })));
-            } catch (error) {
-                console.error("Erro ao buscar Cidades:", error);
-                toastError("Erro ao buscar Cidades.");
+    const fetchUnidades = async (search: string) => {
+        if (search.length < 3) {
+            setCidades([]); // Limpa somente se o termo de pesquisa for muito curto
+            return;
+        }
+    
+        setLoading(true);
+        try {
+            const response = await axios.get(
+                `https://api.incoback.com.br/api/incomum/cidade/search/`,
+                { params: { q: search } }
+            );
+            const data = response.data;
+    
+            console.log("Dados crus da API:", data); // Verificar dados crus
+    
+            if (Array.isArray(data) && data.length > 0) {
+                setCidades(data); // Atualiza somente se houver resultados
+                console.log("Estado atualizado com cidades:", data);
+            } else {
+                console.log("Nenhum dado encontrado");
+                setCidades([]);
             }
-        };
-        fetchUnidades();
-    }, []);
+        } catch (error) {
+            console.error("Erro ao buscar cidades:", error);
+            setCidades([]); // Limpa em caso de erro
+        } finally {
+            setLoading(false);
+        }
+    };
+
+
+    useEffect(() => {
+        console.log("Cidades após a atualização:", cidades); // Verifique o estado
+    }, [cidades]); 
+    
+      // Efetua a busca quando o valor do termo de busca mudar
+    useEffect(() => {
+        if (searchTerm.length >= 3) {
+          fetchUnidades(searchTerm); // Realiza a consulta para termos com 3 ou mais caracteres
+        } else {
+          setCidades([]); // Limpa as cidades se o termo for menor que 3
+        }
+    }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
+    
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
@@ -156,10 +186,16 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         setCep('');
     };
 
-    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        const { id, value } = e.target;
-        setRequest(prevState => ({ ...prevState, [id]: value }));
+    const handleSelectChange = (selectedOption: { label: string; value: number } | null) => {
+        if (selectedOption) {
+            console.log("Cidade selecionada:", selectedOption);
+            setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
+        } else {
+            setibge(null); // Reseta o valor se nada for selecionado
+        }
     };
+
+    const validCidades = cidades.filter((cidade) => cidade.label && cidade.value);
 
 
     return (
@@ -197,17 +233,21 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
             <div className="form-row">
                 <div className="form-group">
                     <label htmlFor="cid_codigo">Cidade</label>
-                    <Dropdown
+                    <Select
                         id="cid_codigo"
-                        value={request.cid_codigo || null} // Valor selecionado
-                        options={Cidade} // Opções estáticas
-                        onChange={(e) => handleSelectChange(e)} // Callback ao alterar valor
-                        optionLabel="label" // Nome exibido no dropdown
-                        optionValue="value" // Valor interno enviado
+                        name="cid_codigo"
+                        isClearable
+                        isLoading={loading} // Indicador de carregamento
+                        options={cidades} // Estado cidades atualizado com os dados crus da API
+                        onInputChange={(inputValue, { action }) => {
+                            if (action === "input-change") {
+                                setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                                fetchUnidades(inputValue); // Faz a chamada à API
+                            }
+                        }}
+                        onChange={handleSelectChange} // Lida com a mudança de valor selecionado
+                        value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
                         placeholder="Selecione uma Cidade"
-                        showClear // Botão para limpar
-                        filter // Ativa a busca
-                        className="w-full"
                     />
                 </div>
                 <div className="form-group">
