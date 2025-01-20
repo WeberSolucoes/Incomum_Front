@@ -505,3 +505,19 @@ input[placeholder="Buscar"]{
   padding-left: 0 !important; /* Remove o preenchimento extra das abas */
 }
 
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+  background-color: #f0f0f0;
+  
+  border-radius: 2px;
+  margin: 0 0 -1px 0 !important;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link:hover{
+  background-color: #e0e0e0;
+}
+
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+  border-color: #e87717;
+}
+
