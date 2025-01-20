@@ -64,8 +64,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
             setCidades([]); // Limpa somente se o termo de pesquisa for muito curto
             return;
         }
-    
-        setLoading(true);
+
         try {
             const response = await axios.get(
                 `https://api.incoback.com.br/api/incomum/cidade/search/`,
