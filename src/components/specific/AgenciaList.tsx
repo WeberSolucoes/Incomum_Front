@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef,useState } from 'react';
 import { AgenciaListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetAgencia } from '../../services/Api';
@@ -14,7 +14,7 @@ import useEnterKey from '../../hooks/useEnterKey';
 
 
 
-const AgenciaList: React.FC = () => {
+const AgenciaList: React.FC = ({ isActive, state }) => {
     const { codigo, setCodigo } = useCodigo(); // Ajuste conforme a origem do código
     const [items, setItems] = useState<AgenciaListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -23,6 +23,7 @@ const AgenciaList: React.FC = () => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [codigoSelecionado, setCodigoSelecionado] = useState<number | null>(null);
     const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const getTitle = () => {
         const maxLength = 27;
@@ -63,7 +64,11 @@ const AgenciaList: React.FC = () => {
         }
     };
 
-    useEnterKey(handleSearch);
+    const handleEnterPress = () => {
+        console.log('Enter pressionado na aba ativa!');
+    };
+
+    useEnterKey(handleEnterPress, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
         const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
@@ -134,6 +139,7 @@ const AgenciaList: React.FC = () => {
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
                             disabled={loading}
+                            ref={buttonRef}
                         />
                         <Button
                             label="Adiconar"
