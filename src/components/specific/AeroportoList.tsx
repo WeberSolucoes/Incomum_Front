@@ -1,4 +1,4 @@
-import React, { useState, useRef, useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetAeroporto } from '../../services/Api';
