@@ -44,9 +44,6 @@ const LoginForm: React.FC = () => {
         }
     };
 
-    if (auth.isAuthenticated) {
-        return null; // Ou um componente de loading
-    }
 
     return (
         <div className="d-flex justify-content-center align-items-center min-vh-100">
