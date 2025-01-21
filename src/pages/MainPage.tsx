@@ -172,7 +172,7 @@ const MainPage: React.FC = () => {
         setActiveComponent(null);
     };
 
-    const renderComponent = (activeKey: string, tabState: any) => {
+    const renderComponent = (activeKey: string, tabState: any, isActive) => {
         if (isCreatingAgencia) {
             return (
                 <FormLayout name='Agência'>
@@ -209,157 +209,157 @@ const MainPage: React.FC = () => {
             case 'Unidade':
                 return (
                     <FormLayout name='Unidade'>
-                        <UnidadeList onCreateClick={handleCreateUnidadeClick} onRecordClick={handleRecordClick} />
+                        <UnidadeList isActive={isActive} onCreateClick={handleCreateUnidadeClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
             case 'Agência':
                 return (
                     <FormLayout name='Agência'>
-                        <AgenciaList onCreateClick={handleCreateAgenciaClick} onRecordClick={handleRecordClick} />
+                        <AgenciaList isActive={isActive} onCreateClick={handleCreateAgenciaClick} onRecordClick={handleRecordClick} />
                     </FormLayout>
                 );
             case 'Vendedor':
                 return (
                     <FormLayout name='Vendedor'>
-                        <VendedorList />
+                        <VendedorList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Aeroporto':
                 return (
                     <FormLayout name='Aeroporto'>
-                        <AeroportoList />
+                        <AeroportoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Área Comercial':
                 return (
                     <FormLayout name='Área Comercial'>
-                        <AreaComercialList/>
+                        <AreaComercialList isActive={isActive}/>
                     </FormLayout>
                 );
             case 'Países':
                 return (
                     <FormLayout name='Países'>
-                        <PaisList />
+                        <PaisList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Cidade':
                 return (
                     <FormLayout name='Cidades'>
-                        <CidadeList />
+                        <CidadeList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Moeda':
                 return (
                     <FormLayout name='Moeda'>
-                        <MoedaList />
+                        <MoedaList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Cep':
                 return (
                     <FormLayout name='Cep'>
-                        <CepList />
+                        <CepList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Departamento':
                 return (
                     <FormLayout name='Departamento'>
-                        <DepartamentoList />
+                        <DepartamentoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Companhia':
                 return (
                     <FormLayout name='Companhia'>
-                        <CompanhiaList />
+                        <CompanhiaList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Assinatura':
                 return (
                     <FormLayout name='Assinatura'>
-                        <AssinaturaList />
+                        <AssinaturaList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Classe':
                 return (
                     <FormLayout name='Classe'>
-                        <ClasseList />
+                        <ClasseList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Acomodação':
                 return (
                     <FormLayout name='Acomodacao'>
-                        <TipoAcomodacaoList />
+                        <TipoAcomodacaoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Regime':
                 return (
                     <FormLayout name='Regime'>
-                        <TipoRegimeList />
+                        <TipoRegimeList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Padrão':
                 return (
                     <FormLayout name='Padrao'>
-                        <TipoPadraoList />
+                        <TipoPadraoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Situação Turistico':
                 return (
                     <FormLayout name='Turistico'>
-                        <SituacaoTuristicoList />
+                        <SituacaoTuristicoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Serviço Turistico':
                 return (
                     <FormLayout name='Servico'>
-                        <ServicoTuristicoList />
+                        <ServicoTuristicoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Bandeira':
                 return (
                     <FormLayout name='Bandeira'>
-                        <BandeiraList />
+                        <BandeiraList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Forma Pagamento':
                 return (
                     <FormLayout name='Forma De Pagamento'>
-                        <FormaPagamentoList />
+                        <FormaPagamentoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Fornecedores':
                 return (
                     <FormLayout name='Fornecedores'>
-                        <FornecedoresList parceiroId={null} />
+                        <FornecedoresList isActive={isActive} parceiroId={null} />
                     </FormLayout>
                 );
             case 'Banco':
                 return (
                     <FormLayout name='Banco'>
-                        <BancoList />
+                        <BancoList isActive={isActive} />
                     </FormLayout>
                 );
             case 'Despesas':
                 return (
                     <FormLayout name='Despesas'>
-                        <DespesasList />
+                        <DespesasList isActive={isActive} />
                    </FormLayout>
                 );
             case 'Despesas Geral':
                 return (
                     <FormLayout name='Despesas Geral'>
-                        <DespesasGeralList />
+                        <DespesasGeralList isActive={isActive} />
                    </FormLayout>
                 );
             case 'SubGrupo':
                 return (
                     <FormLayout name='SubGrupo '>
-                        <SubGrupoList />
+                        <SubGrupoList isActive={isActive} />
                    </FormLayout>
                 );
             case 'Centro Custo':
                 return (
                     <FormLayout name='Centro De Custo'>
-                        <CentroCustoList />
+                        <CentroCustoList isActive={isActive} />
                    </FormLayout>
                 );
             case 'lancamento_opcao':
@@ -367,13 +367,13 @@ const MainPage: React.FC = () => {
             case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
             case 'Grafico':
-                return <GraficoComFiltros/>;
+                return <GraficoComFiltros isActive={isActive} />;
             case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
             case 'gerencial_faturamento_vendedor':
-                return <Dashboard />;
+                return <Dashboard isActive={isActive} />;
             case 'Relatorio':
-                return <Relatorio />;
+                return <Relatorio isActive={isActive} />;
             case 'usuario':
                 return <Teste message="Configurações de Usuário" />;
             case 'perfil':
