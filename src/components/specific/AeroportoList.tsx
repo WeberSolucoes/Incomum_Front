@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetAeroporto } from '../../services/Api';
@@ -9,12 +9,13 @@ import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Aeroporto from './Aeroporto';
 import useEnterKey from '../../hooks/useEnterKey';
 
-const AeroportoList: React.FC = () => {
+const AeroportoList: React.FC = ({ isActive, state }) => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
     const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
     const [loading, setLoading] = useState(false); // Estado de carregamento
+    const buttonRef = useRef<HTMLButtonElement>(null);
 
     const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
 
@@ -50,7 +51,11 @@ const AeroportoList: React.FC = () => {
         }
     };
 
-    useEnterKey(handleSearch);
+    const handleEnterPress = () => {
+        console.log('Enter pressionado na aba ativa!');
+    };
+
+    useEnterKey(handleEnterPress, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
         setCodigo(codigo);
@@ -96,6 +101,7 @@ const AeroportoList: React.FC = () => {
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
                             disabled={loading} // Desabilita o botão durante o carregamento
+                            ref={buttonRef}
                         />
                         <Button
                             label="Adicionar"
