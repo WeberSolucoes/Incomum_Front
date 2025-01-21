@@ -7,13 +7,10 @@ export default defineConfig({
     host: '0.0.0.0', // Permite acesso remoto
     port: 80,        // Porta do servidor
   },
-  optimizeDeps: {
-    exclude: ['.git/**'], // Exclui a pasta .git e outros arquivos desnecessários
-  },
   build: {
     rollupOptions: {
       output: {
-        // Configuração para evitar inclusões desnecessárias no build final
+        // Configuração para dividir dependências grandes
         manualChunks(id) {
           if (id.includes('node_modules')) {
             return 'vendor';
@@ -22,5 +19,10 @@ export default defineConfig({
       },
     },
   },
+  // Evita análise de dependências desnecessárias
+  optimizeDeps: {
+    exclude: ['some-module'], // Remova ou substitua por dependências específicas se necessário
+  },
 });
+
 
