@@ -285,9 +285,6 @@ dl, ol, ul {
     font-weight: 500;
 }
 
-dl, ol, ul {
-    margin-left: -32px;
-}
 
 .custom-datatable .p-datatable-tbody > tr > td {
     padding: 0.7rem 1rem !important;
