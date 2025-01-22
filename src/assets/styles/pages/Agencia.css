@@ -345,7 +345,7 @@ dl, ol, ul {
 
 @media (max-width: 768px) {
 
-  .p-tabview-nav{
+  .p-tabview-nav1{
     display: none !important;
   }
   .GraficoDiv{
