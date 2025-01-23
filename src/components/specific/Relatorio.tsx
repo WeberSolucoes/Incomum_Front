@@ -378,7 +378,8 @@ const Relatorio = () => {
                             onFilter={handleFilter} // Evento personalizado de filtro
                             showClear
                             optionLabel="label"
-                            style={{width:'253px'}}
+                            style={{width:'100%'}}
+                            panelStyle={{ width: '100%' }}
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
