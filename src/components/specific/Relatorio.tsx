@@ -242,7 +242,7 @@ const Relatorio = () => {
             unidades: selectedUnidade ? [selectedUnidade] : [],
             areasComerciais: selectedAreaComercial.length > 0 ? selectedAreaComercial : [],
             agencias: selectedAgencias.length > 0 ? selectedAgencias : [],
-            vendedores: selectedVendedor ? [selectedVendedor] : [],
+            vendedores: selectedVendedor.length > 0 ? selectedVendedor : [],
         };
 
         console.log("Parâmetros enviados para a API:", params);
@@ -383,15 +383,17 @@ const Relatorio = () => {
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
-                        <Dropdown 
+                        <MultiSelect
                             value={selectedVendedor} 
                             options={vendedores} 
                             onChange={(e) => setSelectedVendedor(e.value)} 
                             placeholder="Vendedor"
                             style={{width:'100%'}}
                             showClear
-                            emptyFilterMessage="Nenhuma opção disponível"
-                            emptyMessage="Sem opções disponíveis"
+                            display="chip"
+                            filter
+                            filterBy="label" // Filtra com base na descrição (label)
+                            optionLabel="label"
                         />
                     </div>
                 </div>
