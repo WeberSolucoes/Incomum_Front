@@ -9,6 +9,8 @@ import axios from "axios";
 import { toastError } from "../../utils/customToast";
 import { apiGetAgencia,apiGetUnidades,apiGetGraficoUnidade,apiGetGraficoAgencia,apiGetArea,apiGetAreas } from '../../services/Api';
 import ChartDataLabels from 'chartjs-plugin-datalabels';
+import { toast } from "react-toastify";
+import { Card, CardHeader, Typography, Box, LinearProgress } from '@mui/material';
 
 
 const GraficoComFiltros = () => {
@@ -200,6 +202,26 @@ const GraficoComFiltros = () => {
         }
     };
 
+
+    const fetchAreas = async () => {
+        try {
+            const response = await axios.get("https://api.incoback.com.br/api/incomum/areacomercial/list-all/");
+            const agenciasFormatadas = response.data.map((agencia) => ({
+                label: agencia.aco_descricao.toUpperCase(), // Texto mostrado no MultiSelect
+                value: agencia.aco_codigo, // Valor associado
+            }));
+            console.log("Áreas Comerciais recebidas:", agenciasFormatadas);
+            setAreasComerciais(agenciasFormatadas); // Atualiza o estado com os dados formatados
+        } catch (error) {
+            console.error("Erro ao carregar áreas comerciais:", error);
+        }
+    };
+    
+      // Chama a função fetchAreas quando o componente é montado
+    useEffect(() => {
+        fetchAreas();
+    }, []);
+
     
 
     const handleAreaChange = (e) => {
@@ -314,6 +336,61 @@ const GraficoComFiltros = () => {
         },
     };
 
+
+    const handleConsultarAreaComercial = async (e) => {
+        e.preventDefault();
+        setLoading(true);
+    
+        console.log("Estado atual das áreas selecionadas:", selectedAreaComercial); // Adicionado para debug
+    
+        // Verifique se as datas estão definidas
+        if (!dateStart || !dateEnd) {
+            toast.error("Por favor, selecione as datas.");
+            setLoading(false);
+            return;
+        }
+    
+        // Formatar as datas no formato adequado (YYYY-MM-DD)
+        const formattedStartDate = dateStart.toISOString().split("T")[0];
+        const formattedEndDate = dateEnd.toISOString().split("T")[0];
+    
+        // Construir filtros
+        const filters = {
+            startDate: formattedStartDate,
+            endDate: formattedEndDate,
+            areas: selectedAreaComercial, // Certifique-se de que está passando o estado correto
+        };
+    
+        console.log("Filtros sendo enviados:", filters);
+    
+        try {
+            const response = await axios.post(
+                "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-area-comercial/",
+                filters
+            );
+
+            const formattedData = response.data.data.map((value) => parseFloat(value).toFixed(2));
+
+            console.log(response.data);
+            setChartData({
+                labels: response.data.labels,
+                datasets: [
+                    {
+                        label: "Valor",
+                        data: formattedData,
+                        backgroundColor: ["#0152a1", "#28a745", "#e87717", "#A11402", "#6f42c1"],
+                        borderWidth: 1,
+                    },
+                ],
+            });
+        } catch (error) {
+            toast.error("Erro ao buscar os dados do gráfico.");
+        } finally {
+            setLoading(false);
+        }
+    };
+    
+
     const handleTabChange = (e) => {
         setChartData(null); // Limpar dados ao mudar de aba
         setActiveTab(e.index);
@@ -347,29 +424,66 @@ const GraficoComFiltros = () => {
 
     // Criar a lista com os valores totais
     const renderValueList = () => {
-        const isUnidadeTab = activeTab === 0; // Aba "Unidades"
-        const limit = Math.min(
-            isUnidadeTab ? 3 : Number(numAgencias) || 1,
-            chartData.labels.length
-        );
-    
-        return (
-            <div className="value-list">
-                <h4>Top {limit} {isUnidadeTab ? "Unidades" : "Agências"}:</h4>
-                <ul style={{ marginLeft: "4px" }}>
-                    {chartData.labels.slice(0, limit).map((label, index) => (
-                        <li key={index}>
-                            <strong>{label}:</strong> R${" "}
-                            {parseFloat(chartData.datasets[0].data[index]).toLocaleString("pt-BR", {
-                                minimumFractionDigits: 2,
-                                maximumFractionDigits: 2,
-                            })}
-                        </li>
-                    ))}
-                </ul>
-            </div>
-        );
-    };
+    const limit = Math.min(numAgencias, chartData.labels.length); // Garante que não exceda os dados disponíveis
+    let title = "";
+
+    // Defina o título dinamicamente com base na aba ativa
+    if (activeTab === 2) {
+        title = `Top ${limit} Áreas Comerciais`;
+    } else if (activeTab === 0) {
+        title = `Top ${limit} Unidades`;
+    } else if (activeTab === 1) {
+        title = `Top ${limit} Agências`;
+    }
+
+    return (
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            {/* Itera sobre os dados passados */}
+            {chartData.labels.slice(0, limit).map((label, index) => {
+                const value = parseFloat(chartData.datasets[0].data[index]);
+                const maxValue = Math.max(...chartData.datasets[0].data); // Encontra o valor máximo para normalizar as barras
+
+                return (
+                    <Card key={index} sx={{ width: '100%', boxShadow: 3, borderRadius: 2 }}>
+                        <CardHeader
+                            title={
+                                <Typography variant="h6" component="div" color="text.primary">
+                                    {label} {/* Aqui exibe o nome de cada área comercial */}
+                                </Typography>
+                            }
+                        />
+                        <Box sx={{ padding: 2 }}>
+                            {/* Valor Total */}
+                            <Typography variant="body2" color="textSecondary" sx={{ marginBottom: 2 }}>
+                                Valor Total: R${' '}
+                                {value.toLocaleString('pt-BR', {
+                                    minimumFractionDigits: 2,
+                                    maximumFractionDigits: 2,
+                                })}
+                            </Typography>
+
+                            {/* Gráfico Linear */}
+                            <Box sx={{ width: '100%', marginBottom: 2 }}>
+                                <LinearProgress
+                                    variant="determinate"
+                                    value={(value / maxValue) * 100} // Normaliza a largura da barra
+                                    sx={{
+                                        height: 10,
+                                        borderRadius: 5,
+                                        backgroundColor: '#e0e0e0',
+                                        '& .MuiLinearProgress-bar': {
+                                            backgroundColor: '#0152a1',
+                                        },
+                                    }}
+                                />
+                            </Box>
+                        </Box>
+                    </Card>
+                );
+            })}
+        </Box>
+    );
+};
 
 
     const handleNumAgenciasChange = (e) => {
@@ -561,15 +675,92 @@ const GraficoComFiltros = () => {
                         </div>
                     </form>
                 </TabPanel>
+                <TabPanel header="Área Comercial">
+                    <form
+                        style={{
+                            backgroundColor: "#f9f9f9",
+                            width: "100%",
+                            margin: "auto",
+                            padding: "20px",
+                            border: "1px solid #ddd",
+                            borderRadius: "5px",
+                        }}
+                        onSubmit={handleConsultarAreaComercial}
+                    >
+                        <h1 style={{ color: "#0152a1", textAlign: "left" }}>Consulta por Área Comercial</h1>
+                        <div className="row mt-3">
+                            <div className="col-sm-6 mb-3">
+                                <Calendar
+                                    value={dateStart}
+                                    onChange={(e) => setDateStart(e.value)}
+                                    showIcon
+                                    placeholder="Data Inicial"
+                                    locale="pt-BR"
+                                    dateFormat="dd/mm/yy"
+                                />
+                            </div>
+                            <div className="col-sm-6 mb-3">
+                                <Calendar
+                                    value={dateEnd}
+                                    onChange={(e) => setDateEnd(e.value)}
+                                    showIcon
+                                    placeholder="Data Final"
+                                    locale="pt-BR"
+                                    dateFormat="dd/mm/yy"
+                                    style={{marginLeft:'-260px'}}
+                                />
+                            </div>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col-sm-6 mb-3">
+                            <MultiSelect
+                                value={selectedAreaComercial}
+                                options={areasComerciais}
+                                onChange={(e) => {
+                                    if (e.value) {
+                                        const areasSelecionadas = e.value.map((area) => area.value || area);
+                                        console.log("Áreas selecionadas:", areasSelecionadas);
+                                        setSelectedAreaComercial(areasSelecionadas);
+                                    } else {
+                                        console.warn("Nenhuma área selecionada.");
+                                        setSelectedAreaComercial([]);
+                                    }
+                                }}
+                                placeholder="Selecione Áreas Comerciais"
+                                display="chip"
+                                showClear
+                                style={{ width: "100%" }}
+                            />
+                            </div>
+                        </div>
+                        <div className="row mt-3">
+                            <div className="col-12 d-flex justify-content-end">
+                                <Button
+                                    style={{ backgroundColor: "#0152a1", borderRadius: "10px" }}
+                                    type="submit"
+                                    label="Consultar"
+                                    icon="pi pi-search"
+                                    onClick={handleConsultarAreaComercial}
+                                />
+                            </div>
+                        </div>
+                    </form>
+                </TabPanel>
             </TabView>
 
             {chartData && (
                 <div className="mt-5">
                     <div className="chart-container">
-                        <Chart type={isMobile ? "pie" : "bar"} data={chartData} options={options} plugins={[ChartDataLabels]} />
+                        <Chart 
+                        type="pie" 
+                        data={chartData} 
+                        style={{height: isMobile ? '300px' : '550px',
+                        width: isMobile ? '300px' : '550px',
+                        margin: 'auto',
+                        }}/>
                     </div>
                     {/* Renderiza a lista apenas no celular */}
-                    {isMobile && renderValueList()}
+                    {renderValueList()}
                 </div>
             )}
         </div>
