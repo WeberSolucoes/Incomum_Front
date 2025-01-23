@@ -301,7 +301,7 @@ const Relatorio = () => {
                     dataFim: dateEnd?.toISOString().split('T')[0],
                     unidade: selectedUnidade,
                     areaComercial: selectedAreaComercial,
-                    agencia: selectedAgencias,
+                    agencia: selectedAgencias.length > 0 ? selectedAgencias : undefined, // Envia somente se houver agências selecionadas
                     vendedor: selectedVendedor,
                 },
                 headers: {
