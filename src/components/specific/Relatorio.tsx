@@ -301,7 +301,7 @@ const Relatorio = () => {
                     dataFim: dateEnd?.toISOString().split('T')[0],
                     unidade: selectedUnidade,
                     areaComercial: selectedAreaComercial,
-                    agencia: selectedAgencia,
+                    agencia: selectedAgencias,
                     vendedor: selectedVendedor,
                 },
                 headers: {
