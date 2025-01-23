@@ -205,7 +205,7 @@ const GraficoComFiltros = () => {
 
     const fetchAreas = async () => {
         try {
-            const response = await axios.get("https://api.incoback.com.br/api/incomum/areacomercial/list-all/");
+            const response = await axios.get("https://api.incoback.com.br/api/incomum/areacomercial/list-all/", config);
             const agenciasFormatadas = response.data.map((agencia) => ({
                 label: agencia.aco_descricao.toUpperCase(), // Texto mostrado no MultiSelect
                 value: agencia.aco_codigo, // Valor associado
