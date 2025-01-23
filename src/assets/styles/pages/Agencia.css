@@ -345,6 +345,10 @@ dl, ol, ul {
 
 @media (max-width: 768px) {
 
+  .p-calendar {
+    margin-left: 0px !important;  /* Deixa o calendário ocupar toda a largura em telas menores */
+  }
+
   .p-tabview-nav1{
     display: none !important;
   }
