@@ -36,6 +36,7 @@ const Relatorio = () => {
     const [selectedUnidade, setSelectedUnidade] = useState(null);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
+    const [selectedAgencias, setSelectedAgencias] = useState(null);
     const [selectedAgencia, setSelectedAgencia] = useState(null);
 
     const [loading, setLoading] = useState(false);
@@ -46,6 +47,8 @@ const Relatorio = () => {
     const [first, setFirst] = useState(0);
     const [rows, setRows] = useState(10);
     const [totalRecords, setTotalRecords] = useState(0);
+    const [filteredAgencias, setFilteredAgencias] = useState([]);
+
 
     const [soma_totais, setSomaTotais] = useState({
         total_valorinc: 0,
@@ -203,7 +206,20 @@ const Relatorio = () => {
         }
     };
 
-
+    const handleFilter = (event) => {
+        const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
+        console.log("Filtro digitado (em maiúsculas):", query);
+    
+        if (query.length >= 3) {
+            const results = agencias.filter((agencia) =>
+                agencia.label.toUpperCase().includes(query)
+            );
+            console.log("Resultados filtrados:", results);
+            setFilteredAgencias(results);
+        } else {
+            setFilteredAgencias([]);
+        }
+    };
 
 
     const handleAreaChange = (e) => {
@@ -349,15 +365,18 @@ const Relatorio = () => {
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
-                        <Dropdown 
-                            value={selectedAgencia} 
-                            options={agencias} 
-                            onChange={(e) => setSelectedAgencia(e.value)} 
-                            placeholder="Agência" 
-                            style={{width:'100%'}} 
+                        <MultiSelect
+                            value={selectedAgencias}
+                            options={filteredAgencias} // Usando opções filtradas
+                            onChange={(e) => setSelectedAgencias(e.value || [])}
+                            placeholder="Selecione uma ou mais Agências"
+                            display="chip"
+                            filter
+                            filterBy="label" // Filtra com base na descrição (label)
+                            onFilter={handleFilter} // Evento personalizado de filtro
                             showClear
-                            emptyFilterMessage="Nenhuma opção disponível"
-                            emptyMessage="Sem opções disponíveis"
+                            optionLabel="label"
+                            style={{width:'253px'}}
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
