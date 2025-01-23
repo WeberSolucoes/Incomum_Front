@@ -204,16 +204,28 @@ const GraficoComFiltros = () => {
 
 
     const fetchAreas = async () => {
+        const token = localStorage.getItem('token'); // Obtém o token do localStorage
+    
         try {
+            // Configuração do cabeçalho com o token
+            const config = {
+                headers: {
+                    Authorization: `Bearer ${token}`, // Adiciona o token de autenticação
+                },
+            };
+    
             const response = await axios.get("https://api.incoback.com.br/api/incomum/areacomercial/list-all/", config);
+            
             const agenciasFormatadas = response.data.map((agencia) => ({
                 label: agencia.aco_descricao.toUpperCase(), // Texto mostrado no MultiSelect
                 value: agencia.aco_codigo, // Valor associado
             }));
+    
             console.log("Áreas Comerciais recebidas:", agenciasFormatadas);
             setAreasComerciais(agenciasFormatadas); // Atualiza o estado com os dados formatados
         } catch (error) {
             console.error("Erro ao carregar áreas comerciais:", error);
+            toastError('Erro ao carregar áreas comerciais');
         }
     };
     
