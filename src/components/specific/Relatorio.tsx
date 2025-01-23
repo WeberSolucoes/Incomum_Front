@@ -301,7 +301,7 @@ const Relatorio = () => {
                     dataFim: dateEnd?.toISOString().split('T')[0],
                     unidade: selectedUnidade,
                     areaComercial: selectedAreaComercial,
-                    agencias: selectedAgencias.length > 0 ? selectedAgencias : undefined, // Passa o array de agências se houver
+                    agencias: selectedAgencias, // Passa o array de agências se houver
                     vendedor: selectedVendedor,
                 },
                 headers: {
