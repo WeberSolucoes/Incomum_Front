@@ -241,7 +241,7 @@ const Relatorio = () => {
             dataFim: dateEnd.toISOString().split('T')[0],
             unidades: selectedUnidade ? [selectedUnidade] : [],
             areasComerciais: selectedAreaComercial.length > 0 ? selectedAreaComercial : [],
-            agencias: selectedAgencia ? [selectedAgencia] : [],
+            agencias: selectedAgencias.length > 0 ? selectedAgencias : [],
             vendedores: selectedVendedor ? [selectedVendedor] : [],
         };
 
