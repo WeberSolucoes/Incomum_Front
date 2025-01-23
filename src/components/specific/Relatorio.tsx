@@ -35,7 +35,7 @@ const Relatorio = () => {
 
     const [selectedUnidade, setSelectedUnidade] = useState(null);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
-    const [selectedVendedor, setSelectedVendedor] = useState(null);
+    const [selectedVendedor, setSelectedVendedor] = useState([]);
     const [selectedAgencias, setSelectedAgencias] = useState([]);
     const [selectedAgencia, setSelectedAgencia] = useState([]);
 
