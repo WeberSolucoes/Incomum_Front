@@ -522,3 +522,13 @@ input[placeholder="Buscar"]{
   border-color: #e87717;
 }
 
+.p-multiselect-label{
+  width: 180px;
+}
+.p-multiselect-clear-icon {
+  position: absolute;
+  top: 50%;
+  margin-top: -.5rem;
+  right: 2rem;
+}
+
