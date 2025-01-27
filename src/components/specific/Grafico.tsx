@@ -750,7 +750,7 @@ const GraficoComFiltros = () => {
                         <div className="row mt-3">
                             <div className="col-sm-3 mb-3">
                                 <div className="form-group">
-                                    <label htmlFor="cid_codigo">Area Comercial</label>
+                                    <label htmlFor="cid_codigo">Área Comercial</label>
                                     <MultiSelect
                                         value={selectedAreaComercial}
                                         options={areasComerciais}
