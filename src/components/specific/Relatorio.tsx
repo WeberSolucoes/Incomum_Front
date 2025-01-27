@@ -211,17 +211,33 @@ const Relatorio = () => {
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
-            // Exibe apenas os resultados que correspondem ao filtro
-            const results = agencias.filter((agencia) =>
+            // Exibe os resultados que correspondem ao filtro
+            const filteredResults = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
-            console.log("Resultados filtrados:", results);
-            setFilteredAgencias(results);
+    
+            // Adiciona os itens selecionados à lista, garantindo que fiquem visíveis
+            const updatedFilteredAgencias = [
+                ...filteredResults,
+                ...agencias.filter((agencia) =>
+                    selectedAgencias.some((selected) => selected.value === agencia.value)
+                ),
+            ];
+    
+            // Remove duplicatas na lista
+            const uniqueAgencias = Array.from(
+                new Map(updatedFilteredAgencias.map((item) => [item.value, item])).values()
+            );
+    
+            console.log("Agências filtradas:", uniqueAgencias);
+            setFilteredAgencias(uniqueAgencias);
         } else {
             // Quando o filtro tem menos de 3 caracteres, mostra apenas os itens selecionados
-            setFilteredAgencias(agencias.filter((agencia) =>
-                selectedAgencias.includes(agencia.value)
-            ));
+            const selectedOnly = agencias.filter((agencia) =>
+                selectedAgencias.some((selected) => selected.value === agencia.value)
+            );
+            console.log("Somente selecionadas:", selectedOnly);
+            setFilteredAgencias(selectedOnly);
         }
     };
 
@@ -406,15 +422,19 @@ const Relatorio = () => {
                             <label htmlFor="cid_codigo">Agência</label>
                             <MultiSelect
                                 value={selectedAgencias}
-                                options={filteredAgencias} // Usando opções filtradas
-                                onChange={(e) => setSelectedAgencias(e.value || [])}
+                                options={filteredAgencias} // Usando as opções filtradas dinamicamente
+                                onChange={(e) => setSelectedAgencias(e.value || [])} // Atualiza os selecionados
                                 placeholder="Agência"
                                 display="chip"
                                 filter
                                 filterBy="label" // Filtra com base na descrição (label)
-                                onFilter={handleFilter} // Evento personalizado de filtro
+                                onFilter={handleFilter} // Chamando o filtro personalizado
                                 showClear
                                 optionLabel="label"
+                                style={{ width: '100%' }}
+                                panelStyle={{ width: '100%' }}
+                                emptyFilterMessage="Nenhuma agência encontrada"
+                                emptyMessage="Sem opções disponíveis"
                             />
                         </div>
                     </div>
