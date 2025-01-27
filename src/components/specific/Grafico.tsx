@@ -537,28 +537,33 @@ const GraficoComFiltros = () => {
                     >
                         <h1 style={{ color: "#0152a1", textAlign: "left" }}>Consulta por Unidade</h1>
                         <div className="row mt-3">
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateStart}
-                                    onChange={(e) => setDateStart(e.value)}
-                                    showIcon
-                                    placeholder="Data Inicial"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                    className="startcalendar"
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Incial</label>
+                                    <Calendar
+                                        value={dateStart}
+                                        onChange={(e) => setDateStart(e.value)}
+                                        showIcon
+                                        placeholder="Data Inicial"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                        className="startcalendar"
+                                    />
+                                </div>
                             </div>
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateEnd}
-                                    onChange={(e) => setDateEnd(e.value)}
-                                    showIcon
-                                    placeholder="Data Final"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                    style={{marginLeft:'-260px'}}
-                                    className="GraficoDiv"
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Final</label>
+                                    <Calendar
+                                        value={dateEnd}
+                                        onChange={(e) => setDateEnd(e.value)}
+                                        showIcon
+                                        placeholder="Data Final"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                        className="GraficoDiv"
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="row mt-3">
@@ -594,68 +599,83 @@ const GraficoComFiltros = () => {
                     >
                         <h1 style={{ color: "#0152a1", textAlign: "left" }}>Consulta por Agência</h1>
                         <div className="row mt-3">
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateStart}
-                                    onChange={(e) => setDateStart(e.value)}
-                                    showIcon
-                                    placeholder="Data Inicial"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                    className="startcalendar"
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Incial</label>
+                                    <Calendar
+                                        value={dateStart}
+                                        onChange={(e) => setDateStart(e.value)}
+                                        showIcon
+                                        placeholder="Data Inicial"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                        className="startcalendar"
+                                    />
+                                </div>
                             </div>
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateEnd}
-                                    onChange={(e) => setDateEnd(e.value)}
-                                    showIcon
-                                    placeholder="Data Final"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                    style={{marginLeft:'-260px'}}
-                                    className="GraficoDiv"
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Final</label>
+                                    <Calendar
+                                        value={dateEnd}
+                                        onChange={(e) => setDateEnd(e.value)}
+                                        showIcon
+                                        placeholder="Data Final"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                        style={{marginLeft:'-260px'}}
+                                        className="GraficoDiv"
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className='row mt-3'>
                             <div className='col-sm-3 mb-3'>
-                                <Dropdown
-                                    value={selectedUnidade} 
-                                    options={unidades}
-                                    onChange={handleUnidadeChange}  
-                                    placeholder="Unidade"
-                                    style={{width:'100%',textAlign: 'left' }}
-                                    panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                                    showClear={selectedUnidade !== null}
-                                />
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Unidade</label>
+                                    <Dropdown
+                                        value={selectedUnidade} 
+                                        options={unidades}
+                                        onChange={handleUnidadeChange}  
+                                        placeholder="Unidade"
+                                        style={{width:'100%',textAlign: 'left' }}
+                                        panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
+                                        showClear={selectedUnidade !== null}
+                                    />
+                                </div>
                             </div>
                             <div className='col-sm-3 mb-3'>
-                                <MultiSelect
-                                    value={selectedAreaComercial} 
-                                    options={areasComerciais} 
-                                    onChange={handleAreaChange}  
-                                    placeholder="Área Comercial" 
-                                    display="chip" 
-                                    style={{width:'100%'}}
-                                    panelStyle={{ width: '100%' }} // Largura do painel
-                                    showClear 
-                                />
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Área Comercial</label>
+                                    <MultiSelect
+                                        value={selectedAreaComercial} 
+                                        options={areasComerciais} 
+                                        onChange={handleAreaChange}  
+                                        placeholder="Área Comercial" 
+                                        display="chip" 
+                                        style={{width:'100%'}}
+                                        panelStyle={{ width: '100%' }} // Largura do painel
+                                        showClear 
+                                    />
+                                </div>
                             </div>
                             <div className='col-sm-3 mb-3'>
-                                <MultiSelect
-                                    value={selectedAgencias}
-                                    options={filteredAgencias} // Usando opções filtradas
-                                    onChange={(e) => setSelectedAgencias(e.value || [])}
-                                    placeholder="Agência"
-                                    display="chip"
-                                    filter
-                                    filterBy="label" // Filtra com base na descrição (label)
-                                    onFilter={handleFilter} // Evento personalizado de filtro
-                                    showClear
-                                    optionLabel="label"
-                                    style={{width:'253px'}}
-                                />
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Agência</label>
+                                    <MultiSelect
+                                        value={selectedAgencias}
+                                        options={filteredAgencias} // Usando opções filtradas
+                                        onChange={(e) => setSelectedAgencias(e.value || [])}
+                                        placeholder="Agência"
+                                        display="chip"
+                                        filter
+                                        filterBy="label" // Filtra com base na descrição (label)
+                                        onFilter={handleFilter} // Evento personalizado de filtro
+                                        showClear
+                                        optionLabel="label"
+                                        style={{width:'253px'}}
+                                    />
+                                </div>
                             </div>
                             <div className="col-sm-3 mb-3 mobile-adjust" style={{ marginTop: "-30px" }}>
                                 <label>Quantidade de Agências:</label>
@@ -701,48 +721,56 @@ const GraficoComFiltros = () => {
                     >
                         <h1 style={{ color: "#0152a1", textAlign: "left" }}>Consulta por Área Comercial</h1>
                         <div className="row mt-3">
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateStart}
-                                    onChange={(e) => setDateStart(e.value)}
-                                    showIcon
-                                    placeholder="Data Inicial"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Incial</label>
+                                    <Calendar
+                                        value={dateStart}
+                                        onChange={(e) => setDateStart(e.value)}
+                                        showIcon
+                                        placeholder="Data Inicial"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                    />
+                                </div>
                             </div>
-                            <div className="col-sm-6 mb-3">
-                                <Calendar
-                                    value={dateEnd}
-                                    onChange={(e) => setDateEnd(e.value)}
-                                    showIcon
-                                    placeholder="Data Final"
-                                    locale="pt-BR"
-                                    dateFormat="dd/mm/yy"
-                                    style={{marginLeft:'-260px'}}
-                                />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Data Final</label>
+                                    <Calendar
+                                        value={dateEnd}
+                                        onChange={(e) => setDateEnd(e.value)}
+                                        showIcon
+                                        placeholder="Data Final"
+                                        locale="pt-BR"
+                                        dateFormat="dd/mm/yy"
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="row mt-3">
-                            <div className="col-sm-6 mb-3">
-                            <MultiSelect
-                                value={selectedAreaComercial}
-                                options={areasComerciais}
-                                onChange={(e) => {
-                                    if (e.value) {
-                                        const areasSelecionadas = e.value.map((area) => area.value || area);
-                                        console.log("Áreas selecionadas:", areasSelecionadas);
-                                        setSelectedAreaComercial(areasSelecionadas);
-                                    } else {
-                                        console.warn("Nenhuma área selecionada.");
-                                        setSelectedAreaComercial([]);
-                                    }
-                                }}
-                                placeholder="Área Comercial"
-                                display="chip"
-                                showClear
-                                style={{ width: "100%" }}
-                            />
+                            <div className="col-sm-3 mb-3">
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Area Comercial</label>
+                                    <MultiSelect
+                                        value={selectedAreaComercial}
+                                        options={areasComerciais}
+                                        onChange={(e) => {
+                                            if (e.value) {
+                                                const areasSelecionadas = e.value.map((area) => area.value || area);
+                                                console.log("Áreas selecionadas:", areasSelecionadas);
+                                                setSelectedAreaComercial(areasSelecionadas);
+                                            } else {
+                                                console.warn("Nenhuma área selecionada.");
+                                                setSelectedAreaComercial([]);
+                                            }
+                                        }}
+                                        placeholder="Área Comercial"
+                                        display="chip"
+                                        showClear
+                                        style={{ width: "100%" }}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="row mt-3">
