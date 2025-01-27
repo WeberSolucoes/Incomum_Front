@@ -687,7 +687,7 @@ const GraficoComFiltros = () => {
                                         onChange={handleNumAgenciasChange}
                                         min="1"
                                         max="10"
-                                        style={{width:'100px'}}
+                                        style={{width:'100px',height:'34px'}}
                                     />
                                 </div>
                             </div>
@@ -775,7 +775,7 @@ const GraficoComFiltros = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-sm-3 mb-3" style={{ marginTop: "-30px" }}>
+                            <div className="col-sm-3 mb-3">
                                 <div className="form-group">
                                     <label htmlFor="cid_codigo">Quantidade:</label>
                                     <input
@@ -783,7 +783,7 @@ const GraficoComFiltros = () => {
                                         value={quantidade}
                                         min="1"
                                         max="10"
-                                        style={{width:'100px'}}
+                                        style={{width:'100px',height:'34px'}}
                                         onChange={(e) => setQuantidade(Number(e.target.value))}
                                     />
                                 </div>
