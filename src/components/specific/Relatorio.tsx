@@ -207,26 +207,28 @@ const Relatorio = () => {
     };
 
     const handleFilter = (event) => {
-        const query = event.filter.trim().toUpperCase(); // Converte o filtro para maiúsculas
-        console.log("Filtro digitado (em maiúsculas):", query);
+        const query = event.filter.trim().toUpperCase();
     
-        if (query.length >= 3) {
-            // Filtra com base no texto digitado
+        if (query.length > 0) {
+            // Filtra as opções disponíveis
             const filteredResults = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
     
-            // Garante que os itens selecionados permaneçam na lista exibida
+            // Adiciona os itens selecionados à lista filtrada, garantindo que fiquem visíveis
             const updatedFilteredAgencias = [
                 ...filteredResults,
                 ...selectedAgencias.filter(
-                    (selected) => !filteredResults.some((agencia) => agencia.value === selected.value)
+                    (selected) =>
+                        !filteredResults.some(
+                            (agencia) => agencia.value === selected.value
+                        )
                 ),
             ];
     
             setFilteredAgencias(updatedFilteredAgencias);
         } else {
-            // Mostra apenas os itens selecionados quando o filtro é apagado
+            // Quando o filtro é apagado, exibe apenas os itens selecionados
             setFilteredAgencias(selectedAgencias);
         }
     };
@@ -407,16 +409,16 @@ const Relatorio = () => {
                             <label htmlFor="cid_codigo">Agência</label>
                             <MultiSelect
                                 value={selectedAgencias}
-                                options={filteredAgencias} // Usando opções filtradas
-                                onChange={handleAgenciasChange} // Atualiza os selecionados
-                                placeholder="Agência"
+                                options={filteredAgencias} // Usando as opções filtradas dinamicamente
+                                onChange={handleAgenciasChange} // Atualiza o estado das seleções
+                                placeholder="Selecione uma ou mais Agências"
                                 display="chip"
                                 filter
-                                filterBy="label" // Filtra com base na descrição (label)
-                                onFilter={handleFilter} // Evento personalizado de filtro
+                                filterBy="label" // Filtra com base na descrição
+                                onFilter={handleFilter} // Chamando o filtro personalizado
                                 showClear
                                 optionLabel="label"
-                                style={{width:'100%'}}
+                                style={{ width: '100%' }}
                                 panelStyle={{ width: '100%' }}
                                 emptyFilterMessage="Nenhuma agência encontrada"
                                 emptyMessage="Sem opções disponíveis"
