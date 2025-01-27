@@ -168,75 +168,86 @@ const Relatorio = () => {
         }
     };
 
-    const fetchAgencias = async (selectedAreaComercial: string[] | any[]) => {
-        // Verifica se selectedAreaComercial é uma matriz válida ou string com conteúdo
-        if (Array.isArray(selectedAreaComercial) && selectedAreaComercial.length > 0) {
-            try {
-                console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
-    
-                const response = await axios.get(`https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/`, {
-                    params: { 'area_comercial[]': selectedAreaComercial },
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token') || sessionStorage.getItem('token')}` // Incluindo o token
-                    }
-                });
-    
-                console.log('Resposta da API:', response.data);
-    
-                // Verifica se há resultados e os mapeia para o Dropdown
-                if (response.data.valores && response.data.valores.length > 0) {
-                    setAgencias(
-                        response.data.valores.map((item: { age_descricao: string; age_codigo: string }) => ({
-                            label: item.age_descricao,
-                            value: item.age_codigo
-                        }))
-                    );
-                } else {
-                    setAgencias([]); // Caso não haja agências
-                    toastError('Nenhuma agência encontrada para esta área comercial.');
-                }
-            } catch (error) {
-                toastError('Erro ao carregar as agências');
-                console.error('Erro ao fazer a requisição:', error); // Log do erro para diagnosticar
-            }
-        } else {
-            console.log('Nenhuma área comercial selecionada ou o valor é inválido.');
-            // Se nenhuma área for selecionada, limpar as agências
-            setAgencias([]);
-        }
-    };
-
     const handleFilter = (event) => {
         const query = event.filter.trim().toUpperCase(); // Converte o filtro para maiúsculas
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
-            // Filtra os itens que correspondem ao texto digitado
+            // Filtra as agências com base no texto digitado
             const filteredResults = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
     
-            // Garante que os itens selecionados permaneçam visíveis
-            const updatedFilteredAgencias = [
+            // Adiciona itens selecionados para que nunca desapareçam
+            const combinedResults = [
                 ...filteredResults,
                 ...agencias.filter((agencia) =>
-                    selectedAgencias.some((selected) => selected.value === agencia.value)
+                    selectedAgencias.some((selected) => selected === agencia.value)
                 ),
             ];
     
-            // Remove duplicatas da lista combinada
-            const uniqueFilteredAgencias = Array.from(
-                new Map(updatedFilteredAgencias.map((item) => [item.value, item])).values()
+            // Remove duplicatas
+            const uniqueResults = Array.from(
+                new Map(combinedResults.map((item) => [item.value, item])).values()
             );
     
-            setFilteredAgencias(uniqueFilteredAgencias);
+            setFilteredAgencias(uniqueResults);
         } else {
-            // Quando o filtro é apagado, exibe apenas os itens selecionados
+            // Mostra apenas os itens selecionados quando o filtro é apagado
             const selectedOnly = agencias.filter((agencia) =>
-                selectedAgencias.some((selected) => selected.value === agencia.value)
+                selectedAgencias.includes(agencia.value)
             );
     
             setFilteredAgencias(selectedOnly);
+        }
+    };
+    
+    // Chamado para buscar as agências com base nas áreas comerciais selecionadas
+    const fetchAgencias = async (selectedAreaComercial) => {
+        if (Array.isArray(selectedAreaComercial) && selectedAreaComercial.length > 0) {
+            try {
+                console.log('Áreas Comerciais Selecionadas:', selectedAreaComercial);
+    
+                const response = await axios.get(
+                    `https://api.incoback.com.br/api/incomum/relatorio/agencia-by-user/`,
+                    {
+                        params: { 'area_comercial[]': selectedAreaComercial },
+                        headers: {
+                            Authorization: `Bearer ${
+                                localStorage.getItem('token') || sessionStorage.getItem('token')
+                            }`,
+                        },
+                    }
+                );
+    
+                console.log('Resposta da API:', response.data);
+    
+                if (response.data.valores && response.data.valores.length > 0) {
+                    setAgencias(
+                        response.data.valores.map((item) => ({
+                            label: item.age_descricao,
+                            value: item.age_codigo,
+                        }))
+                    );
+                    setFilteredAgencias(
+                        response.data.valores.map((item) => ({
+                            label: item.age_descricao,
+                            value: item.age_codigo,
+                        }))
+                    );
+                } else {
+                    setAgencias([]);
+                    setFilteredAgencias([]);
+                    toastError('Nenhuma agência encontrada para esta área comercial.');
+                }
+            } catch (error) {
+                toastError('Erro ao carregar as agências');
+                console.error('Erro ao fazer a requisição:', error);
+            }
+        } else {
+            setAgencias([]);
+            setFilteredAgencias([]);
+            console.log('Nenhuma área comercial selecionada ou o valor é inválido.');
         }
     };
 
