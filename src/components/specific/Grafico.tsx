@@ -647,7 +647,7 @@ const GraficoComFiltros = () => {
                                     value={selectedAgencias}
                                     options={filteredAgencias} // Usando opções filtradas
                                     onChange={(e) => setSelectedAgencias(e.value || [])}
-                                    placeholder="Selecione uma ou mais Agências"
+                                    placeholder="Agência"
                                     display="chip"
                                     filter
                                     filterBy="label" // Filtra com base na descrição (label)
@@ -738,7 +738,7 @@ const GraficoComFiltros = () => {
                                         setSelectedAreaComercial([]);
                                     }
                                 }}
-                                placeholder="Selecione Áreas Comerciais"
+                                placeholder="Área Comercial"
                                 display="chip"
                                 showClear
                                 style={{ width: "100%" }}
