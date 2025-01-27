@@ -677,15 +677,17 @@ const GraficoComFiltros = () => {
                                 </div>
                             </div>
                             <div className="col-sm-3 mb-3 mobile-adjust">
-                                <label>Quantidade de Agências:</label>
-                                <input
-                                    type="number"
-                                    value={numAgencias}
-                                    onChange={handleNumAgenciasChange}
-                                    min="1"
-                                    max="10"
-                                    style={{height: '34px'}}
-                                />
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Quantidade:</label>
+                                    <input
+                                        type="number"
+                                        value={numAgencias}
+                                        onChange={handleNumAgenciasChange}
+                                        min="1"
+                                        max="10"
+                                        style={{width:'100px'}}
+                                    />
+                                </div>
                             </div>
                         </div>
                         <div className="row mt-3">
