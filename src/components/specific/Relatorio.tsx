@@ -210,6 +210,7 @@ const Relatorio = () => {
         const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
         console.log("Filtro digitado (em maiúsculas):", query);
     
+        // Verifica se o filtro contém 3 ou mais caracteres
         if (query.length >= 3) {
             const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
@@ -217,7 +218,8 @@ const Relatorio = () => {
             console.log("Resultados filtrados:", results);
             setFilteredAgencias(results);
         } else {
-            setFilteredAgencias([]);
+            // Retorna a lista completa se o filtro for menor que 3 caracteres
+            setFilteredAgencias(agencias);
         }
     };
 
