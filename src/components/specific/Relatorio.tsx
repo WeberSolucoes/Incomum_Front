@@ -347,74 +347,92 @@ const Relatorio = () => {
             <h1 style={{ marginTop: '10px', color: '#0152a1' }}>Relatório de Faturamento</h1>
             <form style={{ backgroundColor: '#f9f9f9', width: '100%', margin: 'auto', padding: '20px', border: '1px solid #ddd', borderRadius: '5px',height:'90%' }} onSubmit={handleSubmit}>
                 <div className='row mt-3'>
-                    <div className='col-sm-6 mb-3'>
-                        <Calendar value={dateStart} onChange={(e) => setDateStart(e.value)} showIcon placeholder="Data Inicial" locale='pt-BR' dateFormat="dd/mm/yy"  />
+                    <div className='col-sm-3 mb-3'>
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Data Incial</label>
+                            <Calendar value={dateStart} onChange={(e) => setDateStart(e.value)} showIcon placeholder="Data Inicial" locale='pt-BR' dateFormat="dd/mm/yy"/>
+                        </div>
                     </div>
-                    <div className='col-sm-6 mb-3'>
-                        <Calendar className='endcalendar' style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"  />
+                    <div className='col-sm-3 mb-3'>
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Data Final</label>
+                            <Calendar className='endcalendar' style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"/>
+                        </div>
                     </div>
                 </div>
                 <div className='row mt-3'>
                     <div className='col-sm-3 mb-3'>
-                        <Dropdown
-                            value={selectedUnidade} 
-                            options={unidades} 
-                            onChange={handleUnidadeChange}    // Atualiza as áreas comerciais ao mudar a unidade
-                            placeholder="Unidade"
-                            style={{width:'100%',textAlign: 'left' }}
-                            panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                            showClear={selectedUnidade !== null}
-                            filter
-                            emptyFilterMessage="Nenhuma opção disponível"
-                            emptyMessage="Sem opções disponíveis"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Unidade</label>
+                            <Dropdown
+                                value={selectedUnidade} 
+                                options={unidades} 
+                                onChange={handleUnidadeChange}    // Atualiza as áreas comerciais ao mudar a unidade
+                                placeholder="Unidade"
+                                style={{width:'100%',textAlign: 'left' }}
+                                panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
+                                showClear={selectedUnidade !== null}
+                                filter
+                                emptyFilterMessage="Nenhuma opção disponível"
+                                emptyMessage="Sem opções disponíveis"
+                            />
+                        </div>
                     </div>
                     <div className='col-sm-3 mb-3'>
-                        <MultiSelect 
-                            value={selectedAreaComercial} 
-                            options={areasComerciais} 
-                            onChange={handleAreaChange} 
-                            placeholder="Área Comercial" 
-                            display="chip" 
-                            style={{width:'100%'}}
-                            panelStyle={{ width: '100%' }} // Largura do painel
-                            showClear
-                            filter
-                            emptyFilterMessage="Nenhuma opção disponível"
-                            emptyMessage="Sem opções disponíveis"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Area Comercial</label>
+                            <MultiSelect 
+                                value={selectedAreaComercial} 
+                                options={areasComerciais} 
+                                onChange={handleAreaChange} 
+                                placeholder="Área Comercial" 
+                                display="chip" 
+                                style={{width:'100%'}}
+                                panelStyle={{ width: '100%' }} // Largura do painel
+                                showClear
+                                filter
+                                emptyFilterMessage="Nenhuma opção disponível"
+                                emptyMessage="Sem opções disponíveis"
+                            />
+                        </div> 
                     </div>
                     <div className='col-sm-3 mb-3'>
-                        <MultiSelect
-                            value={selectedAgencias}
-                            options={filteredAgencias} // Usando opções filtradas
-                            onChange={handleAgenciasChange} // Atualiza os selecionados
-                            placeholder="Agência"
-                            display="chip"
-                            filter
-                            filterBy="label" // Filtra com base na descrição (label)
-                            onFilter={handleFilter} // Evento personalizado de filtro
-                            showClear
-                            optionLabel="label"
-                            style={{width:'100%'}}
-                            panelStyle={{ width: '100%' }}
-                            emptyFilterMessage="Nenhuma agência encontrada"
-                            emptyMessage="Sem opções disponíveis"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Agência</label>
+                            <MultiSelect
+                                value={selectedAgencias}
+                                options={filteredAgencias} // Usando opções filtradas
+                                onChange={handleAgenciasChange} // Atualiza os selecionados
+                                placeholder="Agência"
+                                display="chip"
+                                filter
+                                filterBy="label" // Filtra com base na descrição (label)
+                                onFilter={handleFilter} // Evento personalizado de filtro
+                                showClear
+                                optionLabel="label"
+                                style={{width:'100%'}}
+                                panelStyle={{ width: '100%' }}
+                                emptyFilterMessage="Nenhuma agência encontrada"
+                                emptyMessage="Sem opções disponíveis"
+                            />
+                        </div>
                     </div>
                     <div className='col-sm-3 mb-3'>
-                        <MultiSelect
-                            value={selectedVendedor} 
-                            options={vendedores} 
-                            onChange={(e) => setSelectedVendedor(e.value)} 
-                            placeholder="Vendedor"
-                            style={{width:'100%'}}
-                            showClear
-                            display="chip"
-                            filter
-                            filterBy="label" // Filtra com base na descrição (label)
-                            optionLabel="label"
-                        />
+                        <div className="form-group">
+                            <label htmlFor="cid_codigo">Vendedor</label>
+                            <MultiSelect
+                                value={selectedVendedor} 
+                                options={vendedores} 
+                                onChange={(e) => setSelectedVendedor(e.value)} 
+                                placeholder="Vendedor"
+                                style={{width:'100%'}}
+                                showClear
+                                display="chip"
+                                filter
+                                filterBy="label" // Filtra com base na descrição (label)
+                                optionLabel="label"
+                            />
+                        </div>
                     </div>
                 </div>
                 <div className='row mt-3'>
