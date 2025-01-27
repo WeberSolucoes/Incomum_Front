@@ -783,15 +783,8 @@ const GraficoComFiltros = () => {
                                         value={quantidade}
                                         min="1"
                                         max="10"
-                                        style={{width:'100px',height:'34px'}}
-                                        onChange={(e) => {
-                                            let newValue = e.target.value;
-                                
-                                            // Garante que o valor seja um número inteiro e dentro do intervalo
-                                            if (newValue === "" || (newValue >= 1 && newValue <= 10)) {
-                                                setQuantidade(newValue);  // Atualiza com o valor válido
-                                            }
-                                        }}
+                                        style={{width:'100px'}}
+                                        onChange={(e) => setQuantidade(Number(e.target.value))}
                                     />
                                 </div>
                             </div>
