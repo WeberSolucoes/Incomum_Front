@@ -207,7 +207,7 @@ const Relatorio = () => {
     };
 
     const handleFilter = (event) => {
-        const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
+        const query = event.filter.trim().toUpperCase(); // Converte o texto para maiúsculas
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
@@ -215,17 +215,23 @@ const Relatorio = () => {
             const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
-            console.log("Resultados filtrados:", results);
     
-            // Adiciona os itens já selecionados aos resultados filtrados (sem duplicar)
-            const selected = selectedAgencias.map((selected) => 
-                agencias.find((agencia) => agencia.value === selected)
+            // Adiciona os itens já selecionados à lista filtrada
+            const mergedResults = [
+                ...results,
+                ...agencias.filter((agencia) =>
+                    selectedAgencias.some((selected) => selected.value === agencia.value)
+                ),
+            ];
+    
+            // Remove duplicatas
+            const uniqueResults = mergedResults.filter(
+                (v, i, a) => a.findIndex((t) => t.value === v.value) === i
             );
     
-            const mergedResults = [...new Set([...selected, ...results])];
-            setFilteredAgencias(mergedResults);
+            setFilteredAgencias(uniqueResults);
         } else {
-            // Se o filtro for apagado, mostra apenas as opções originais
+            // Se o filtro for apagado, mostra todas as opções
             setFilteredAgencias(agencias);
         }
     };
