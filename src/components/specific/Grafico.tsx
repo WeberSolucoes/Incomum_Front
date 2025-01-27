@@ -785,18 +785,17 @@ const GraficoComFiltros = () => {
                                         max="10"
                                         style={{width:'100px',height:'34px'}}
                                         onChange={(e) => {
-                                            // Obtém o valor inserido
-                                            let newValue = Number(e.target.value);
-                                
-                                            // Valida se o valor está dentro do intervalo permitido
-                                            if (newValue < 1) {
-                                                setQuantidade(1);  // Se o valor for menor que 1, define como 1
-                                            } else if (newValue > 10) {
-                                                setQuantidade(10);  // Se o valor for maior que 10, define como 10
-                                            } else {
-                                                setQuantidade(newValue);  // Caso contrário, define o valor normalmente
-                                            }
-                                        }}
+                                        let newValue = Number(e.target.value);
+                                        
+                                        // Verifica se o valor está dentro do intervalo de 1 a 10
+                                        if (newValue >= 1 && newValue <= 10) {
+                                            setQuantidade(newValue);  // Atualiza o valor no estado se estiver no intervalo
+                                        } else if (newValue < 1) {
+                                            setQuantidade(1);  // Se o valor for menor que 1, define como 1
+                                        } else if (newValue > 10) {
+                                            setQuantidade(10);  // Se o valor for maior que 10, define como 10
+                                        }
+                                    }}
                                     />
                                 </div>
                             </div>
