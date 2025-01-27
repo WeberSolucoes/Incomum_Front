@@ -356,7 +356,7 @@ const Relatorio = () => {
                     <div className='col-sm-3 mb-3'>
                         <div className="form-group">
                             <label htmlFor="cid_codigo">Data Final</label>
-                            <Calendar className='endcalendar' style={{marginLeft:'-258px'}} value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"/>
+                            <Calendar className='endcalendar' value={dateEnd} onChange={(e) => setDateEnd(e.value)} showIcon placeholder="Data Final" locale='pt-BR' dateFormat="dd/mm/yy"/>
                         </div>
                     </div>
                 </div>
