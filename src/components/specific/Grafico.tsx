@@ -623,7 +623,6 @@ const GraficoComFiltros = () => {
                                         placeholder="Data Final"
                                         locale="pt-BR"
                                         dateFormat="dd/mm/yy"
-                                        style={{marginLeft:'-260px'}}
                                         className="GraficoDiv"
                                     />
                                 </div>
