@@ -783,7 +783,7 @@ const GraficoComFiltros = () => {
                                         value={quantidade}
                                         min="1"
                                         max="10"
-                                        style={{width:'100px',heigth:'34px'}}
+                                        style={{width:'100px',height:'34px'}}
                                         onChange={(e) => setQuantidade(Number(e.target.value))}
                                     />
                                 </div>
