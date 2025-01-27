@@ -676,7 +676,7 @@ const GraficoComFiltros = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="col-sm-3 mb-3 mobile-adjust" style={{ marginTop: "-30px" }}>
+                            <div className="col-sm-3 mb-3 mobile-adjust">
                                 <label>Quantidade de Agências:</label>
                                 <input
                                     type="number"
