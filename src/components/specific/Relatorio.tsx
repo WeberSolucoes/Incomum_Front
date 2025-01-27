@@ -207,29 +207,17 @@ const Relatorio = () => {
     };
 
     const handleFilter = (event) => {
-        const query = event.filter.trim().toUpperCase();
+        const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
+        console.log("Filtro digitado (em maiúsculas):", query);
     
-        if (query.length > 0) {
-            // Filtra as opções disponíveis
-            const filteredResults = agencias.filter((agencia) =>
+        if (query.length >= 3) {
+            const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
-    
-            // Adiciona os itens selecionados à lista filtrada, garantindo que fiquem visíveis
-            const updatedFilteredAgencias = [
-                ...filteredResults,
-                ...selectedAgencias.filter(
-                    (selected) =>
-                        !filteredResults.some(
-                            (agencia) => agencia.value === selected.value
-                        )
-                ),
-            ];
-    
-            setFilteredAgencias(updatedFilteredAgencias);
+            console.log("Resultados filtrados:", results);
+            setFilteredAgencias(results);
         } else {
-            // Quando o filtro é apagado, exibe apenas os itens selecionados
-            setFilteredAgencias(selectedAgencias);
+            setFilteredAgencias([]);
         }
     };
 
