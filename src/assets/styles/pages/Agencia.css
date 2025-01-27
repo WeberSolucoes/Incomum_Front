@@ -507,7 +507,6 @@ input[placeholder="Buscar"]{
 }
 
 .p-tabview .p-tabview-nav li .p-tabview-nav-link {
-  background-color: #f0f0f0;
   
   border-radius: 2px;
   margin: 0 0 -1px 0 !important;
@@ -520,6 +519,7 @@ input[placeholder="Buscar"]{
 
 .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
   border-color: #e87717;
+  background-color: #f0f0f0;
 }
 
 .p-multiselect-label{
