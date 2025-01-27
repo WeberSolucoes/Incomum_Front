@@ -287,7 +287,17 @@ const Relatorio = () => {
     };
 
     const formatCurrency = (value) => {
-        return value.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        if (value === null || value === undefined) return '';
+    
+        // Trunca o valor para 2 casas decimais sem arredondar
+        const truncatedValue = Math.floor(value * 100) / 100;
+    
+        // Formata o valor para moeda BRL
+        return new Intl.NumberFormat('pt-BR', {
+            style: 'currency',
+            currency: 'BRL',
+            minimumFractionDigits: 2,
+        }).format(truncatedValue);
     };
 
     const scrollToTop = () => {
