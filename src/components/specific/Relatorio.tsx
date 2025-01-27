@@ -323,6 +323,10 @@ const Relatorio = () => {
         }
     };
 
+    const handleAgenciasChange = (e: any) => {
+        setSelectedAgencias(e.value); // Atualiza o estado dos itens selecionados
+    };
+
     return (
         <>
         <div style={{backgroundColor:'white',borderRadius:'10px',marginTop:'0px',padding:'inherit',width: '1100px',marginLeft: '320px', boxShadow: '10px 10px 100px rgba(0, 0, 0, 0.4),-2px -2px 6px rgba(255, 255, 255, 0.6)'}} className="container px-4">
@@ -370,7 +374,7 @@ const Relatorio = () => {
                         <MultiSelect
                             value={selectedAgencias}
                             options={filteredAgencias} // Usando opções filtradas
-                            onChange={(e) => setSelectedAgencias(e.value || [])}
+                            onChange={handleAgenciasChange} // Atualiza os selecionados
                             placeholder="Selecione uma ou mais Agências"
                             display="chip"
                             filter
@@ -380,6 +384,8 @@ const Relatorio = () => {
                             optionLabel="label"
                             style={{width:'100%'}}
                             panelStyle={{ width: '100%' }}
+                            emptyFilterMessage="Nenhuma agência encontrada"
+                            emptyMessage="Sem opções disponíveis"
                         />
                     </div>
                     <div className='col-sm-3 mb-3'>
