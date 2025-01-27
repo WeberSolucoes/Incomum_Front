@@ -207,21 +207,36 @@ const Relatorio = () => {
     };
 
     const handleFilter = (event) => {
-        const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
+        const query = event.filter.trim().toUpperCase(); // Converte o filtro para maiúsculas
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
-            // Exibe apenas os resultados que correspondem ao filtro
-            const results = agencias.filter((agencia) =>
+            // Filtra os itens que correspondem ao texto digitado
+            const filteredResults = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
-            console.log("Resultados filtrados:", results);
-            setFilteredAgencias(results);
+    
+            // Garante que os itens selecionados permaneçam visíveis
+            const updatedFilteredAgencias = [
+                ...filteredResults,
+                ...agencias.filter((agencia) =>
+                    selectedAgencias.some((selected) => selected.value === agencia.value)
+                ),
+            ];
+    
+            // Remove duplicatas da lista combinada
+            const uniqueFilteredAgencias = Array.from(
+                new Map(updatedFilteredAgencias.map((item) => [item.value, item])).values()
+            );
+    
+            setFilteredAgencias(uniqueFilteredAgencias);
         } else {
-            // Quando o filtro tem menos de 3 caracteres, mostra apenas os itens selecionados
-            setFilteredAgencias(agencias.filter((agencia) =>
-                selectedAgencias.includes(agencia.value)
-            ));
+            // Quando o filtro é apagado, exibe apenas os itens selecionados
+            const selectedOnly = agencias.filter((agencia) =>
+                selectedAgencias.some((selected) => selected.value === agencia.value)
+            );
+    
+            setFilteredAgencias(selectedOnly);
         }
     };
 
