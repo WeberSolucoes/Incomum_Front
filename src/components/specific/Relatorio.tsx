@@ -345,6 +345,11 @@ const Relatorio = () => {
         }
     };
 
+    useEffect(() => {
+        setFilteredAgencias(selectedAgencias); // Mostra os itens selecionados inicialmente
+    }, [selectedAgencias]);
+
+
     const handleAgenciasChange = (e: any) => {
         setSelectedAgencias(e.value); // Atualiza o estado dos itens selecionados
     };
