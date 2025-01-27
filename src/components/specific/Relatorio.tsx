@@ -492,15 +492,13 @@ const Relatorio = () => {
                     >
                         <Column field="tur_numerovenda" header="Num.Venda" />
                         <Column field="tur_codigo" header="Num.Pct" />
-                        <Column 
-                            field="fim_data" 
-                            header="Data" 
-                            body={(rowData) => {
-                                if (!rowData.fim_data) return '';
-                                const date = new Date(rowData.fim_data);
-                                return new Intl.DateTimeFormat('pt-BR').format(date);
-                            }} 
-                        />
+                        <Column
+                        field="fim_data" 
+                        header="Data" 
+                        body={(rowData) => {
+                        const date = new Date(rowData.fim_data);
+                        return date.toLocaleDateString('pt-BR', { timeZone: 'UTC' });  // Ajuste conforme o fuso horário necessário
+                        }}/>
                         <Column field="fim_markup" header="Markup" />
                         <Column 
                             field="fim_valorinc" 
