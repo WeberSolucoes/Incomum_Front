@@ -211,13 +211,17 @@ const Relatorio = () => {
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
+            // Exibe apenas os resultados que correspondem ao filtro
             const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
             console.log("Resultados filtrados:", results);
             setFilteredAgencias(results);
         } else {
-            setFilteredAgencias([]);
+            // Quando o filtro tem menos de 3 caracteres, mostra apenas os itens selecionados
+            setFilteredAgencias(agencias.filter((agencia) =>
+                selectedAgencias.includes(agencia.value)
+            ));
         }
     };
 
@@ -402,19 +406,15 @@ const Relatorio = () => {
                             <label htmlFor="cid_codigo">Agência</label>
                             <MultiSelect
                                 value={selectedAgencias}
-                                options={filteredAgencias} // Usando as opções filtradas dinamicamente
-                                onChange={handleAgenciasChange} // Atualiza o estado das seleções
-                                placeholder="Selecione uma ou mais Agências"
+                                options={filteredAgencias} // Usando opções filtradas
+                                onChange={(e) => setSelectedAgencias(e.value || [])}
+                                placeholder="Agência"
                                 display="chip"
                                 filter
-                                filterBy="label" // Filtra com base na descrição
-                                onFilter={handleFilter} // Chamando o filtro personalizado
+                                filterBy="label" // Filtra com base na descrição (label)
+                                onFilter={handleFilter} // Evento personalizado de filtro
                                 showClear
                                 optionLabel="label"
-                                style={{ width: '100%' }}
-                                panelStyle={{ width: '100%' }}
-                                emptyFilterMessage="Nenhuma agência encontrada"
-                                emptyMessage="Sem opções disponíveis"
                             />
                         </div>
                     </div>
