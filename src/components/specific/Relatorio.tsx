@@ -210,16 +210,18 @@ const Relatorio = () => {
         const query = event.filter.trim().toUpperCase(); // Converte para maiúsculas
         console.log("Filtro digitado (em maiúsculas):", query);
     
-        // Verifica se o filtro contém 3 ou mais caracteres
         if (query.length >= 3) {
+            // Exibe apenas os resultados que correspondem ao filtro
             const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
             console.log("Resultados filtrados:", results);
             setFilteredAgencias(results);
         } else {
-            // Retorna a lista completa se o filtro for menor que 3 caracteres
-            setFilteredAgencias(agencias);
+            // Quando o filtro tem menos de 3 caracteres, mostra apenas os itens selecionados
+            setFilteredAgencias(agencias.filter((agencia) =>
+                selectedAgencias.includes(agencia.value)
+            ));
         }
     };
 
