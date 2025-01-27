@@ -33,7 +33,8 @@ const GraficoComFiltros = () => {
     const [selectedAreaComercial, setSelectedAreaComercial] = useState([]);
     const [selectedVendedor, setSelectedVendedor] = useState(null);
     const [selectedAgencia, setSelectedAgencia] = useState(null);
-    const [numAgencias, setNumAgencias] = useState(5); 
+    const [numAgencias, setNumAgencias] = useState(5);
+    const [quantidade, setQuantidade] = useState(5);  // Valor padrão para 5 áreas
 
 
     useEffect(() => {
@@ -371,6 +372,7 @@ const GraficoComFiltros = () => {
             startDate: formattedStartDate,
             endDate: formattedEndDate,
             areas: selectedAreaComercial, // Certifique-se de que está passando o estado correto
+            quantidade: quantidade,  // Passando a quantidade de áreas comerciais
         };
     
         console.log("Filtros sendo enviados:", filters);
@@ -770,6 +772,19 @@ const GraficoComFiltros = () => {
                                         display="chip"
                                         showClear
                                         style={{ width: "100%" }}
+                                    />
+                                </div>
+                            </div>
+                            <div className="col-sm-3 mb-3" style={{ marginTop: "-30px" }}>
+                                <div className="form-group">
+                                    <label htmlFor="cid_codigo">Quantidade:</label>
+                                    <input
+                                        type="number"
+                                        value={quantidade}
+                                        min="1"
+                                        max="10"
+                                        style={{width:'100px'}}
+                                        onChange={(e) => setQuantidade(Number(e.target.value))}
                                     />
                                 </div>
                             </div>
