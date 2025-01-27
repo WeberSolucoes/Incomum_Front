@@ -211,17 +211,22 @@ const Relatorio = () => {
         console.log("Filtro digitado (em maiúsculas):", query);
     
         if (query.length >= 3) {
-            // Exibe apenas os resultados que correspondem ao filtro
+            // Filtra as opções com base no texto digitado
             const results = agencias.filter((agencia) =>
                 agencia.label.toUpperCase().includes(query)
             );
             console.log("Resultados filtrados:", results);
-            setFilteredAgencias(results);
+    
+            // Adiciona os itens já selecionados aos resultados filtrados (sem duplicar)
+            const selected = selectedAgencias.map((selected) => 
+                agencias.find((agencia) => agencia.value === selected)
+            );
+    
+            const mergedResults = [...new Set([...selected, ...results])];
+            setFilteredAgencias(mergedResults);
         } else {
-            // Quando o filtro tem menos de 3 caracteres, mostra apenas os itens selecionados
-            setFilteredAgencias(agencias.filter((agencia) =>
-                selectedAgencias.includes(agencia.value)
-            ));
+            // Se o filtro for apagado, mostra apenas as opções originais
+            setFilteredAgencias(agencias);
         }
     };
 
