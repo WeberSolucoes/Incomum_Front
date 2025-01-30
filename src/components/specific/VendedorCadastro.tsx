@@ -8,6 +8,7 @@ import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedo
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from 'primereact/button';
+import Select from 'react-select';
 
 const Vendedor: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -23,6 +24,8 @@ const Vendedor: React.FC = ({onBackClick}) => {
     const [checked, setChecked] = useState(false);
     const [ven_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -255,6 +258,61 @@ const Vendedor: React.FC = ({onBackClick}) => {
         }
     };
 
+    const fetchUnidades = async (search: string) => {
+        if (search.length < 3) {
+            setCidades([]); // Limpa o estado se o termo de pesquisa for muito curto
+            return;
+        }
+  
+        try {
+            const response = await axios.get(
+                `http://127.0.0.1:8000/api/incomum/cidade/search/`,
+                { params: { q: search } }
+            );
+            const data = response.data;
+  
+            console.log("Dados crus da API:", data); // Verificar dados crus
+  
+            if (Array.isArray(data) && data.length > 0) {
+                setCidades(data); // Atualiza somente se houver resultados
+                console.log("Estado atualizado com cidades:", data);
+            } else {
+                console.log("Nenhum dado encontrado");
+                setCidades([]);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar cidades:", error);
+            setCidades([]); // Limpa em caso de erro
+        } finally {
+            setLoading(false);
+        }
+    };
+  
+  
+    useEffect(() => {
+        console.log("Cidades após a atualização:", cidades); // Verifique o estado
+    }, [cidades]); 
+  
+      // Efetua a busca quando o valor do termo de busca mudar
+    useEffect(() => {
+        if (searchTerm.length >= 3) {
+          fetchUnidades(searchTerm); // Realiza a consulta para termos com 3 ou mais caracteres
+        } else {
+          setCidades([]); // Limpa as cidades se o termo for menor que 3
+        }
+    }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
+  
+  
+    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
+      if (selectedOption) {
+          console.log("Cidade selecionada:", selectedOption);
+          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
+      } else {
+          setibge(null); // Reseta o valor se nada for selecionado
+      }
+    };
+  
+
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
             {/* Primeira linha */}
@@ -362,14 +420,23 @@ const Vendedor: React.FC = ({onBackClick}) => {
                         maxLength={8} // Adicionado para limitar a quantidade de caracteres
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group" >
                     <label htmlFor="cid_codigo">Cidade</label>
-                    <input
-                        type="text"
-                        id="cid_codigo"
-                        name="cid_codigo"
-                        value={cidade || ''}
-                        onChange={handleInputChange}
+                    <Select
+                    id="cid_codigo"
+                    name="cid_codigo"
+                    isClearable
+                    isLoading={loading} // Indicador de carregamento
+                    options={cidades} // Estado cidades atualizado com os dados crus da API
+                    onInputChange={(inputValue, { action }) => {
+                        if (action === "input-change") {
+                        setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                        fetchUnidades(inputValue); // Faz a chamada à API
+                        }
+                    }}
+                    onChange={handleCidadeChange} // Lida com a mudança de valor selecionado
+                    value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
+                    placeholder="Selecione uma Cidade"
                     />
                 </div>
             </div>
