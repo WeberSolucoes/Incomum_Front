@@ -539,7 +539,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 onInputChange={(inputValue, { action }) => {
                         if (action === "input-change") {
                             setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                            fetchUnidades(inputValue); // Faz a chamada à API
+                            fetchUnidades(inputValue.toUpperCase()); // Faz a chamada à API
                         }
                     }}
                 onChange={handleCidadeChange}
