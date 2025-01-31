@@ -540,7 +540,6 @@ input[placeholder="Buscar"]{
 
 .css-19bb58m{
     padding-bottom:0px;
-    grid-area: none !important;
 }
 
 .css-13cymwt-control{
@@ -553,3 +552,7 @@ input[placeholder="Buscar"]{
     min-height: 30px !important;
     height: 34px;
 }
+.css-1jqq78o-placeholder{
+    margin-top:-6px !important;
+}
+
