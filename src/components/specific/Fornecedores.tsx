@@ -629,7 +629,16 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     onChange={handleCidadeChange}
                     value={cidades.find((option) => option.value === ibge) || null}
                     placeholder="Selecione uma Cidade"
-                    styles={{width:'300px'}}
+                    styles={{
+                        container: (base) => ({
+                            ...base,
+                            width: '300px', // Define a largura do contêiner
+                        }),
+                        menu: (base) => ({
+                            ...base,
+                            zIndex: 9999, // Garante que o dropdown não seja sobreposto
+                        }),
+                    }}
                     />
                 </div>
                 <div className="form-group">
