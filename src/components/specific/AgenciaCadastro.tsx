@@ -34,7 +34,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [searchTerm, setSearchTerm] = useState('');
   const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
   const dispatch = useDispatch();
-  const tabs = useSelector((state) => state.tabs); 
+  const [tabs, setTabs] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -520,11 +520,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 
                     if (!tabExists) {
                         // Adiciona a aba "Cidade" e troca para ela se não existir
-                        dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
-                        dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
+                        setTabs([...tabs, { key: 'Cidade', title: 'Cidade', state: {} }]);
+                        setActiveTab('Cidade'); // Troca para a aba Cidade
                     } else {
                         // Apenas troca para a aba "Cidade" se ela já existir
-                        dispatch(setActiveTab('Cidade'));
+                        setActiveTab('Cidade');
                     }
                 }}
                 style={{
