@@ -30,7 +30,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [par_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
-    const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const dispatch = useDispatch();
 
     const exampleData = [
