@@ -559,3 +559,8 @@ input[placeholder="Buscar"]{
 .css-1cfo1cf{
     display: block !important;
 }
+#react-select-7-input:focus {
+  outline: none !important; /* Remove a borda de foco padrão */
+  box-shadow: none !important; /* Remove qualquer sombra aplicada no foco */
+  border: none !important; /* Remove a borda caso tenha sido aplicada por alguma regra global */
+}
