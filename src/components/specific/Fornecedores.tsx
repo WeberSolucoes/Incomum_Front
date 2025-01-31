@@ -633,7 +633,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         control: (base) => ({
                             ...base,
                             width: '300px', // Aplica o tamanho ao campo completo
-                            height: '34px',
+                            minHeight: '34px',
                         }),
                         container: (base) => ({
                             ...base,
