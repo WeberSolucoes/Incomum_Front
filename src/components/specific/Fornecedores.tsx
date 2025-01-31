@@ -639,7 +639,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         }),
                         container: (base) => ({
                             ...base,
-                            width: '300px', // Ajusta o tamanho do contêiner externo
+                            width: '450px', // Ajusta o tamanho do contêiner externo
                         }),
                         valueContainer: (base) => ({
                             ...base,
