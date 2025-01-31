@@ -12,6 +12,8 @@ import { DataTable } from "primereact/datatable";
 import { Column } from "primereact/column";
 import { Dropdown } from "primereact/dropdown";
 import Select from 'react-select';
+import { addTab, setActiveTab } from "../../hooks/tabSlice";
+import { useDispatch } from "react-redux";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -29,6 +31,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const dispatch = useDispatch();
 
     const exampleData = [
         { coluna1: 'Item 1', coluna2: 'Descrição 1' },
@@ -587,23 +590,47 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         style={{width:'450px'}}
                     />
                 </div>
-                <div className="form-group" >
-                    <label htmlFor="cid_codigo">Cidade</label>
+                <div className="align-items-center mb-2">
+                    <label htmlFor="cid_codigo" className="mr-2">
+                    Cidade
+                    </label>
+                    <button
+                    type="button"
+                    className="btn btn-link p-0 ml-1"
+                    onClick={() => {
+                        // Adiciona a aba Cidade e troca para ela
+                        dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
+                        dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
+                    }}
+                    style={{
+                        fontSize: "1.5rem",
+                        color: "#007bff",
+                        textDecoration: "none",
+                        border: "none",
+                        background: "none",
+                        height:'20px',
+                        marginTop:'-22px',
+                    }}
+                    >
+                    +
+                    </button>
                     <Select
                     id="cid_codigo"
                     name="cid_codigo"
                     isClearable
-                    isLoading={loading} // Indicador de carregamento
-                    options={cidades} // Estado cidades atualizado com os dados crus da API
+                    isLoading={loading}
+                    options={cidades}
                     onInputChange={(inputValue, { action }) => {
-                        if (action === "input-change") {
-                        setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                        fetchUnidades(inputValue); // Faz a chamada à API
+                        if (action === "input-change" && inputValue.length >= 3) {
+                        fetchUnidades(inputValue);
+                        } else if (inputValue.length < 3) {
+                        setCidades([]);
                         }
                     }}
-                    onChange={handleCidadeChange} // Lida com a mudança de valor selecionado
-                    value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
+                    onChange={handleCidadeChange}
+                    value={cidades.find((option) => option.value === ibge) || null}
                     placeholder="Selecione uma Cidade"
+                    styles={{width:'300px'}}
                     />
                 </div>
                 <div className="form-group">
