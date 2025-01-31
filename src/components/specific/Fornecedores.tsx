@@ -630,13 +630,17 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     value={cidades.find((option) => option.value === ibge) || null}
                     placeholder="Selecione uma Cidade"
                     styles={{
+                        control: (base) => ({
+                            ...base,
+                            width: '300px', // Aplica o tamanho ao campo completo
+                        }),
                         container: (base) => ({
                             ...base,
-                            width: '300px', // Define a largura do contêiner
+                            width: '300px', // Ajusta o contêiner para o mesmo tamanho
                         }),
                         menu: (base) => ({
                             ...base,
-                            zIndex: 9999, // Garante que o dropdown não seja sobreposto
+                            zIndex: 9999, // Evita problemas de sobreposição do dropdown
                         }),
                     }}
                     />
