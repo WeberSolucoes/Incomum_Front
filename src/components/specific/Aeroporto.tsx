@@ -11,7 +11,7 @@ import { Button } from 'primereact/button';
 import { Dropdown } from "primereact/dropdown";
 import Select from 'react-select';
 import { addTab, setActiveTab } from "../../hooks/tabSlice";
-import { useDispatch } from "react-redux";
+import { useSelector,useDispatch } from "react-redux";
 
 const Aeroporto: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo();
@@ -29,6 +29,8 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
+    const tabs = useSelector((state) => state.tabs); // Certifique-se de que 'tabs' está no seu estado do Redux
+
 
     useEffect(() => {
         const fetchData = async () => {
@@ -260,6 +262,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                     type="button"
                     className="btn btn-link p-0 ml-1"
                     onClick={() => {
+                        // Verifica se a aba "Cidade" já existe
                         const tabExists = tabs.some(tab => tab.key === 'Cidade');
                     
                         if (!tabExists) {
