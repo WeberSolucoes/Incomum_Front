@@ -632,7 +632,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     styles={{
                         control: (base) => ({
                             ...base,
-                            width: '300px', // Ajusta a largura
+                            width: '450px', // Ajusta a largura
                             minHeight: '34px', // Define a altura mínima
                             height: '34px', // Força a altura
                             lineHeight: '34px', // Ajusta a altura do texto interno
@@ -658,7 +658,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     }}
                     />
                 </div>
-                <div className="form-group" style={{marginLeft:'10px'}}>
+                <div className="form-group" style={{marginLeft:'158px'}}>
                     <label htmlFor="ven_descricaoauxiliar">UF</label>
                     <input
                         type="text"
