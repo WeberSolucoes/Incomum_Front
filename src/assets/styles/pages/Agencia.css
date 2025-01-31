@@ -178,7 +178,6 @@
 .erp-form .form-group input[type="text"]:focus,
 .erp-form .form-group select:focus {
   border-color: #007bff; /* Cor da borda ao focar (azul padrão) */
-  box-shadow: 0 0 0 2px rgba(38, 143, 255, 0.2); /* Sombra suave ao focar */
 }
 
 /* Remove a borda preta dos inputs com erro */
