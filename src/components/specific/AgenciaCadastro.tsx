@@ -545,7 +545,18 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 onChange={handleCidadeChange}
                 value={cidades.find((option) => option.value === ibge) || null} // Corrigido
                 placeholder="Selecione uma Cidade"
-                styles={{width:'300px'}}
+                styles={{
+                    control: (base) => ({
+                      ...base,
+                      boxShadow: 'none',  // Remove a sombra
+                      borderColor: 'transparent',  // Remove a borda
+                    }),
+                    input: (base) => ({
+                      ...base,
+                      outline: 'none',  // Remove o contorno
+                      boxShadow: 'none',  // Remove a sombra
+                    }),
+                  }}
                 />
           </div>  
         </div>
