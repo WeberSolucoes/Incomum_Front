@@ -549,4 +549,6 @@ input[placeholder="Buscar"]{
 }
 .css-t3ipsp-control{
     width:300px;
+    min-height: 30px !important;
+    height: 34px;
 }
