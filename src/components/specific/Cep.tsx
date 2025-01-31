@@ -339,7 +339,7 @@ const Cep: React.FC = ({ onBackClick }) => {
                     />
                 </div>
                 {/* Campo UF */}
-                <div className="form-group">
+                <div className="form-group" style={{marginLeft:'10px'}}>
                     <label htmlFor="cep_uf">Uf</label>
                     <input
                     type="text"
