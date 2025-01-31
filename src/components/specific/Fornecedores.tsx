@@ -658,7 +658,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     }}
                     />
                 </div>
-                <div className="form-group" style={{marginLeft:'158px'}}>
+                <div className="form-group" style={{marginLeft:'10px'}}>
                     <label htmlFor="ven_descricaoauxiliar">UF</label>
                     <input
                         type="text"
