@@ -784,7 +784,13 @@ const GraficoComFiltros = () => {
                                         min="1"
                                         max="10"
                                         style={{width:'100px',height:'34px'}}
-                                        onChange={(e) => setQuantidade(Number(e.target.value))}
+                                        onChange={(e) => handleNumAreaChange(e)} // Permite a digitação sem validação imediata
+                                        onBlur={(e) => {
+                                            let value = parseInt(e.target.value, 10) || 1; // Garante que o valor seja um número
+                                            if (value < 1) value = 1;
+                                            if (value > 10) value = 10;
+                                            handleNumAreaChange({ target: { value } }); // Atualiza o estado com o valor corrigido
+                                        }}
                                     />
                                 </div>
                             </div>
