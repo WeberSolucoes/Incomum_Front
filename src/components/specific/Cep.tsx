@@ -327,10 +327,9 @@ const Cep: React.FC = ({ onBackClick }) => {
                     isLoading={loading}
                     options={cidades}
                     onInputChange={(inputValue, { action }) => {
-                        if (action === "input-change" && inputValue.length >= 3) {
-                        fetchUnidades(inputValue.toUpperCase());
-                        } else if (inputValue.length < 3) {
-                        setCidades([]);
+                        if (action === "input-change") {
+                            setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                            fetchUnidades(inputValue.toUpperCase()); // Faz a chamada à API
                         }
                     }}
                     onChange={handleCidadeChange}
