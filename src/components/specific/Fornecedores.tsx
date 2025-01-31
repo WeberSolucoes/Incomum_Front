@@ -632,12 +632,24 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     styles={{
                         control: (base) => ({
                             ...base,
-                            width: '300px', // Aplica o tamanho ao campo completo
-                            minHeight: '34px',
+                            width: '300px', // Ajusta a largura
+                            minHeight: '34px', // Define a altura mínima
+                            height: '34px', // Força a altura
+                            lineHeight: '34px', // Ajusta a altura do texto interno
                         }),
                         container: (base) => ({
                             ...base,
-                            width: '300px', // Ajusta o contêiner para o mesmo tamanho
+                            width: '300px', // Ajusta o tamanho do contêiner externo
+                        }),
+                        valueContainer: (base) => ({
+                            ...base,
+                            height: '34px', // Ajusta a altura do contêiner interno
+                            padding: '0', // Remove espaçamento extra
+                        }),
+                        input: (base) => ({
+                            ...base,
+                            margin: '0', // Remove margens extras
+                            padding: '0', // Remove preenchimento
                         }),
                         menu: (base) => ({
                             ...base,
