@@ -208,6 +208,15 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         }
       };
 
+    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
+      if (selectedOption) {
+          console.log("Cidade selecionada:", selectedOption);
+          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
+      } else {
+          setibge(null); // Reseta o valor se nada for selecionado
+      }
+    };
+
 
 
     return (
