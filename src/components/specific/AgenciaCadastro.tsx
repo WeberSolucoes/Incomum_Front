@@ -548,6 +548,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 placeholder="Selecione uma Cidade"
                 styles={{width:'300px'}}
                 />
+          </div>  
         </div>
       </div>
 
