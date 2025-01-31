@@ -523,7 +523,7 @@ const Unidade: React.FC = ({onBackClick}) => {
                     onInputChange={(inputValue, { action }) => {
                         if (action === "input-change") {
                             setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                            fetchUnidades(inputValue); // Faz a chamada à API
+                            fetchUnidades(inputValue.toUpperCase()); // Faz a chamada à API
                         }
                     }}
                     onChange={handleCidadeChange}
