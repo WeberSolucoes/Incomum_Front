@@ -421,13 +421,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
 
   const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-    if (selectedOption) {
+      if (selectedOption) {
         console.log("Cidade selecionada:", selectedOption);
         setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-    } else {
+      } else {
         setibge(null); // Reseta o valor se nada for selecionado
-    }
-  };
+      }
+    };
     
   return (
     <form className="erp-form" onSubmit={handleSubmit}>
@@ -544,7 +544,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                     }
                 }}
                 onChange={handleCidadeChange}
-                value={cidades.find((option) => option.value === ibge) || null}
+                value={cidades.find((option) => option.value === ibge) || null} // Corrigido
                 placeholder="Selecione uma Cidade"
                 styles={{width:'300px'}}
                 />
