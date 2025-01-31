@@ -538,7 +538,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 options={cidades}
                 onInputChange={(inputValue, { action }) => {
                     if (action === "input-change" && inputValue.length >= 3) {
-                    fetchUnidades(inputValue);
+                    fetchUnidades(inputValue.toUpperCase());
                     } else if (inputValue.length < 3) {
                     setCidades([]);
                     }
