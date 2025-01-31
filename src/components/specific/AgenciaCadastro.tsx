@@ -10,7 +10,7 @@ import { cnpj } from "cpf-cnpj-validator";
 import { Button } from 'primereact/button';
 import Select from 'react-select';
 import { addTab, setActiveTab } from "../../hooks/tabSlice";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from 'react-redux';
 
 
 interface AgenciaCadastroProps {
@@ -33,7 +33,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [error, setError] = useState({});
   const [searchTerm, setSearchTerm] = useState('');
   const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
-  const dispatch = useDispatch();  
+  const dispatch = useDispatch();
+  const tabs = useSelector((state) => state.tabs); 
 
   useEffect(() => {
     const fetchData = async () => {
@@ -514,6 +515,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 type="button"
                 className="btn btn-link p-0 ml-1"
                 onClick={() => {
+                    // Verifica se a aba "Cidade" já existe
                     const tabExists = tabs.some(tab => tab.key === 'Cidade');
                 
                     if (!tabExists) {
