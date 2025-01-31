@@ -294,7 +294,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                     styles={{width:'300px'}}
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{marginLeft:'10px'}}>
                     <label htmlFor="loj_responsavel">UF</label>
                     <input
                         style={{width:'60px'}}
