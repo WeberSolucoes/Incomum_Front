@@ -29,7 +29,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
-    const tabs = useSelector((state) => state.tabs); // Certifique-se de que 'tabs' está no seu estado do Redux
+    const [tabs, setTabs] = useState([]);
 
 
     useEffect(() => {
@@ -267,11 +267,11 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                     
                         if (!tabExists) {
                             // Adiciona a aba "Cidade" e troca para ela se não existir
-                            dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
-                            dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
+                            setTabs([...tabs, { key: 'Cidade', title: 'Cidade', state: {} }]);
+                            setActiveTab('Cidade'); // Troca para a aba Cidade
                         } else {
                             // Apenas troca para a aba "Cidade" se ela já existir
-                            dispatch(setActiveTab('Cidade'));
+                            setActiveTab('Cidade');
                         }
                     }}
                     style={{
