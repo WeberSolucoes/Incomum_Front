@@ -304,17 +304,9 @@ const Cep: React.FC = ({ onBackClick }) => {
                     type="button"
                     className="btn btn-link p-0 ml-1"
                     onClick={() => {
-                        // Verifica se a aba "Cidade" já existe
-                        const tabExists = tabs.some(tab => tab.key === 'Cidade');
-                    
-                        if (!tabExists) {
-                            // Adiciona a aba "Cidade" e troca para ela se não existir
-                            dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
-                            dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
-                        } else {
-                            // Apenas troca para a aba "Cidade" se ela já existir
-                            dispatch(setActiveTab('Cidade'));
-                        }
+                        // Adiciona a aba Cidade e troca para ela
+                        dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
+                        dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
                     }}
                     style={{
                         fontSize: "1.5rem",
