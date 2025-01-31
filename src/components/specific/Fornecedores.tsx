@@ -633,6 +633,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         control: (base) => ({
                             ...base,
                             width: '300px', // Aplica o tamanho ao campo completo
+                            height: '34px',
                         }),
                         container: (base) => ({
                             ...base,
@@ -645,7 +646,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     }}
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{marginLeft:'10px'}}>
                     <label htmlFor="ven_descricaoauxiliar">UF</label>
                     <input
                         type="text"
