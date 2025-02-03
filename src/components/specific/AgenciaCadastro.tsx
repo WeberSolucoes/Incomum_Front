@@ -36,6 +36,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [searchTerm, setSearchTerm] = useState('');
   const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
   const dispatch = useDispatch();
+  const [uf, setUf] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -422,13 +423,14 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   };
 
 
-  const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-      if (selectedOption) {
-        console.log("Cidade selecionada:", selectedOption);
-        setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-      } else {
-        setibge(null); // Reseta o valor se nada for selecionado
-      }
+    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
+     if (selectedOption) {
+            setibge(selectedOption.value); // Armazena o código da cidade
+            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+        } else {
+            setibge(null);
+            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+        }
     };
 
 
@@ -525,11 +527,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       </div>
 
       <div className="form-row">
-        <div className="form-group">
+        <div className="form-group" style={{width:'450px'}}>
           <label htmlFor="age_bairro">Bairro</label>
           <input type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
-        <div className="form-group">
+        <div className="form-group" style={{width:'450px'}}>
           <div className="form-group" style={{ display: "block", alignItems: "center", gap: "8px" }}>
             <label htmlFor="cid_codigo" style={{ whiteSpace: "nowrap" }}>Cidade</label>
             <IconButton 
@@ -554,8 +556,18 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 value={cidades.find((option) => option.value === ibge) || null} // Corrigido
                 placeholder="Selecione uma Cidade"
                 />
-          </div>  
+          </div>         
         </div>
+        <div className="form-group">
+            <label htmlFor="cid_estado">UF</label>
+            <input
+              style={{width:'60px'}}
+              type="text"
+              id="cid_estado"
+              name="cid_estado"
+              value={uf}
+              onChange={handleInputChange} />
+          </div>
       </div>
 
 
