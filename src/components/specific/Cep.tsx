@@ -10,7 +10,7 @@ import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import Select from 'react-select';
 import { addTab, setActiveTab } from "../../hooks/tabSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 
 const Cep: React.FC = ({ onBackClick }) => {
@@ -236,6 +236,20 @@ const Cep: React.FC = ({ onBackClick }) => {
         }
     };
 
+    const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
+
+    console.log("Abas no Redux:", existingTabs); // Verifique se é um array antes de usar some()
+
+    const handleClick = () => {
+        const cidadeJaExiste = existingTabs.some(tab => tab.key === 'Cidade');
+
+        if (!cidadeJaExiste) {
+            dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona apenas se não existir
+        }
+
+        dispatch(setActiveTab('Cidade')); // Troca para a aba "Cidade"
+    };
+
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
 
@@ -304,11 +318,7 @@ const Cep: React.FC = ({ onBackClick }) => {
                     <button
                     type="button"
                     className="btn btn-link p-0 ml-1"
-                    onClick={() => {
-                        // Adiciona a aba Cidade e troca para ela
-                        dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
-                        dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
-                    }}
+                    onClick={handleClick}
                     style={{
                         fontSize: "1.5rem",
                         color: "#007bff",
