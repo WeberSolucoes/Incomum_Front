@@ -11,6 +11,8 @@ import { Button } from 'primereact/button';
 import Select from 'react-select';
 import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useDispatch, useSelector } from "react-redux";
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import IconButton from '@mui/material/IconButton';
 
 const Vendedor: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -444,26 +446,14 @@ const Vendedor: React.FC = ({onBackClick}) => {
                         maxLength={8} // Adicionado para limitar a quantidade de caracteres
                     />
                 </div>
-                <div className="align-items-center mb-2">
-                    <label htmlFor="cid_codigo" className="mr-2">
-                    Cidade
-                    </label>
-                    <button
-                    type="button"
-                    className="btn btn-link p-0 ml-1"
-                    onClick={handleClick}
-                    style={{
-                        fontSize: "1.5rem",
-                        color: "#007bff",
-                        textDecoration: "none",
-                        border: "none",
-                        background: "none",
-                        height:'20px',
-                        marginTop:'-22px',
-                    }}
+                <div className="form-group" style={{ display: "block", alignItems: "center", gap: "8px" }}>
+                    <label htmlFor="cid_codigo" style={{ whiteSpace: "nowrap" }}>Cidade</label>
+                    <IconButton 
+                        onClick={handleClick} 
+                        sx={{ color: "#0152a1", backgroundColor: "white", padding: "5px",height:'34px', }}
                     >
-                    +
-                    </button>
+                        <AddToPhotosIcon sx={{ fontSize: 30 }} />
+                    </IconButton>
                     <Select
                     id="cid_codigo"
                     name="cid_codigo"
