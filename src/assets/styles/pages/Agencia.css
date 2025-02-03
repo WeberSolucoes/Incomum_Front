@@ -563,3 +563,7 @@ input[placeholder="Buscar"]{
   box-shadow: none !important; /* Remove qualquer sombra aplicada no foco */
   border: none !important; /* Remove a borda caso tenha sido aplicada por alguma regra global */
 }
+
+.css-1t3rg1m{
+    display: block;
+}
