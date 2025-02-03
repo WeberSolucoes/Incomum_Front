@@ -31,6 +31,7 @@ const Cep: React.FC = ({ onBackClick }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const dispatch = useDispatch();
+    const [uf, setUf] = useState(""); 
 
     useEffect(() => {
         const fetchData = async () => {
@@ -188,7 +189,7 @@ const Cep: React.FC = ({ onBackClick }) => {
   
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/api/incomum/cidade/search/`,
+                `http://api.incoback.com.br/api/incomum/cidade/search/`,
                 { params: { q: search } }
             );
             const data = response.data;
@@ -225,15 +226,15 @@ const Cep: React.FC = ({ onBackClick }) => {
     }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
   
   
-    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-      if (selectedOption) {
-          console.log("Cidade selecionada:", selectedOption);
-          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-      } else {
-          setibge(null); // Reseta o valor se nada for selecionado
-      }
+    const handleCidadeChange = (selectedOption) => {
+        if (selectedOption) {
+            setibge(selectedOption.value); // Armazena o código da cidade
+            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+        } else {
+            setibge(null);
+            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+        }
     };
-
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -345,6 +346,7 @@ const Cep: React.FC = ({ onBackClick }) => {
                     type="text"
                     id="cep_uf"
                     name="cep_uf"
+                    value={uf}    
                     onChange={handleInputChange}
                     style={{ width: "80px" }}
                     />
