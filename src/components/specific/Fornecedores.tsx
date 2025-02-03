@@ -293,7 +293,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
   
         try {
             const response = await axios.get(
-                `http://api.incoback.com.br/api/incomum/cidade/search/`,
+                `https://api.incoback.com.br/api/incomum/cidade/search/`,
                 { params: { q: search } }
             );
             const data = response.data;
