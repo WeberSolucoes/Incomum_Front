@@ -527,11 +527,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
       </div>
 
       <div className="form-row">
-        <div className="form-group" style={{width:'450px'}}>
+        <div className="form-group" >
           <label htmlFor="age_bairro">Bairro</label>
-          <input type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
+          <input style={{width:'425px'}} type="text" id="age_bairro" name="age_bairro" value={request.age_bairro || ''}  onChange={(e) => handleInputChange(e, e.target.value.toUpperCase())} />
         </div>
-        <div className="form-group" style={{width:'450px'}}>
+        <div className="form-group" >
           <div className="form-group" style={{ display: "block", alignItems: "center", gap: "8px" }}>
             <label htmlFor="cid_codigo" style={{ whiteSpace: "nowrap" }}>Cidade</label>
             <IconButton 
