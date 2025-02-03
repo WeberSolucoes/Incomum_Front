@@ -567,3 +567,15 @@ input[placeholder="Buscar"]{
 .css-1t3rg1m{
     display: block !important;
 }
+
+.css-guws7b-MuiButtonBase-root-MuiIconButton-root {
+  background-color: transparent !important;
+  height: 30px !important;
+}
+
+.css-1sdz7zf-MuiSvgIcon-root {
+  height: 26px !important;
+  width: 26px !important;
+  background-color: transparent !important;
+}
+
