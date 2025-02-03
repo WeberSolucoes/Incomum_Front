@@ -536,7 +536,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             <label htmlFor="cid_codigo" style={{ whiteSpace: "nowrap" }}>Cidade</label>
             <IconButton 
                 onClick={handleClick} 
-                sx={{ color: "#0152a1", backgroundColor: "white", padding: "5px",height:'34px', }}
+                sx={{ color: "#0152a1", backgroundColor: "transparent", padding: "5px",height:'30px', }}
             >
                 <AddToPhotosIcon sx={{ fontSize: 30 }} />
             </IconButton>
