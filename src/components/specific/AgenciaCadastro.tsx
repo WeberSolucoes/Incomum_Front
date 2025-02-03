@@ -566,7 +566,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
               id="cid_estado"
               name="cid_estado"
               value={uf}
-              onChange={handleInputChange} />
+              readOnly />
           </div>
       </div>
 
