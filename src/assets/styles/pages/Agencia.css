@@ -565,5 +565,5 @@ input[placeholder="Buscar"]{
 }
 
 .css-1t3rg1m{
-    display: block;
+    display: block !important;
 }
