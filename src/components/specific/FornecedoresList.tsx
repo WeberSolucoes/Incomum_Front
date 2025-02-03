@@ -124,7 +124,7 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                         <Button
                             label="Adicionar"
                             icon="pi pi-plus"
-                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1', borderRadius: '10px' }}
+                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1', borderRadius: '10px', height: '34px' }}
                             onClick={handleCreateClick}
                         />
                     </div>
