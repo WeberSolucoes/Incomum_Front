@@ -10,6 +10,11 @@ import { Dialog } from "primereact/dialog";
 import { Dropdown } from "primereact/dropdown";
 import { toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
+import { IconButton } from "@mui/material";
+import Select from 'react-select';
+import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
+import { useDispatch, useSelector } from "react-redux";
+import { addTab, setActiveTab } from '../../hooks/tabSlice';
 
 
 const bancos = [
@@ -37,6 +42,10 @@ const Agente: React.FC = ({ }) => {
     const [editing, setEditing] = useState(false); // Novo estado para diferenciar criação e edição
     const [selectedAgente, setSelectedAgente] = useState<number | null>(null);
     const [agenteNome, setAgenteNome] = useState('');
+    const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const [ibge, setibge] = useState(0);
+    const [uf, setUf] = useState("");
+    const dispatch = useDispatch(); 
 
     const agenteColumns = [
         { header: 'Código', field: 'codigo' },
@@ -48,7 +57,7 @@ const Agente: React.FC = ({ }) => {
     // Função para carregar as agências do backend
     const fetchAgencias = async () => {
         try {
-            const response = await axios.get('http://18.118.35.25:8443/api/incomum/agencia/list-all/');
+            const response = await axios.get('https://api.incoback.com.br/api/incomum/agencia/list-all/');
             setAgencias(response.data);
         } catch (error) {
             console.error('Erro ao buscar agências:', error);
@@ -58,7 +67,7 @@ const Agente: React.FC = ({ }) => {
     const fetchAgentes = async (agenciaId: number) => {
         setLoading(true);
         try {
-            const response = await axios.get(`http://18.118.35.25:8443/api/incomum/agente/${agenciaId}/`);
+            const response = await axios.get(`https://api.incoback.com.br/api/incomum/agente/${agenciaId}/`);
             console.log('Dados dos agentes:', response.data);
 
             const mappedData = response.data.map((item: any) => ({
@@ -186,14 +195,14 @@ const Agente: React.FC = ({ }) => {
 
             if (editing && selectedAgente) {
                 // Modo de edição: envia uma requisição PUT
-                const response = await axios.put(`http://18.118.35.25:8443/api/incomum/agente/update/${selectedAgente}/`, payload);
+                const response = await axios.put(`https://api.incoback.com.br/api/incomum/agente/update/${selectedAgente}/`, payload);
                 if (response.status === 200) {
                     toastSucess("Agente atualizado com sucesso");
                     fetchAgentes(codigo); // Atualiza a lista de agentes
                 }
             } else {
                 // Modo de criação: envia uma requisição POST
-                const response = await axios.post('http://18.118.35.25:8443/api/incomum/agente/create/', payload);
+                const response = await axios.post('https://api.incoback.com.br/api/incomum/agente/create/', payload);
                 if (response.status === 201) {
                     toastSucess("Agente salvo com sucesso");
                     fetchAgentes(codigo); // Atualiza a lista de agentes
@@ -231,6 +240,70 @@ const Agente: React.FC = ({ }) => {
         setEditing(false);
         setSelectedAgente(null);
     };
+
+
+    const fetchUnidades = async (search: string) => {
+        if (search.length < 3) {
+            setCidades([]); // Limpa somente se o termo de pesquisa for muito curto
+            return;
+        }
+    
+        try {
+            const response = await axios.get(
+                `https://api.incoback.com.br/api/incomum/cidade/search/`,
+                { params: { q: search } }
+            );
+            const data = response.data;
+    
+            console.log("Dados crus da API:", data); // Verificar dados crus
+    
+            if (Array.isArray(data) && data.length > 0) {
+                setCidades(data); // Atualiza somente se houver resultados
+                console.log("Estado atualizado com cidades:", data);
+            } else {
+                console.log("Nenhum dado encontrado");
+                setCidades([]);
+            }
+        } catch (error) {
+            console.error("Erro ao buscar cidades:", error);
+            setCidades([]); // Limpa em caso de erro
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const handleCidadeChange = (selectedOption) => {
+        if (selectedOption) {
+            setibge(selectedOption.value); // Armazena o código da cidade
+            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+        } else {
+            setibge(null);
+            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+        }
+    };
+
+    const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
+
+    console.log("Abas no Redux:", existingTabs); // Verifique se é um array antes de usar some()
+
+    const handleClick = () => {
+        const cidadeJaExiste = existingTabs.some(tab => tab.key === 'Cidade');
+
+        if (!cidadeJaExiste) {
+            dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona apenas se não existir
+        }
+
+        dispatch(setActiveTab('Cidade')); // Troca para a aba "Cidade"
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth' // Deixa a rolagem suave
+        });
+    };
+
+
+    
     return (
         <>
 
@@ -336,15 +409,29 @@ const Agente: React.FC = ({ }) => {
                                 onChange={handleInputChange}
                             />
                         </div>
-                        <div className="form-group">
-                            <label htmlFor="agt_cidade">Cidade</label>
-                            <input
-                                style= {{width:'474px'}}
-                                type="text"
+                        <div className="form-group" style={{ display: "block", alignItems: "center", gap: "8px" }}>
+                            <label htmlFor="cid_codigo" style={{ whiteSpace: "nowrap" }}>Cidade</label>
+                            <IconButton 
+                                onClick={handleClick} 
+                                sx={{ color: "#0152a1", backgroundColor: "transparent", padding: "5px",height:'30px', }}
+                            >
+                                <AddToPhotosIcon sx={{ fontSize: 30 }} />
+                            </IconButton>
+                            <Select
                                 id="cid_codigo"
                                 name="cid_codigo"
-                                value={request.cid_codigo || ''}
-                                onChange={handleInputChange}
+                                isClearable
+                                isLoading={loading} // Indicador de carregamento
+                                options={cidades} // Estado cidades atualizado com os dados crus da API
+                                onInputChange={(inputValue, { action }) => {
+                                    if (action === "input-change") {
+                                        setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                                        fetchUnidades(inputValue); // Faz a chamada à API
+                                    }
+                                }}
+                                onChange={handleCidadeChange} // Lida com a mudança de valor selecionado
+                                value={cidades.find((option) => option.value === ibge) || null} // Define o valor atual
+                                placeholder="Selecione uma Cidade"
                             />
                         </div>
                         <div className="form-group">
@@ -354,7 +441,8 @@ const Agente: React.FC = ({ }) => {
                                 type="text"
                                 id="agt_uf"
                                 name="agt_uf"
-                                onChange={handleInputChange}
+                                value={uf}
+                                readOnly
                             />
                         </div>
                     </div>
