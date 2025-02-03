@@ -312,7 +312,7 @@ const Agente: React.FC = ({ }) => {
                 <Button
                     label="Criar"
                     icon="pi pi-plus"
-                    style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
+                    style={{ marginLeft: 'auto', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px'  }}
                     onClick={() => setModalVisible(true)}
                 />
             </div>
