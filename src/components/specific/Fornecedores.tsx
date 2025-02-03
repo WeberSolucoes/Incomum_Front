@@ -672,7 +672,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         type="text"
                         id="ven_descricaoauxiliar"
                         name="ven_descricaoauxiliar"
-                        onChange={handleInputChange}
+                        readOnly
                         value={uf}
                         style={{width:'90px'}}
                     />
