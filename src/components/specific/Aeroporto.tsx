@@ -312,7 +312,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                         id="cid_estado"
                         name="cid_estado"
                         value={uf}
-                        onChange={handleInputChange} />
+                        readOnly />
                 </div>
             </div>
 
