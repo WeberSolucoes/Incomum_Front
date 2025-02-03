@@ -353,7 +353,7 @@ const Cep: React.FC = ({ onBackClick }) => {
                     id="cep_uf"
                     name="cep_uf"
                     value={uf}    
-                    onChange={handleInputChange}
+                    readOnly
                     style={{ width: "80px" }}
                     />
                 </div>
