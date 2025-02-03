@@ -32,6 +32,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const dispatch = useDispatch();
+    const [uf, setUf] = useState(""); 
 
     const exampleData = [
         { coluna1: 'Item 1', coluna2: 'Descrição 1' },
@@ -292,7 +293,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
   
         try {
             const response = await axios.get(
-                `http://127.0.0.1:8000/api/incomum/cidade/search/`,
+                `http://api.incoback.com.br/api/incomum/cidade/search/`,
                 { params: { q: search } }
             );
             const data = response.data;
@@ -665,6 +666,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         id="ven_descricaoauxiliar"
                         name="ven_descricaoauxiliar"
                         onChange={handleInputChange}
+                        value={uf}
                         style={{width:'90px'}}
                     />
                 </div>
