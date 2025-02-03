@@ -473,7 +473,8 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         value={request.par_tipopessoa || ''}
                         onChange={handleSelectChange}
                     >
-                        <option value="1">Teste</option>
+                        <option value="1">Física</option>
+                        <option value="2">Jurídica</option>
                     </select>
                 </div>
                 <div className="form-group">
