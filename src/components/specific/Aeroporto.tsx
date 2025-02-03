@@ -29,6 +29,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
+    const [uf, setUf] = useState(""); 
 
 
     useEffect(() => {
@@ -209,13 +210,14 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         }
       };
 
-    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-      if (selectedOption) {
-          console.log("Cidade selecionada:", selectedOption);
-          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-      } else {
-          setibge(null); // Reseta o valor se nada for selecionado
-      }
+    const handleCidadeChange = (selectedOption) => {
+        if (selectedOption) {
+            setibge(selectedOption.value); // Armazena o código da cidade
+            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+        } else {
+            setibge(null);
+            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+        }
     };
 
 
@@ -296,12 +298,13 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
                     />
                 </div>
                 <div className="form-group" style={{marginLeft:'10px'}}>
-                    <label htmlFor="loj_responsavel">UF</label>
+                    <label htmlFor="cid_estado">UF</label>
                     <input
                         style={{width:'60px'}}
                         type="text"
-                        id="loj_responsavel"
-                        name="loj_responsavel"
+                        id="cid_estado"
+                        name="cid_estado"
+                        value={uf}
                         onChange={handleInputChange} />
                 </div>
             </div>
