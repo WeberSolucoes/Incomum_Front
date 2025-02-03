@@ -330,13 +330,14 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
   
   
-    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-      if (selectedOption) {
-          console.log("Cidade selecionada:", selectedOption);
-          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-      } else {
-          setibge(null); // Reseta o valor se nada for selecionado
-      }
+    const handleCidadeChange = (selectedOption) => {
+        if (selectedOption) {
+            setibge(selectedOption.value); // Armazena o código da cidade
+            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+        } else {
+            setibge(null);
+            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+        }
     };
 
     const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
