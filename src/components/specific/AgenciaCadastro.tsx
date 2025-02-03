@@ -428,6 +428,22 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         setibge(null); // Reseta o valor se nada for selecionado
       }
     };
+
+
+    const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
+
+    console.log("Abas no Redux:", existingTabs); // Verifique se é um array antes de usar some()
+
+    const handleClick = () => {
+        const cidadeJaExiste = existingTabs.some(tab => tab.key === 'Cidade');
+
+        if (!cidadeJaExiste) {
+            dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona apenas se não existir
+        }
+
+        dispatch(setActiveTab('Cidade')); // Troca para a aba "Cidade"
+    };
+
     
   return (
     <form className="erp-form" onSubmit={handleSubmit}>
@@ -443,7 +459,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         <div className="form-group">
           <label style={{marginLeft:'-158px'}} htmlFor="age_codigocontabil">Contabil</label>
           <input style={{marginLeft:'-160px'}} type="text" id="age_codigocontabil" name="age_codigocontabil" value={request.age_codigocontabil || ''} onChange={handleInputChange} />
-        </div>
+       </div>
         <div className="form-group">
           <label style={{marginLeft:'-238px'}} htmlFor="age_situacao">Situação</label>
           <select style={{marginLeft:'-240px', width:'105%'}} id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleAtivoChange}>
@@ -513,11 +529,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             <button
                 type="button"
                 className="btn btn-link p-0 ml-1"
-                onClick={() => {
-                        // Adiciona a aba Cidade e troca para ela
-                        dispatch(setActiveTab('Cidade')); // Troca para a aba Cidade
-                        dispatch(addTab({ key: 'Cidade', title: 'Cidade', state: {} })); // Adiciona a aba no Redux
-                    }}
+                onClick={handleClick}
                 style={{
                     fontSize: "1.5rem",
                     color: "#007bff",
