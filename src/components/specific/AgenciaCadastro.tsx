@@ -442,6 +442,12 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         }
 
         dispatch(setActiveTab('Cidade')); // Troca para a aba "Cidade"
+
+        window.scrollTo({
+            top: 0,
+            left: 0,
+            behavior: 'smooth' // Deixa a rolagem suave
+        });
     };
 
     
