@@ -708,7 +708,6 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                 <div className="form-group">
                     <label htmlFor="par_obs">Observação</label>
                     <textarea 
-                        style={{width:'500px',height:'200px'}} 
                         id="par_obs" 
                         name="par_obs" 
                         placeholder="Digite suas observações aqui..."
@@ -717,13 +716,6 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                     >
             
                     </textarea>
-                </div>
-                <div className="form-group">
-                    <label htmlFor="par_obs">Tipo De Parceiro</label>
-                    <DataTable value={exampleData} style={{ borderCollapse: 'collapse', width: '500px',backgroundColor:'white' }}>
-                        <Column field="coluna1" header="Tipo" />
-                        <Column field="coluna2" header="Descrição" />
-                    </DataTable>
                 </div>
             </div>
 
