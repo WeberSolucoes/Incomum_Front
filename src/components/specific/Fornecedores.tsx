@@ -675,7 +675,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         name="ven_descricaoauxiliar"
                         readOnly
                         value={uf}
-                        style={{width:'90px'}}
+                        style={{width:'78px'}}
                     />
                 </div>
             </div>
