@@ -14,6 +14,7 @@ import Fornecedores from './Fornecedores';
 import FornecedoresContato from './FornecedoresContato';
 import { toast } from 'react-toastify';
 import useEnterKey from '../../hooks/useEnterKey';
+import FornecedoresTipo from './ForncedoresTipo';
 
 
 interface ParceiroListProps {
