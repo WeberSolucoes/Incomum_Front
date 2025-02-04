@@ -518,7 +518,7 @@ const GraficoComFiltros = () => {
             const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
     
             const response = await axios.get(
-                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-agencia-excel/",
+                "https://api.incoback.com.br/api/incomum/relatorio/exportar-dados-agencia-excel/",
                 {
                     params: {
                         date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
@@ -554,7 +554,7 @@ const GraficoComFiltros = () => {
             const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
     
             const response = await axios.get(
-                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-unidade-excel/",
+                "https://api.incoback.com.br/api/incomum/relatorio/exportar-dados-unidade-excel/",
                 {
                     params: {
                         date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
@@ -587,7 +587,7 @@ const GraficoComFiltros = () => {
             const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
     
             const response = await axios.get(
-                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-comercial-excel/",
+                "https://api.incoback.com.br/api/incomum/relatorio/exportar-dados-comercial-excel/",
                 {
                     params: {
                         date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
