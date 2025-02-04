@@ -93,6 +93,10 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
     const handleBackClick = () => {
         setView('list');
         setActiveIndex(0);
+        window.scrollTo({
+            top: 0,  // Define a posição do topo da página
+            behavior: 'smooth' // Adiciona um efeito suave na rolagem
+        });
     };
 
     const columns = [
