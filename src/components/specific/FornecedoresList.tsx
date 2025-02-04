@@ -39,9 +39,9 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
             case 0:
                 return 'Cadastro Parceiro';
             case 1:
-                return 'Cadastro Contato';
+                return 'Tipo Parceiro';
             case 2:
-                return 'Logo Agência';
+                return 'Contatos';
             default:
                 return 'Cadastro Agência';
         }
@@ -143,16 +143,16 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                 <>
                     <h1 style={{ color: '#0152a1' }}>{getTitle()}</h1>
                     <TabView
-                            activeIndex={activeIndex}
-                            onTabChange={(e) => {
-                                // Verifica se o usuário está tentando acessar "Contatos" (índice 1)
-                                if (e.index === 1 && !codigo) {
-                                    toastError("Complete o cadastro em 'Dados Gerais' antes de acessar os contatos.");
-                                    return;
-                                }
-                                setActiveIndex(e.index); // Atualiza a aba ativa
-                            }}
-                        >
+                        activeIndex={activeIndex}
+                        onTabChange={(e) => {
+                            // Bloquear "Tipo Fornecedor" (índice 1) e "Contatos" (índice 2) se "Dados Gerais" não estiver preenchido
+                            if ((e.index === 1 || e.index === 2) && !codigo) {
+                                toastError("Complete o cadastro em 'Dados Gerais' antes de acessar outras abas.");
+                                return;
+                            }
+                            setActiveIndex(e.index); // Atualiza a aba ativa
+                        }}
+                    >
                         <TabPanel header="Dados Gerais">
                             <Fornecedores
                                 parceiroId={parceiroId} 
@@ -161,8 +161,11 @@ const FornecedoresList: React.FC<ParceiroListProps> = () => {
                                 onCadastroConcluido={handleCadastroConcluido}
                             />
                         </TabPanel>
+                        <TabPanel header="Tipo Fornecedor">
+                            {activeIndex === 1 && <FornecedoresTipo parceiroId={parceiroId}/>}
+                        </TabPanel>
                         <TabPanel header="Contatos">
-                            {activeIndex === 1 && <FornecedoresContato parceiroId={parceiroId} />}
+                            {activeIndex === 2 && <FornecedoresContato parceiroId={parceiroId} />}
                         </TabPanel>
                     </TabView>
                 </>
