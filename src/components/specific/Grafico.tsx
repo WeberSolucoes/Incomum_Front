@@ -508,6 +508,111 @@ const GraficoComFiltros = () => {
             setNumAgencias(value); // Atualiza o estado com o valor atual
         }
     };
+
+
+    const handleExportAgenciaExcel = async () => {
+        try {
+            console.log("Iniciando exportação..."); // Verificar se a função está sendo chamada
+
+            const formattedStartDate = dateStart ? dateStart.toISOString().split("T")[0] : "";
+            const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
+    
+            const response = await axios.get(
+                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-agencia-excel/",
+                {
+                    params: {
+                        date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
+                        date_end: formattedEndDate,  
+                        "age_codigo[]": selectedAgencias.map(a => a.value),  // Enviar como array
+                        num_agencias: numAgencias, // Usando o estado correto
+                    },
+                    responseType: "blob", // Necessário para arquivos
+                }
+            );
+    
+            console.log("Resposta recebida:", response); // Debug da resposta
+    
+            // Criar um link para download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `Relatorio_Agencia.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error("Erro ao exportar Excel:", error);
+        }
+    };
+
+
+    const handleExportUnidadeExcel = async () => {
+        try {
+            console.log("Iniciando exportação..."); // Verificar se a função está sendo chamada
+
+            const formattedStartDate = dateStart ? dateStart.toISOString().split("T")[0] : "";
+            const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
+    
+            const response = await axios.get(
+                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-unidade-excel/",
+                {
+                    params: {
+                        date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
+                        date_end: formattedEndDate,  
+                    },
+                    responseType: "blob", // Necessário para arquivos
+                }
+            );
+    
+            console.log("Resposta recebida:", response); // Debug da resposta
+    
+            // Criar um link para download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `Relatorio_Unidades.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error("Erro ao exportar Excel:", error);
+        }
+    };
+    
+    const handleExportComercialExcel = async () => {
+        try {
+            console.log("Iniciando exportação..."); // Verificar se a função está sendo chamada
+
+            const formattedStartDate = dateStart ? dateStart.toISOString().split("T")[0] : "";
+            const formattedEndDate = dateEnd ? dateEnd.toISOString().split("T")[0] : "";
+    
+            const response = await axios.get(
+                "http://api.incoback.com.br/api/incomum/relatorio/exportar-dados-comercial-excel/",
+                {
+                    params: {
+                        date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
+                        date_end: formattedEndDate,
+                        "aco_codigo[]": selectedAreaComercial.map(a => a.value),  // Enviar como array
+                        quantidade: quantidade, // Usando o estado correto
+                    },
+                    responseType: "blob", // Necessário para arquivos
+                }
+            );
+    
+            console.log("Resposta recebida:", response); // Debug da resposta
+    
+            // Criar um link para download
+            const url = window.URL.createObjectURL(new Blob([response.data]));
+            const link = document.createElement("a");
+            link.href = url;
+            link.setAttribute("download", `Relatorio_Comercial.xlsx`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error("Erro ao exportar Excel:", error);
+        }
+    };
     
 
 
@@ -574,6 +679,7 @@ const GraficoComFiltros = () => {
                                     style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none',borderRadius:'10px'}}
                                     icon="pi pi-file-excel" 
                                     className="custom-button" // Estilos adicionais, se necessário
+                                    onClick={handleExportUnidadeExcel}
                                 />
 
                                 <Button
@@ -698,6 +804,7 @@ const GraficoComFiltros = () => {
                                     style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none',borderRadius:'10px'}}
                                     icon="pi pi-file-excel" 
                                     className="custom-button" // Estilos adicionais, se necessário
+                                    onClick={handleExportAgenciaExcel}
                                 />
 
                                 <Button
@@ -797,6 +904,14 @@ const GraficoComFiltros = () => {
                         </div>
                         <div className="row mt-3">
                             <div className="col-12 d-flex justify-content-end">
+
+                                <Button 
+                                    style={{marginRight:'8px',backgroundColor:'#1d6f42',border:'none',borderRadius:'10px'}}
+                                    icon="pi pi-file-excel" 
+                                    className="custom-button" // Estilos adicionais, se necessário
+                                    onClick={handleExportComercialExcel}
+                                />
+                                
                                 <Button
                                     style={{ backgroundColor: "#0152a1", borderRadius: "10px" }}
                                     type="submit"
