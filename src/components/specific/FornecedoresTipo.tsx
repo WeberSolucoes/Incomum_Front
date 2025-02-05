@@ -205,7 +205,17 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         }
     };
     
-    
+    const handleCreateClick = () => {
+        // Resetando os campos e estados relacionados à edição
+        setRequest({
+            tpa_codigo: '',  // Resetando o código
+            tpa_descricao: '',  // Resetando a descrição
+        });
+        setAgenteNome('');  // Limpar o nome do agente
+        setSelectedAgente(null);  // Limpando a seleção do agente
+        setEditing(false);  // Desmarcando o modo de edição
+        setModalVisible(true);  // Abrindo o modal
+    };
     
 
     return (
@@ -217,7 +227,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
                     label="Criar"
                     icon="pi pi-plus"
                     style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
-                    onClick={() => setModalVisible(true)}
+                    onClick={handleCreateClick}
                 />
             </div>
 
