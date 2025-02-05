@@ -16,6 +16,7 @@ import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
+import InputMask from "react-input-mask";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -34,7 +35,26 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const dispatch = useDispatch();
-    const [uf, setUf] = useState(""); 
+    const [uf, setUf] = useState("");
+    const [dateValue, setDateValue] = useState(request.par_datanascfund || "");
+    const [dateValue2, setDateValue2] = useState(request.par_dataatualizacao|| "");
+    const [dateValue3, setDateValue3] = useState(request.par_datacadastro || "");
+
+    const handleChange = (event) => {
+        setDateValue(event.target.value); // Atualiza o estado local
+        handleInputChange(event); // Dispara a função externa
+    };
+
+    const handleChange2 = (event) => {
+        setDateValue2(event.target.value);
+        handleInputChange(event);
+    };
+
+    // Função para atualizar apenas "par_datacadastro"
+    const handleChange3 = (event) => {
+        setDateValue3(event.target.value);
+        handleInputChange(event);
+    };
 
     const exampleData = [
         { coluna1: 'Item 1', coluna2: 'Descrição 1' },
@@ -381,15 +401,31 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="par_datacadastro">Data Cadastro</label>
-                    <input
-                        style={{width:'200px',height:'37.6px'}}
-                        type="date"
-                        id="par_datacadastro" 
-                        name="par_datacadastro"
-                        value={request.par_datacadastro || ''}
-                        onChange={handleInputChange}
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue3}
+                        onChange={handleChange3}
                         disabled
-                    />
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_datacadastro"
+                                name="par_datacadastro"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
                 <div className="form-group">
                     <label htmlFor="par_codigocontabil">Codigo Contabil</label>
@@ -415,15 +451,31 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="par_dataatualizacao">Ultima Atualização</label>
-                    <input
-                        style={{width:'200px',height:'37.6px'}}
-                        type="date"
-                        id="par_dataatualizacao"
-                        name="par_dataatualizacao"
-                        value={request.par_dataatualizacao || ''}
-                        onChange={handleInputChange}
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue2}
+                        onChange={handleChange2}
                         disabled
-                    />
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_dataatualizacao"
+                                name="par_dataatualizacao"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
             </div>
 
@@ -441,14 +493,22 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="par_datanascfund">Data Fundação</label>
-                    <input
-                        type="date"
-                        style={{width:'200px',height:'37.6px'}}
-                        id="par_datanascfund"
-                        name="par_datanascfund"
-                        value={request.par_datanascfund || ''}
-                        onChange={handleInputChange}
-                    />
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue}
+                        onChange={handleChange}
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_datanascfund"
+                                name="par_datanascfund"
+                                style={{ width: "200px", height: "37.6px" }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
             </div>
 
