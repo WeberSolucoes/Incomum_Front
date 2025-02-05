@@ -199,5 +199,11 @@ export enum ApiEndpoints {
     CREATE_DESPESASGERAL = '/incomum/despesasgeral/create/',
     UPDATE_DESPESASGERAL = '/incomum/despesasgeral/update/', // '/incomum/loja/update/${id}/'
     DELETE_DESPESASGERAL = 'incomum/despesasgeral/delete/',
+
+    LIST_FORNECEDOR_TIPO = '/incomum/fornecedortipo/list-all/',
+    LIST_FORNECEDOR_TIPO_BY_ID = '/incomum/fornecedortipo/find-byid/', // '/incomum/loja/list-byid/${id}/'
+    CREATE_FORNECEDOR_TIPO = '/incomum/fornecedortipo/create/',
+    UPDATE_FORNECEDOR_TIPO = '/incomum/fornecedortipo/update/', // '/incomum/loja/update/${id}/'
+    DELETE_FORNECEDOR_TIPO = 'incomum/fornecedortipo/delete/',
     
 }
