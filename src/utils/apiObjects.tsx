@@ -51,6 +51,10 @@ interface LojaComercialCreateRequest {
     aco_codigo: number,
 }
 
+interface FornecedorTipoCreateRequest{
+    tpa_descricao: string
+}
+
 interface UnidadesCreateRequest {
     loj_cep: string,
     loj_numero: number,
@@ -399,6 +403,7 @@ export type {
     DespesasGeralCreateRequest,
     SubGrupoCreateRequest,
     CentroCustoCreateRequest,
+    FornecedorTipoCreateRequest,
 
 }
 
