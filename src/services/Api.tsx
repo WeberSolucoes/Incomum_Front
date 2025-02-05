@@ -310,6 +310,17 @@ export const apiGetAeroporto = () => axiosInstance.get(ApiEndpoints.LIST_AEROPOR
 export const apiGetAeroportoById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_AEROPORTO_BY_ID}${id}/`);
 
 
+export const apiGetFornecedorTipo = () => axiosInstance.get(ApiEndpoints.LIST_FORNECEDOR_TIPO );
+
+export const apiGetFornecedorTipoId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_FORNECEDOR_TIPO_BY_ID}${id}/`);
+
+export const apiCreateFornecedorTipo = (data: FornecedorTipoCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_FORNECEDOR_TIPO, data);
+
+export const apiUpdateFornecedorTipo = (id: number, data: FornecedorTipoCreateRequest) => axiosInstance.put(`${ApiEndpoints.UPDATE_FORNECEDOR_TIPO}${id}/`, data);
+
+export const apiDeleteFornecedorTipo = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_FORNECEDOR_TIPO}${id}/`)
+
+
 export const apiGetUserId = () => axiosInstance.get(ApiEndpoints.GET_USERID);
 
 export const apiGetPermissions = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_USER_PERMISSIONS}${id}/`);
