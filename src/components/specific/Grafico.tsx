@@ -592,7 +592,7 @@ const GraficoComFiltros = () => {
                     params: {
                         date_start: formattedStartDate,  // Agora no formato YYYY-MM-DD
                         date_end: formattedEndDate,
-                        "aco_codigo[]": selectedAreaComercial.map(a => a.value),  // Enviar como array
+                        areas: selectedAreaComercial,
                         quantidade: quantidade, // Usando o estado correto
                     },
                     responseType: "blob", // Necessário para arquivos
@@ -875,7 +875,7 @@ const GraficoComFiltros = () => {
                                                 setSelectedAreaComercial([]);
                                             }
                                         }}
-                                        placeholder="Área Comercial"
+                                        placeholder="Selecione Áreas Comerciais"
                                         display="chip"
                                         showClear
                                         style={{ width: "100%" }}
