@@ -169,15 +169,15 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
-        console.log("Código recebido para edição:", codigo);
+        console.log("Código recebido para edição:", codigo); // Verificar o valor de 'codigo'
+        console.log("Lista de Agentes:", filteredAgentes);
     
-        // Log para verificar como os dados estão estruturados
         filteredAgentes.forEach((agente, index) => {
             console.log(`Agente ${index}:`, agente);
             console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
         });
     
-        // Use 'tpa_codigo' ao invés de 'codigo'
+        // Agora usamos 'codigo' ao invés de 'tpa_codigo'
         const agenteParaEditar = filteredAgentes.find(agente => {
             console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
             return Number(agente.tpa_codigo) === Number(codigo);
