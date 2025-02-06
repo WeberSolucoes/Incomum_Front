@@ -204,7 +204,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             console.error('❌ Agente não encontrado para edição:', codigo);
         }
     };
-    
+
     const handleCreateClick = () => {
         // Resetando os campos e estados relacionados à edição
         setRequest({
@@ -216,6 +216,8 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         setEditing(false);  // Desmarcando o modo de edição
         setModalVisible(true);  // Abrindo o modal
     };
+    
+    
     
 
     return (
