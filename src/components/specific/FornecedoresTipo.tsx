@@ -25,11 +25,8 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     const [selectedAgente, setSelectedAgente] = useState<number | null>(null);
 
     const agenteColumns = [
-        { field: "pco_codigo", header: "Código Contato" },
-        { field: "par_codigo", header: "Código Parceiro" },
-        { field: "pco_descricao", header: "Descrição" },
-        { field: "pco_observacao", header: "Observação" },
-        { field: "pco_fone", header: "Telefone" },
+        { field: "tpa_codigo", header: "Código" },
+        { field: "tpa_descricao", header: "Descrição" },
     ];
 
     useEffect(() => {
