@@ -27,8 +27,8 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     console.log("Código obtido:", codigo);
     
     const agenteColumns = [
-        { field: "tpa_codigo", header: "Código" },
-        { field: "tpa_descricao", header: "Descrição" },
+        { field: "codigo", header: "Código" },
+        { field: "descricao", header: "Descrição" },
     ];
 
     useEffect(() => {
