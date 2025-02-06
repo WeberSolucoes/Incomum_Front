@@ -171,26 +171,31 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
-    console.log("Lista de Agentes:", filteredAgentes);
-    console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
-
-    filteredAgentes.forEach((agente, index) => {
-        console.log(`Agente ${index}:`, agente);
-        console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
-    });
-
-    // Agora usamos 'codigo' ao invés de 'tpa_codigo'
-    const agenteParaEditar = filteredAgentes.find(agente => {
-        console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-        return Number(agente.tpa_codigo) === Number(codigo); // A comparação deve ser feita com tpa_codigo
+        console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
+    
+        if (codigo === undefined || codigo === null) {
+            console.error('❌ Código inválido:', codigo);
+            return;
+        }
+    
+        // Verifica se o código é numérico antes de tentar a comparação
+        const numeroCodigo = Number(codigo);
+        if (isNaN(numeroCodigo)) {
+            console.error('❌ Código inválido para edição:', codigo);
+            return;
+        }
+    
+        // Agora você pode fazer a busca no array corretamente
+        const agenteParaEditar = filteredAgentes.find(agente => {
+            console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
+            return agente.tpa_codigo === numeroCodigo;
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
-    
             setRequest({
-                tpa_codigo: agenteParaEditar.tpa_codigo || '', // Usa tpa_codigo diretamente
-                tpa_descricao: agenteParaEditar.tpa_descricao || '', // Usa tpa_descricao diretamente
+                tpa_codigo: agenteParaEditar.tpa_codigo || '',
+                tpa_descricao: agenteParaEditar.tpa_descricao || '',
             });
             setAgenteNome(agenteParaEditar.tpa_descricao);
             setSelectedAgente(codigo);
