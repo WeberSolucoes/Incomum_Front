@@ -53,6 +53,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             if (response.status === 200) {
                 // Mapeia os dados retornados da API para o formato esperado pela GenericTable
                 const data = Array.isArray(response.data) ? response.data : [];
+                console.log("Dados retornados da API:", data);
                 setFilteredAgentes(data);
             } else {
                 toastError("Erro ao carregar os dados.");
@@ -170,26 +171,26 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     const handleEditAgente = (codigo) => {
         console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
-        
+    
         filteredAgentes.forEach((agente, index) => {
             console.log(`Agente ${index}:`, agente);
             console.log(`Propriedades do Agente ${index}:`, Object.keys(agente)); // Verifica as propriedades dos agentes
         });
     
-        // Verifica se 'codigo' é igual ao 'pco_codigo'
+        // Verifica se 'codigo' é igual ao 'tpa_codigo'
         const agenteParaEditar = filteredAgentes.find(agente => {
-            console.log(`Comparando: ${agente.pco_codigo} (Tipo: ${typeof agente.pco_codigo}) com ${codigo} (Tipo: ${typeof codigo})`);
-            return Number(agente.pco_codigo) === Number(codigo); // Correção para 'pco_codigo'
+            console.log(`Comparando: ${agente.tpa_codigo} (Tipo: ${typeof agente.tpa_codigo}) com ${codigo} (Tipo: ${typeof codigo})`);
+            return Number(agente.tpa_codigo) === Number(codigo); // Usando 'tpa_codigo' agora
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
             
             setRequest({
-                tpa_codigo: agenteParaEditar.pco_codigo || '', // Ajustando para 'pco_codigo'
-                tpa_descricao: agenteParaEditar.pco_descricao || '', // Ajustando para 'pco_descricao'
+                tpa_codigo: agenteParaEditar.tpa_codigo || '', // Ajustando para 'tpa_codigo'
+                tpa_descricao: agenteParaEditar.tpa_descricao || '', // Ajustando para 'tpa_descricao'
             });
-            setAgenteNome(agenteParaEditar.pco_descricao); // Ajuste aqui também
+            setAgenteNome(agenteParaEditar.tpa_descricao); // Ajuste aqui também
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
