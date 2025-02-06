@@ -24,6 +24,8 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     const [registroEditar, setRegistroEditar] = useState<FornecedorTipoCreateRequest | null>(null); // Para armazenar o agente a ser editado
     const [selectedAgente, setSelectedAgente] = useState<number | null>(null);
 
+    console.log("Código obtido:", codigo);
+    
     const agenteColumns = [
         { field: "tpa_codigo", header: "Código" },
         { field: "tpa_descricao", header: "Descrição" },
@@ -40,7 +42,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             setRequest((prev) => ({
                 ...prev,
                 par_codigo: codigo, // Insere o código no request
-                tco_codigo: codigo,
+                tpa_codigo: codigo,
             }));
         }
     }, [codigo]);
@@ -169,23 +171,21 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
+        if (codigo === undefined || codigo === null) {
+            console.error("❌ Código inválido para edição:", codigo);
+            return;
+        }
+    
         console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo);
     
-        // Mapear para garantir que a propriedade esteja correta
-        const agenteParaEditar = filteredAgentes.map((agente) => {
-            console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-            
-            if (agente.tpa_codigo === Number(codigo)) {
-                return agente; // Retorna o agente que corresponde ao código
-            }
-        }).find((agente) => agente !== undefined); // Encontre o primeiro agente que não seja undefined
+        const agenteParaEditar = filteredAgentes.find((agente) => agente.tpa_codigo === Number(codigo));
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
             setRequest({
-                tpa_codigo: agenteParaEditar.tpa_codigo || '', // Ajustando para 'tpa_codigo'
-                tpa_descricao: agenteParaEditar.tpa_descricao || '', // Ajustando para 'tpa_descricao'
+                tpa_codigo: agenteParaEditar.tpa_codigo || '',
+                tpa_descricao: agenteParaEditar.tpa_descricao || '',
             });
             setEditing(true);
             setModalVisible(true);
