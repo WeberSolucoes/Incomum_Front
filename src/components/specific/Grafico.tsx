@@ -521,14 +521,13 @@ const GraficoComFiltros = () => {
     };
 
     const handleNumAreaChange = (e) => {
-        const value = e.target.value;
+        let value = e.target.value;
     
-        // Permite valores temporários como vazio ou intermediários
+        // Permite valores temporários como vazio, mas converte para número quando aplicável
         if (value === "" || (Number(value) >= 1 && Number(value) <= 10)) {
-            setQuantidade(value); // Atualiza o estado com o valor atual
+            setQuantidade(value === "" ? "" : Number(value)); // Armazena como número quando aplicável
         }
     };
-
 
     const handleExportAgenciaExcel = async () => {
         try {
