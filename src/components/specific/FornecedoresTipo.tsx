@@ -172,25 +172,27 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
     
+        // Verifique a estrutura dos agentes e se cada agente tem a propriedade correta
         filteredAgentes.forEach((agente, index) => {
             console.log(`Agente ${index}:`, agente);
-            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
+            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente)); // Aqui você verá as propriedades reais de cada objeto
         });
     
-        // Agora usamos 'codigo' ao invés de 'tpa_codigo'
+        // Verifique se a estrutura de filteredAgentes é a que você espera
         const agenteParaEditar = filteredAgentes.find(agente => {
-            console.log("Comparando:", agente.codigo, "Tipo:", typeof agente.codigo);
-            return Number(agente.codigo) === Number(codigo);
+            console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
+            return Number(agente.tpa_codigo) === Number(codigo); // Usando 'tpa_codigo'
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
     
+            // Agora, ajuste as propriedades corretamente
             setRequest({
-                tpa_codigo: agenteParaEditar.codigo || '', // Ajustando para 'codigo'
-                tpa_descricao: agenteParaEditar.descricao || '', // Ajustando para 'descricao'
+                tpa_codigo: agenteParaEditar.tpa_codigo || '', 
+                tpa_descricao: agenteParaEditar.tpa_descricao || '',
             });
-            setAgenteNome(agenteParaEditar.descricao);
+            setAgenteNome(agenteParaEditar.tpa_descricao); // Usando 'tpa_descricao'
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
