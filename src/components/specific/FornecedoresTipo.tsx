@@ -53,9 +53,8 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         try {
             const response = await apiGetFornecedorTipo();
             if (response.status === 200) {
-                // Mapeia os dados retornados da API para o formato esperado pela GenericTable
                 const data = Array.isArray(response.data) ? response.data : [];
-                console.log("Dados retornados da API:", data);
+                console.log("Dados retornados da API:", data);  // Verifique o formato dos dados
                 setFilteredAgentes(data);
             } else {
                 toastError("Erro ao carregar os dados.");
@@ -178,17 +177,17 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             return;
         }
     
-        // Verifica se o código é numérico antes de tentar a comparação
+        // Garantir que o valor de código seja numérico
         const numeroCodigo = Number(codigo);
         if (isNaN(numeroCodigo)) {
             console.error('❌ Código inválido para edição:', codigo);
             return;
         }
     
-        // Agora você pode fazer a busca no array corretamente
+        // Agora verificamos a comparação
         const agenteParaEditar = filteredAgentes.find(agente => {
             console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-            return agente.tpa_codigo === numeroCodigo;
+            return Number(agente.tpa_codigo) === numeroCodigo;  // Forçar a comparação numérica
         });
     
         if (agenteParaEditar) {
@@ -205,6 +204,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             console.error('❌ Agente não encontrado para edição:', codigo);
         }
     };
+
 
     
     const handleCreateClick = () => {
