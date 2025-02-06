@@ -923,7 +923,6 @@ const GraficoComFiltros = () => {
                                         max="10"
                                         style={{width:'100px',height:'34px'}}
                                         onChange={(e) => handleNumAreaChange(e)} // Permite a digitação sem validação imediata
-                                        onBlur={handleNumAreaBlur}
                                     />
                                 </div>
                             </div>
