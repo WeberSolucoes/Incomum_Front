@@ -170,26 +170,26 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     const handleEditAgente = (codigo) => {
         console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
-    
+        
         filteredAgentes.forEach((agente, index) => {
             console.log(`Agente ${index}:`, agente);
-            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
+            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente)); // Verifica as propriedades dos agentes
         });
     
-        // Agora usamos 'codigo' ao invés de 'tpa_codigo'
+        // Verifica se 'codigo' é igual ao 'pco_codigo'
         const agenteParaEditar = filteredAgentes.find(agente => {
-            console.log("Comparando:", agente.codigo, "Tipo:", typeof agente.codigo);
-            return Number(agente.codigo) === Number(codigo);
+            console.log(`Comparando: ${agente.pco_codigo} (Tipo: ${typeof agente.pco_codigo}) com ${codigo} (Tipo: ${typeof codigo})`);
+            return Number(agente.pco_codigo) === Number(codigo); // Correção para 'pco_codigo'
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
-    
+            
             setRequest({
-                tpa_codigo: agenteParaEditar.codigo || '', // Ajustando para 'codigo'
-                tpa_descricao: agenteParaEditar.descricao || '', // Ajustando para 'descricao'
+                tpa_codigo: agenteParaEditar.pco_codigo || '', // Ajustando para 'pco_codigo'
+                tpa_descricao: agenteParaEditar.pco_descricao || '', // Ajustando para 'pco_descricao'
             });
-            setAgenteNome(agenteParaEditar.descricao);
+            setAgenteNome(agenteParaEditar.pco_descricao); // Ajuste aqui também
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
