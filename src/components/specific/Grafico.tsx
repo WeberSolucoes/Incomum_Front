@@ -286,6 +286,9 @@ const GraficoComFiltros = () => {
         const params = {
             date_start: dateStart ? dateStart.toISOString().split("T")[0] : null,
             date_end: dateEnd ? dateEnd.toISOString().split("T")[0] : null,
+            num_agencias: numAgencias, // Envia o número de agências selecionadas pelo usuário
+            unidade: selectedUnidade,
+            area: selectedAreaComercial
         };
     
         let endpoint = "";
@@ -293,11 +296,13 @@ const GraficoComFiltros = () => {
             endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-unidade/";
             if (selectedUnidade !== "todos") {
                 params.loj_codigo = selectedUnidade;
+                params.aco_codigo = selectedAreaComercial;
             }
         } else if (activeTab === 1) {
             endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-agencia/";
             if (selectedAgencias.length > 0 && !selectedAgencias.includes("todos")) {
                 params.age_codigo = selectedAgencias;
+                params.aco_codigo = selectedAreaComercial;
             }
         }
     
@@ -525,6 +530,8 @@ const GraficoComFiltros = () => {
                         date_end: formattedEndDate,  
                         "age_codigo[]": selectedAgencias.map(a => a.value),  // Enviar como array
                         num_agencias: numAgencias, // Usando o estado correto
+                        areas: selectedAreaComercial,
+                        unidade: selectedUnidade,
                     },
                     responseType: "blob", // Necessário para arquivos
                 }
@@ -755,14 +762,22 @@ const GraficoComFiltros = () => {
                                 <div className="form-group">
                                     <label htmlFor="cid_codigo">Área Comercial</label>
                                     <MultiSelect
-                                        value={selectedAreaComercial} 
-                                        options={areasComerciais} 
-                                        onChange={handleAreaChange}  
-                                        placeholder="Área Comercial" 
-                                        display="chip" 
-                                        style={{width:'100%'}}
-                                        panelStyle={{ width: '100%' }} // Largura do painel
-                                        showClear 
+                                        value={selectedAreaComercial}
+                                        options={areasComerciais}
+                                        onChange={(e) => {
+                                            if (e.value) {
+                                                const areasSelecionadas = e.value.map((area) => area.value || area);
+                                                console.log("Áreas selecionadas:", areasSelecionadas);
+                                                setSelectedAreaComercial(areasSelecionadas);
+                                            } else {
+                                                console.warn("Nenhuma área selecionada.");
+                                                setSelectedAreaComercial([]);
+                                            }
+                                        }}
+                                        placeholder="Selecione Áreas Comerciais"
+                                        display="chip"
+                                        showClear
+                                        style={{ width: "100%" }}
                                     />
                                 </div>
                             </div>
