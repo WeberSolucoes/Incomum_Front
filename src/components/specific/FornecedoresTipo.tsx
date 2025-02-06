@@ -172,10 +172,14 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo);
     
-        const agenteParaEditar = filteredAgentes.find(agente => {
+        // Mapear para garantir que a propriedade esteja correta
+        const agenteParaEditar = filteredAgentes.map((agente) => {
             console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-            return agente.tpa_codigo === Number(codigo);
-        });
+            
+            if (agente.tpa_codigo === Number(codigo)) {
+                return agente; // Retorna o agente que corresponde ao código
+            }
+        }).find((agente) => agente !== undefined); // Encontre o primeiro agente que não seja undefined
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
