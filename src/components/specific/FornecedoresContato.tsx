@@ -57,10 +57,11 @@ const ForncedoresContato: React.FC = (onBackClick) => {
                 // Mapeia os dados retornados da API para o formato esperado pela GenericTable
                 const data = Array.isArray(response.data) ? response.data : [];
                 const mappedData = data.map((item) => ({
-                    codigo: item.pco_codigo, // Adapta para o campo esperado
-                    descricao: item.pco_descricao,
-                    responsavel: item.pco_observacao, // Ajuste conforme necessário
-                    email: item.pco_fone, // Exemplo de adaptação
+                    pco_codigo: item.pco_codigo, // Campo esperado pela tabela
+                    par_codigo: item.par_codigo, // Adiciona o par_codigo
+                    pco_descricao: item.pco_descricao, // Campo esperado pela tabela
+                    pco_observacao: item.pco_observacao, // Campo esperado pela tabela
+                    pco_fone: item.pco_fone // Campo esperado pela tabela
                 }));
                 setFilteredAgentes(mappedData); // Atualiza o estado com os dados transformados
             } else {
