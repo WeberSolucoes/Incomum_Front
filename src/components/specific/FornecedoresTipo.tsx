@@ -169,30 +169,28 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
-        console.log("Lista de Agentes:", filteredAgentes);
-        console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
+        console.log("Código recebido para edição:", codigo);
     
-        // Verifique a estrutura dos agentes e se cada agente tem a propriedade correta
+        // Log para verificar como os dados estão estruturados
         filteredAgentes.forEach((agente, index) => {
             console.log(`Agente ${index}:`, agente);
-            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente)); // Aqui você verá as propriedades reais de cada objeto
+            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
         });
     
-        // Verifique se a estrutura de filteredAgentes é a que você espera
+        // Use 'tpa_codigo' ao invés de 'codigo'
         const agenteParaEditar = filteredAgentes.find(agente => {
             console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-            return Number(agente.tpa_codigo) === Number(codigo); // Usando 'tpa_codigo'
+            return Number(agente.tpa_codigo) === Number(codigo);
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
     
-            // Agora, ajuste as propriedades corretamente
             setRequest({
-                tpa_codigo: agenteParaEditar.tpa_codigo || '', 
-                tpa_descricao: agenteParaEditar.tpa_descricao || '',
+                tpa_codigo: agenteParaEditar.tpa_codigo || '', // Ajustando para 'tpa_codigo'
+                tpa_descricao: agenteParaEditar.tpa_descricao || '', // Ajustando para 'tpa_descricao'
             });
-            setAgenteNome(agenteParaEditar.tpa_descricao); // Usando 'tpa_descricao'
+            setAgenteNome(agenteParaEditar.tpa_descricao);
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
