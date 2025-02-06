@@ -626,6 +626,16 @@ const GraficoComFiltros = () => {
             console.error("Erro ao exportar Excel:", error);
         }
     };
+
+    const handleNumAreaBlur = (e) => {
+        let value = parseInt(e.target.value, 10);
+    
+        // Se estiver vazio ou inválido, define como 1
+        if (isNaN(value) || value < 1) value = 1;
+        if (value > 10) value = 10;
+    
+        setQuantidade(value); // Atualiza o estado com a correção
+    };
     
 
 
@@ -913,12 +923,7 @@ const GraficoComFiltros = () => {
                                         max="10"
                                         style={{width:'100px',height:'34px'}}
                                         onChange={(e) => handleNumAreaChange(e)} // Permite a digitação sem validação imediata
-                                        onBlur={(e) => {
-                                            let value = parseInt(e.target.value, 10) || 1; // Garante que o valor seja um número
-                                            if (value < 1) value = 1;
-                                            if (value > 10) value = 10;
-                                            handleNumAreaChange({ target: { value } }); // Atualiza o estado com o valor corrigido
-                                        }}
+                                        onBlur={handleNumAreaBlur}
                                     />
                                 </div>
                             </div>
