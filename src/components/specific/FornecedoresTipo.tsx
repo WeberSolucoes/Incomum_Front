@@ -53,9 +53,13 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         try {
             const response = await apiGetFornecedorTipo();
             if (response.status === 200) {
+                // Mapeia os dados retornados da API para o formato esperado pela GenericTable
                 const data = Array.isArray(response.data) ? response.data : [];
-                console.log("Dados retornados da API:", data);  // Verifique o formato dos dados
-                setFilteredAgentes(data);
+                const mappedData = data.map((item) => ({
+                    codigo: item.tpa_codigo, // Adapta para o campo esperado
+                    descricao: item.tpa_descricao,
+                }));
+                setFilteredAgentes(mappedData); // Atualiza o estado com os dados transformados
             } else {
                 toastError("Erro ao carregar os dados.");
             }
@@ -170,33 +174,28 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
+        console.log("Lista de Agentes:", filteredAgentes);
         console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
     
-        if (codigo === undefined || codigo === null) {
-            console.error('❌ Código inválido:', codigo);
-            return;
-        }
+        filteredAgentes.forEach((agente, index) => {
+            console.log(`Agente ${index}:`, agente);
+            console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
+        });
     
-        // Garantir que o valor de código seja numérico
-        const numeroCodigo = Number(codigo);
-        if (isNaN(numeroCodigo)) {
-            console.error('❌ Código inválido para edição:', codigo);
-            return;
-        }
-    
-        // Agora verificamos a comparação
+        // Agora usamos 'codigo' ao invés de 'tpa_codigo'
         const agenteParaEditar = filteredAgentes.find(agente => {
-            console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
-            return Number(agente.tpa_codigo) === numeroCodigo;  // Forçar a comparação numérica
+            console.log("Comparando:", agente.codigo, "Tipo:", typeof agente.codigo);
+            return Number(agente.codigo) === Number(codigo);
         });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
+    
             setRequest({
-                tpa_codigo: agenteParaEditar.tpa_codigo || '',
-                tpa_descricao: agenteParaEditar.tpa_descricao || '',
+                tpa_codigo: agenteParaEditar.codigo || '', // Ajustando para 'codigo'
+                tpa_descricao: agenteParaEditar.descricao || '', // Ajustando para 'descricao'
             });
-            setAgenteNome(agenteParaEditar.tpa_descricao);
+            setAgenteNome(agenteParaEditar.descricao);
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
@@ -204,7 +203,6 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             console.error('❌ Agente não encontrado para edição:', codigo);
         }
     };
-
 
     
     const handleCreateClick = () => {
