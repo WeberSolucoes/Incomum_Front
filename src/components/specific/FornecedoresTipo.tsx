@@ -53,11 +53,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
             if (response.status === 200) {
                 // Mapeia os dados retornados da API para o formato esperado pela GenericTable
                 const data = Array.isArray(response.data) ? response.data : [];
-                const mappedData = data.map((item) => ({
-                    codigo: item.tpa_codigo, // Adapta para o campo esperado
-                    descricao: item.tpa_descricao,
-                }));
-                setFilteredAgentes(mappedData); // Atualiza o estado com os dados transformados
+                setFilteredAgentes(data);
             } else {
                 toastError("Erro ao carregar os dados.");
             }
