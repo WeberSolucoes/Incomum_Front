@@ -171,22 +171,29 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
     }, [modalVisible, request]);
     
     const handleEditAgente = (codigo) => {
-        if (codigo === undefined || codigo === null) {
-            console.error("❌ Código inválido para edição:", codigo);
-            return;
-        }
-    
-        console.log("Lista de Agentes:", filteredAgentes);
-        console.log("Código recebido para edição:", codigo);
-    
-        const agenteParaEditar = filteredAgentes.find((agente) => agente.tpa_codigo === Number(codigo));
+    console.log("Lista de Agentes:", filteredAgentes);
+    console.log("Código recebido para edição:", codigo, "Tipo:", typeof codigo);
+
+    filteredAgentes.forEach((agente, index) => {
+        console.log(`Agente ${index}:`, agente);
+        console.log(`Propriedades do Agente ${index}:`, Object.keys(agente));
+    });
+
+    // Agora usamos 'codigo' ao invés de 'tpa_codigo'
+    const agenteParaEditar = filteredAgentes.find(agente => {
+        console.log("Comparando:", agente.tpa_codigo, "Tipo:", typeof agente.tpa_codigo);
+        return Number(agente.tpa_codigo) === Number(codigo); // A comparação deve ser feita com tpa_codigo
+        });
     
         if (agenteParaEditar) {
             console.log("✅ Agente encontrado:", agenteParaEditar);
+    
             setRequest({
-                tpa_codigo: agenteParaEditar.tpa_codigo || '',
-                tpa_descricao: agenteParaEditar.tpa_descricao || '',
+                tpa_codigo: agenteParaEditar.tpa_codigo || '', // Usa tpa_codigo diretamente
+                tpa_descricao: agenteParaEditar.tpa_descricao || '', // Usa tpa_descricao diretamente
             });
+            setAgenteNome(agenteParaEditar.tpa_descricao);
+            setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
         } else {
@@ -194,6 +201,7 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
         }
     };
 
+    
     const handleCreateClick = () => {
         // Resetando os campos e estados relacionados à edição
         setRequest({
