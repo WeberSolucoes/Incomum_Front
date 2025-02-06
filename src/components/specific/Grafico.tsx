@@ -287,21 +287,29 @@ const GraficoComFiltros = () => {
             date_start: dateStart ? dateStart.toISOString().split("T")[0] : null,
             date_end: dateEnd ? dateEnd.toISOString().split("T")[0] : null,
             num_agencias: numAgencias, // Envia o número de agências selecionadas pelo usuário
-            unidade: selectedUnidade,
-            area: selectedAreaComercial
         };
     
         let endpoint = "";
+    
         if (activeTab === 0) {
             endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-unidade/";
-            if (selectedUnidade !== "todos") {
-                params.loj_codigo = selectedUnidade;
-                params.aco_codigo = selectedAreaComercial;
+    
+            if (selectedUnidade && selectedUnidade !== "todos") {
+                params.loj_codigo = selectedUnidade; // Usa o nome correto esperado pela API
             }
+    
         } else if (activeTab === 1) {
             endpoint = "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-agencia/";
+    
+            if (selectedUnidade && selectedUnidade !== "todos") {
+                params.loj_codigo = selectedUnidade; // 🔹 Agora enviando o código da unidade corretamente
+            }
+    
             if (selectedAgencias.length > 0 && !selectedAgencias.includes("todos")) {
                 params.age_codigo = selectedAgencias;
+            }
+    
+            if (selectedAreaComercial && selectedAreaComercial.length > 0) {
                 params.aco_codigo = selectedAreaComercial;
             }
         }
@@ -309,14 +317,12 @@ const GraficoComFiltros = () => {
         try {
             const response = await axios.get(endpoint, { params });
     
-            // Verifique a resposta para garantir que temos as informações corretas
             console.log("Resposta da API:", response.data);
     
             if (Array.isArray(response.data.data) && Array.isArray(response.data.labels)) {
                 const labels = response.data.labels;
-                const data = response.data.data.map(item => item.toFixed(2)); // Formata os valores com 2 casas decimais
+                const data = response.data.data.map(item => item.toFixed(2));
     
-                // Formata os dados para exibir as 5 ou 10 melhores
                 setChartData(formatChartData(data, labels));
             } else {
                 console.error("Formato inesperado na resposta da API:", response.data);
