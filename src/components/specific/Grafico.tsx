@@ -520,6 +520,15 @@ const GraficoComFiltros = () => {
         }
     };
 
+    const handleNumAreaChange = (e) => {
+        const value = e.target.value;
+    
+        // Permite valores temporários como vazio ou intermediários
+        if (value === "" || (Number(value) >= 1 && Number(value) <= 10)) {
+            setQuantidade(value); // Atualiza o estado com o valor atual
+        }
+    };
+
 
     const handleExportAgenciaExcel = async () => {
         try {
@@ -922,7 +931,7 @@ const GraficoComFiltros = () => {
                                         min="1"
                                         max="10"
                                         style={{width:'100px',height:'34px'}}
-                                        onChange={(e) => handleNumAreaChange(e)} // Permite a digitação sem validação imediata
+                                        onChange={handleNumAreaChange} // Permite a digitação sem validação imediata
                                     />
                                 </div>
                             </div>
