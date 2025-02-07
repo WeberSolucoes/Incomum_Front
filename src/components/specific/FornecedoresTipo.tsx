@@ -226,10 +226,10 @@ const ForncedoresTipo: React.FC = (onBackClick) => {
 
             <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1.5rem', marginTop: '8px' }}>
                 <Button
-                    label="Criar"
+                    label="Adicionar"
                     icon="pi pi-plus"
-                    style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
-                    onClick={handleCreateClick}
+                    style={{ marginLeft: 'auto', backgroundColor: '#0152a1',height: '34px', borderRadius: '10px'}}
+                    onCick={handleCreateClick}
                 />
             </div>
 
