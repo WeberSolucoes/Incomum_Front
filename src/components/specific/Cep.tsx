@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CepCreateRequest, CidadeCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateMoeda, apiDeleteCep, apiDeleteMoeda, apiGetMoedaId, apiUpdateMoeda } from "../../services/Api";
+import { apiCreateCep, apiDeleteCep, apiDeleteCep, apiGetCepId, apiUpdateCep } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -39,7 +39,7 @@ const Cep: React.FC = ({ onBackClick }) => {
         const fetchData = async () => {
             if (!codigo) return;
             try {
-                const response = await apiGetMoedaId(codigo);
+                const response = await apiGetCepId(codigo);
                 const unidade = response.data;
                 setRequest(unidade);
                 setVenCodigo(unidade.cep_codigo); // Define o ID do vendedor
@@ -131,10 +131,10 @@ const Cep: React.FC = ({ onBackClick }) => {
         try {
             let response;
             if (request.cep_codigo) {
-                response = await apiUpdateMoeda(request.cep_codigo, request);
+                response = await apiUpdateCep(request.cep_codigo, request);
             } else {
                 const { cep_codigo, ...newRequest } = request;
-                response = await apiCreateMoeda(newRequest);
+                response = await apiCreateCep(newRequest);
             }
     
             if (response.status === 200 || response.status === 201) {
