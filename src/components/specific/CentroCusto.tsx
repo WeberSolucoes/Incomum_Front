@@ -274,7 +274,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
                     <Checkbox id="cta_exclusivo" name="cta_exclusivo" style={{marginTop:'36px', marginLeft:'14px'}} />
-                    <label htmlFor="cta_exclusivo" style={{ marginLeft: "8px" }}>Exclusivo</label>
+                    <label htmlFor="cta_exclusivo" style={{ marginLeft: "8px",display:'inline' }}>Exclusivo</label>
                 </div>
             </div>
 
