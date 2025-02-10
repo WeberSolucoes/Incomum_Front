@@ -33,7 +33,7 @@ const bancos = [
 const Agente: React.FC = ({ }) => {
     const [request, setRequest] = useState<AgenteCreateRequest>({} as AgenteCreateRequest);
     const [loading, setLoading] = useState(false);
-    const [setAgencias] = useState<{ id: number; nome: string }[]>([]);
+    const [agencias, setAgencias] = useState<any[]>([]);
     const [modalVisible, setModalVisible] = useState(false);
     const [searchTerm, setSearchTerm] = useState('');
     const [filteredAgentes, setFilteredAgentes] = useState<Agente[]>([]);
