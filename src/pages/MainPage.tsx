@@ -13,7 +13,7 @@ import AreaComercialCadastro from '../components/specific/AreaComercialCadastro'
 import { useAuth } from '../contexts/AuthProvider';
 import { useNavigate } from 'react-router-dom';
 import { useCodigo } from '../contexts/CodigoProvider';
-import '../assets/styles/pages/Agencia.css?v=180';
+import '../assets/styles/pages/Agencia.css?v=181';
 import '../assets/styles/pages/sidebar.css?v=145';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'react-toastify/dist/ReactToastify.css';
