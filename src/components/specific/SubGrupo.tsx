@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CidadeCreateRequest, DespesasGeralCreateRequest, SubGrupoCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCidade, apiCreateDepartamento, apiCreateSubgrupo, apiDeleteCidade, apiDeleteDepartamento, apiDeleteSubgrupo, apiGetCidadeId, apiGetDepartamentoId, apiGetSubgrupoId, apiUpdateCidade, apiUpdateDepartamento, apiUpdateSubgrupo } from "../../services/Api";
+import { apiGetDespesasGeral,apiCreateCidade, apiCreateDepartamento, apiCreateSubgrupo, apiDeleteCidade, apiDeleteDepartamento, apiDeleteSubgrupo, apiGetCidadeId, apiGetDepartamentoId, apiGetSubgrupoId, apiUpdateCidade, apiUpdateDepartamento, apiUpdateSubgrupo } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -20,8 +20,8 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
     const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
     const [areacomercial, setAreaComercial] = useState('');
-    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
-    const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
+    const [areasComerciais, setAreasComerciais] = useState<{ label: string; value: number }[]>([]);
+    const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
     const [checked, setChecked] = useState(false);
     const [sbc_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
@@ -174,6 +174,24 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
         setChecked(false);
     };
 
+    useEffect(() => {
+        const fetchAreasComerciais = async () => {
+            try {
+                const response = await  apiGetDespesasGeral();
+                const data = response.data;
+                setAreaComercial(data.grc_codigo);
+                setAreasComerciais(data.map((area: { grc_descricao: string; grc_codigo: number }) => ({
+                    label: area.grc_descricao,
+                    value: area.grc_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar áreas comerciais:", error);
+                toastError("Erro ao buscar áreas comerciais.");
+            }
+        };
+        fetchAreasComerciais();
+    }, []);
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -214,14 +232,16 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         id="grc_codigo"
                         name="grc_codigo"
-                        value={request.grc_codigo || null} // Valor selecionado
+                        value={selectedAreaComercial} // Valor selecionado
+                        options={areasComerciais} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
                         optionLabel="label" // Campo para exibir
-                        optionValue="value" // Campo para o valor interno
+                        optionValue="value" // Campo interno
                         placeholder="Selecione um Grupo"
                         filter // Ativa o campo de busca
                         showClear // Botão para limpar o campo
-                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
-                        className="w-full" // Classe CSS opcional
+                        filterPlaceholder="Pesquisar..."
+                        className="w-full"
                     />
                 </div>
             </div>
