@@ -205,7 +205,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..." // Placeholder para a busca
                         className="w-full" // Classe CSS opcional
-                        style={{width:'200px',height:'38.6px'}}
+                        style={{width:'200px',height:'34px'}}
                     />
                 </div>
             </div>
@@ -269,7 +269,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..." // Placeholder para a busca
                         className="w-full" // Classe CSS opcional
-                        style={{height:'38.6px'}}
+                        style={{height:'34px'}}
                     />
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
