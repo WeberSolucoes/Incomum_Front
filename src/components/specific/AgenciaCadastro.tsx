@@ -423,15 +423,21 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   };
 
 
-    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-     if (selectedOption) {
-            setibge(selectedOption.value); // Armazena o código da cidade
-            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+    const handleCidadeChange = (selectedOption: any) => {
+        if (selectedOption) {
+            setRequest({
+                ...request,
+                cid_codigo: selectedOption.value, // Atualiza o cid_codigo com a seleção atual
+            });
+            setUf(selectedOption.uf); // Atualiza o UF com a seleção atual
         } else {
-            setibge(null);
-            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+            setRequest({
+                ...request,
+                cid_codigo: null, // Limpa o cid_codigo se o usuário desmarcar
+            });
+            setUf(''); // Limpa o UF se o usuário desmarcar
         }
-    };
+      };
 
 
     const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
@@ -453,6 +459,46 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
             behavior: 'smooth' // Deixa a rolagem suave
         });
     };
+
+
+    const fetchCidadeById = async (cid_codigo: number) => {
+        try {
+            const response = await axios.get(`https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error("Erro ao buscar cidade por ID:", error);
+        }
+        return null;
+    };
+
+  useEffect(() => {
+    const carregarCidade = async () => {
+        if (request.age_codigo && request.cid_codigo) {
+            const cidade = await fetchCidadeById(request.cid_codigo);
+            if (cidade) {
+              setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
+            }
+            if (cidade) {
+                setRequest(prev => ({
+                    ...prev,
+                    cid_codigo: cidade.cid_codigo
+                }));
+
+                // Verifica se a cidade já está na lista, se não, adiciona
+                setCidades(prev => {
+                    if (!prev.some(c => c.value === cidade.cid_codigo)) {
+                        return [...prev, { label: cidade.cid_descricao, value: cidade.cid_codigo }];
+                    }
+                    return prev;
+                });
+            }
+        }
+    };
+
+    carregarCidade();
+  }, [request.age_codigo, request.cid_codigo]);
 
     
   return (
@@ -553,7 +599,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                         }
                     }}
                 onChange={handleCidadeChange}
-                value={cidades.find((option) => option.value === ibge) || null} // Corrigido
+                value={cidades.find(cidade => cidade.value === request.cid_codigo) || null}
                 placeholder="Selecione uma Cidade"
                 />
           </div>         
