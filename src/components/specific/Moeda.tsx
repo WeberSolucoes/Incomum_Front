@@ -190,7 +190,7 @@ const Moeda: React.FC = ({ onBackClick }) => {
                         disabled
                     />
                 </div>
-                <div className="form-group" style={{marginLeft:'-490px'}}>
+                <div className="form-group" style={{marginLeft:'-600px'}}>
                     <label htmlFor="cid_descricao">Codigo Internacional</label>
                     <input
                         type="text"
@@ -230,7 +230,7 @@ const Moeda: React.FC = ({ onBackClick }) => {
                         style={{width:'250px'}}
                     />
                 </div>
-                <div className="form-group">
+                <div className="form-group" style={{marginLeft:'-500px'}}>
                     <label htmlFor="cid_pais">Simbolo</label>
                     <input
                         type="text"
@@ -238,7 +238,7 @@ const Moeda: React.FC = ({ onBackClick }) => {
                         name="cid_pais"
                         value={request.moe_simbolo || ''}
                         onChange={handleInputChange}
-                        style={{width:'650px'}}
+                        style={{width:'250px'}}
                     />
                 </div>
             </div>
