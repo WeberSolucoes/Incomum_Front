@@ -179,11 +179,11 @@ const Moeda: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="cid_codigo">Codigo</label>
+                    <label htmlFor="moe_codigo">Codigo</label>
                     <input
                         type="text"
-                        id="cid_codigo"
-                        name="cid_codigo"
+                        id="moe_codigo"
+                        name="moe_codigo"
                         value={request.moe_codigo || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
@@ -191,11 +191,11 @@ const Moeda: React.FC = ({ onBackClick }) => {
                     />
                 </div>
                 <div className="form-group" style={{marginLeft:'-600px'}}>
-                    <label htmlFor="cid_descricao">Codigo Internacional</label>
+                    <label htmlFor="moe_codigogeral">Codigo Internacional</label>
                     <input
                         type="text"
-                        id="cid_descricao"
-                        name="cid_descricao"
+                        id="moe_codigogeral"
+                        name="moe_codigogeral"
                         value={request.moe_codigogeral || ''}
                         onChange={handleInputChange}
                         style={{width:'40%'}}
@@ -206,11 +206,11 @@ const Moeda: React.FC = ({ onBackClick }) => {
             {/* Segunda linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="cid_descricao">Descrição</label>
+                    <label htmlFor="moe_descricao">Descrição</label>
                     <input
                         type="text"
-                        id="cid_descricao"
-                        name="cid_descricao"
+                        id="moe_descricao"
+                        name="moe_descricao"
                         value={request.moe_descricao || ''}
                         onChange={handleInputChange}
                         style={{width:'100%'}}
@@ -220,22 +220,22 @@ const Moeda: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="cid_estado">Abreviação</label>
+                    <label htmlFor="moe_abreviacao">Abreviação</label>
                     <input
                         type="text"
-                        id="cid_estado"
-                        name="cid_estado"
+                        id="moe_abreviacao"
+                        name="moe_abreviacao"
                         value={request.moe_abreviacao || ''}
                         onChange={handleInputChange}
                         style={{width:'250px'}}
                     />
                 </div>
                 <div className="form-group" style={{marginLeft:'-500px'}}>
-                    <label htmlFor="cid_pais">Simbolo</label>
+                    <label htmlFor="moe_simbolo">Simbolo</label>
                     <input
                         type="text"
-                        id="cid_pais"
-                        name="cid_pais"
+                        id="moe_simbolo"
+                        name="moe_simbolo"
                         value={request.moe_simbolo || ''}
                         onChange={handleInputChange}
                         style={{width:'250px'}}
