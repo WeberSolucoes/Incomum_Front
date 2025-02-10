@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CidadeCreateRequest, DespesasGeralCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCidade, apiCreateDepartamento, apiCreateDespesasGeral, apiDeleteCidade, apiDeleteDepartamento, apiDeleteDespesasGeral, apiGetCidadeId, apiGetDepartamentoId, apiGetDespesasGeralId, apiUpdateCidade, apiUpdateDepartamento, apiUpdateDespesasGeral } from "../../services/Api";
+import { apiGetDespesas, apiCreateDepartamento, apiCreateDespesasGeral, apiDeleteCidade, apiDeleteDepartamento, apiDeleteDespesasGeral, apiGetCidadeId, apiGetDepartamentoId, apiGetDespesasGeralId, apiUpdateCidade, apiUpdateDepartamento, apiUpdateDespesasGeral } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -20,8 +20,8 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
     const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
     const [areacomercial, setAreaComercial] = useState('');
-    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
-    const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
+    const [areasComerciais, setAreasComerciais] = useState<{ label: string; value: number }[]>([]);
+    const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
     const [checked, setChecked] = useState(false);
     const [grc_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
@@ -174,6 +174,24 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
         setChecked(false);
     };
 
+    useEffect(() => {
+        const fetchAreasComerciais = async () => {
+            try {
+                const response = await  apiGetDespesas();
+                const data = response.data;
+                setAreaComercial(data.mgr_codigo);
+                setAreasComerciais(data.map((area: { mgr_descricao: string; mgr_codigo: number }) => ({
+                    label: area.mgr_descricao,
+                    value: area.mgr_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar MasterGrupo:", error);
+                toastError("Erro ao buscar MasterGrupo.");
+            }
+        };
+        fetchAreasComerciais();
+    }, []);
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -212,16 +230,18 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
                 <div className="form-group">
                     <label htmlFor="grc_descricao">Master Grupo</label>
                     <Dropdown
-                        id="loj_codigobase"
-                        name="loj_codigobase"
-                        value={request.mgr_codigo || null} // Valor selecionado
+                        id="mgr_codigo"
+                        name="mgr_codigo"
+                        value={selectedAreaComercial} // Valor selecionado
+                        options={areasComerciais} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
                         optionLabel="label" // Campo para exibir
-                        optionValue="value" // Campo para o valor interno
+                        optionValue="value" // Campo interno
                         placeholder="Selecione um Grupo"
                         filter // Ativa o campo de busca
                         showClear // Botão para limpar o campo
-                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
-                        className="w-full" // Classe CSS opcional
+                        filterPlaceholder="Pesquisar..."
+                        className="w-full"
                     />
                 </div>
             </div>
@@ -243,7 +263,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
                     onClick={handleDeleteClick}
                     disabled={loading}
                 >
-                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
+                    <i className="fas fa-trash-alt"></i>Excluir
                 </button>
                 )}
                 
