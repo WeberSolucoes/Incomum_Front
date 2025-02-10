@@ -114,7 +114,7 @@ const Despesas: React.FC = ({ onBackClick }) => {
         setLoading(true);
     
         if (!request.cid_descricao) {
-            toastError("O campo Cidade é obrigatório.");
+            toastError("O campo MasterGrupo é obrigatório.");
             setLoading(false);
             return;
         }
@@ -129,7 +129,7 @@ const Despesas: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Cidade salva com sucesso");
+                toastSucess("Despesas salva com sucesso");
     
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.mgr_codigo && response.data && response.data.mgr_codigo) {
@@ -140,7 +140,7 @@ const Despesas: React.FC = ({ onBackClick }) => {
                     setVenCodigo(response.data.mgr_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar o Cidade");
+                toastError("Erro ao salvar o Despesas");
             }
         } catch (error: any) {
             console.error("Erro:", error);
