@@ -113,7 +113,7 @@ const Despesas: React.FC = ({ onBackClick }) => {
         e.preventDefault();
         setLoading(true);
     
-        if (!request.cid_descricao) {
+        if (!request.mgr_descricao) {
             toastError("O campo MasterGrupo é obrigatório.");
             setLoading(false);
             return;
