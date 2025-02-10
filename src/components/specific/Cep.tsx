@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CepCreateRequest, CidadeCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCep, apiDeleteCep, apiDeleteCep, apiGetCepId, apiUpdateCep } from "../../services/Api";
+import { apiCreateCep, apiDeleteCep, apiGetCepId, apiUpdateCep } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
