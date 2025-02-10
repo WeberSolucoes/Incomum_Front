@@ -55,21 +55,31 @@ const Agente: React.FC = ({ }) => {
     ];
 
     // Função para carregar as agências do backend
+    const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
     const fetchAgencias = async () => {
         try {
-            const response = await axios.get('https://api.incoback.com.br/api/incomum/agencia/list-all/');
+            const response = await axios.get('https://api.incoback.com.br/api/incomum/agencia/list-all/', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             setAgencias(response.data);
         } catch (error) {
             console.error('Erro ao buscar agências:', error);
         }
     };
-
+    
     const fetchAgentes = async (agenciaId: number) => {
         setLoading(true);
         try {
-            const response = await axios.get(`https://api.incoback.com.br/api/incomum/agente/${agenciaId}/`);
+            const response = await axios.get(`https://api.incoback.com.br/api/incomum/agente/${agenciaId}/`, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
             console.log('Dados dos agentes:', response.data);
-
+    
             const mappedData = response.data.map((item: any) => ({
                 codigo: item.agt_codigo,
                 descricao: item.agt_descricao,
@@ -88,7 +98,7 @@ const Agente: React.FC = ({ }) => {
                 agt_agencia: item.agt_agencia || '', // Adicionando o campo agt_agencia
                 agt_contacorrente: item.agt_contacorrente || '',
             }));
-
+    
             setFilteredAgentes(mappedData);
         } catch (error) {
             console.error('Erro ao buscar agentes:', error);
