@@ -283,7 +283,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     <Button
                         label="Voltar"
                         icon="pi pi-arrow-left"
-                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'680px',borderRadius:'4px' }}
                         onClick={onBackClick} // Chama a função passada como prop
                     />
                 {/* Condição para renderizar o botão de exclusão */}
@@ -295,7 +295,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     onClick={handleDeleteClick}
                     disabled={loading}
                 >
-                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
+                    <i className="fas fa-trash-alt"></i>Excluir
                 </button>
                 )}
                 
