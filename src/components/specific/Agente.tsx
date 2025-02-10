@@ -193,16 +193,36 @@ const Agente: React.FC = ({ }) => {
                 age_codigo: request.age_codigo || codigo,
             };
 
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
             if (editing && selectedAgente) {
                 // Modo de edição: envia uma requisição PUT
-                const response = await axios.put(`https://api.incoback.com.br/api/incomum/agente/update/${selectedAgente}/`, payload);
+                const response = await axios.put(
+                    `https://api.incoback.com.br/api/incomum/agente/update/${selectedAgente}/`,
+                    payload,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+            
                 if (response.status === 200) {
                     toastSucess("Agente atualizado com sucesso");
                     fetchAgentes(codigo); // Atualiza a lista de agentes
                 }
             } else {
                 // Modo de criação: envia uma requisição POST
-                const response = await axios.post('https://api.incoback.com.br/api/incomum/agente/create/', payload);
+                const response = await axios.post(
+                    'https://api.incoback.com.br/api/incomum/agente/create/',
+                    payload,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+            
                 if (response.status === 201) {
                     toastSucess("Agente salvo com sucesso");
                     fetchAgentes(codigo); // Atualiza a lista de agentes
