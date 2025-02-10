@@ -203,15 +203,19 @@ const ForncedoresContato: React.FC = (onBackClick) => {
     
     const handleEditAgente = (codigo) => {
         const agenteParaEditar = filteredAgentes.find(agente => agente.codigo === codigo);
+        console.log("Agente para editar:", agenteParaEditar);  // Verifique os dados do agente
+    
         if (agenteParaEditar) {
-            setRequest({
-                pco_codigo: agenteParaEditar.pco_codigo || '',
-                pco_descricao: agenteParaEditar.pco_descricao || '',
-                pco_fone: agenteParaEditar.pco_fone || '',
-                pco_celular: agenteParaEditar.pco_celular || '',
-                pco_observacao: agenteParaEditar.pco_observacao || '',
-            });
-            setAgenteNome(agenteParaEditar.pco_descricao);
+            // Atualize o estado com os dados corretos do agente
+            setRequest(prevState => ({
+                ...prevState, // Certifique-se de manter o estado anterior
+                pco_codigo: agenteParaEditar.codigo || '', // 'codigo' pode ser o campo correto no objeto
+                pco_descricao: agenteParaEditar.descricao || '', 
+                pco_fone: agenteParaEditar.email || '', // Se 'email' for o campo correto para telefone
+                pco_celular: agenteParaEditar.responsavel || '', // 'responsavel' pode ser o celular
+                pco_observacao: agenteParaEditar.responsavel || '', // Se 'responsavel' for a observação
+            }));
+            setAgenteNome(agenteParaEditar.descricao);
             setSelectedAgente(codigo);
             setEditing(true);
             setModalVisible(true);
