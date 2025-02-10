@@ -113,8 +113,8 @@ const Departamento: React.FC = ({ onBackClick }) => {
         e.preventDefault();
         setLoading(true);
     
-        if (!request.cid_descricao) {
-            toastError("O campo Cidade é obrigatório.");
+        if (!request.dep_descricao) {
+            toastError("O campo Departamento é obrigatório.");
             setLoading(false);
             return;
         }
@@ -129,7 +129,7 @@ const Departamento: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Cidade salva com sucesso");
+                toastSucess("Departamento salvo com sucesso");
     
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.dep_codigo && response.data && response.data.dep_codigo) {
@@ -140,7 +140,7 @@ const Departamento: React.FC = ({ onBackClick }) => {
                     setVenCodigo(response.data.dep_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar o Cidade");
+                toastError("Erro ao salvar Departamento");
             }
         } catch (error: any) {
             console.error("Erro:", error);
