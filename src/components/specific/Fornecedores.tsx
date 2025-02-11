@@ -381,6 +381,45 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
             behavior: 'smooth' // Deixa a rolagem suave
         });
     };
+
+    const fetchCidadeById = async (cid_codigo: number) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error("Erro ao buscar cidade por ID:", error);
+        }
+        return null;
+      };
+    
+      useEffect(() => {
+        const carregarCidade = async () => {
+            if (request.age_codigo && request.cid_codigo) {
+                const cidade = await fetchCidadeById(request.cid_codigo);
+                if (cidade) {
+                  setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
+                }
+                if (cidade) {
+                    setRequest(prev => ({
+                        ...prev,
+                        cid_codigo: cidade.cid_codigo
+                    }));
+    
+                    // Verifica se a cidade já está na lista, se não, adiciona
+                    setCidades(prev => {
+                        if (!prev.some(c => c.value === cidade.cid_codigo)) {
+                            return [...prev, { label: cidade.cid_descricao, value: cidade.cid_codigo }];
+                        }
+                        return prev;
+                    });
+                }
+            }
+        };
+    
+        carregarCidade();
+      }, [request.par_codigo, request.cid_codigo]);
     
 
     return (
@@ -684,47 +723,47 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                         <AddToPhotosIcon sx={{ fontSize: 30 }} />
                     </IconButton>
                     <Select
-                    id="cid_codigo"
-                    name="cid_codigo"
-                    isClearable
-                    isLoading={loading}
-                    options={cidades}
-                    onInputChange={(inputValue, { action }) => {
+                      id="cid_codigo"
+                      name="cid_codigo"
+                      isClearable
+                      isLoading={loading} // Indicador de carregamento
+                      options={cidades} // Estado cidades atualizado com os dados crus da API
+                      onInputChange={(inputValue, { action }) => {
                         if (action === "input-change") {
-                            setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                            fetchUnidades(inputValue.toUpperCase()); // Faz a chamada à API
+                          setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                          fetchUnidades(inputValue); // Faz a chamada à API
                         }
-                    }}
-                    onChange={handleCidadeChange}
-                    value={cidades.find((option) => option.value === ibge) || null}
-                    placeholder="Selecione uma Cidade"
-                    styles={{
-                        control: (base) => ({
-                            ...base,
-                            width: '450px', // Ajusta a largura
-                            minHeight: '34px', // Define a altura mínima
-                            height: '34px', // Força a altura
-                            lineHeight: '34px', // Ajusta a altura do texto interno
-                        }),
-                        container: (base) => ({
-                            ...base,
-                            width: '450px', // Ajusta o tamanho do contêiner externo
-                        }),
-                        valueContainer: (base) => ({
-                            ...base,
-                            height: '34px', // Ajusta a altura do contêiner interno
-                            padding: '0', // Remove espaçamento extra
-                        }),
-                        input: (base) => ({
-                            ...base,
-                            margin: '0', // Remove margens extras
-                            padding: '0', // Remove preenchimento
-                        }),
-                        menu: (base) => ({
-                            ...base,
-                            zIndex: 9999, // Evita problemas de sobreposição do dropdown
-                        }),
-                    }}
+                      }}
+                      onChange={handleCidadeChange} // Lida com a mudança de valor selecionado
+                      value={cidades.find(cidade => cidade.value === request.cid_codigo) || null}
+                      placeholder="Selecione uma Cidade"
+                        styles={{
+                            control: (base) => ({
+                                ...base,
+                                width: '450px', // Ajusta a largura
+                                minHeight: '34px', // Define a altura mínima
+                                height: '34px', // Força a altura
+                                lineHeight: '34px', // Ajusta a altura do texto interno
+                            }),
+                            container: (base) => ({
+                                ...base,
+                                width: '450px', // Ajusta o tamanho do contêiner externo
+                            }),
+                            valueContainer: (base) => ({
+                                ...base,
+                                height: '34px', // Ajusta a altura do contêiner interno
+                                padding: '0', // Remove espaçamento extra
+                            }),
+                            input: (base) => ({
+                                ...base,
+                                margin: '0', // Remove margens extras
+                                padding: '0', // Remove preenchimento
+                            }),
+                            menu: (base) => ({
+                                ...base,
+                                zIndex: 9999, // Evita problemas de sobreposição do dropdown
+                            }),
+                        }}
                     />
                 </div>
                 <div className="form-group" style={{marginLeft:'10px'}}>
