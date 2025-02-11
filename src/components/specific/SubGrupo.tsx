@@ -213,7 +213,7 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
 
             {/* Segunda linha */}
             <div className="form-row">
-                <div className="form-group">
+                <div className="form-group" style={{width:'320px'}}>
                     <label htmlFor="sbc_descricao">SubGrupo</label>
                     <input
                         type="text"
@@ -227,7 +227,7 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
             </div>
 
             <div className="form-row">
-                <div className="form-group">
+                <div className="form-group" style={{width:'320px'}}>
                     <label htmlFor="grc_codigo">Grupo</label>
                     <Dropdown
                         id="grc_codigo"
