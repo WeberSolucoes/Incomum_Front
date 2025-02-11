@@ -337,6 +337,46 @@ const Vendedor: React.FC = ({onBackClick}) => {
             behavior: 'smooth' // Deixa a rolagem suave
         });
     };
+
+
+    const fetchCidadeById = async (cid_codigo: number) => {
+        try {
+            const response = await axios.get(`http://127.0.0.1:8000/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            if (response.status === 200) {
+                return response.data;
+            }
+        } catch (error) {
+            console.error("Erro ao buscar cidade por ID:", error);
+        }
+        return null;
+      };
+    
+      useEffect(() => {
+        const carregarCidade = async () => {
+            if (request.age_codigo && request.cid_codigo) {
+                const cidade = await fetchCidadeById(request.cid_codigo);
+                if (cidade) {
+                  setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
+                }
+                if (cidade) {
+                    setRequest(prev => ({
+                        ...prev,
+                        cid_codigo: cidade.cid_codigo
+                    }));
+    
+                    // Verifica se a cidade já está na lista, se não, adiciona
+                    setCidades(prev => {
+                        if (!prev.some(c => c.value === cidade.cid_codigo)) {
+                            return [...prev, { label: cidade.cid_descricao, value: cidade.cid_codigo }];
+                        }
+                        return prev;
+                    });
+                }
+            }
+        };
+    
+        carregarCidade();
+      }, [request.ven_codigo, request.cid_codigo]);
   
 
     return (
@@ -455,21 +495,20 @@ const Vendedor: React.FC = ({onBackClick}) => {
                         <AddToPhotosIcon sx={{ fontSize: 30 }} />
                     </IconButton>
                     <Select
-                    id="cid_codigo"
-                    name="cid_codigo"
-                    isClearable
-                    isLoading={loading}
-                    options={cidades}
-                    onInputChange={(inputValue, { action }) => {
+                      id="cid_codigo"
+                      name="cid_codigo"
+                      isClearable
+                      isLoading={loading} // Indicador de carregamento
+                      options={cidades} // Estado cidades atualizado com os dados crus da API
+                      onInputChange={(inputValue, { action }) => {
                         if (action === "input-change") {
-                            setSearchTerm(inputValue); // Atualiza o termo de pesquisa
-                            fetchUnidades(inputValue.toUpperCase()); // Faz a chamada à API
+                          setSearchTerm(inputValue); // Atualiza o termo de pesquisa
+                          fetchUnidades(inputValue); // Faz a chamada à API
                         }
-                    }}
-                    onChange={handleCidadeChange}
-                    value={cidades.find((option) => option.value === ibge) || null}
-                    placeholder="Selecione uma Cidade"
-                    styles={{width:'300px'}}
+                      }}
+                      onChange={handleCidadeChange} // Lida com a mudança de valor selecionado
+                      value={cidades.find(cidade => cidade.value === request.cid_codigo) || null}
+                      placeholder="Selecione uma Cidade"
                     />
                 </div>
             </div>
