@@ -224,7 +224,7 @@ const FormaPagamento: React.FC = ({ onBackClick }) => {
                     onClick={handleDeleteClick}
                     disabled={loading}
                 >
-                    <i className="fas fa-trash-alt"></i>{loading ? "Excluindo..." : "Excluir"}
+                    <i className="fas fa-trash-alt"></i>Excluir
                 </button>
                 )}
                 
