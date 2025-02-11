@@ -213,7 +213,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
 
             {/* Segunda linha */}
             <div className="form-row">
-                <div className="form-group">
+                <div className="form-group" style={{width:'320px'}}>
                     <label htmlFor="grc_descricao">Grupo</label>
                     <input
                         type="text"
@@ -227,7 +227,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
             </div>
 
             <div className="form-row">
-                <div className="form-group">
+                <div className="form-group" style={{width:'320px'}}>
                     <label htmlFor="grc_descricao">Master Grupo</label>
                     <Dropdown
                         id="mgr_codigo"
