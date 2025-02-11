@@ -279,12 +279,12 @@ const Cep: React.FC = ({ onBackClick }) => {
             {/* Segunda linha */}
             <div className="form-row">
                 <div className="form-group">
-                    <label htmlFor="cep_logradouro">Cep</label>
+                    <label htmlFor="cep_numero">Cep</label>
                     <input
                         type="text"
-                        id="cep_logradouro"
-                        name="cep_logradouro"
-                        value={request.cep_logradouro || ''}
+                        id="cep_numero"
+                        name="cep_numero"
+                        value={request.cep_numero || ''}
                         onChange={handleInputChange}
                         style={{width:'40%'}}
                     />
