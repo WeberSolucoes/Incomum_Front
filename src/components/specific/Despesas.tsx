@@ -202,7 +202,7 @@ const Despesas: React.FC = ({ onBackClick }) => {
                         name="mgr_descricao"
                         value={request.mgr_descricao || ''}
                         onChange={handleInputChange}
-                        style={{width:'100%'}}
+                        style={{width:'320px'}}
                     />
                 </div>
             </div>
