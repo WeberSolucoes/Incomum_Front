@@ -261,7 +261,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
                     disabled={loading}
                 >
                     <i className="fas fa-trash-alt"></i>{' '}
-                    {loading ? <span style={{visibility: 'hidden'}}>Excluir</span> : "Excluir"}
+                    {loading ? <span>Excluir</span> : "Excluir"}
                 </button>
                 )}
                 
