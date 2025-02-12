@@ -167,23 +167,6 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
         }
     };
 
-    useEffect(() => {
-        const fetchUnidades = async () => {
-            try {
-                const response = await apiGetCidade();
-                const data = response.data;
-                setCidades(data.map((area: { cid_descricao: string; cid_codigo: number }) => ({
-                    label: area.cid_descricao,
-                    value: area.cid_codigo
-                })));
-            } catch (error) {
-                console.error("Erro ao buscar áreas comerciais:", error);
-                toastError("Erro ao buscar áreas comerciais.");
-            }
-        };
-        fetchUnidades();
-    }, []);
-
     const campoMapeamento: Record<keyof VendedorCreateRequest, string> = {
         ven_numero: 'Número',
         ven_contacorrente: 'Conta',
