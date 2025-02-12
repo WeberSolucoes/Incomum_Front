@@ -332,7 +332,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 ...request,
                 age_endereco: enderecoCompleto,
                 age_situacao: checked ? 1 : 0,
-                cid_codigo: ibge,
+                cid_codigo: request.cid_codigo,
                 aco_codigo: request.aco_codigo || "",
                 age_descricao: request.age_descricao?.trim() || ""
             };
