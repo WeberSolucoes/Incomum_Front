@@ -23,6 +23,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [cidade, setCidade] = useState('');
     const [ibge, setibge] = useState(0);
     const [loading, setLoading] = useState(false);
+    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
     const [cep, setCep] = useState('');
@@ -68,10 +69,10 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
 
     const fetchUnidades = async (search: string) => {
         if (search.length < 3) {
-            setCidades([]); // Limpa somente se o termo de pesquisa for muito curto
+            setCidades([]); // Limpa o estado se o termo de pesquisa for muito curto
             return;
         }
-
+    
         try {
             const response = await axios.get(
                 `https://api.incoback.com.br/api/incomum/cidade/search/`,
@@ -94,21 +95,22 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         } finally {
             setLoading(false);
         }
-    };
-
-
-    useEffect(() => {
-        console.log("Cidades após a atualização:", cidades); // Verifique o estado
-    }, [cidades]); 
+      }; 
     
-      // Efetua a busca quando o valor do termo de busca mudar
-    useEffect(() => {
-        if (searchTerm.length >= 3) {
-          fetchUnidades(searchTerm); // Realiza a consulta para termos com 3 ou mais caracteres
-        } else {
-          setCidades([]); // Limpa as cidades se o termo for menor que 3
-        }
-    }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
+    
+      useEffect(() => {
+          console.log("Cidades após a atualização:", cidades); // Verifique o estado
+      }, [cidades]); 
+    
+        // Efetua a busca quando o valor do termo de busca mudar
+      useEffect(() => {
+          if (searchTerm.length >= 3) {
+            fetchUnidades(searchTerm); // Realiza a consulta para termos com 3 ou mais caracteres
+          } else {
+            setCidades([]); // Limpa as cidades se o termo for menor que 3
+          }
+      }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
+
     
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
