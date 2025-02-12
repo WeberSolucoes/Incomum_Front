@@ -130,23 +130,33 @@ const Cep: React.FC = ({ onBackClick }) => {
     
         try {
             let response;
+            let newRequest = { ...request };
+    
+            if (!request.cid_codigo) {
+                toastError("O campo Cidade é obrigatório.");
+                setLoading(false);
+                return;
+            }
+    
             if (request.cep_codigo) {
-                response = await apiUpdateCep(request.cep_codigo, request);
+                response = await apiUpdateCep(request.cep_codigo, newRequest);
             } else {
-                const { cep_codigo, ...newRequest } = request;
-                response = await apiCreateCep(newRequest);
+                // Remove `cep_codigo` ao criar um novo registro
+                const { cep_codigo, ...requestData } = newRequest;
+                response = await apiCreateCep(requestData);
             }
     
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Cep salvo com sucesso");
-
-                // Atualize o `cid_codigo` no estado após criação bem-sucedida
-                if (!request.cep_codigo && response.data && response.data.cep_codigo) {
+    
+                if (!request.cep_codigo && response.data) {
                     setRequest(prev => ({
                         ...prev,
-                        cid_codigo: response.data.cep_codigo
+                        cep_codigo: response.data.cep_codigo, // Certifique-se de salvar o novo CEP
+                        cid_codigo: response.data.cid_codigo || prev.cid_codigo, // Corrige a atualização do cid_codigo
                     }));
-                    setVenCodigo(response.data.cep_codigo); // Atualize também o estado `cid_codigo`
+    
+                    setVenCodigo(response.data.cid_codigo || ""); // Atualize também o estado de cidade
                 }
             } else {
                 toastError("Erro ao salvar o Cep");
