@@ -240,7 +240,7 @@ const Unidade: React.FC = ({onBackClick}) => {
             const enderecoCompleto = `${rua}, ${numero}`;
             request.loj_endereco = enderecoCompleto;
             request.loj_situacao = checked ? 1 : 0;
-            request.cid_codigo = ibge;
+            cid_codigo: request.cid_codigo || "";
             aco_codigo: request.aco_codigo || "";
 
             let response;
@@ -410,7 +410,17 @@ const Unidade: React.FC = ({onBackClick}) => {
 
     const fetchCidadeById = async (cid_codigo: number) => {
         try {
-            const response = await axios.get(`https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    
+            const response = await axios.get(
+                `https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
             if (response.status === 200) {
                 return response.data;
             }
@@ -418,11 +428,11 @@ const Unidade: React.FC = ({onBackClick}) => {
             console.error("Erro ao buscar cidade por ID:", error);
         }
         return null;
-      };
+    };
     
       useEffect(() => {
         const carregarCidade = async () => {
-            if (request.age_codigo && request.cid_codigo) {
+            if (request.loj_codigo && request.cid_codigo) {
                 const cidade = await fetchCidadeById(request.cid_codigo);
                 if (cidade) {
                   setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
