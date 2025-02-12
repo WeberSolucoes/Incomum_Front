@@ -206,12 +206,6 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
                 return;
             }
     
-            if (!ibge) {
-                toastError("O campo Cidade (cid_codigo) é obrigatório.");
-                setLoading(false);
-                return;
-            }
-    
             const enderecoCompleto = `${rua}, ${numero}`;
             const updatedRequest = {
                 ...request,
