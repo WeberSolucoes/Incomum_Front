@@ -208,46 +208,56 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
         sve_codigo: ""
     };
 
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-    
-        
         setLoading(true);
+    
         try {
             const cpfNumerico = request.par_cnpjcpf?.replace(/\D/g, '') || ''; // Garante que será uma string
     
             if (!cpf.isValid(cpfNumerico)) {
                 toastError("CPF inválido.");
                 setCpfValido(false);
+                setLoading(false);
+                return;
+            }
+    
+            if (!ibge) {
+                toastError("O campo Cidade (cid_codigo) é obrigatório.");
+                setLoading(false);
                 return;
             }
     
             const enderecoCompleto = `${rua}, ${numero}`;
-            request.par_endereco = enderecoCompleto;
-            request.cid_codigo = ibge;
+            const updatedRequest = {
+                ...request,
+                par_endereco: enderecoCompleto,
+                cid_codigo: request.cid_codigo, // Atualiza corretamente o cid_codigo
+            };
     
             let response;
             if (request.par_codigo) {
-                // Atualizar vendedor existente
-                response = await apiUpdateParceiro(request.par_codigo, request);
+                // Atualizar parceiro existente
+                response = await apiUpdateParceiro(request.par_codigo, updatedRequest);
                 onCadastroConcluido();
             } else {
-                // Criar novo vendedor
-                const { par_codigo, ...newRequest } = request; // Remove ven_codigo
+                // Criar novo parceiro
+                const { par_codigo, ...newRequest } = updatedRequest; // Remove par_codigo
                 response = await apiCreateParceiro(newRequest);
                 onCadastroConcluido();
             }
     
             if (response.status === 200 || response.status === 201) {
                 toastSucess("Parceiro salvo com sucesso");
-                localStorage.setItem('par_codigo', request.par_codigo.toString());
-                if (!request.par_codigo && response.data && response.data.par_codigo) {
-                    setRequest(prev => ({
-                        ...prev,
-                        par_codigo: response.data.par_codigo
-                    }));
-                    setVenCodigo(response.data.par_codigo); // Atualize também o estado `cid_codigo`
-                }
+    
+                localStorage.setItem('par_codigo', response.data.par_codigo.toString());
+    
+                setRequest(prev => ({
+                    ...prev,
+                    par_codigo: response.data.par_codigo,
+                    cid_codigo: response.data.cid_codigo || prev.cid_codigo, // Garante que o cid_codigo seja atualizado corretamente
+                }));
             } else {
                 toastError("Erro ao salvar o Parceiro");
             }
@@ -390,7 +400,17 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
 
     const fetchCidadeById = async (cid_codigo: number) => {
         try {
-            const response = await axios.get(`http://127.0.0.1:8000/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    
+            const response = await axios.get(
+                `https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
             if (response.status === 200) {
                 return response.data;
             }
@@ -398,11 +418,11 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
             console.error("Erro ao buscar cidade por ID:", error);
         }
         return null;
-      };
+    };
     
       useEffect(() => {
         const carregarCidade = async () => {
-            if (request.age_codigo && request.cid_codigo) {
+            if (request.par_codigo && request.cid_codigo) {
                 const cidade = await fetchCidadeById(request.cid_codigo);
                 if (cidade) {
                   setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
