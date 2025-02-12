@@ -155,18 +155,19 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
-
+    
         try {
-            const enderecoCompleto = `${rua}, ${numero}`;
-            const updatedRequest = { ...request, cid_codigo: ibge };
-
+            const updatedRequest = {
+                ...request, // Garante que `cid_codigo` esteja presente
+            };
+    
             let response;
             if (!updatedRequest.aer_codigo) {
                 response = await apiCreateAeroporto(updatedRequest);
             } else {
                 response = await apiPutAeroporto(updatedRequest.aer_codigo, updatedRequest);
             }
-
+    
             if (response && (response.status === 200 || response.status === 201)) {
                 toastSucess("Cadastro salvo com sucesso.");
                 
