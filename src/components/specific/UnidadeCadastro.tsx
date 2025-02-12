@@ -371,15 +371,23 @@ const Unidade: React.FC = ({onBackClick}) => {
     }, [searchTerm]); // A busca será chamada sempre que `searchTerm` mudar
   
   
-    const handleCidadeChange = (selectedOption: { label: string; value: number } | null) => {
-      if (selectedOption) {
-          console.log("Cidade selecionada:", selectedOption);
-          setibge(selectedOption.value); // Atualiza o estado com o valor selecionado
-      } else {
-          setibge(null); // Reseta o valor se nada for selecionado
-      }
-    };
+    const handleCidadeChange = (selectedOption: any) => {
+        if (selectedOption) {
+            setRequest({
+                ...request,
+                cid_codigo: selectedOption.value, // Atualiza o cid_codigo com a seleção atual
+            });
+            setUf(selectedOption.uf); // Atualiza o UF com a seleção atual
+        } else {
+            setRequest({
+                ...request,
+                cid_codigo: null, // Limpa o cid_codigo se o usuário desmarcar
+            });
+            setUf(''); // Limpa o UF se o usuário desmarcar
+        }
+      };
 
+    
     const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
 
     console.log("Abas no Redux:", existingTabs); // Verifique se é um array antes de usar some()
