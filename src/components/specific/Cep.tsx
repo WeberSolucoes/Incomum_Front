@@ -396,7 +396,7 @@ const Cep: React.FC = ({ onBackClick }) => {
                         }
                     }}
                     onChange={handleCidadeChange}
-                    value={cidades.find((option) => option.value === ibge) || null}
+                    value={cidades.find(cidade => cidade.value === request.cid_codigo) || null}
                     placeholder="Selecione uma Cidade"
                     styles={{width:'300px'}}
                     />
