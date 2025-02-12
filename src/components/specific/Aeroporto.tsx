@@ -212,15 +212,21 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
         }
       };
 
-    const handleCidadeChange = (selectedOption) => {
+    const handleCidadeChange = (selectedOption: any) => {
         if (selectedOption) {
-            setibge(selectedOption.value); // Armazena o código da cidade
-            setUf(selectedOption.uf); // Atualiza o UF automaticamente
+            setRequest({
+                ...request,
+                cid_codigo: selectedOption.value, // Atualiza o cid_codigo com a seleção atual
+            });
+            setUf(selectedOption.uf); // Atualiza o UF com a seleção atual
         } else {
-            setibge(null);
-            setUf(""); // Reseta o UF se nenhuma cidade for selecionada
+            setRequest({
+                ...request,
+                cid_codigo: null, // Limpa o cid_codigo se o usuário desmarcar
+            });
+            setUf(''); // Limpa o UF se o usuário desmarcar
         }
-    };
+      };
 
 
     const existingTabs = useSelector((state: any) => state.tabs.tabs); // Pegamos apenas o array de abas
