@@ -254,7 +254,17 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
 
     const fetchCidadeById = async (cid_codigo: number) => {
         try {
-            const response = await axios.get(`https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`);
+            const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+    
+            const response = await axios.get(
+                `https://api.incoback.com.br/api/incomum/cidade/find-byid/${cid_codigo}/`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                    },
+                }
+            );
+    
             if (response.status === 200) {
                 return response.data;
             }
@@ -262,7 +272,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
             console.error("Erro ao buscar cidade por ID:", error);
         }
         return null;
-      };
+    };
 
   useEffect(() => {
     const carregarCidade = async () => {
