@@ -213,7 +213,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
 
             {/* Segunda linha */}
             <div className="form-row">
-                <div className="form-group" style={{width:'320px'}}>
+                <div className="form-group">
                     <label htmlFor="grc_descricao">Grupo</label>
                     <input
                         type="text"
@@ -221,13 +221,13 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
                         name="grc_descricao"
                         value={request.grc_descricao || ''}
                         onChange={handleInputChange}
-                        style={{width:'100%'}}
+                        style={{width:'320px'}}
                     />
                 </div>
             </div>
 
             <div className="form-row">
-                <div className="form-group" style={{width:'320px'}}>
+                <div className="form-group" >
                     <label htmlFor="grc_descricao">Master Grupo</label>
                     <Dropdown
                         id="mgr_codigo"
@@ -242,6 +242,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..."
                         className="w-full"
+                        style={{width:'320px'}}
                     />
                 </div>
             </div>
