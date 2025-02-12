@@ -433,9 +433,6 @@ const Unidade: React.FC = ({onBackClick}) => {
             if (request.loj_codigo && request.cid_codigo) {
                 const cidade = await fetchCidadeById(request.cid_codigo);
                 if (cidade) {
-                  setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
-                }
-                if (cidade) {
                     setRequest(prev => ({
                         ...prev,
                         cid_codigo: cidade.cid_codigo
