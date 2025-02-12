@@ -186,7 +186,7 @@ const Vendedor: React.FC = ({onBackClick}) => {
             const enderecoCompleto = `${rua}, ${numero}`;
             request.ven_endereco = enderecoCompleto;
             request.ven_situacao = checked ? 1 : 0;
-            request.cid_codigo = ibge;
+            cid_codigo: request.cid_codigo;
             request.aco_codigo = areacomercial;
 
             console.log("Dados do request antes do envio:", request); 
