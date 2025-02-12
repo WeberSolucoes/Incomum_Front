@@ -377,13 +377,11 @@ const Unidade: React.FC = ({onBackClick}) => {
                 ...request,
                 cid_codigo: selectedOption.value, // Atualiza o cid_codigo com a seleção atual
             });
-            setUf(selectedOption.uf); // Atualiza o UF com a seleção atual
         } else {
             setRequest({
                 ...request,
                 cid_codigo: null, // Limpa o cid_codigo se o usuário desmarcar
             });
-            setUf(''); // Limpa o UF se o usuário desmarcar
         }
       };
 
