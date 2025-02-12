@@ -370,7 +370,7 @@ const Vendedor: React.FC = ({onBackClick}) => {
     
       useEffect(() => {
         const carregarCidade = async () => {
-            if (request.age_codigo && request.cid_codigo) {
+            if (request.ven_codigo && request.cid_codigo) {
                 const cidade = await fetchCidadeById(request.cid_codigo);
                 if (cidade) {
                   setUf(cidade.cid_estado); // Atualiza o estado "uf" com o valor do "cid_estado"
