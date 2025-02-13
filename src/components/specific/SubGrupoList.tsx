@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
-import { apiGetCidade, apiGetDepartamento, apiGetDespesas, apiGetPais, apiGetUnidades } from '../../services/Api';
+import { apiGetCidade, apiGetDepartamento, apiGetSubgrupo, apiGetPais, apiGetUnidades } from '../../services/Api';
 import { toastError } from '../../utils/customToast';
 import { Button } from 'primereact/button';
 import { InputText } from 'primereact/inputtext';
