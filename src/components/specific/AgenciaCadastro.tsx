@@ -40,7 +40,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [uf, setUf] = useState("");
   const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
-    useEffect(() => {
+
+  useEffect(() => {
         if (!codigo) {
             console.warn("⛔ código indefinido, abortando fetch.");
             return;
@@ -52,9 +53,14 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
     
         console.log("✅ Buscando dados para código:", codigo, "Aba ativa:", activeTab);
     
+        const controller = new AbortController(); // Criando um AbortController
+        const { signal } = controller;
+    
         const fetchData = async () => {
             try {
-                const response = await apiGetAgenciaById(codigo);
+                const response = await apiGetAgenciaById(codigo, { signal });
+                if (signal.aborted) return; // Se a requisição for cancelada, não continuar
+                
                 const unidade = response.data;
     
                 if (!unidade) {
@@ -79,7 +85,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 if (unidade.cid_codigo) {
                     try {
                         console.log("🔄 Buscando nome da cidade para CID:", unidade.cid_codigo);
-                        const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
+                        const responseCidade = await axios.get(
+                            `https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`, 
+                            { signal }
+                        );
+                        if (signal.aborted) return;
                         setCidade(responseCidade.data.nome || '');
                     } catch (cidadeError) {
                         console.warn("⚠️ Erro ao buscar cidade:", cidadeError);
@@ -89,14 +99,23 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
                 }
     
             } catch (error) {
+                if (axios.isCancel(error)) {
+                    console.warn("🚫 Requisição cancelada porque o componente foi desmontado.");
+                    return;
+                }
                 console.error("⛔ Erro ao buscar dados da agência:", error);
                 toastError("Erro ao buscar dados da agência.");
             }
         };
     
         fetchData();
+    
+        return () => {
+            console.log("🛑 Cancelando requisição da agência pois a tela foi desmontada.");
+            controller.abort(); // Cancela a requisição ao desmontar o componente
+        };
+    
     }, [codigo, activeTab]); 
-
     
   useEffect(() => {
     const fetchAreasComerciais = async () => {
