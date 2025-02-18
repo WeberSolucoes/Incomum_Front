@@ -13,7 +13,6 @@ import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
-import { useSelector } from "react-redux";
 import { RootState } from "../../hooks/store";
 
 
