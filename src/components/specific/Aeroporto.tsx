@@ -14,6 +14,7 @@ import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useSelector,useDispatch } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
+import { RootState } from "../../hooks/store";
 
 const Aeroporto: React.FC = ({ onBackClick }) => {
     const { codigo } = useCodigo();
@@ -32,10 +33,16 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const [aer_codigo, setVenCodigo] = useState<number | null>(null);
     const [searchTerm, setSearchTerm] = useState('');
     const dispatch = useDispatch();
-    const [uf, setUf] = useState(""); 
+    const [uf, setUf] = useState("");
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
 
     useEffect(() => {
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Aeroporto') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);    
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -65,7 +72,7 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
     const fetchUnidades = async (search: string) => {
         if (search.length < 3) {
