@@ -9,6 +9,8 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { Checkbox } from "primereact/checkbox";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 
 const TipoPadrao: React.FC = ({ onBackClick }) => {
@@ -27,6 +29,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     const handleCheckboxChange = (e: any) => {
         setIsChecked(e.checked);
@@ -34,6 +37,11 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     };
 
     useEffect(() => {
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Tipo Padrão') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -67,7 +75,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
