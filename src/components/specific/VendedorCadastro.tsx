@@ -76,7 +76,7 @@ const Vendedor: React.FC = ({onBackClick}) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
