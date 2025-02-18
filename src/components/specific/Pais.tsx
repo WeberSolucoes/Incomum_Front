@@ -8,6 +8,8 @@ import { apiCreatePais, apiDeletePais, apiDeleteVendedor, apiGetArea, apiGetPais
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 const Pais: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -23,8 +25,15 @@ const Pais: React.FC = ({onBackClick}) => {
     const [checked, setChecked] = useState(false);
     const [pai_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Pais') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
+        
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -61,7 +70,7 @@ const Pais: React.FC = ({onBackClick}) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
