@@ -17,6 +17,8 @@ import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
 import InputMask from "react-input-mask";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -39,6 +41,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     const [dateValue, setDateValue] = useState(request.par_datanascfund || "");
     const [dateValue2, setDateValue2] = useState(request.par_dataatualizacao|| "");
     const [dateValue3, setDateValue3] = useState(request.par_datacadastro || "");
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     const handleChange = (event) => {
         setDateValue(event.target.value); // Atualiza o estado local
@@ -63,6 +66,11 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     ];
 
     useEffect(() => {
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Fornecedores') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -99,7 +107,7 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
