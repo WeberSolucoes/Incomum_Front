@@ -13,6 +13,7 @@ import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
+import { RootState } from "../../hooks/store";
 
 const Vendedor: React.FC = ({onBackClick}) => {
     const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
@@ -31,8 +32,14 @@ const Vendedor: React.FC = ({onBackClick}) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
     const dispatch = useDispatch();
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Vendedor') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
             if (!codigo) return;
             try {
