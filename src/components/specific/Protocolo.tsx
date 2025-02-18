@@ -10,6 +10,8 @@ import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
@@ -31,8 +33,15 @@ const Protocolo: React.FC = ({ onBackClick }) => {
     const [selectedParceiro, setSelectedParceiro] = useState(null);
     const [unidades, setUnidades] = useState([]);
     const [fornecedor, setParceiro] = useState([]);
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
+        
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== '=Protocolo') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -66,7 +75,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             } 
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
