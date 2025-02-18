@@ -39,7 +39,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     useEffect(() => {
         if (!codigo) return; // 🔍 Evita rodar com código inválido
         if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
-        if (activeTab !== 'Tipo Padrão') return; // 🔍 Só roda na aba certa
+        if (activeTab !== 'Padrão') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
