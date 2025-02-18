@@ -17,7 +17,6 @@ import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
 import InputMask from "react-input-mask";
-import { useSelector } from "react-redux";
 import { RootState } from "../../hooks/store";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
