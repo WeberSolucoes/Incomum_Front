@@ -32,7 +32,7 @@ const SituacaoTuristico: React.FC = ({ onBackClick }) => {
     useEffect(() => {
         if (!codigo) return; // 🔍 Evita rodar com código inválido
         if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
-        if (activeTab !== 'Agência') return; // 🔍 Só roda na aba certa
+        if (activeTab !== 'Situação Turistico') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
         
