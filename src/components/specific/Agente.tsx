@@ -15,6 +15,7 @@ import Select from 'react-select';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import { useDispatch, useSelector } from "react-redux";
 import { addTab, setActiveTab } from '../../hooks/tabSlice';
+import { RootState } from "../../hooks/store";
 
 
 const bancos = [
