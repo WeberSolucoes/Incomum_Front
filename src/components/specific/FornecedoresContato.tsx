@@ -9,6 +9,8 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import GenericTable from "../common/GenericTable";
 import { Dialog } from "primereact/dialog";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 
 const ForncedoresContato: React.FC = (onBackClick) => {
@@ -23,6 +25,7 @@ const ForncedoresContato: React.FC = (onBackClick) => {
     const [loading, setLoading] = useState(false); // Estado para indicar se há carregamento de dados
     const [registroEditar, setRegistroEditar] = useState<ParceiroContatoCreateRequest | null>(null); // Para armazenar o agente a ser editado
     const [selectedAgente, setSelectedAgente] = useState<number | null>(null);
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     const agenteColumns = [
         { field: "pco_codigo", header: "Código Contato" },
