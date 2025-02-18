@@ -33,7 +33,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
     useEffect(() => {
         if (!codigo) return; // 🔍 Evita rodar com código inválido
         if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
-        if (activeTab !== 'Tipo Regime') return; // 🔍 Só roda na aba certa
+        if (activeTab !== 'Regime') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
