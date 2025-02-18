@@ -20,7 +20,7 @@ interface AgenciaCadastroProps {
     onCodigoUpdate: (codigo: number) => void; // Define a prop como uma função que recebe um número
 }
 
-const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) => {
+const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoUpdate}) => {
   const { codigo } = useCodigo(); // Ajuste conforme a origem do código
   const [request, setRequest] = useState<AgenciaCreateRequest>({} as AgenciaCreateRequest);
   const [rua, setRua] = useState('');
@@ -42,80 +42,47 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
 
 
   useEffect(() => {
-        if (!codigo) {
-            console.warn("⛔ código indefinido, abortando fetch.");
-            return;
-        }
-        if (!activeTab) {
-            console.warn("⛔ activeTab indefinido, esperando atualização.");
-            return;
-        }
-    
-        console.log("✅ Buscando dados para código:", codigo, "Aba ativa:", activeTab);
-    
-        const controller = new AbortController(); // Criando um AbortController
-        const { signal } = controller;
-    
-        const fetchData = async () => {
-            try {
-                const response = await apiGetAgenciaById(codigo, { signal });
-                if (signal.aborted) return; // Se a requisição for cancelada, não continuar
-                
-                const unidade = response.data;
-    
-                if (!unidade) {
-                    console.error("⛔ Nenhuma unidade retornada da API.");
-                    toastError("Agência não encontrada.");
-                    return;
-                }
-    
-                setRequest(unidade);
-                setSelectedAreas(unidade.areasComerciais || []);
-                setChecked(unidade.age_situacao === 1);
-    
-                if (unidade.age_endereco) {
-                    const enderecoParts = unidade.age_endereco.split(",");
-                    setRua(enderecoParts[0] || '');
-                    setNumero(enderecoParts[1] || '');
-                } else {
-                    setRua('');
-                    setNumero('');
-                }
-    
-                if (unidade.cid_codigo) {
-                    try {
-                        console.log("🔄 Buscando nome da cidade para CID:", unidade.cid_codigo);
-                        const responseCidade = await axios.get(
-                            `https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`, 
-                            { signal }
-                        );
-                        if (signal.aborted) return;
-                        setCidade(responseCidade.data.nome || '');
-                    } catch (cidadeError) {
-                        console.warn("⚠️ Erro ao buscar cidade:", cidadeError);
-                    }
-                } else {
-                    setCidade('');
-                }
-    
-            } catch (error) {
-                if (axios.isCancel(error)) {
-                    console.warn("🚫 Requisição cancelada porque o componente foi desmontado.");
-                    return;
-                }
-                console.error("⛔ Erro ao buscar dados da agência:", error);
-                toastError("Erro ao buscar dados da agência.");
-            }
-        };
-    
-        fetchData();
-    
-        return () => {
-            console.log("🛑 Cancelando requisição da agência pois a tela foi desmontada.");
-            controller.abort(); // Cancela a requisição ao desmontar o componente
-        };
-    
-    }, [codigo, activeTab]); 
+      if (!codigo) return; // 🔍 Evita rodar com código inválido
+      if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+      if (activeTab !== 'Agência') return; // 🔍 Só roda na aba certa
+
+      console.log("✅ Buscando dados para código:", codigo);
+
+      const fetchData = async () => {
+          try {
+              const response = await apiGetAgenciaById(codigo);
+              console.log("✅ Dados recebidos:", response.data);
+
+              setRequest(response.data);
+
+              if (response.data.age_endereco) {
+                  const enderecoParts = response.data.age_endereco.split(",");
+                  setRua(enderecoParts[0]?.trim() || '');
+                  setNumero(enderecoParts[1]?.trim() || '');
+              } else {
+                  setRua('');
+                  setNumero('');
+              }
+
+              setCidade(response.data.cid_codigo || '');
+              setSelectedAreas(response.data.areasComerciais || []);
+              setChecked(response.data.age_situacao === 1);
+
+              const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${response.data.cid_codigo}`);
+              setCidade(responseCidade.data.nome || '');
+
+          } catch (error) {
+              console.error("❌ Erro ao buscar dados:", error);
+              toastError("Erro ao buscar dados da agência.");
+          }
+      };
+
+      fetchData();
+  }, [codigo, activeTab]); // 🔄 Roda sempre que `codigo` ou `activeTab` mudar
+
+  useEffect(() => {
+    console.log("🔄 Aba ativa:", activeTab || 'Ainda indefinida', "| Código:", codigo || 'Nenhum');
+  }, [activeTab, codigo]);  
     
   useEffect(() => {
     const fetchAreasComerciais = async () => {
@@ -257,6 +224,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   }; 
 
   useEffect(() => {
+      if (!isActive) return; // Se a aba não está ativa, não faz nada
       console.log("Cidades após a atualização:", cidades); // Verifique o estado
   }, [cidades]); 
 
