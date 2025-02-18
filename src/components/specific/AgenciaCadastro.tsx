@@ -13,6 +13,7 @@ import { addTab, setActiveTab } from "../../hooks/tabSlice";
 import { useSelector, useDispatch } from 'react-redux';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
+import { RootState } from "../../hooks/store";
 
 
 interface AgenciaCadastroProps {
@@ -37,8 +38,13 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
   const dispatch = useDispatch();
   const [uf, setUf] = useState("");
+  const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
   useEffect(() => {
+    if (!codigo) return; // 🔍 Evita rodar com código inválido
+    if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+
+    console.log("✅ Buscando dados para código:", codigo,activeTab);  
     const fetchData = async () => {
         if (codigo === null) return;
 
@@ -80,7 +86,9 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
         }
     };
     fetchData();
-}, [codigo]);
+}, [codigo, activeTab]);
+
+    
   useEffect(() => {
     const fetchAreasComerciais = async () => {
         try {
