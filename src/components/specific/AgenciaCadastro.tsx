@@ -40,53 +40,62 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({onBackClick,onCodigoUpdate}) =
   const [uf, setUf] = useState("");
   const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
-  useEffect(() => {
-    if (!codigo) return; // 🔍 Evita rodar com código inválido
-    if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
-
-    console.log("✅ Buscando dados para código:", codigo,activeTab);  
-    const fetchData = async () => {
-        if (codigo === null) return;
-
-        try {
-            const response = await apiGetAgenciaById(codigo);
-            const unidade = response.data;
-
-            // Certifique-se de que unidade contém todas as propriedades esperadas
-            if (unidade) {
+    useEffect(() => {
+        if (!codigo) {
+            console.warn("⛔ código indefinido, abortando fetch.");
+            return;
+        }
+        if (!activeTab) {
+            console.warn("⛔ activeTab indefinido, esperando atualização.");
+            return;
+        }
+    
+        console.log("✅ Buscando dados para código:", codigo, "Aba ativa:", activeTab);
+    
+        const fetchData = async () => {
+            try {
+                const response = await apiGetAgenciaById(codigo);
+                const unidade = response.data;
+    
+                if (!unidade) {
+                    console.error("⛔ Nenhuma unidade retornada da API.");
+                    toastError("Agência não encontrada.");
+                    return;
+                }
+    
                 setRequest(unidade);
-
-                // Verifica se o campo de endereço está definido
+                setSelectedAreas(unidade.areasComerciais || []);
+                setChecked(unidade.age_situacao === 1);
+    
                 if (unidade.age_endereco) {
                     const enderecoParts = unidade.age_endereco.split(",");
-                    setRua(enderecoParts[0] || ''); // Se não houver, setar string vazia
-                    setNumero(enderecoParts[1] || ''); // Se não houver, setar string vazia
+                    setRua(enderecoParts[0] || '');
+                    setNumero(enderecoParts[1] || '');
                 } else {
                     setRua('');
                     setNumero('');
                 }
-
-                // Certifique-se de que cid_codigo está correto
-                setCidade(unidade.cid_codigo || ''); // Se não houver, setar string vazia
-                setSelectedAreas(unidade.areasComerciais || []);
-                setChecked(unidade.age_situacao === 1);
-                
-                // Verifica se a API de cidades responde corretamente
+    
                 if (unidade.cid_codigo) {
-                    const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
-                    setCidade(responseCidade.data.nome || ''); // Se não houver, setar string vazia
+                    try {
+                        console.log("🔄 Buscando nome da cidade para CID:", unidade.cid_codigo);
+                        const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
+                        setCidade(responseCidade.data.nome || '');
+                    } catch (cidadeError) {
+                        console.warn("⚠️ Erro ao buscar cidade:", cidadeError);
+                    }
+                } else {
+                    setCidade('');
                 }
-            } else {
-                console.error("Dados da agência não encontrados");
-                toastError("Agência não encontrada.");
+    
+            } catch (error) {
+                console.error("⛔ Erro ao buscar dados da agência:", error);
+                toastError("Erro ao buscar dados da agência.");
             }
-        } catch (error) {
-            console.error("Erro ao buscar dados:", error);
-            toastError("Erro ao buscar dados da agência.");
-        }
-    };
-    fetchData();
-}, [codigo, activeTab]);
+        };
+    
+        fetchData();
+    }, [codigo, activeTab]); 
 
     
   useEffect(() => {
