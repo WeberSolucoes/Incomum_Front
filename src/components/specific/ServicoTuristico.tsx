@@ -9,6 +9,8 @@ import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
+import { useSelector } from "react-redux";
+import { RootState } from "../../hooks/store";
 
 
 const ServicoTuristico: React.FC = ({ onBackClick }) => {
@@ -27,8 +29,16 @@ const ServicoTuristico: React.FC = ({ onBackClick }) => {
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [Cidade, setCidades] = useState<{ label: string, value: number }[]>([]);
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
+
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
+        if (activeTab !== 'Serviço Turistico') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);
+
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -62,7 +72,7 @@ const ServicoTuristico: React.FC = ({ onBackClick }) => {
             }
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo, activeTab]);
 
     
     useEffect(() => {
