@@ -15,8 +15,22 @@ const PaisList: React.FC = () => {
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
     const [loading, setLoading] = useState(false); // Estado de carregamento
+    const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
 
     const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
+
+    const getTitle = () => {
+        const maxLength = 27;
+        const truncatedDescricao = descricaoSelecionada 
+            ? descricaoSelecionada.length > maxLength 
+                ? descricaoSelecionada.slice(0, maxLength) + '...' 
+                : descricaoSelecionada 
+            : '';
+        
+        return truncatedDescricao 
+            ? `Cadastro País - ${truncatedDescricao}` 
+            : 'Cadastro País'; // Título padrão se não houver descrição
+    };
 
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
@@ -52,16 +66,22 @@ const PaisList: React.FC = () => {
     useEnterKey(handleSearch);
 
     const handleCodeClick = (codigo: number) => {
+        const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
+        if (agencia) {
+            setDescricaoSelecionada(agencia.descricao); // Atualiza a descrição selecionada
+        }
         setCodigo(codigo);
-        setView('create'); // Muda para a visualização de edição
+        setView('create'); // Abre a view de cadastro ao selecionar
     };
 
     const handleCreateClick = () => {
         setCodigo(null); // Resetando o código para criar uma nova unidade
         setView('create'); // Muda para a visualização de criação
+        setDescricaoSelecionada(null); 
     };
 
     const handleBackClick = () => {
+        setDescricaoSelecionada(null); 
         setView('list'); // Volta para a visualização da lista
         window.scrollTo({
             top: 0,  // Define a posição do topo da página
@@ -111,7 +131,7 @@ const PaisList: React.FC = () => {
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{codigo ? `Cadastro País - ${paisDescricao}` : 'Cadastro País'}</h1>
+                    <h1 style={{color:'#0152a1'}}>{getTitle()}</h1>
                     <Pais onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
