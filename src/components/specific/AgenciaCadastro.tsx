@@ -21,7 +21,7 @@ interface AgenciaCadastroProps {
 }
 
 const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoUpdate}) => {
-  const { codigo } = useCodigo(); // Ajuste conforme a origem do código
+  const { setCodigo,codigo } = useCodigo(); // Ajuste conforme a origem do código
   const [request, setRequest] = useState<AgenciaCreateRequest>({} as AgenciaCreateRequest);
   const [rua, setRua] = useState('');
   const [numero, setNumero] = useState('');
@@ -42,8 +42,12 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
 
 
   useEffect(() => {
+      if (!activeTab || activeTab !== 'Agência') {
+        // Reseta o código se a aba não for "Agência"
+        setCodigo(null);
+        return; // Não executa a consulta
+      }
       if (!codigo) return; // 🔍 Evita rodar com código inválido
-      if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
       if (activeTab !== 'Agência') return; // 🔍 Só roda na aba certa
 
       console.log("✅ Buscando dados para código:", codigo);
