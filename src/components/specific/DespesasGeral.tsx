@@ -127,7 +127,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
         setLoading(true);
     
         if (!request.grc_descricao) {
-            toastError("O campo Cidade é obrigatório.");
+            toastError("O campo Grupo é obrigatório.");
             setLoading(false);
             return;
         }
@@ -142,7 +142,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Cidade salva com sucesso");
+                toastSucess("Despesas Geral salvo com sucesso");
     
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.grc_codigo && response.data && response.data.grc_codigo) {
@@ -153,7 +153,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
                     setVenCodigo(response.data.grc_codigo); // Atualize também o estado `cid_codigo`
                 }
             } else {
-                toastError("Erro ao salvar o Cidade");
+                toastError("Erro ao salvar Despesas Geral");
             }
         } catch (error: any) {
             console.error("Erro:", error);
