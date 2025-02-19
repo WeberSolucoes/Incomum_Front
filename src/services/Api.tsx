@@ -65,6 +65,11 @@ export const logout = () => {
 //#region Apis_endpoints
 
 
+export const apiGetDuplicata = () => axiosInstance.get(ApiEndpoints.LIST_DUPLICATA);
+
+export const apiGetDuplicataById = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_DUPLICATA_BY_ID}${id}/`);
+
+
 export const apiGetDespesasGeral = () => axiosInstance.get(ApiEndpoints.LIST_DESPESASGERAL);
 
 export const apiGetDespesasGeralId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_DESPESASGERAL_BY_ID}${id}/`);
