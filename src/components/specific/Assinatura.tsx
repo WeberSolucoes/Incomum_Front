@@ -15,7 +15,7 @@ import { RootState } from "../../hooks/store";
 
 
 const Assinatura: React.FC = ({ onBackClick }) => {
-    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<AssinaturaCreateRequest>({} as AssinaturaCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
