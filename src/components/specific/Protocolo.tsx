@@ -15,7 +15,7 @@ import { RootState } from "../../hooks/store";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
-    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<ProtocoloCreateRequest>({} as ProtocoloCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
@@ -36,10 +36,13 @@ const Protocolo: React.FC = ({ onBackClick }) => {
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
-        
+        if (!activeTab || activeTab !== 'Protocolo') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
-        if (activeTab !== '=Protocolo') return; // 🔍 Só roda na aba certa
+        if (activeTab !== 'Protocolo') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
