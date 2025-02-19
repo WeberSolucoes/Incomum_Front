@@ -17,7 +17,7 @@ import IconButton from '@mui/material/IconButton';
 import { RootState } from "../../hooks/store";
 
 const Aeroporto: React.FC = ({ onBackClick }) => {
-    const { codigo } = useCodigo();
+    const { setCodigo,codigo } = useCodigo();
     const [request, setRequest] = useState<AeroportoCreateRequest>({} as AeroportoCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
@@ -38,8 +38,12 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
 
 
     useEffect(() => {
+        if (!activeTab || activeTab !== 'Aeroporto') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
         if (activeTab !== 'Aeroporto') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);    
