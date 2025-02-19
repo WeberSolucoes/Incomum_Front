@@ -41,8 +41,12 @@ const Assinatura: React.FC = ({ onBackClick }) => {
     ];
 
     useEffect(() => {
+        if (!activeTab || activeTab !== 'Assinatura') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
         if (activeTab !== 'Assinatura') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
