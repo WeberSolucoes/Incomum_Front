@@ -166,6 +166,17 @@ const Aeroporto: React.FC = ({ onBackClick }) => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setLoading(true);
+
+        if (!request.aer_descricao) {
+            toastError("O campo Sigla é obrigatório.");
+            setLoading(false);
+            return;
+        }
+        if (!request.cid_codigo) {
+            toastError("O campo Cidade é obrigatório.");
+            setLoading(false);
+            return;
+        }
     
         try {
             const updatedRequest = {
