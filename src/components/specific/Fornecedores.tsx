@@ -20,7 +20,7 @@ import InputMask from "react-input-mask";
 import { RootState } from "../../hooks/store";
 
 const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
-    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<ParceiroCreateRequest>({} as ParceiroCreateRequest);
     const [rua, setRua] = useState(''); 
     const [numero, setNumero] = useState('');
@@ -65,8 +65,12 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
     ];
 
     useEffect(() => {
+        if (!activeTab || activeTab !== 'Fornecedores') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
         if (activeTab !== 'Fornecedores') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
