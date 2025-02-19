@@ -323,7 +323,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         type="text"
                         id="cta_tipo"
                         name="cta_tipo"
-                        value={request.cta_codigo || ''}
+                        value={request.cta_tipo || ''}
                         onChange={handleInputChange}
                     />
                 </div>
