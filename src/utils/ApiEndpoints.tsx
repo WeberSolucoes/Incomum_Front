@@ -205,5 +205,8 @@ export enum ApiEndpoints {
     CREATE_FORNECEDOR_TIPO = '/incomum/fornecedortipo/create/',
     UPDATE_FORNECEDOR_TIPO = '/incomum/fornecedortipo/update/', // '/incomum/loja/update/${id}/'
     DELETE_FORNECEDOR_TIPO = 'incomum/fornecedortipo/delete/',
+
+    LIST_DUPLICATA = 'incomum/duplicata/list-all/',
+    LIST_DUPLICATA_BY_ID = 'incomum/duplicata/find-byid/',
     
 }
