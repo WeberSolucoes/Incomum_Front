@@ -245,13 +245,19 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group" style={{marginLeft:'-550px'}}>
                     <label htmlFor="cta_tipo">Tipo</label>
-                    <input
-                        type="text"
-                        id="cta_tipo"
-                        name="cta_tipo"
-                        value={request.cta_codigo || ''}
-                        onChange={handleInputChange}
-                        style={{width:'200px'}}
+                    <Dropdown
+                        id="tdu_codigo"
+                        name="tdu_codigo"
+                        value={selectedDuplicata} // Valor selecionado
+                        options={duplicatas} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
+                        optionLabel="label" // Campo para exibir
+                        optionValue="value" // Campo para o valor interno
+                        placeholder="Selecione um Tipo De Custo"
+                        filter // Ativa o campo de busca
+                        showClear // Botão para limpar o campo
+                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
+                        className="w-full" // Classe CSS opcional
                     />
                 </div>
             </div>
@@ -306,19 +312,13 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="cta_justificativa">Tipo De Custo</label>
-                    <Dropdown
-                        id="tdu_codigo"
-                        name="tdu_codigo"
-                        value={selectedDuplicata} // Valor selecionado
-                        options={duplicatas} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
-                        optionLabel="label" // Campo para exibir
-                        optionValue="value" // Campo para o valor interno
-                        placeholder="Selecione um Tipo De Custo"
-                        filter // Ativa o campo de busca
-                        showClear // Botão para limpar o campo
-                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
-                        className="w-full" // Classe CSS opcional
+                    <input
+                        type="text"
+                        id="cta_tipo"
+                        name="cta_tipo"
+                        value={request.cta_codigo || ''}
+                        onChange={handleInputChange}
+                        style={{width:'200px'}}
                     />
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
