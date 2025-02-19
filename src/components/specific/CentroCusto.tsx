@@ -32,6 +32,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
     const [cta_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
