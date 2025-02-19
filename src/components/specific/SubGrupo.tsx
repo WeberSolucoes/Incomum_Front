@@ -22,7 +22,7 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
     const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
     const [areacomercial, setAreaComercial] = useState('');
-    const [areasComerciais, setAreasComerciais] = useState<{ label: string; value: number }[]>([]);
+    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
     const [checked, setChecked] = useState(false);
     const [sbc_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
@@ -127,7 +127,12 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
         setLoading(true);
     
         if (!request.sbc_descricao) {
-            toastError("O campo Cidade é obrigatório.");
+            toastError("O campo SubGrupo é obrigatório.");
+            setLoading(false);
+            return;
+        }
+        if (!request.grc_codigo) {
+            toastError("O campo Grupo é obrigatório.");
             setLoading(false);
             return;
         }
@@ -204,6 +209,11 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
         fetchAreasComerciais();
     }, []);
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setRequest(prevState => ({ ...prevState, [id]: value }));
+    };
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -244,9 +254,9 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         id="grc_codigo"
                         name="grc_codigo"
-                        value={selectedAreaComercial} // Valor selecionado
+                        value={request.grc_codigo || null} // Valor selecionado
                         options={areasComerciais} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
+                        onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo interno
                         placeholder="Selecione um Grupo"
@@ -254,7 +264,6 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..."
                         className="w-full"
-                        style={{width:'320px'}}
                     />
                 </div>
             </div>
