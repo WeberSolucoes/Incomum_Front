@@ -148,7 +148,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Cidade salva com sucesso");
+                toastSucess("Centro de Custo salvo com sucesso");
     
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.cta_codigo && response.data && response.data.cta_codigo) {
