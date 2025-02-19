@@ -259,6 +259,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..." // Placeholder para a busca
                         className="w-full" // Classe CSS opcional
+                        style={{width:'300px'}}
                     />
                 </div>
             </div>
@@ -319,7 +320,6 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         name="cta_tipo"
                         value={request.cta_codigo || ''}
                         onChange={handleInputChange}
-                        style={{width:'200px'}}
                     />
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
