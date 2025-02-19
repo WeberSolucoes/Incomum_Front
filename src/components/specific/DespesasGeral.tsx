@@ -22,7 +22,7 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
     const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
     const [areacomercial, setAreaComercial] = useState('');
-    const [areasComerciais, setAreasComerciais] = useState<{ label: string; value: number }[]>([]);
+    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
     const [checked, setChecked] = useState(false);
     const [grc_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
@@ -205,6 +205,12 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
     }, []);
 
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setRequest(prevState => ({ ...prevState, [id]: value }));
+    };
+
+
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
 
@@ -240,13 +246,13 @@ const DespesasGeral: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="grc_descricao">Master Grupo</label>
+                    <label htmlFor="mgr_codigo">Master Grupo</label>
                     <Dropdown
                         id="mgr_codigo"
                         name="mgr_codigo"
-                        value={selectedAreaComercial} // Valor selecionado
+                        value={request.mgr_codigo || null} // Valor selecionado
                         options={areasComerciais} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
+                        onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo interno
                         placeholder="Selecione um Grupo"
