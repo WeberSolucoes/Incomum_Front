@@ -33,6 +33,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
+    const [checkedExclusivo, setCheckedExclusivo] = useState(false);
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
@@ -323,7 +324,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     />
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
-                    <Checkbox id="cta_exclusivo" name="cta_exclusivo" style={{marginTop:'36px', marginLeft:'14px'}} />
+                    <Checkbox onChange={e => setCheckedExclusivo(e.checked)} checked={checkedExclusivo} id="cta_exclusivo" name="cta_exclusivo" style={{marginTop:'36px', marginLeft:'14px'}} />
                     <label htmlFor="cta_exclusivo" style={{ marginLeft: "8px",display:'inline' }}>Exclusivo</label>
                 </div>
             </div>
