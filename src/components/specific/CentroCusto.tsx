@@ -143,6 +143,10 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
             if (request.cta_codigo) {
                 response = await apiUpdateCentroCusto(request.cta_codigo, request);
             } else {
+                setRequest(prev => ({
+                    ...prev,
+                    cta_exclusivo: checked ? 1:0
+                }));
                 const { cta_codigo, ...newRequest } = request;
                 response = await apiCreateCentroCusto(newRequest);
             }
