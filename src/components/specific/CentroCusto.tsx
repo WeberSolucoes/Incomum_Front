@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CentroCustoCreateRequest} from "../../utils/apiObjects";
-import { apiCreateCentroCusto, apiDeleteCentroCusto, apiGetCentroCustoId, apiUpdateCentroCusto } from "../../services/Api";
+import { apiCreateCentroCusto, apiDeleteCentroCusto, apiGetCentroCustoId, apiUpdateCentroCusto, apiGetDuplicata, apiGetSubgrupo, } from "../../services/Api";
 import { confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -25,6 +25,9 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
     const [areacomercial, setAreaComercial] = useState('');
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
+    const [duplicata, setDuplicata] = useState('');
+    const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
+    const [selectedDuplicata, setSelectedDuplicata] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
     const [cta_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
@@ -187,6 +190,42 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
         setChecked(false);
     };
 
+    useEffect(() => {
+        const fetchAreasComerciais = async () => {
+            try {
+                const response = await  apiGetSubgrupo();
+                const data = response.data;
+                setAreaComercial(data.sbc_codigo);
+                setAreasComerciais(data.map((area: { sbc_descricao: string; sbc_codigo: number }) => ({
+                    label: area.sbc_descricao,
+                    value: area.sbc_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar áreas comerciais:", error);
+                toastError("Erro ao buscar áreas comerciais.");
+            }
+        };
+        fetchAreasComerciais();
+    }, []);
+
+    useEffect(() => {
+        const fetchCentroCusto = async () => {
+            try {
+                const response = await  apiGetDuplicata();
+                const data = response.data;
+                setDuplicata(data.tdu_codigo);
+                setDuplicatas(data.map((area: { tdu_descricao: string; tdu_codigo: number }) => ({
+                    label: area.tdu_descricao,
+                    value: area.tdu_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar áreas comerciais:", error);
+                toastError("Erro ao buscar áreas comerciais.");
+            }
+        };
+        fetchCentroCusto();
+    }, []);
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -206,18 +245,13 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group" style={{marginLeft:'-550px'}}>
                     <label htmlFor="cta_tipo">Tipo</label>
-                    <Dropdown
+                    <input
+                        type="text"
                         id="cta_tipo"
                         name="cta_tipo"
-                        value={request.cta_tipo || null} // Valor selecionado
-                        optionLabel="label" // Campo para exibir
-                        optionValue="value" // Campo para o valor interno
-                        placeholder="Selecione um Tipo"
-                        filter // Ativa o campo de busca
-                        showClear // Botão para limpar o campo
-                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
-                        className="w-full" // Classe CSS opcional
-                        style={{width:'200px',height:'34px'}}
+                        value={request.cta_codigo || ''}
+                        onChange={handleInputChange}
+                        style={{width:'200px'}}
                     />
                 </div>
             </div>
@@ -243,7 +277,9 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         id="sbc_codigo"
                         name="sbc_codigo"
-                        value={request.sbc_codigo || null} // Valor selecionado
+                        value={selectedAreaComercial} // Valor selecionado
+                        options={areasComerciais} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo para o valor interno
                         placeholder="Selecione um SubGrupo"
@@ -261,7 +297,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     <label htmlFor="cta_contabil">Codigo Contabil</label>
                     <input
                         type="text"
-                        id="cta_contabil"
+                        id="cta_codigocontabil"
                         name="cta_codigocontabil"
                         value={request.cta_codigocontabil || ''}
                         onChange={handleInputChange}
@@ -271,9 +307,11 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                 <div className="form-group">
                     <label htmlFor="cta_justificativa">Tipo De Custo</label>
                     <Dropdown
-                        id="cta_justificativa"
-                        name="cta_justificativa"
-                        value={request.cta_justificativa || null} // Valor selecionado
+                        id="tdu_codigo"
+                        name="tdu_codigo"
+                        value={selectedDuplicata} // Valor selecionado
+                        options={duplicatas} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo para o valor interno
                         placeholder="Selecione um Tipo De Custo"
@@ -281,7 +319,6 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..." // Placeholder para a busca
                         className="w-full" // Classe CSS opcional
-                        style={{height:'34px'}}
                     />
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
