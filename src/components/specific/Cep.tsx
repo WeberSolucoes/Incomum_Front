@@ -17,7 +17,7 @@ import { RootState } from "../../hooks/store";
 
 
 const Cep: React.FC = ({ onBackClick }) => {
-    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<CepCreateRequest>({} as CepCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
@@ -38,8 +38,12 @@ const Cep: React.FC = ({ onBackClick }) => {
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
     useEffect(() => {
+        if (!activeTab || activeTab !== 'Cep') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (!activeTab) return; // 🔍 Espera até `activeTab` estar definido
         if (activeTab !== 'Cep') return; // 🔍 Só roda na aba certa
 
         console.log("✅ Buscando dados para código:", codigo);
