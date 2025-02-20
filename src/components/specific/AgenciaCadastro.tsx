@@ -286,6 +286,12 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
           setLoading(false);
           return;
         }
+
+        if (!request.cid_codigo) {
+            toastError("O campo Cidade é obrigatório.");
+            setLoading(false);
+            return;
+        }
     
         if (!request.age_razaosocial) {
           toastError("O campo Razão Social é obrigatório.");
@@ -420,7 +426,6 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
                 ...prevState,
                 age_bairro: data.bairro || '',
                 age_endereco: data.logradouro || '',
-                cid_codigo: data.localidade || '',
                 age_cep: prevState.age_cep // Garante que o valor do campo `age_cep` não seja alterado
             }));
         } catch (error) {
