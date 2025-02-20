@@ -4,7 +4,7 @@ import axios from "axios";
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { AgenciaCreateRequest } from "../../utils/apiObjects";
-import { apiDeleteAgencia, apiGetAgenciaById, apiGetArea, apiPostCreateAgencia, apiPostCreateUnidade, apiPutUpdateAgencia } from "../../services/Api";
+import { apiDeleteAgencia, apiGetAgenciaById, apiGetArea, apiPostCreateAgencia, apiPostCreateUnidade, apiPutUpdateAgencia, apiGetCidadeId,apiGetCepId } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cnpj } from "cpf-cnpj-validator";
 import { Button } from 'primereact/button';
@@ -414,25 +414,43 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
   };
 
   const handleCepApi = async (e: React.FocusEvent<HTMLInputElement>) => {
-    const cep = e.target.value.replace('-', '');
-    if (cep.length === 8) {
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = response.data;
-            setRua(data.logradouro || '');
-            setCidade(data.localidade || '');
-            setibge(data.ibge || '');
-            setRequest(prevState => ({
-                ...prevState,
-                age_bairro: data.bairro || '',
-                age_endereco: data.logradouro || '',
-                age_cep: prevState.age_cep // Garante que o valor do campo `age_cep` não seja alterado
-            }));
-        } catch (error) {
-            console.error("Erro ao buscar dados do CEP:", error);
-            toastError("Erro ao buscar dados do CEP.");
-        }
-    }
+      const cep = e.target.value.replace('-', '');
+      if (cep.length === 8) {
+          try {
+              const response = await apiGetCepId(cep);
+              const data = response.data;
+
+              console.log(data);
+
+              setRua(data.cep_logradouro || '');
+              setIbge(data.ibge || '');
+
+              let cidadeSelecionada = null;
+
+              if (data.cid_codigo) {
+                  // Busca a descrição da cidade pelo cid_codigo
+                  const cidadeResponse = await apiGetCidadeId(data.cid_codigo);
+                  const cidadeData = cidadeResponse.data;
+
+                  if (cidadeData) {
+                      cidadeSelecionada = { value: cidadeData.cid_codigo, label: cidadeData.cid_descricao };
+                  }
+              }
+
+              setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
+
+              setRequest(prevState => ({
+                  ...prevState,
+                  age_bairro: data.cep_bairro || '',
+                  age_endereco: data.cep_logradouro || '',
+                  age_cep: prevState.age_cep,
+                  cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
+              }));
+          } catch (error) {
+              console.error("Erro ao buscar dados do CEP:", error);
+              toastError("Erro ao buscar dados do CEP.");
+          }
+      }
   };
 
 
