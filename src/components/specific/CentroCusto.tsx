@@ -70,6 +70,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     setSelectedAreas([]);
                 }
                 setChecked(unidade.loj_situacao === 1);
+                setCheckedExclusivo(unidade.cta_exclusivo === 1);
 
                 const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
                 setCidade(responseCidade.data.nome || '');
