@@ -10,6 +10,8 @@ import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { useSelector } from "react-redux";
 import { RootState } from "../../hooks/store";
+import { Dropdown } from "primereact/dropdown";
+import { Checkbox } from 'primereact/checkbox';
 
 
 const Companhia: React.FC = ({ onBackClick }) => {
@@ -23,11 +25,22 @@ const Companhia: React.FC = ({ onBackClick }) => {
     const [areacomercial, setAreaComercial] = useState('');
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<boolean | null>(null);
     const [com_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [selectedDuplicata, setSelectedDuplicata] = useState<number[]>([]);
+    const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
+    const [duplicata, setDuplicata] = useState('');
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
+
+
+    useEffect(() =>{
+        if (request.com_divisao){
+            setChecked(request.com_divisao === 'S');
+        }
+    },[request.com_divisao]);
+
 
     useEffect(() => {
         if (!activeTab || activeTab !== 'Companhia') {
@@ -62,7 +75,7 @@ const Companhia: React.FC = ({ onBackClick }) => {
                 } else {
                     setSelectedAreas([]);
                 }
-                setChecked(unidade.loj_situacao === 1);
+                setChecked(unidade.com_divisao === 'S');
 
                 const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
                 setCidade(responseCidade.data.nome || '');
@@ -126,7 +139,7 @@ const Companhia: React.FC = ({ onBackClick }) => {
         setLoading(true);
     
         if (!request.com_descricao) {
-            toastError("O campo Logradouro é obrigatório.");
+            toastError("O campo Companhia Aerea é obrigatório.");
             setLoading(false);
             return;
         }
@@ -137,7 +150,7 @@ const Companhia: React.FC = ({ onBackClick }) => {
                 response = await apiUpdateCompanhia(request.com_codigo, request);
             } else {
                 const { com_codigo, ...newRequest } = request;
-                response = await apiCreateCompanhia(newRequest);
+                response = await apiCreateCompanhia({...newRequest, com_divisao: checked ? 'S' : 'N'});
             }
     
             if (response.status === 200 || response.status === 201) {
@@ -185,6 +198,24 @@ const Companhia: React.FC = ({ onBackClick }) => {
         setChecked(false);
     };
 
+    useEffect(() => {
+        const fetchCentroCusto = async () => {
+            try {
+                const response = await  apiGetParceiro();
+                const data = response.data;
+                setDuplicata(data.par_codigo);
+                setDuplicatas(data.map((area: { par_descricao: string; par_codigo: number }) => ({
+                    label: area.par_descricao,
+                    value: area.par_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar Fornecedor:", error);
+                toastError("Erro ao buscar Fornecedor.");
+            }
+        };
+        fetchCentroCusto();
+    }, []);
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -200,6 +231,17 @@ const Companhia: React.FC = ({ onBackClick }) => {
                         onChange={handleInputChange}
                         style={{width:'200px'}}
                         disabled
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="com_divisao">Divisão de Taxa/Tarifa</label>
+                    <Checkbox
+                        id="com_divisao"
+                        name="com_divisao"
+                        value={request.com_divisao || ''}
+                        onChange={e => setChecked(e.checked)} 
+                        checked={checked}
+                        style={{ width: '200px' }}
                     />
                 </div>
             </div>
@@ -254,11 +296,19 @@ const Companhia: React.FC = ({ onBackClick }) => {
             <div className="form-row">
                 <div className="form-group" >
                     <label htmlFor="cep_uf">Fornecedor</label>
-                    <input
-                        type="text"
-                        id="cep_uf"
-                        name="cep_uf"
-                        onChange={handleInputChange}
+                    <Dropdown
+                        id="par_codigo"
+                        name="par_codigo"
+                        value={selectedDuplicata} // Valor selecionado
+                        options={duplicatas} // Lista de opções vinda do banco
+                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
+                        optionLabel="label" // Campo para exibir
+                        optionValue="value" // Campo para o valor interno
+                        placeholder="Selecione um Fornecedor"
+                        filter // Ativa o campo de busca
+                        showClear // Botão para limpar o campo
+                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
+                        className="w-full" // Classe CSS opcional
                     />
                 </div>
             </div>
