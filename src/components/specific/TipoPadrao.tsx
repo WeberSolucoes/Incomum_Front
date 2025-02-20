@@ -24,18 +24,19 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
     const [areacomercial, setAreaComercial] = useState('');
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
-    const [checked, setChecked] = useState(false);
+    const [checked, setChecked] = useState<boolean | null>(null);
     const [tpa_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
-    const handleCheckboxChange = (e: any) => {
-        setIsChecked(e.checked);
-        console.log("Checkbox está:", e.checked ? "Marcado" : "Desmarcado");
-    };
-
+    useEffect(() =>{
+        if (request.tpa_principal){
+            setChecked(request.tpa_principal === 'S');
+        }
+    },[request.tpa_principal]);
+    
     useEffect(() => {
         if (!activeTab || activeTab !== 'Padrão') {
             // Reseta o código se a aba não for "Agência"
@@ -69,7 +70,7 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
                 } else {
                     setSelectedAreas([]);
                 }
-                setChecked(unidade.loj_situacao === 1);
+                setChecked(unidade.tpa_principal === 'S');
 
                 const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
                 setCidade(responseCidade.data.nome || '');
@@ -144,11 +145,11 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
                 response = await apiUpdatePadrao(request.tpa_codigo, request);
             } else {
                 const { tpa_codigo, ...newRequest } = request;
-                response = await apiCreatePadrao(newRequest);
+                response = await apiCreatePadrao({...newRequest, tpa_principal: checked ? 'S' : 'N'});
             }
     
             if (response.status === 200 || response.status === 201) {
-                toastSucess("Padrão salvo com sucesso");
+                toastSucess("Tipo Padrão salvo com sucesso");
 
                 // Atualize o `cid_codigo` no estado após criação bem-sucedida
                 if (!request.tpa_codigo && response.data && response.data.tpa_codigo) {
@@ -213,9 +214,11 @@ const TipoPadrao: React.FC = ({ onBackClick }) => {
                     <label htmlFor="tpa_principal">Padrão Principal?</label>
                     <Checkbox
                         id="tpa_principal"
-                        inputId="accept"
-                        checked={isChecked}
-                        onChange={handleCheckboxChange}
+                        name="tpa_principal"
+                        value={request.tpa_principal || ''}
+                        onChange={e => setChecked(e.checked)} 
+                        checked={checked}
+                        style={{ width: '200px' }}
                     />
                 </div>
             </div>
