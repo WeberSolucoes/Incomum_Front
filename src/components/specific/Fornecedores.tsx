@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { ParceiroCreateRequest, VendedorCreateRequest } from "../../utils/apiObjects";
-import { apiCreateParceiro, apiDeleteParceiro, apiDeleteVendedor, apiGetArea, apiGetCidade, apiGetParceiroId, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor, apiUpdateParceiro } from "../../services/Api";
+import { apiCreateParceiro, apiDeleteParceiro, apiDeleteVendedor, apiGetArea, apiGetCidade, apiGetParceiroId, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor, apiUpdateParceiro, apiGetCepId,apiGetCidadeId } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -286,17 +286,32 @@ const Fornecedores: React.FC = ({onBackClick, onCadastroConcluido}) => {
         const cep = e.target.value.replace('-', '');
         if (cep.length === 8) {
             try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+                const response = await apiGetCepId(cep);
                 const data = response.data;
-                setRua(data.logradouro || '');
-                setCidade(data.localidade || '');
-                setibge(data.ibge || '');
+  
+                console.log(data);
+  
+                setRua(data.cep_logradouro || '');
+  
+                let cidadeSelecionada = null;
+  
+                if (data.cid_codigo) {
+                    // Busca a descrição da cidade pelo cid_codigo
+                    const cidadeResponse = await apiGetCidadeId(data.cid_codigo);
+                    const cidadeData = cidadeResponse.data;
+  
+                    if (cidadeData) {
+                        cidadeSelecionada = { value: cidadeData.cid_codigo, label: cidadeData.cid_descricao };
+                    }
+                }
+  
+                setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
+  
                 setRequest(prevState => ({
                     ...prevState,
-                    'cid_codigo': `${data.localidade}`,
-                    'par_bairro': `${data.bairro}`,
-                    'par_endereco': `${data.logradouro}`
-                    
+                    par_bairro: data.cep_bairro || '',
+                    par_endereco: data.cep_logradouro || '',
+                    cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
                 }));
             } catch (error) {
                 console.error("Erro ao buscar dados do CEP:", error);
