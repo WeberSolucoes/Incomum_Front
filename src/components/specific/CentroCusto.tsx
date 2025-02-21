@@ -27,7 +27,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [duplicata, setDuplicata] = useState('');
     const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
-    const [selectedDuplicata, setSelectedDuplicata] = useState<number[]>([]);
+    const [selectedDuplicata, setSelectedDuplicata] = useState<number | null>(null);
     const [checked, setChecked] = useState(false);
     const [cta_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
