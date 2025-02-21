@@ -260,7 +260,7 @@ const Vendedor: React.FC = ({onBackClick}) => {
   
                 console.log(data);
   
-                setRua(data.ven_logradouro || '');
+                setRua(data.cep_logradouro || '');
   
                 let cidadeSelecionada = null;
   
