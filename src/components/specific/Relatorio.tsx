@@ -366,6 +366,22 @@ const Relatorio = () => {
         window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
     };
     const handleExport = async () => {
+
+        if (!dateStart || !dateEnd) {
+            toastError('As datas de início e fim são obrigatórias.');
+            return;
+        }
+        
+        const difference = dateDifference(dateStart, dateEnd);
+
+        if (difference) {
+            // Exemplo de uso no if
+            if (difference.diffInMonths > 3.03) {
+                toastError('A diferença entre as datas não pode ser superior a 3 meses.');
+                return;
+            }
+    
+        }
         try {
             const response = await axios.get('https://api.incoback.com.br/api/incomum/relatorio/download-relatorio/', {
                 params: {
