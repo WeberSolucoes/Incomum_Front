@@ -315,6 +315,7 @@ const GraficoComFiltros = () => {
         }
     
         try {
+            setLoading(true);
             const response = await axios.get(endpoint, { params });
     
             console.log("Resposta da API:", response.data);
@@ -329,6 +330,8 @@ const GraficoComFiltros = () => {
             }
         } catch (error) {
             console.error("Erro ao buscar dados do gráfico:", error);
+        }finally {
+            setLoading(false);
         }
     };
     
@@ -389,6 +392,7 @@ const GraficoComFiltros = () => {
         console.log("Filtros sendo enviados:", filters);
     
         try {
+            setLoading(true);
             const response = await axios.post(
                 "https://api.incoback.com.br/api/incomum/relatorio/obter-dados-area-comercial/",
                 filters
@@ -716,8 +720,9 @@ const GraficoComFiltros = () => {
                                 <Button
                                     style={{ backgroundColor: "#0152a1",borderRadius:'10px' }}
                                     type="submit"
-                                    label="Consultar"
-                                    icon="pi pi-search"
+                                    label={loading ? 'Carregando...' : 'Consultar'}
+                                    icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
+                                    disabled={loading} // Desabilita o botão durante o carregamento 
                                 />
                             </div>
                         </div>
@@ -849,8 +854,9 @@ const GraficoComFiltros = () => {
                                 <Button
                                     style={{ backgroundColor: "#0152a1",borderRadius:'10px' }}
                                     type="submit"
-                                    label="Consultar"
-                                    icon="pi pi-search"
+                                    label={loading ? 'Carregando...' : 'Consultar'}
+                                    icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca 
+                                    disabled={loading} // Desabilita o botão durante o carregamento 
                                 />
                             </div>
                         </div>
@@ -948,9 +954,10 @@ const GraficoComFiltros = () => {
                                 <Button
                                     style={{ backgroundColor: "#0152a1", borderRadius: "10px" }}
                                     type="submit"
-                                    label="Consultar"
-                                    icon="pi pi-search"
+                                    label={loading ? 'Carregando...' : 'Consultar'}
+                                    icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca 
                                     onClick={handleConsultarAreaComercial}
+                                    disabled={loading} // Desabilita o botão durante o carregamento 
                                 />
                             </div>
                         </div>
