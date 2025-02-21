@@ -109,78 +109,6 @@ const Protocolo: React.FC = ({ onBackClick }) => {
         }
     };
 
-    const handleConfirmDelete = async () => {
-        if (prt_codigo !== null) {
-            setLoading(true);
-            try {
-                await apiDeleteMoeda(prt_codigo);
-                toast.success('Cadastro excluído com sucesso.');
-
-                // Limpa os campos do formulário após exclusão
-                handleReset();
-            } catch (error) {
-                toastError('Erro ao excluir o cadastro.');
-                console.error('Erro ao excluir o cadastro:', error);
-            } finally {
-                setLoading(false);
-            }
-        }
-    };
-
-    const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        setLoading(true);
-    
-        if (!request.prt_numerodocumento) {
-            toastError("O campo Numero Documento é obrigatório.");
-            setLoading(false);
-            return;
-        }
-    
-        try {
-            let response;
-            if (request.prt_codigo) {
-                response = await apiUpdateProtocolo(request.prt_codigo, request);
-            } else {
-                const { prt_codigo, ...newRequest } = request;
-                response = await apiCreateProtocolo(newRequest);
-            }
-    
-            if (response.status === 200 || response.status === 201) {
-                toastSucess("Moeda salva com sucesso");
-
-                // Atualize o `cid_codigo` no estado após criação bem-sucedida
-                if (!request.prt_codigo && response.data && response.data.prt_codigo) {
-                    setRequest(prev => ({
-                        ...prev,
-                        prt_codigo: response.data.prt_codigo
-                    }));
-                    setVenCodigo(response.data.prt_codigo); // Atualize também o estado `cid_codigo`
-                }
-            } else {
-                toastError("Erro ao salvar a Moeda");
-            }
-        } catch (error: any) {
-            console.error("Erro:", error);
-            if (error.response) {
-                const status = error.response.status;
-                const data = error.response.data;
-                if (status === 400) {
-                    toastError("Dados inválidos. Verifique os campos e tente novamente.");
-                } else if (status === 401) {
-                    toastError("Não autorizado. Verifique suas credenciais.");
-                } else if (status === 500) {
-                    toastError("Erro interno do servidor. Tente novamente mais tarde.");
-                } else {
-                    toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
-                }
-            } else {
-                toastError("Erro de conexão. Verifique sua rede e tente novamente.");
-            }
-        } finally {
-            setLoading(false);
-        }
-    };
 
     const handleReset = () => {
         setRequest({} as ProtocoloCreateRequest);
@@ -268,14 +196,31 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group" >
                     <label htmlFor="prt_datacadastro">Data Lançamento</label>
-                    <input
-                        type="text"
-                        id="prt_datacadastro"
-                        name="prt_datacadastro"
-                        value={request.prt_datacadastro || ''}
-                        onChange={handleInputChange}
-                        style={{width:'100%'}}
-                    />
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue}
+                        onChange={handleChange}
+                        disabled
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_datacadastro"
+                                name="par_datacadastro"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
                 <div className="form-group" >
                     <label htmlFor="usr_codigo">Usuario Liberador</label>
@@ -286,6 +231,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         value={request.usr_codigo || ''}
                         onChange={handleInputChange}
                         style={{width:'100%'}}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -295,14 +241,39 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         options={unidades} 
                         onChange={handleUnidadeChange}    // Atualiza as áreas comerciais ao mudar a unidade
                         placeholder="Unidade"
-                        style={{width:'100%',textAlign: 'left' }}
+                        style={{
+                            width: "100%",
+                            textAlign: 'left',
+                            height: "37.6px",
+                            backgroundColor: "#f0f0f0", // Cinza claro
+                            color: "#888", // Cinza escuro no texto
+                            border: "1px solid #ccc", // Borda mais discreta
+                            pointerEvents: "none", // Impede interação
+                            opacity: 0.7, // Deixa um pouco mais apagado
+                        }}
                         panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                        showClear  
+                        showClear
+                        disabled  
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="prt_status">Situação</label>
-                    <select id="age_situacao" name="age_situacao" value={request.prt_status || ''} onChange={handleSelectChange}>
+                    <select style={{
+                            width: "100%",
+                            textAlign: 'left',
+                            height: "37.6px",
+                            backgroundColor: "#f0f0f0", // Cinza claro
+                            color: "#888", // Cinza escuro no texto
+                            border: "1px solid #ccc", // Borda mais discreta
+                            pointerEvents: "none", // Impede interação
+                            opacity: 0.7, // Deixa um pouco mais apagado
+                        }} 
+                        disabled 
+                        id="age_situacao" 
+                        name="age_situacao" 
+                        value={request.prt_status || ''} 
+                        onChange={handleSelectChange}
+                    >
                         <option value="ativo">Ativo</option>
                         <option value="inativo">Inativo</option>
                     </select>
@@ -316,11 +287,21 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         value={selectedParceiro} 
                         options={fornecedor} 
-                        onChange={handleSelectChange}    // Atualiza as áreas comerciais ao mudar a unidade
+                        onChange={handleFornecedorChange}    // Atualiza as áreas comerciais ao mudar a unidade
                         placeholder="Fornecedor"
-                        style={{width:'100%',textAlign: 'left' }}
+                        style={{
+                            width: "100%",
+                            textAlign: 'left',
+                            height: "37.6px",
+                            backgroundColor: "#f0f0f0", // Cinza claro
+                            color: "#888", // Cinza escuro no texto
+                            border: "1px solid #ccc", // Borda mais discreta
+                            pointerEvents: "none", // Impede interação
+                            opacity: 0.7, // Deixa um pouco mais apagado
+                        }}
                         panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
-                        showClear  
+                        showClear
+                        disabled  
                     />
                 </div>
                 <div className="form-group" >
@@ -331,6 +312,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         name="prt_numerodocumento"
                         value={request.prt_numerodocumento || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
                 <div className="form-group" >
@@ -341,6 +323,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         name="prt_notafiscal"
                         value={request.prt_notafiscal || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
             </div>
@@ -348,33 +331,82 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             <div className="form-row">
                 <div className="form-group" >
                     <label htmlFor="moe_codigo">Moeda</label>
-                    <input
-                        type="text"
-                        id="moe_codigo"
-                        name="moe_codigo"
-                        value={request.moe_codigo || ''}
-                        onChange={handleInputChange}
+                    <Dropdown
+                        id='moe_codigo'
+                        value={selectedMoeda} 
+                        options={moeda} 
+                        onChange={handleMoedaChange}    // Atualiza as áreas comerciais ao mudar a unidade
+                        placeholder="Moeda"
+                        style={{
+                            width: "100%",
+                            textAlign: 'left',
+                            height: "37.6px",
+                            backgroundColor: "#f0f0f0", // Cinza claro
+                            color: "#888", // Cinza escuro no texto
+                            border: "1px solid #ccc", // Borda mais discreta
+                            pointerEvents: "none", // Impede interação
+                            opacity: 0.7, // Deixa um pouco mais apagado
+                        }}
+                        panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
+                        showClear
+                        disabled  
                     />
                 </div>
                 <div className="form-group">
                     <label htmlFor="prt_dataprogramado">Data Previsão</label>
-                    <input
-                        type="text"
-                        id="prt_dataprogramado"
-                        name="prt_dataprogramado"
-                        value={request.prt_dataprogramado || ''}
-                        onChange={handleInputChange}
-                    />
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue2}
+                        onChange={handleChange2}
+                        disabled
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_dataprogramado"
+                                name="par_dataprogramado"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
                 <div className="form-group" >
                     <label htmlFor="prt_anomescompetencia">Mes/Ano Base</label>
-                    <input
-                        type="text"
-                        id="prt_anomescompetencia"
-                        name="prt_anomescompetencia"
-                        value={request.prt_anomescompetencia || ''}
-                        onChange={handleInputChange}
-                    />
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue4}
+                        onChange={handleChange4}
+                        disabled
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_anomescompetencia"
+                                name="par_anomescompetencia"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
                 <div className="form-group" >
                     <label htmlFor="prt_cheque">Cheque</label>
@@ -384,6 +416,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         name="prt_cheque"
                         value={request.prt_cheque || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
                 <div className="form-group">
@@ -394,6 +427,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         name="prt_numeropagamento"
                         value={request.prt_numeropagamento || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
             </div>
@@ -402,30 +436,49 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             <div className="form-row">
                 <div className="form-group" >
                     <label htmlFor="prt_datacompetencia">Data Competencia</label>
-                    <input
-                        type="text"
-                        id="prt_datacompetencia"
-                        name="prt_datacompetencia"
-                        value={request.prt_datacompetencia || ''}
-                        onChange={handleInputChange}
-                    />
+                    <InputMask
+                        mask="99/99/9999"
+                        value={dateValue3}
+                        onChange={handleChange3}
+                        disabled
+                    >
+                        {(inputProps) => (
+                            <input
+                                {...inputProps}
+                                type="text"
+                                id="par_datacompetencia"
+                                name="par_datacompetencia"
+                                style={{
+                                    width: "200px",
+                                    height: "37.6px",
+                                    backgroundColor: "#f0f0f0", // Cinza claro
+                                    color: "#888", // Cinza escuro no texto
+                                    border: "1px solid #ccc", // Borda mais discreta
+                                    pointerEvents: "none", // Impede interação
+                                    opacity: 0.7, // Deixa um pouco mais apagado
+                                }}
+                                placeholder=""
+                            />
+                        )}
+                    </InputMask>
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
-                    <Checkbox id="cta_exclusivo" name="cta_exclusivo" style={{marginTop:'36px', marginLeft:'14px'}} />
-                    <label htmlFor="cta_exclusivo" style={{ marginLeft: "8px",display:'inline' }}>Demonst Emprestimo</label>
+                    <Checkbox disabled onChange={e => setCheckedEmprestimo(e.checked)} checked={checkedEmprestimo} id="prt_emprestimo" name="prt_emprestimo" style={{marginTop:'36px', marginLeft:'14px'}} />
+                    <label htmlFor="prt_emprestimo" style={{ marginLeft: "8px",display:'inline' }}>Demonst Emprestimo</label>
                 </div>
                 <div className="form-group" style={{ display: "block", alignItems: "center" }}>
-                    <Checkbox id="cta_exclusivo" name="cta_exclusivo" style={{marginTop:'36px', marginLeft:'14px'}} />
-                    <label htmlFor="cta_exclusivo" style={{ marginLeft: "8px",display:'inline' }}>Custo Indireto</label>
+                    <Checkbox disabled onChange={e => setCheckedCusto(e.checked)} checked={checkedCusto} id="prt_custoindireto" name="prt_custoindireto" style={{marginTop:'36px', marginLeft:'14px'}} />
+                    <label htmlFor="prt_custoindireto" style={{ marginLeft: "8px",display:'inline' }}>Custo Indireto</label>
                 </div>
                 <div className="form-group" >
-                    <label htmlFor="prt_valortotal">Valor Total</label>
+                    <label htmlFor="prt_valor">Valor Total</label>
                     <input
                         type="text"
-                        id="prt_valortotal"
-                        name="prt_valortotal"
+                        id="prt_valor"
+                        name="prt_valor"
                         value={request.prt_valor || ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
             </div>
@@ -439,6 +492,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                         name="prt_observacao"
                         value={request.prt_observacao|| ''}
                         onChange={handleInputChange}
+                        disabled
                     />
                 </div>
             </div>
@@ -448,31 +502,9 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                     <Button
                         label="Voltar"
                         icon="pi pi-arrow-left"
-                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'580px',borderRadius:'4px' }}
+                        style={{backgroundColor: '#0152a1',width:'100px',height:'34px',marginLeft:'908px',borderRadius:'4px' }}
                         onClick={onBackClick} // Chama a função passada como prop
                     />
-                {/* Condição para renderizar o botão de exclusão */}
-                {request.prt_codigo && (
-                <button
-                    style={{marginLeft:'0px',color:'white',width:'100px'}}
-                    type="button"
-                    className="reset-btn"
-                    onClick={handleDeleteClick}
-                    disabled={loading}
-                >
-                    <i className="fas fa-trash-alt"></i>Excluir
-                </button>
-                )}
-                
-                <button
-                    style={{color:'white',backgroundColor:'#0152a1',marginLeft: request.prt_codigo ? '14px' : '0px',display: request.prt_codigo ? 'none' :''}}
-                    type="button"
-                    className="reset-btn"
-                    onClick={handleReset}
-                >
-                    <i className="fas fa-trash-alt"></i> Limpar
-                </button>
-                <button style={{width:'100px',height:'34px',padding:'inherit'}} disabled={loading} type="submit" className="submit-btn"><i style={{marginRight:'10px'}}className="fas fa-save"></i>{loading ? 'Salvando...' : 'Salvar'}</button>
             </div>
         </form>
     );
