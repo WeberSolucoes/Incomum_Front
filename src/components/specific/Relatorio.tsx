@@ -257,6 +257,25 @@ const Relatorio = () => {
         console.log('Áreas Comerciais Selecionadas:', e.value); // Verifique os valores
         fetchAgencias(e.value); // Chama a função para buscar as agências com as áreas selecionadas
     };
+
+    function dateDifference(dateStart: number, dateEnd: number) {
+        const diffInMilliseconds = Math.abs(dateStart - dateEnd);
+        const diffInSeconds = diffInMilliseconds / 1000;
+        const diffInMinutes = diffInSeconds / 60;
+        const diffInHours = diffInMinutes / 60;
+        const diffInDays = diffInHours / 24;
+        const diffInMonths = diffInDays / 30.436875;
+        const diffInYears = diffInMonths / 12;
+        return {
+          diffInMilliseconds,
+          diffInSeconds,
+          diffInMinutes,
+          diffInHours,
+          diffInDays,
+          diffInMonths,
+          diffInYears
+        };
+    }
     // Função de envio do formulário
     const handleSubmit = useCallback(async (event) => {
         event.preventDefault();
@@ -264,6 +283,17 @@ const Relatorio = () => {
         if (!dateStart || !dateEnd) {
             toastError('As datas de início e fim são obrigatórias.');
             return;
+        }
+
+        const difference = dateDifference(dateStart, dateEnd);
+
+        if (difference) {
+            // Exemplo de uso no if
+            if (difference.diffInMonths > 3.03) {
+                toastError('A diferença entre as datas não pode ser superior a 3 meses.');
+                return;
+            }
+    
         }
 
         const params = {
