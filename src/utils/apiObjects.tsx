@@ -364,6 +364,56 @@ interface CentroCustoCreateRequest{
     cta_justificativa: string
 }
 
+interface ProtocoloCreateRequest {
+    prt_datacadastro: string;
+    prt_datapagamento: string;
+    prt_valor: string;
+    usr_codigo: number;
+    cta_codigo: number;
+    prt_observacao: string;
+    prt_sequencial: number;
+    prt_numero: string;
+    par_codigo: number;
+    prt_numerodocumento: string;
+    prt_notafiscal: string;
+    spr_codigo: number;
+    prt_datavencimento: string;
+    tdu_codigo: number;
+    tpa_codigopagamento: number;
+    usr_codigopagamento: number;
+    age_codigopagamento: number;
+    prt_desconto: number;
+    prt_juros: number;
+    prt_valorbase: number;
+    loj_codigo: number;
+    moe_codigo: number;
+    prt_cambio: number;
+    moe_codigopagamento: number;
+    prt_cambiopagamento: number;
+    prt_previsao: string;
+    prt_datacompetencia: string;
+    prt_anomescompetencia: string;
+    prt_transferencia: boolean;
+    prt_numeropagamento: string;
+    prt_pagamentoexterno: boolean;
+    prt_custoindireto: boolean;
+    prt_controletransferencia: string;
+    prt_restrito: boolean;
+    prt_numerocheque: string;
+    age_codigoprogramado: number;
+    usr_codigoprogramado: number;
+    prt_dataprogramado: string;
+    prt_dataquitacao: string;
+    prt_status: string;
+    via_codigo: number;
+    vem_codigo: number;
+    prt_tipo: string;
+    prt_parcela: number;
+    prt_parcelatotal: number;
+    prt_emprestimo: boolean;
+
+}
+
 export type {
     LoginRequest,
     LoginResponse,
@@ -404,6 +454,7 @@ export type {
     SubGrupoCreateRequest,
     CentroCustoCreateRequest,
     FornecedorTipoCreateRequest,
-
+    ProtocoloCreateRequest,
+    
 }
 
