@@ -46,6 +46,7 @@ import GraficoComFiltros from '../components/specific/Grafico';
 import { setTabs, setActiveTab, addTab, removeTab, setTabState } from '../hooks/tabSlice';
 import { useSelector, useDispatch } from 'react-redux'; 
 import { AgenciaListResponse } from '../utils/apiObjects';
+import ProtocoloList from '../components/specific/ProtocoloList';
 
 const MAX_TABS = 6; 
 
@@ -360,6 +361,12 @@ const MainPage: React.FC = () => {
                 return (
                     <FormLayout name='Centro De Custo'>
                         <CentroCustoList isActive={isActive} />
+                   </FormLayout>
+                );
+            case 'Protocolo':
+                return (
+                    <FormLayout name='Protocolo'>
+                        <ProtocoloList />
                    </FormLayout>
                 );
             case 'lancamento_opcao':
