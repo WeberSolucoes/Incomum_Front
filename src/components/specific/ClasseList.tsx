@@ -30,8 +30,8 @@ const ClasseList: React.FC = () => {
             : '';
         
         return truncatedDescricao 
-            ? `Cadastro Cidade - ${truncatedDescricao}` 
-            : 'Cadastro Cidade'; // Título padrão se não houver descrição
+            ? `Cadastro Classe - ${truncatedDescricao}` 
+            : 'Cadastro Classe'; // Título padrão se não houver descrição
     };
 
     const handleSearch = async () => {
