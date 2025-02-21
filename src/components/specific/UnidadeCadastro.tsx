@@ -3,7 +3,7 @@ import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { UnidadesCreateRequest } from '../../utils/apiObjects';
 import { useCodigo } from '../../contexts/CodigoProvider';
-import { apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade } from '../../services/Api';
+import { apiDeleteUnidade, apiGetArea, apiGetUnidadeById, apiPostCreateUnidade, apiPutUpdateUnidade, apiGetCidadeId,apiGetCepId } from '../../services/Api';
 import { ConfirmDialog, confirmDialog } from 'primereact/confirmdialog';
 import { cnpj } from 'cpf-cnpj-validator';
 import { toastError, toastSucess } from '../../utils/customToast';
@@ -313,29 +313,43 @@ const Unidade: React.FC = ({onBackClick}) => {
         setCep(''); // Limpa o estado do CEP também
     };
 
-    const handleCepApi = async (e) => {
-    const cep = e.target.value.replace('-', '');
-    if (cep.length === 8) {
-        try {
-            const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-            const data = response.data;
-
-            setRua(data.logradouro || '');
-            setCidade(data.localidade || '');
-            setibge(data.ibge || '');
-            setRequest(prevState => ({
-                ...prevState,
-                cid_codigo: data.localidade || '',
-                loj_bairro: data.bairro || '',
-                loj_endereco: data.logradouro || '',
-                loj_cep: prevState.loj_cep // Mantém o valor anterior do CEP
-            }));
-        } catch (error) {
-            console.error("Erro ao buscar dados do CEP:", error);
-            toastError("Erro ao buscar dados do CEP.");
+    const handleCepApi = async (e: React.FocusEvent<HTMLInputElement>) => {
+        const cep = e.target.value.replace('-', '');
+        if (cep.length === 8) {
+            try {
+                const response = await apiGetCepId(cep);
+                const data = response.data;
+  
+                console.log(data);
+  
+                setRua(data.cep_logradouro || '');
+  
+                let cidadeSelecionada = null;
+  
+                if (data.cid_codigo) {
+                    // Busca a descrição da cidade pelo cid_codigo
+                    const cidadeResponse = await apiGetCidadeId(data.cid_codigo);
+                    const cidadeData = cidadeResponse.data;
+  
+                    if (cidadeData) {
+                        cidadeSelecionada = { value: cidadeData.cid_codigo, label: cidadeData.cid_descricao };
+                    }
+                }
+  
+                setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
+  
+                setRequest(prevState => ({
+                    ...prevState,
+                    loj_bairro: data.cep_bairro || '',
+                    loj_endereco: data.cep_logradouro || '',
+                    cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
+                }));
+            } catch (error) {
+                console.error("Erro ao buscar dados do CEP:", error);
+                toastError("Erro ao buscar dados do CEP.");
+            }
         }
-    }
-};
+    };
 
     const fetchUnidades = async (search: string) => {
         if (search.length < 3) {
