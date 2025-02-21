@@ -202,7 +202,7 @@ const Bandeira: React.FC = ({ onBackClick }) => {
                         disabled
                     />
                 </div>
-                <div className="form-group" style={{marginLeft:'-490px'}}>
+                <div className="form-group" style={{marginLeft:'-590px'}}>
                     <label htmlFor="ban_codigocielo">Codigo Cielo</label>
                     <input
                         type="text"
