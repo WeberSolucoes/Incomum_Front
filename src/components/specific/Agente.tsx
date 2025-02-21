@@ -16,6 +16,7 @@ import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import { useDispatch, useSelector } from "react-redux";
 import { addTab, setActiveTab } from '../../hooks/tabSlice';
 import { RootState } from "../../hooks/store";
+import { apiGetCep, apiGetCepId, apiGetCidade, apiGetCidadeId, } from "../../services/Api";
 
 
 const bancos = [
@@ -118,26 +119,45 @@ const Agente: React.FC = ({ }) => {
         fetchAgentes(agenciaId);
     }, [codigo]);
 
-    const fetchAddressByCep = async (cep: string) => {
-        if (cep.length === 8) { // Verifica se o CEP tem 8 caracteres
-            try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
-                const { logradouro, bairro, localidade, uf } = response.data;
-
-                // Atualiza os campos de endereço no formulário
-                setRequest((prev) => ({
-                    ...prev,
-                    agt_rua: logradouro,
-                    agt_bairro: bairro,
-                    agt_cidade: localidade,
-                    agt_uf: uf,
-                }));
-            } catch (error) {
-                console.error('Erro ao buscar endereço:', error);
-                toast.error('Erro ao buscar endereço. Verifique o CEP.');
-            }
-        }
-    };
+     const handleCepApi = async (e: React.FocusEvent<HTMLInputElement>) => {
+          const cep = e.target.value.replace('-', '');
+          if (cep.length === 8) {
+              try {
+                  const response = await apiGetCepId(cep);
+                  const data = response.data;
+    
+                  console.log(data);
+    
+                  setRua(data.cep_logradouro || '');
+                  setIbge(data.ibge || '');
+    
+                  let cidadeSelecionada = null;
+    
+                  if (data.cid_codigo) {
+                      // Busca a descrição da cidade pelo cid_codigo
+                      const cidadeResponse = await apiGetCidadeId(data.cid_codigo);
+                      const cidadeData = cidadeResponse.data;
+    
+                      if (cidadeData) {
+                          cidadeSelecionada = { value: cidadeData.cid_codigo, label: cidadeData.cid_descricao };
+                      }
+                  }
+    
+                  setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
+    
+                  setRequest(prevState => ({
+                      ...prevState,
+                      agt_bairro: data.cep_bairro || '',
+                      agt_endereco: data.cep_logradouro || '',
+                      agt_cep: prevState.age_cep,
+                      cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
+                  }));
+              } catch (error) {
+                  console.error("Erro ao buscar dados do CEP:", error);
+                  toastError("Erro ao buscar dados do CEP.");
+              }
+          }
+      };
 
     // Função para lidar com mudanças nos inputs
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
