@@ -24,6 +24,7 @@ const SubGrupo: React.FC = ({ onBackClick }) => {
     const [areacomercial, setAreaComercial] = useState('');
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreaComercial, setSelectedAreaComercial] = useState<number | null>(null);
+    const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
     const [sbc_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
