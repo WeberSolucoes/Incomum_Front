@@ -488,7 +488,7 @@ const Agente: React.FC = ({ }) => {
                         <div className="form-group">
                             <label htmlFor="agt_uf">UF</label>
                             <input
-                                style= {{width:'70px'}}
+                                style= {{width:'44px'}}
                                 type="text"
                                 id="agt_uf"
                                 name="agt_uf"
