@@ -221,7 +221,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="tre_descricaoportugues">Descrição Portugues</label>
+                    <label htmlFor="tre_descricaoportugues">Descrição Português</label>
                     <input
                         type="text"
                         id="tre_descricaoportugues"
@@ -234,7 +234,7 @@ const TipoRegime: React.FC = ({ onBackClick }) => {
 
             <div className="form-row">
                 <div className="form-group" >
-                    <label htmlFor="tre_descricaoingles">Descrição Ingles</label>
+                    <label htmlFor="tre_descricaoingles">Descrição Inglês</label>
                     <input
                         type="text"
                         id="tre_descricaoingles"
