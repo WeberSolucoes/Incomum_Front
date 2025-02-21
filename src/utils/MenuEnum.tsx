@@ -17,6 +17,7 @@ export enum MenuEnum {
     cadastro_despesasgeral = 'Despesas Geral',
     cadastro_subgrupo = 'SubGrupo',
     cadastro_centrocusto = 'Centro Custo',
+    cadastro_protocolo = 'Protocolo',
     cadastro_bandeira = 'Bandeira',
     cadastro_situacaoturistico = "Situação Turistico",
     cadastro_servicoturistico = "Serviço Turistico",
@@ -396,6 +397,18 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_centrocusto);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Protocolo",
+                icon: "cilEuro", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_protocolo);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
