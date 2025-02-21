@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { VendedorCreateRequest } from "../../utils/apiObjects";
-import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor } from "../../services/Api";
+import { apiDeleteVendedor, apiGetArea, apiGetVendedorById, apiPostCreateVendedor, apiPutUpdateVendedor, apiGetCidadeId, apiGetCepId, } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from 'primereact/button';
@@ -255,17 +255,32 @@ const Vendedor: React.FC = ({onBackClick}) => {
         const cep = e.target.value.replace('-', '');
         if (cep.length === 8) {
             try {
-                const response = await axios.get(`https://viacep.com.br/ws/${cep}/json/`);
+                const response = await apiGetCepId(cep);
                 const data = response.data;
-                setRua(data.logradouro || '');
-                setCidade(data.localidade || '');
-                setibge(data.ibge || '');
+  
+                console.log(data);
+  
+                setRua(data.ven_logradouro || '');
+  
+                let cidadeSelecionada = null;
+  
+                if (data.cid_codigo) {
+                    // Busca a descrição da cidade pelo cid_codigo
+                    const cidadeResponse = await apiGetCidadeId(data.cid_codigo);
+                    const cidadeData = cidadeResponse.data;
+  
+                    if (cidadeData) {
+                        cidadeSelecionada = { value: cidadeData.cid_codigo, label: cidadeData.cid_descricao };
+                    }
+                }
+  
+                setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
+  
                 setRequest(prevState => ({
                     ...prevState,
-                    'cid_codigo': `${data.localidade}`,
-                    'ven_bairro': `${data.bairro}`,
-                    'ven_endereco': `${data.logradouro}`
-                    
+                    ven_bairro: data.cep_bairro || '',
+                    ven_endereco: data.cep_logradouro || '',
+                    cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
                 }));
             } catch (error) {
                 console.error("Erro ao buscar dados do CEP:", error);
