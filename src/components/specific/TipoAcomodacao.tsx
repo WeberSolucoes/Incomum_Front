@@ -202,7 +202,7 @@ const TipoAcomodacao: React.FC = ({ onBackClick }) => {
                         disabled
                     />
                 </div>
-                <div className="form-group" style={{marginLeft:'500px'}}>
+                <div className="form-group" style={{marginLeft:'600px'}}>
                     <label htmlFor="tac_qtde">Qtde Hospedes</label>
                     <input
                         type="text"
