@@ -366,13 +366,13 @@ const MainPage: React.FC = () => {
                 return <Teste message="Lançamento Opção" />;
             case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
-            case 'Grafico':
+            case 'Faturamento Unidade':
                 return <GraficoComFiltros isActive={isActive} />;
             case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
             case 'gerencial_faturamento_vendedor':
                 return <Dashboard isActive={isActive} />;
-            case 'Relatorio':
+            case 'Simplificado Vendas':
                 return <Relatorio isActive={isActive} />;
             case 'usuario':
                 return <Teste message="Configurações de Usuário" />;
