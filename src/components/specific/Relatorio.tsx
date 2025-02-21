@@ -308,6 +308,7 @@ const Relatorio = () => {
         console.log("Parâmetros enviados para a API:", params);
 
         try {
+            setLoading(true);
             setTableLoading(true);
             const response = await apiGetRelatorioFindByFilter(params);
             if (response.data && Array.isArray(response.data.resultados)) {
@@ -334,6 +335,7 @@ const Relatorio = () => {
             toastError('Erro ao realizar a consulta');
         } finally {
             setTableLoading(false);
+            setLoading(false);
         }
     }, [dateStart, dateEnd, selectedUnidade, selectedAreaComercial, selectedAgencias, selectedVendedor]);
 
@@ -501,7 +503,13 @@ const Relatorio = () => {
                             onClick={handleExport}
                             className="custom-button" // Estilos adicionais, se necessário
                         />
-                        <Button style={{backgroundColor:'#0152a1', borderRadius: '10px'}} type="submit" label="Consultar" icon="pi pi-search" />
+                        <Button 
+                            style={{backgroundColor:'#0152a1', borderRadius: '10px'}} 
+                            type="submit" 
+                            label={loading ? 'Carregando...' : 'Consultar'}
+                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca 
+                            disabled={loading} // Desabilita o botão durante o carregamento
+                        />
                     </div>
                 </div>
             </form>
