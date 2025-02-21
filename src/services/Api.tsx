@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { ApiEndpoints } from '../utils/ApiEndpoints';
-import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest, BancoCreateRequest, DespesasCreateRequest, CentroCustoCreateRequest, DespesasGeralCreateRequest, SubGrupoCreateRequest  } from '../utils/apiObjects';
+import { PermissionsListResponse, LoginRequest, UnidadesCreateRequest, AgenciaCreateRequest, VendedorCreateRequest, AeroportoCreateRequest, AreaComercialCreateRequest, LojaComercialCreateRequest, PaisCreateRequest, CidadeCreateRequest, MoedaCreateRequest, CepCreateRequest, DepartamentoCreateRequest, CompanhiaCreateRequest, AssinaturaCreateRequest, ClasseCreateRequest, AcomodacaoCreateRequest, PadraoCreateRequest, RegimeCreateRequest,SituacaoTuristicoCreateRequest, BandeiraCreateRequest, FormaDePagamentoCreateRequest, ParceiroCreateRequest, BancoCreateRequest, DespesasCreateRequest, CentroCustoCreateRequest, DespesasGeralCreateRequest, SubGrupoCreateRequest,ProtocoloCreateRequest  } from '../utils/apiObjects';
 
 //#region Axios_configs
 const axiosInstance = axios.create({
@@ -63,6 +63,17 @@ export const logout = () => {
 };
 
 //#region Apis_endpoints
+
+
+export const apiGetProtocolo = () => axiosInstance.get(ApiEndpoints.LIST_PROTOCOLO);
+
+export const apiGetProtocoloId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PROTOCOLO_BY_ID}${id}/`);
+
+export const apiCreateProtocolo = (data: ProtocoloCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PROTOCOLO, data);
+
+export const apiUpdateProtocolo = (id: number, data: ProtocoloCreateRequest) => axiosInstance.put(`${ApiEndpoints.EDIT_PROTOCOLO}${id}/`, data);
+
+export const apiDeleteProtocolo = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PROTOCOLO}${id}/`)
 
 
 export const apiGetDuplicata = () => axiosInstance.get(ApiEndpoints.LIST_DUPLICATA);
