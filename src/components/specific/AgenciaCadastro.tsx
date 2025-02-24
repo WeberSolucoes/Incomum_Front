@@ -431,7 +431,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
               console.log(data);
 
               setRua(data.cep_logradouro || '');
-              setIbge(data.ibge || '');
+              setibge(data.ibge || '');
 
               let cidadeSelecionada = null;
 
