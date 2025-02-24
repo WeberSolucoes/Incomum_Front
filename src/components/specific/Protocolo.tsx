@@ -179,7 +179,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
 
 
     return (
-        <form className="erp-form" onSubmit={handleSubmit}>
+        <form className="erp-form" >
 
             <div className="form-row">
                 <div className="form-group">
