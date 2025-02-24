@@ -12,6 +12,7 @@ import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
 import { useSelector } from "react-redux";
 import { RootState } from "../../hooks/store";
+import InputMask from "react-input-mask";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
