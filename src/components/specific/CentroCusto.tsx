@@ -262,7 +262,7 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                         onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo para o valor interno
-                        placeholder="Selecione um Tipo De Custo"
+                        placeholder="Selecione um Tipo"
                         filter // Ativa o campo de busca
                         showClear // Botão para limpar o campo
                         filterPlaceholder="Pesquisar..." // Placeholder para a busca
