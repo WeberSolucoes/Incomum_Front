@@ -11,6 +11,8 @@ import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
 import InputMask from "react-input-mask";
+import { RootState } from "../../hooks/store";
+import { useSelector } from "react-redux";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
@@ -41,6 +43,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
     const [dateValue2, setDateValue2] = useState(request.prt_dataprogramado || "");
     const [dateValue3, setDateValue3] = useState(request.prt_datacompetencia || "");
     const [dateValue4, setDateValue4] = useState(request.prt_anomescompetencia || "");
+    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
 
 
@@ -65,6 +68,17 @@ const Protocolo: React.FC = ({ onBackClick }) => {
     };
 
     useEffect(() => {
+
+        if (!activeTab || activeTab !== 'Protocolo') {
+            // Reseta o código se a aba não for "Agência"
+            setCodigo(null);
+            return; // Não executa a consulta
+        }
+        if (!codigo) return; // 🔍 Evita rodar com código inválido
+        if (activeTab !== 'Protocolo') return; // 🔍 Só roda na aba certa
+
+        console.log("✅ Buscando dados para código:", codigo);   
+        
         const fetchData = async () => {
             if (!codigo) return;
             try {
