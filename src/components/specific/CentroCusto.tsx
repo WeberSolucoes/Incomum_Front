@@ -202,7 +202,6 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
             try {
                 const response = await  apiGetSubgrupo();
                 const data = response.data;
-                setAreaComercial(data.sbc_codigo);
                 setAreasComerciais(data.map((area: { sbc_descricao: string; sbc_codigo: number }) => ({
                     label: area.sbc_descricao,
                     value: area.sbc_codigo
@@ -220,7 +219,6 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
             try {
                 const response = await  apiGetDuplicata();
                 const data = response.data;
-                setDuplicata(data.tdu_codigo);
                 setDuplicatas(data.map((area: { tdu_descricao: string; tdu_codigo: number }) => ({
                     label: area.tdu_descricao,
                     value: area.tdu_codigo
@@ -233,6 +231,10 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
         fetchCentroCusto();
     }, []);
 
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setRequest(prevState => ({ ...prevState, [id]: value }));
+    };
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -255,9 +257,9 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         id="tdu_codigo"
                         name="tdu_codigo"
-                        value={selectedDuplicata} // Valor selecionado
-                        options={duplicatas} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
+                        value={request.tdu_codigo || null} // Valor selecionado
+                        options={duplicatas} // Dados para o Dropdown
+                        onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo para o valor interno
                         placeholder="Selecione um Tipo De Custo"
@@ -291,9 +293,9 @@ const CentroCusto: React.FC = ({ onBackClick }) => {
                     <Dropdown
                         id="sbc_codigo"
                         name="sbc_codigo"
-                        value={selectedAreaComercial} // Valor selecionado
-                        options={areasComerciais} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedAreaComercial(e.value)} // Atualiza o estado ao selecionar
+                        value={request.sbc_codigo || null} // Valor selecionado
+                        options={areasComerciais} // Dados para o Dropdown
+                        onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
                         optionLabel="label" // Campo para exibir
                         optionValue="value" // Campo para o valor interno
                         placeholder="Selecione um SubGrupo"
