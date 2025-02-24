@@ -3,49 +3,68 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
-import { CidadeCreateRequest, MoedaCreateRequest, ProtocoloCreateRequest } from "../../utils/apiObjects";
-import { apiCreateMoeda, apiCreateProtocolo, apiDeleteMoeda, apiGetMoedaId, apiGetParceiro, apiGetProtocoloId, apiGetUnidadeRelatorioByUser, apiUpdateMoeda, apiUpdateProtocolo } from "../../services/Api";
-import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
+import { ProtocoloCreateRequest } from "../../utils/apiObjects";
+import { apiCreateProtocolo, apiDeleteMoeda, apiGetMoeda,apiGetParceiro, apiGetProtocoloId, apiGetUnidadeRelatorioByUser, apiUpdateProtocolo } from "../../services/Api";
+import { confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
-import { useSelector } from "react-redux";
-import { RootState } from "../../hooks/store";
 import InputMask from "react-input-mask";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
-    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
     const [request, setRequest] = useState<ProtocoloCreateRequest>({} as ProtocoloCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
     const [cidade, setCidade] = useState('');
     const [ibge, setibge] = useState('');
     const [loading, setLoading] = useState(false);
-    const [areacomercial, setAreaComercial] = useState('');
-    const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
     const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
     const [checked, setChecked] = useState(false);
     const [prt_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [selectedUnidade, setSelectedUnidade] = useState(null);
+    const [selectedMoeda, setSelectedMoeda] = useState(null);
     const [selectedParceiro, setSelectedParceiro] = useState(null);
     const [unidades, setUnidades] = useState([]);
     const [fornecedor, setParceiro] = useState([]);
-    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
+    const [moeda, setMoeda] = useState([]);
+    const [formState, setFormState] = useState({
+        prt_emprestimo: false, // Estado inicial do checkbox
+    });
+    const [checkedEmprestimo, setCheckedEmprestimo] = useState(false);
+    const [checkedCusto, setCheckedCusto] = useState(false);
+    const [dateValue, setDateValue] = useState(request.prt_datacadastro || "");
+    const [dateValue2, setDateValue2] = useState(request.prt_dataprogramado || "");
+    const [dateValue3, setDateValue3] = useState(request.prt_datacompetencia || "");
+    const [dateValue4, setDateValue4] = useState(request.prt_anomescompetencia || "");
+
+
+
+    const handleChange = (event) => {
+        setDateValue(event.target.value); // Atualiza o estado local
+        handleInputChange(event); // Dispara a função externa
+    };
+
+    const handleChange2 = (event) => {
+        setDateValue2(event.target.value); // Atualiza o estado local
+        handleInputChange(event); // Dispara a função externa
+    };
+
+    const handleChange3 = (event) => {
+        setDateValue3(event.target.value); // Atualiza o estado local
+        handleInputChange(event); // Dispara a função externa
+    };
+
+    const handleChange4 = (event) => {
+        setDateValue4(event.target.value); // Atualiza o estado local
+        handleInputChange(event); // Dispara a função externa
+    };
 
     useEffect(() => {
-        if (!activeTab || activeTab !== 'Protocolo') {
-            // Reseta o código se a aba não for "Agência"
-            setCodigo(null);
-            return; // Não executa a consulta
-        }
-        if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (activeTab !== 'Protocolo') return; // 🔍 Só roda na aba certa
-
-        console.log("✅ Buscando dados para código:", codigo);
         const fetchData = async () => {
             if (!codigo) return;
             try {
@@ -75,11 +94,11 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                 setCidade(responseCidade.data.nome || '');
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
-                toastError("Erro ao buscar dados da Moeda.");
+                toastError("Erro ao buscar dados.");
             } 
         };
         fetchData();
-    }, [codigo, activeTab]);
+    }, [codigo]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -110,6 +129,78 @@ const Protocolo: React.FC = ({ onBackClick }) => {
         }
     };
 
+    const handleConfirmDelete = async () => {
+        if (prt_codigo !== null) {
+            setLoading(true);
+            try {
+                await apiDeleteMoeda(prt_codigo);
+                toast.success('Cadastro excluído com sucesso.');
+
+                // Limpa os campos do formulário após exclusão
+                handleReset();
+            } catch (error) {
+                toastError('Erro ao excluir o cadastro.');
+                console.error('Erro ao excluir o cadastro:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+    };
+
+    const handleSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        setLoading(true);
+    
+        if (!request.prt_numerodocumento) {
+            toastError("O campo Numero Documento é obrigatório.");
+            setLoading(false);
+            return;
+        }
+    
+        try {
+            let response;
+            if (request.prt_codigo) {
+                response = await apiUpdateProtocolo(request.prt_codigo, request);
+            } else {
+                const { prt_codigo, ...newRequest } = request;
+                response = await apiCreateProtocolo(newRequest);
+            }
+    
+            if (response.status === 200 || response.status === 201) {
+                toastSucess("Protocolo salva com sucesso");
+
+                // Atualize o `cid_codigo` no estado após criação bem-sucedida
+                if (!request.prt_codigo && response.data && response.data.prt_codigo) {
+                    setRequest(prev => ({
+                        ...prev,
+                        prt_codigo: response.data.prt_codigo
+                    }));
+                    setVenCodigo(response.data.prt_codigo); // Atualize também o estado `cid_codigo`
+                }
+            } else {
+                toastError("Erro ao salvar o Protocolo");
+            }
+        } catch (error: any) {
+            console.error("Erro:", error);
+            if (error.response) {
+                const status = error.response.status;
+                const data = error.response.data;
+                if (status === 400) {
+                    toastError("Dados inválidos. Verifique os campos e tente novamente.");
+                } else if (status === 401) {
+                    toastError("Não autorizado. Verifique suas credenciais.");
+                } else if (status === 500) {
+                    toastError("Erro interno do servidor. Tente novamente mais tarde.");
+                } else {
+                    toastError(`Erro desconhecido: ${data.detail || "Verifique os campos e tente novamente"}`);
+                }
+            } else {
+                toastError("Erro de conexão. Verifique sua rede e tente novamente.");
+            }
+        } finally {
+            setLoading(false);
+        }
+    };
 
     const handleReset = () => {
         setRequest({} as ProtocoloCreateRequest);
@@ -124,6 +215,18 @@ const Protocolo: React.FC = ({ onBackClick }) => {
         const { id, value } = e.target;
         setRequest(prevState => ({ ...prevState, [id]: value }));
     };
+
+    const handleMoedaChange = (e: { value: any }) => {
+        setRequest(prevState => ({ ...prevState, moeda: e.value }));
+        setSelectedMoeda(e.value); // Atualiza o estado da moeda selecionada
+    };
+
+    const handleFornecedorChange = (e: { value: any }) => {
+        setRequest(prevState => ({ ...prevState, fornecedor: e.value }));
+        setSelectedParceiro(e.value); // Atualiza o estado da moeda selecionada
+    };
+
+        
 
     const handleUnidadeChange = async (e) => {
         const unidadeId = e ? e.value : null;  // Verifica se há unidade selecionada, caso contrário, null
@@ -171,7 +274,15 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             // Tenta carregar as unidades
             const fornecedorResponse = await apiGetParceiro();
             setParceiro(fornecedorResponse.data.map(item => ({ label: item.par_descricao, value: item.par_codigo })));
-        } catch (error) {
+        }catch (error) {
+            toastError('Erro ao carregar as unidades');
+        }  
+        try {
+            // Tenta carregar as unidades
+            const fornecedorResponse = await apiGetMoeda();
+            setMoeda(fornecedorResponse.data.map(item => ({ label: item.moe_descricao, value: item.moe_codigo })));
+        }
+        catch (error) {
             toastError('Erro ao carregar os Fornecedores');
         }finally {
             setLoading(false);
@@ -180,7 +291,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
 
 
     return (
-        <form className="erp-form" >
+        <form className="erp-form" onSubmit={handleSubmit}>
 
             <div className="form-row">
                 <div className="form-group">
