@@ -38,6 +38,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
   const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
   const dispatch = useDispatch();
   const [uf, setUf] = useState("");
+  const [checkedVerificar, setCheckedVerificar] = useState(false);
   const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
 
@@ -556,8 +557,12 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
         <div className="form-group">
           <label style={{marginLeft:'-158px'}} htmlFor="age_codigocontabil">Contabil</label>
           <input style={{marginLeft:'-160px'}} type="text" id="age_codigocontabil" name="age_codigocontabil" value={request.age_codigocontabil || ''} onChange={handleInputChange} />
-       </div>
-        <div className="form-group">
+        </div>
+        <div className="form-group" style={{ display: "block", alignItems: "center" }}>
+          <Checkbox onChange={e => setCheckedVerificar(e.checked)} checked={checkedVerificar} id="age_verificar" name="age_verificar" style={{marginTop:'36px', marginLeft:'-230px'}} />
+          <label htmlFor="age_verificar" style={{ marginLeft: "8px",display:'inline' }}>Verfica?</label>
+        </div>
+        <div className="form-group" style={{marginLeft:'-100px'}}>
           <label style={{marginLeft:'-238px'}} htmlFor="age_situacao">Situação</label>
           <select style={{marginLeft:'-240px', width:'105%'}} id="age_situacao" name="age_situacao" value={request.age_situacao || ''} onChange={handleAtivoChange}>
             <option value="1">Ativo</option>
