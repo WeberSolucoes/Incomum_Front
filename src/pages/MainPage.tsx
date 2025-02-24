@@ -373,7 +373,7 @@ const MainPage: React.FC = () => {
                 return <Teste message="Lançamento Opção" />;
             case 'financeiro_opcao':
                 return <Teste message="Financeiro Opção" />;
-            case 'Faturamento Unidade':
+            case 'Faturamento Unidades':
                 return <GraficoComFiltros isActive={isActive} />;
             case 'gerencial_faturamento_comercial':
                 return <Teste message="Faturamento Comercial" />;
