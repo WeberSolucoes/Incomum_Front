@@ -74,7 +74,8 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
                   setRua('');
                   setNumero('');
               }
-
+              
+              setCheckedVerificar(response.data.age_verificar === 'S');
               setCidade(response.data.cid_codigo || '');
               setSelectedAreas(response.data.areasComerciais || []);
               setChecked(response.data.age_situacao === 1);
