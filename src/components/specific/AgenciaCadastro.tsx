@@ -14,6 +14,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
 import { RootState } from "../../hooks/store";
+import { Checkbox } from "primereact/checkbox";
 
 
 interface AgenciaCadastroProps {
@@ -41,6 +42,11 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
   const [checkedVerificar, setCheckedVerificar] = useState(false);
   const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
 
+  useEffect(() =>{
+    if (request.age_verificar){
+        setCheckedVerificar(request.age_verificar === 'S');
+    }
+  },[request.age_verificar]);
 
   useEffect(() => {
       if (!activeTab || activeTab !== 'Agência') {
@@ -358,7 +364,7 @@ const Agencia: React.FC<AgenciaCadastroProps> = ({isActive,onBackClick,onCodigoU
             if (request.age_codigo) {
                 response = await apiPutUpdateAgencia(request.age_codigo, updatedRequest);
             } else {
-                response = await apiPostCreateAgencia(updatedRequest);
+                response = await apiPostCreateAgencia({...updatedRequest, age_verificar: checkedVerificar ? 'S' : 'N'});
             }
     
             console.log("Resposta da API:", response.data);
