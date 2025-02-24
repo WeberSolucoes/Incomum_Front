@@ -16,7 +16,7 @@ import { useSelector } from "react-redux";
 
 
 const Protocolo: React.FC = ({ onBackClick }) => {
-    const { codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
+    const { setCodigo,codigo } = useCodigo(); // Ajuste conforme a origem do código
     const [request, setRequest] = useState<ProtocoloCreateRequest>({} as ProtocoloCreateRequest);
     const [rua, setRua] = useState('');
     const [numero, setNumero] = useState('');
