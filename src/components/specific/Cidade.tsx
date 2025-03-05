@@ -28,6 +28,7 @@ const Cidade: React.FC = ({ onBackClick }) => {
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
+    const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
 
     useEffect(() => {
         if (!activeTab || activeTab !== 'Cidade') {
@@ -185,6 +186,28 @@ const Cidade: React.FC = ({ onBackClick }) => {
         setChecked(false);
     };
 
+    useEffect(() => {
+        const fetchCentroCusto = async () => {
+            try {
+                const response = await  apiGetPais();
+                const data = response.data;
+                setDuplicatas(data.map((area: { pai_descricao: string; pai_codigo: number }) => ({
+                    label: area.pai_descricao,
+                    value: area.pai_codigo
+                })));
+            } catch (error) {
+                console.error("Erro ao buscar País:", error);
+                toastError("Erro ao buscar País.");
+            }
+        };
+        fetchCentroCusto();
+    }, []);
+
+    const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+        const { id, value } = e.target;
+        setRequest(prevState => ({ ...prevState, [id]: value }));
+    };
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -233,13 +256,20 @@ const Cidade: React.FC = ({ onBackClick }) => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="cid_pais">País</label>
-                    <input
-                        type="text"
-                        id="cid_pais"
-                        name="cid_pais"
-                        value={request.cid_pais || ''}
-                        onChange={handleInputChange}
-                        style={{width:'740px'}}
+                    <Dropdown
+                        id="pai_codigo"
+                        name="pai_codigo"
+                        value={request.pai_codigo || null} // Valor selecionado
+                        options={duplicatas} // Dados para o Dropdown
+                        onChange={(e) => handleSelectChange(e)} // Ação ao selecionar uma opção
+                        optionLabel="label" // Campo para exibir
+                        optionValue="value" // Campo para o valor interno
+                        placeholder="Selecione um Tipo De Custo"
+                        filter // Ativa o campo de busca
+                        showClear // Botão para limpar o campo
+                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
+                        className="w-full" // Classe CSS opcional
+                        style={{width:'300px'}}
                     />
                 </div>
             </div>
