@@ -210,7 +210,6 @@ const Banco: React.FC = ({ onBackClick }) => {
                         value={request.ban_codigobancario || ''}
                         onChange={handleInputChange}
                         style={{width:'200px'}}
-                        disabled
                     />
                 </div>
             </div>
