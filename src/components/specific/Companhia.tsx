@@ -29,7 +29,7 @@ const Companhia: React.FC = ({ onBackClick }) => {
     const [com_codigo, setVenCodigo] = useState<number | null>(null); // Inicialmente nulo ou 
     const [cpfValido, setCpfValido] = useState<boolean | null>(null);
     const [showModal, setShowModal] = useState(false);
-    const [selectedDuplicata, setSelectedDuplicata] = useState<number[]>([]);
+    const [selectedDuplicata, setSelectedDuplicata] =  useState<number | null>(null);
     const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
     const [duplicata, setDuplicata] = useState('');
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
