@@ -1,81 +1,153 @@
-import React from 'react';
-import { DataTable } from 'primereact/datatable';
+import React, { useState, useEffect } from 'react';
+import { DataTable, DataTableCellEditParams } from 'primereact/datatable';
 import { Column } from 'primereact/column';
 import { Button } from 'primereact/button';
+import { InputText } from 'primereact/inputtext';
+import { Dropdown } from 'primereact/dropdown';
 
 interface GenericTableProps<T> {
     filteredItems: T[];
     emptyMessage: string;
-    onCodeClick?: (codigo: number) => void; // Função chamada ao clicar no código
-    columns?: { field?: string; header?: string }[]; // Colunas dinâmicas, com valores opcionais
-    showEditButton?: boolean; // Parâmetro para controlar se o botão de editar deve ser exibido
+    onCodeClick?: (codigo: number) => void;
+    columns?: { field?: string; header?: string }[];
+    showEditButton?: boolean;
+    isEditable?: boolean;
+    onSave?: (editedItems: T[]) => void;
+    editedItems: T[];  // Recebe os itens editados do componente pai
+    setEditedItems: React.Dispatch<React.SetStateAction<T[]>>;  // Função para atualizar os itens editados
 }
 
-const GenericTable = <T,>({ filteredItems, emptyMessage, onCodeClick, columns, showEditButton = true }: GenericTableProps<T>) => {
-    // Template para renderizar o item do código
-    const itemTemplate = (item: any) => {
-        return (
-            <span style={{ cursor: 'default', color: 'black' }}>
-                {item.codigo}
-            </span>
+const GenericTable = <T extends { codigo: number }>({
+    filteredItems,
+    emptyMessage,
+    onCodeClick,
+    columns,
+    showEditButton = true,
+    isEditable = false,
+    onSave,
+    editedItems,
+    setEditedItems,
+}: GenericTableProps<T>) => {
+    const [items, setItems] = useState<T[]>(filteredItems);
+
+    useEffect(() => {
+        setItems(filteredItems);
+    }, [filteredItems]);
+
+    const textEditor = (options: any) => (
+        <InputText
+            type="text"
+            value={options.value}
+            onChange={(e) => options.editorCallback(e.target.value)}
+            style={{ width: '100%', boxSizing: 'border-box' }}
+        />
+    );
+
+
+    const dropdownEditor = (options: any, dropdownOptions: { label: string, value: number }[]) => (
+        <Dropdown
+            value={options.value}
+            options={dropdownOptions}
+            onChange={(e) => options.editorCallback(e.value)}
+            placeholder="Selecione"
+            style={{ width: '100%' }}
+        />
+    );
+
+    const handleEditComplete = (e: DataTableCellEditParams) => {
+        const { field, rowData, newValue } = e;
+    
+        if (rowData[field] === newValue) return;
+    
+        const updatedItem = { ...rowData, [field]: newValue, salvo: false };
+    
+        setEditedItems(prevEditedItems => {
+            const existingIndex = prevEditedItems.findIndex(item => item.id === rowData.id);
+    
+            if (existingIndex !== -1) {
+                // Se já existe, substitui pelo atualizado
+                return prevEditedItems.map((item, index) =>
+                    index === existingIndex ? updatedItem : item
+                );
+            } else {
+                // Se não existe, adiciona à lista de editados
+                return [...prevEditedItems, updatedItem];
+            }
+        });
+    
+        setItems(prevItems =>
+            prevItems.map(item =>
+                item.id === rowData.id ? updatedItem : item
+            )
         );
     };
 
-    // Colunas padrão (caso não sejam passadas colunas)
     const defaultColumns = [
-        { field: 'codigo', header: 'Código', body:{itemTemplate} },
+        { field: 'codigo', header: 'Código' },
         { field: 'descricao', header: 'Descrição' },
         { field: 'responsavel', header: 'Responsável' },
-        { field: 'email', header: 'E-mail' },
+        { field: 'email', header: 'E-mail' }
     ];
 
-    // Se as colunas não forem passadas, usa as colunas padrão
     const finalColumns = columns?.length ? columns : defaultColumns;
 
     return (
-        <DataTable 
-            value={filteredItems}
-            stripedRows 
-            emptyMessage={emptyMessage} 
-            paginator 
-            rows={10} // Número padrão de itens por página
-            rowsPerPageOptions={[5, 10, 25, 50]} // Opções de quantidade de itens por página
-            className="custom-table"
-        >
-            {/* Colunas dinâmicas passadas como parâmetro ou as colunas padrão */}
-            {finalColumns.map((col, index) => (
-                <Column 
-                    key={index} 
-                    field={col.field || 'defaultField'} // Valor padrão para field
-                    header={col.header || 'Default Header'} // Valor padrão para header
-                    className="custom-first-column"
-                    style={col.style || {}} // Aplica o estilo específico de cada coluna, se existir
-                />
-            ))}
-            
-            {/* Coluna do botão Editar, que só será exibida se showEditButton for true */}
-            {showEditButton && (
-                <Column
-                    header="Editar" // Header do botão de editar
-                    body={(rowData) => (
-                        <Button 
-                            icon="fas fa-edit"
-                            className="p-button-text p-button-rounded p-button-sm" 
-                            tooltip="Editar"
-                            tooltipOptions={{ position: 'top' }}
-                            onClick={() => {
-                                // Ação de clique associada apenas ao botão de editar
-                                if (onCodeClick) {
-                                    onCodeClick(rowData.codigo);
-                                }
-                            }}
-                        />
-                    )}
-                    style={{ textAlign: 'center', width: '5rem' }} // Estilização do botão
-                />
+        <div style={{width:'100%'}}>
+            <DataTable
+                value={items}
+                stripedRows
+                emptyMessage={emptyMessage}
+                paginator
+                rows={10}
+                rowsPerPageOptions={[5, 10, 25, 50]}
+                editMode={isEditable ? 'cell' : undefined}
+                className="custom-table"
+                style={{ width: '100%' }}
+            >
+                {finalColumns.map((col, index) => (
+                    <Column
+                        key={index}
+                        field={col.field || 'defaultField'}
+                        header={col.header || 'Default Header'}
+                        body={(rowData) =>
+                            col.type === 'dropdown'
+                                ? col.options?.find(option => option.value === rowData[col.field])?.label || 'N/A'
+                                : rowData[col.field]
+                        }
+                        editor={isEditable ? (col.type === 'dropdown' ? (options) => dropdownEditor(options, col.options || []) : textEditor) : undefined}
+                        onCellEditComplete={isEditable ? handleEditComplete : undefined}
+                        style={{ minWidth: '96px' }}
+                    />
+                ))}
+
+                {showEditButton && (
+                    <Column
+                        header="Editar"
+                        body={(rowData) => (
+                            <Button
+                                icon="fas fa-edit"
+                                className="p-button-text p-button-rounded p-button-sm"
+                                tooltip="Editar"
+                                onClick={() => onCodeClick?.(rowData.codigo)}
+                            />
+                        )}
+                    />
+                )}
+            </DataTable>
+
+            {isEditable && editedItems.length > 0 && (
+                <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-end', marginRight: '10px' }}>
+                    <button onClick={() => onSave?.(editedItems)} // Agora envia os itens editados
+                        style={{ width: '100px', height: '34px', padding: 'inherit' }}
+                        type="button"
+                        className="submit-btn">
+                        <i style={{ marginRight: '10px' }} className="fas fa-save"></i>Salvar
+                    </button>
+                </div>
             )}
-        </DataTable>
+        </div>
     );
 };
 
 export default GenericTable;
+
