@@ -881,7 +881,8 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
                         columns={columns}  
                         isEditable={true}
                         onCodeClick={handleCodeClick}
-                        showEditButton = {false}       
+                        showEditButton = {false}
+                        isSaving={isSaving} // Passa o estado de carregamento     
                     />
                 </div>
             </form>
