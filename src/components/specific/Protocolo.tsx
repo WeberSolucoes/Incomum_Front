@@ -76,8 +76,8 @@ const Protocolo: React.FC = ({ onBackClick }) => {
         }
         if (!codigo) return; // 🔍 Evita rodar com código inválido
         if (activeTab !== 'Protocolo') return; // 🔍 Só roda na aba certa
-
-        console.log("✅ Buscando dados para código:", codigo);   
+    
+        console.log("✅ Buscando dados para código:", codigo);
         
         const fetchData = async () => {
             if (!codigo) return;
