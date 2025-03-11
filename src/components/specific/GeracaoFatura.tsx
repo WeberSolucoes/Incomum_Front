@@ -45,6 +45,7 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
     const [editedItems, setEditedItems] = useState<any[]>([]);
     const [showViewButton, setShowViewButton] = useState(false);
+    const [isSaving, setIsSaving] = useState(false); // Estado de carregament
 
 
 
@@ -506,6 +507,8 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
             toastError("Nenhum registro editado para salvar.");
             return;
         }
+
+        setIsSaving(true); // Inicia o estado de salvamento
     
         try {
             const response = await Promise.all(editedItems.map(apiCreateProtocolo));
@@ -525,14 +528,17 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
                 // Limpa a tabela visualmente
                 handleReset()
                 setItems([]); // Define o estado `items` como um array vazio
+                setIsSaving(false);
     
                 setEditedItems([]); // Limpa os itens editados
             } else {
                 toastError("Erro ao salvar alguns registros.");
+                setIsSaving(false);
             }
         } catch (error) {
             console.error("Erro ao salvar registros:", error);
             toastError("Erro ao salvar registros.");
+            setIsSaving(false);
         }
     };
 
