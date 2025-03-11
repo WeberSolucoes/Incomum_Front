@@ -47,6 +47,7 @@ import { setTabs, setActiveTab, addTab, removeTab, setTabState } from '../hooks/
 import { useSelector, useDispatch } from 'react-redux'; 
 import { AgenciaListResponse } from '../utils/apiObjects';
 import ProtocoloList from '../components/specific/ProtocoloList';
+import GeracaoFatura from '../components/specific/GeracaoFatura';
 
 const MAX_TABS = 6; 
 
@@ -368,6 +369,12 @@ const MainPage: React.FC = () => {
                     <FormLayout name='Protocolo'>
                         <ProtocoloList />
                    </FormLayout>
+                );
+            case 'Gerar Fatura':
+                return (
+                    <FormLayout name='Fatura'>
+                        <GeracaoFatura />
+                    </FormLayout>
                 );
             case 'lancamento_opcao':
                 return <Teste message="Lançamento Opção" />;
