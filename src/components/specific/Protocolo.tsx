@@ -112,7 +112,11 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             } 
         };
         fetchData();
-    }, [codigo]);
+    }, [codigo,activeTab]);
+
+    useEffect(() => {
+        console.log("🔄 Aba ativa:", activeTab || 'Ainda indefinida', "| Código:", codigo || 'Nenhum');
+    }, [activeTab, codigo]);
 
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
