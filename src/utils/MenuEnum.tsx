@@ -30,6 +30,7 @@ export enum MenuEnum {
     cadastro_cep = 'Cep',
     cadastro_moeda = 'Moeda',
     cadastro_aeroporto = 'Aeroporto',
+    cadastro_fatura = 'Gerar Fatura',
     cadastro_banco = 'Banco',
     lancamento_opcao = 'lancamento_opcao',
     financeiro_opcao = 'financeiro_opcao',
@@ -409,6 +410,18 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 requiredPermissions: ['Can view area comercial'],
                 command: () => {
                     onMenuItemClick(MenuEnum.cadastro_protocolo);
+                    window.scrollTo({
+                        top: 0,
+                        behavior: 'smooth'
+                    });
+                }
+            },
+            {
+                label: "Gerar Fatura",
+                icon: "cilCreditCard", // Ajuste o nome do ícone conforme sua escolha
+                requiredPermissions: ['Can view area comercial'],
+                command: () => {
+                    onMenuItemClick(MenuEnum.cadastro_fatura);
                     window.scrollTo({
                         top: 0,
                         behavior: 'smooth'
