@@ -68,19 +68,17 @@ const Protocolo: React.FC = ({ onBackClick }) => {
     };
 
     useEffect(() => {
-
         if (!activeTab || activeTab !== 'Protocolo') {
-            // Reseta o código se a aba não for "Agência"
+            // Reseta o código se a aba não for "Protocolo"
             setCodigo(null);
             return; // Não executa a consulta
         }
-        if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (activeTab !== 'Protocolo') return; // 🔍 Só roda na aba certa
+    
+        if (!codigo) return; // Evita rodar com código inválido
     
         console.log("✅ Buscando dados para código:", codigo);
         
         const fetchData = async () => {
-            if (!codigo) return;
             try {
                 const response = await apiGetProtocoloId(codigo);
                 const unidade = response.data;
@@ -95,7 +93,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                     setRua('');
                     setNumero('');
                 }
-
+    
                 setCidade(unidade.cid_codigo || '');
                 if (Array.isArray(unidade.areasComerciais)) {
                     setSelectedAreas(unidade.areasComerciais.map((area: any) => area.aco_codigo));
@@ -103,7 +101,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
                     setSelectedAreas([]);
                 }
                 setChecked(unidade.loj_situacao === 1);
-
+    
                 const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
                 setCidade(responseCidade.data.nome || '');
             } catch (error) {
@@ -112,7 +110,7 @@ const Protocolo: React.FC = ({ onBackClick }) => {
             } 
         };
         fetchData();
-    }, [codigo,activeTab]);
+    }, [codigo, activeTab]);
 
     useEffect(() => {
         console.log("🔄 Aba ativa:", activeTab || 'Ainda indefinida', "| Código:", codigo || 'Nenhum');
