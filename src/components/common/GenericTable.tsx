@@ -15,6 +15,7 @@ interface GenericTableProps<T> {
     onSave?: (editedItems: T[]) => void;
     editedItems: T[];  // Recebe os itens editados do componente pai
     setEditedItems: React.Dispatch<React.SetStateAction<T[]>>;  // Função para atualizar os itens editados
+    isSaving: boolean; // Estado de carregamento passado pelo componente pai
 }
 
 const GenericTable = <T extends { codigo: number }>({
@@ -27,6 +28,7 @@ const GenericTable = <T extends { codigo: number }>({
     onSave,
     editedItems,
     setEditedItems,
+    isSaving, // Recebe o estado de carregamento
 }: GenericTableProps<T>) => {
     const [items, setItems] = useState<T[]>(filteredItems);
 
@@ -43,7 +45,6 @@ const GenericTable = <T extends { codigo: number }>({
         />
     );
 
-
     const dropdownEditor = (options: any, dropdownOptions: { label: string, value: number }[]) => (
         <Dropdown
             value={options.value}
@@ -56,14 +57,14 @@ const GenericTable = <T extends { codigo: number }>({
 
     const handleEditComplete = (e: DataTableCellEditParams) => {
         const { field, rowData, newValue } = e;
-    
+
         if (rowData[field] === newValue) return;
-    
+
         const updatedItem = { ...rowData, [field]: newValue, salvo: false };
-    
+
         setEditedItems(prevEditedItems => {
             const existingIndex = prevEditedItems.findIndex(item => item.id === rowData.id);
-    
+
             if (existingIndex !== -1) {
                 // Se já existe, substitui pelo atualizado
                 return prevEditedItems.map((item, index) =>
@@ -74,7 +75,7 @@ const GenericTable = <T extends { codigo: number }>({
                 return [...prevEditedItems, updatedItem];
             }
         });
-    
+
         setItems(prevItems =>
             prevItems.map(item =>
                 item.id === rowData.id ? updatedItem : item
@@ -92,7 +93,7 @@ const GenericTable = <T extends { codigo: number }>({
     const finalColumns = columns?.length ? columns : defaultColumns;
 
     return (
-        <div style={{width:'100%'}}>
+        <div style={{ width: '100%' }}>
             <DataTable
                 value={items}
                 stripedRows
@@ -137,11 +138,23 @@ const GenericTable = <T extends { codigo: number }>({
 
             {isEditable && editedItems.length > 0 && (
                 <div style={{ marginTop: '10px', display: 'flex', justifyContent: 'flex-end', marginRight: '10px' }}>
-                    <button onClick={() => onSave?.(editedItems)} // Agora envia os itens editados
+                    <button
+                        onClick={() => onSave?.(editedItems)} // Chama a função de salvamento do componente pai
+                        disabled={isSaving} // Desabilita o botão enquanto está salvando
                         style={{ width: '100px', height: '34px', padding: 'inherit' }}
                         type="button"
-                        className="submit-btn">
-                        <i style={{ marginRight: '10px' }} className="fas fa-save"></i>Salvar
+                        className="submit-btn"
+                    >
+                        {isSaving ? (
+                            <>
+                                <i className="fas fa-spinner fa-spin" style={{ marginRight: '10px' }}></i>
+                            </>
+                        ) : (
+                            <>
+                                <i style={{ marginRight: '10px' }} className="fas fa-save"></i>
+                                Salvar
+                            </>
+                        )}
                     </button>
                 </div>
             )}
