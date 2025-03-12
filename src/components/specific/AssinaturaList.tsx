@@ -11,14 +11,14 @@ import Companhia from "./Companhia";
 import Assinatura from "./Assinatura";
 import useEnterKey from '../../hooks/useEnterKey';
 
-const AssinaturaList: React.FC = () => {
+const AssinaturaList: React.FC = ({ isActive, state }) => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
     const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
     const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
     const [loading, setLoading] = useState(false); // Estado de carregamento
     const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
-
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
 
     const getTitle = () => {
@@ -65,7 +65,11 @@ const AssinaturaList: React.FC = () => {
         }
     };
 
-    useEnterKey(handleSearch);
+    useEnterKey(() => {
+        if (isActive && !loading) {
+            handleSearch();
+        }
+    }, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
         const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
@@ -117,7 +121,8 @@ const AssinaturaList: React.FC = () => {
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
-                            disabled={loading} // Desabilita o botão durante o carregamento
+                            disabled={loading || !isActive}
+                            ref={buttonRef}
                         />
                         <Button
                             label="Adicionar"
