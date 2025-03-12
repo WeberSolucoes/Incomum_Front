@@ -65,11 +65,11 @@ const AeroportoList: React.FC = ({ isActive, state }) => {
         }
     };
 
-    const handleEnterPress = () => {
-        console.log('Enter pressionado na aba ativa!');
-    };
-
-    useEnterKey(handleEnterPress, isActive, buttonRef);
+    useEnterKey(() => {
+        if (isActive && !loading) {
+            handleSearch();
+        }
+    }, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
         const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
