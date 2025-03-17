@@ -160,6 +160,15 @@ export const apiUpdateParceiro = (id: number, data: ParceiroCreateRequest) => ax
 
 export const apiDeleteParceiro = (id: number) => axiosInstance.delete(`${ApiEndpoints.DELETE_PARCEIRO}${id}/`)
 
+export const apiGetParceiroSearch = ({ search = '', limit = 100 }) => 
+    axiosInstance.get(ApiEndpoints.LIST_PARCEIRO_SEARCH, {
+        params: {
+            search,
+            limit,
+        },
+    });
+
+
 
 
 export const apiGetFormaPagamento = () => axiosInstance.get(ApiEndpoints.LIST_FORMAPAGAMENTO);
