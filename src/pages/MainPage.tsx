@@ -48,6 +48,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { AgenciaListResponse } from '../utils/apiObjects';
 import ProtocoloList from '../components/specific/ProtocoloList';
 import GeracaoFatura from '../components/specific/GeracaoFatura';
+import RelatorioProtocolo from '../components/specific/RelatorioProtocolo';
 
 const MAX_TABS = 6; 
 
@@ -376,6 +377,10 @@ const MainPage: React.FC = () => {
                         <GeracaoFatura />
                     </FormLayout>
                 );
+            case 'Relatorio Protocolo':
+                return ( 
+                    <RelatorioProtocolo />
+                );       
             case 'lancamento_opcao':
                 return <Teste message="Lançamento Opção" />;
             case 'financeiro_opcao':
