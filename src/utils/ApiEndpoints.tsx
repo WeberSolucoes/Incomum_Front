@@ -156,6 +156,7 @@ export enum ApiEndpoints {
     DELETE_FORMAPAGAMENTO = 'incomum/formapagamento/delete/',
 
     LIST_PARCEIRO = '/incomum/parceiro/list-all/',
+    LIST_PARCEIRO_SEARCH = '/incomum/parceiro/search/',
     LIST_PARCEIRO_BY_ID = '/incomum/parceiro/find-byid/', // '/incomum/loja/list-byid/${id}/'
     CREATE_PARCEIRO = '/incomum/parceiro/create/',
     UPDATE_PARCEIRO = '/incomum/parceiro/update/', // '/incomum/loja/update/${id}/'
