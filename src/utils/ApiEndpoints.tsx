@@ -211,6 +211,7 @@ export enum ApiEndpoints {
     LIST_DUPLICATA_BY_ID = 'incomum/duplicata/find-byid/',
 
     LIST_PROTOCOLO = 'incomum/protocolo/list-all/',
+    LIST_PROTOCOLO_RELATORIO = 'incomum/protocolo/relatorio/',
     CREATE_PROTOCOLO = 'incomum/protocolo/create/',
     LIST_PROTOCOLO_BY_ID = 'incomum/protocolo/find-byid/',
     EDIT_PROTOCOLO = 'incomum/protocolo/update/',
