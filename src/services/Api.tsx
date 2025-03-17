@@ -67,6 +67,10 @@ export const logout = () => {
 
 export const apiGetProtocolo = () => axiosInstance.get(ApiEndpoints.LIST_PROTOCOLO);
 
+export const apiGetProtocoloRelatorio = (params = {}) => axiosInstance.get(ApiEndpoints.LIST_PROTOCOLO_RELATORIO, {
+    params: params,
+});
+
 export const apiGetProtocoloId = (id: number) => axiosInstance.get(`${ApiEndpoints.LIST_PROTOCOLO_BY_ID}${id}/`);
 
 export const apiCreateProtocolo = (data: ProtocoloCreateRequest) => axiosInstance.post(ApiEndpoints.CREATE_PROTOCOLO, data);
