@@ -55,9 +55,27 @@ export interface MenuItem {
 
 export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuItem[] = (onMenuItemClick) => {
     const [usuarioComercial, setUsuarioComercial] = useState(false);
-
-    // Obter o token do armazenamento (localStorage ou sessionStorage)
+    const [userId, setUserId] = useState(null);
     const token = localStorage.getItem('token') || sessionStorage.getItem('token');
+
+    useEffect(() => {
+        if (token) {
+            axios.get('http://api.incoback.com.br/api/incomum/usuario/get-id/', {
+                headers: {
+                    Authorization: `Bearer ${token}`  // Passando o token no cabeçalho Authorization
+                }
+            })
+            .then(response => {
+                setUserId(response.data.user_id);  // Atualiza o estado com o ID do usuário
+            })
+            .catch(error => {
+                console.error('Erro ao obter o ID do usuário:', error);
+            });
+        } else {
+            console.error('Token não encontrado');
+        }
+    }, [token]);
+
 
     // Verifica a permissão ao carregar o componente
     useEffect(() => {
@@ -450,7 +468,14 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
                 label: 'Simplificado de vendas',
                 icon: 'cilClipboard', // Ajuste o nome do ícone conforme sua escolha
                 command: () => { onMenuItemClick(MenuEnum.relatorios_simplicados_vendas); }
-            }
+            },
+            ...([64, 8, 1, 55, 62, 56].includes(userId) ? [
+                {
+                    label: 'Relatorio Protocolo',
+                    icon: 'cilClipboard',
+                    command: () => { onMenuItemClick(MenuEnum.relatorio_protocolo); }
+                }
+            ] : [])
         ]
     },
 ];
