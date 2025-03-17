@@ -4,7 +4,7 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { CepCreateRequest, CidadeCreateRequest, CompanhiaCreateRequest, MoedaCreateRequest } from "../../utils/apiObjects";
-import { apiCreateCompanhia, apiCreateMoeda, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetCompanhiaId, apiGetMoedaId, apiUpdateCompanhia, apiUpdateMoeda, apiGetParceiro, } from "../../services/Api";
+import { apiCreateCompanhia, apiCreateMoeda, apiDeleteCep, apiDeleteCompanhia, apiDeleteMoeda, apiGetCompanhiaId, apiGetMoedaId, apiUpdateCompanhia, apiUpdateMoeda, apiGetParceiro, apiGetParceiroSearch } from "../../services/Api";
 import { ConfirmDialog, confirmDialog } from "primereact/confirmdialog";
 import { cpf } from 'cpf-cnpj-validator';
 import { Button } from "primereact/button";
@@ -12,6 +12,7 @@ import { useSelector } from "react-redux";
 import { RootState } from "../../hooks/store";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from 'primereact/checkbox';
+import { debounce } from "lodash";
 
 
 const Companhia: React.FC = ({ onBackClick }) => {
@@ -33,6 +34,10 @@ const Companhia: React.FC = ({ onBackClick }) => {
     const [duplicatas, setDuplicatas] = useState<{ label: string, value: number }[]>([]);
     const [duplicata, setDuplicata] = useState('');
     const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
+    const [filteredFornecedores, setFilteredFornecedores] = useState([]);
+    const [selectedParceiro, setSelectedParceiro] = useState(null);
+    const [fornecedores, setFornecedores] = useState([]);
+    const limit = 100;
 
 
     useEffect(() =>{
@@ -216,6 +221,49 @@ const Companhia: React.FC = ({ onBackClick }) => {
         fetchCentroCusto();
     }, []);
 
+    const handleFilter = debounce((event) => {
+        const searchTerm = event?.filter?.toLowerCase() || ''; // Usa event.filter em vez de event.value
+        console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
+        if (searchTerm.length >= 3) {
+            fetchFornecedores(searchTerm); // Busca no backend com o termo digitado
+        } else {
+            fetchFornecedores(); // Busca os primeiros 100 registros sem filtro
+        }
+    }, 300);
+
+
+    const fetchFornecedores = async (searchTerm = '') => {
+        setLoading(true);
+        try {
+            console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
+            const response = await apiGetParceiroSearch({ search: searchTerm, limit });
+            console.log('Resposta do backend:', response.data); // Verifica a resposta do backend
+            const todosFornecedores = response.data.map(item => ({
+                label: item.par_descricao,
+                value: item.par_codigo,
+            }));
+            setFornecedores(todosFornecedores); // Atualiza a lista de fornecedores
+            setFilteredFornecedores(todosFornecedores); // Atualiza a lista filtrada
+        } catch (error) {
+            toastError('Erro ao carregar os fornecedores');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchFornecedores();
+    }, []);
+    
+
+    const handleFornecedorChange = (e) => {
+        setSelectedParceiro(e.value);
+        setRequest((prevState) => ({
+            ...prevState,
+            par_codigo: e.value,
+        }));
+    };
+
 
     return (
         <form className="erp-form" onSubmit={handleSubmit}>
@@ -297,18 +345,20 @@ const Companhia: React.FC = ({ onBackClick }) => {
                 <div className="form-group" >
                     <label htmlFor="cep_uf">Fornecedor</label>
                     <Dropdown
-                        id="par_codigo"
-                        name="par_codigo"
-                        value={selectedDuplicata} // Valor selecionado
-                        options={duplicatas} // Lista de opções vinda do banco
-                        onChange={(e) => setSelectedDuplicata(e.value)} // Atualiza o estado ao selecionar
-                        optionLabel="label" // Campo para exibir
-                        optionValue="value" // Campo para o valor interno
-                        placeholder="Selecione um Fornecedor"
-                        filter // Ativa o campo de busca
-                        showClear // Botão para limpar o campo
-                        filterPlaceholder="Pesquisar..." // Placeholder para a busca
-                        className="w-full" // Classe CSS opcional
+                        value={selectedParceiro}
+                        options={filteredFornecedores}
+                        filter
+                        onChange={handleFornecedorChange}
+                        onFilter={handleFilter}
+                        placeholder="Digite pelo menos 3 caracteres"
+                        style={{
+                            width: "100%",
+                            textAlign: 'left',
+                            height: "37.6px",
+                        }}
+                        panelStyle={{ width: '10%', textAlign: 'left' }}
+                        showClear
+                        loading={loading}
                     />
                 </div>
             </div>
