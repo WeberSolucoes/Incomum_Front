@@ -38,6 +38,7 @@ export enum MenuEnum {
     gerencial_faturamento_comercial = 'gerencial_faturamento_comercial',
     gerencial_faturamento_vendedor = 'gerencial_faturamento_vendedor',
     relatorios_simplicados_vendas = 'Simplificado Vendas',
+    relatorio_protocolo = 'Relatorio Protocolo',
     usuario = 'usuario',
     logout = 'logout',
     perfil = "perfil",
