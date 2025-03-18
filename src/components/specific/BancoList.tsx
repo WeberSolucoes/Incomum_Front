@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetBanco, apiGetCidade, apiGetDepartamento, apiGetPais, apiGetUnidades } from '../../services/Api';
@@ -118,7 +118,7 @@ const BancoList: React.FC = ({ isActive, state }) => {
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
-                            disabled={loading || !isActive}
+                            disabled={loading}
                             ref={buttonRef}
                         />
                         <Button
