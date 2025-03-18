@@ -377,7 +377,7 @@ const MainPage: React.FC = () => {
                         <GeracaoFatura />
                     </FormLayout>
                 );
-            case 'Relatorio Protocolo':
+            case 'Relatório Protocolo':
                 return ( 
                     <RelatorioProtocolo />
                 );       
