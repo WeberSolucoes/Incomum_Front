@@ -223,7 +223,6 @@ const Companhia: React.FC = ({ onBackClick }) => {
 
     const handleFilter = debounce((event) => {
         const searchTerm = event?.filter?.toLowerCase() || ''; // Usa event.filter em vez de event.value
-        console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
         if (searchTerm.length >= 3) {
             fetchFornecedores(searchTerm); // Busca no backend com o termo digitado
         } else {
@@ -235,9 +234,7 @@ const Companhia: React.FC = ({ onBackClick }) => {
     const fetchFornecedores = async (searchTerm = '') => {
         setLoading(true);
         try {
-            console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
             const response = await apiGetParceiroSearch({ search: searchTerm, limit });
-            console.log('Resposta do backend:', response.data); // Verifica a resposta do backend
             const todosFornecedores = response.data.map(item => ({
                 label: item.par_descricao,
                 value: item.par_codigo,
