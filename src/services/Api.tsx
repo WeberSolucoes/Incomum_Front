@@ -65,6 +65,12 @@ export const logout = () => {
 //#region Apis_endpoints
 
 
+export const apiGetSituacaoProtocolo = () => axiosInstance.get(ApiEndpoints.LIST_SITUACAO_PROTOCOLO);
+
+export const apiGetAgenciaBancaria = () => 
+    axiosInstance.get(ApiEndpoints.LIST_AGENCIA_BANCARIA);
+
+
 export const apiGetProtocolo = () => axiosInstance.get(ApiEndpoints.LIST_PROTOCOLO);
 
 export const apiGetProtocoloRelatorio = (params = {}) => axiosInstance.get(ApiEndpoints.LIST_PROTOCOLO_RELATORIO, {
