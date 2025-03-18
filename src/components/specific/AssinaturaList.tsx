@@ -1,5 +1,5 @@
 import Cep from "./Cep";
-import React, { useState } from 'react';
+import React, { useState, useRef, } from 'react';
 import { UnidadesListResponse } from '../../utils/apiObjects';
 import GenericTable from '../common/GenericTable';
 import { apiGetAssinatura, apiGetCep, apiGetCompanhia, apiGetMoeda, apiGetPais, apiGetUnidades } from '../../services/Api';
