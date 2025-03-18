@@ -101,7 +101,7 @@ const AssinaturaList: React.FC = ({ isActive, state }) => {
         { field: 'descricao', header: 'Assinatura' },
     ];
 
-
+    console.log('isActive:', isActive, 'loading:', loading);
     const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
 
     return (
