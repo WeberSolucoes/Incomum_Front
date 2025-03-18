@@ -61,7 +61,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
 
     useEffect(() => {
         if (token) {
-            axios.get('http://api.incoback.com.br/api/incomum/usuario/get-id/', {
+            axios.get('https://api.incoback.com.br/api/incomum/usuario/get-id/', {
                 headers: {
                     Authorization: `Bearer ${token}`  // Passando o token no cabeçalho Authorization
                 }
