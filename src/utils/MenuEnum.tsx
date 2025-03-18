@@ -38,7 +38,7 @@ export enum MenuEnum {
     gerencial_faturamento_comercial = 'gerencial_faturamento_comercial',
     gerencial_faturamento_vendedor = 'gerencial_faturamento_vendedor',
     relatorios_simplicados_vendas = 'Simplificado Vendas',
-    relatorio_protocolo = 'Relatorio Protocolo',
+    relatorio_protocolo = 'Relatório Protocolo',
     usuario = 'usuario',
     logout = 'logout',
     perfil = "perfil",
@@ -472,7 +472,7 @@ export const menuItems: (onMenuItemClick: (itemKey: MenuEnum) => void) => MenuIt
             },
             ...([64, 8, 1, 55, 62, 56].includes(userId) ? [
                 {
-                    label: 'Relatorio Protocolo',
+                    label: 'Relatório Protocolo',
                     icon: 'cilClipboard',
                     command: () => { onMenuItemClick(MenuEnum.relatorio_protocolo); }
                 }
