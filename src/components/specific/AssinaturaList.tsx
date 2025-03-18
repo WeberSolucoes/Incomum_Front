@@ -121,7 +121,7 @@ const AssinaturaList: React.FC = ({ isActive, state }) => {
                             icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
                             style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
                             onClick={handleSearch}
-                            disabled={loading || !isActive}
+                            disabled={loading}
                             ref={buttonRef}
                         />
                         <Button
