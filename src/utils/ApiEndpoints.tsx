@@ -217,5 +217,9 @@ export enum ApiEndpoints {
     EDIT_PROTOCOLO = 'incomum/protocolo/update/',
     DELETE_PROTOCOLO = 'incomum/protocolo/delete/',
 
+    LIST_AGENCIA_BANCARIA = 'incomum/agenciaBancaria/list-all/',
+
+    LIST_SITUACAO_PROTOCOLO = '/incomum/situacaoProtocolo/list-all/',
+
     
 }
