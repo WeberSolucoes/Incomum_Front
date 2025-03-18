@@ -4,13 +4,14 @@ import { toast } from 'react-toastify';
 import { toastError, toastSucess } from "../../utils/customToast";
 import { useCodigo } from "../../contexts/CodigoProvider";
 import { ProtocoloCreateRequest, UnidadesListResponse } from "../../utils/apiObjects";
-import { apiCreateProtocolo, apiDeleteMoeda, apiGetArea, apiGetCentroCusto, apiGetDuplicata, apiGetFormaPagamento, apiGetMoeda,apiGetParceiro, apiGetProtocolo, apiGetProtocoloId, apiGetUnidadeRelatorioByUser, apiUpdateProtocolo } from "../../services/Api";
+import { apiCreateProtocolo, apiDeleteMoeda, apiGetArea, apiGetCentroCusto, apiGetDuplicata, apiGetFormaPagamento, apiGetMoeda,apiGetParceiro, apiGetParceiroSearch, apiGetProtocolo, apiGetProtocoloId, apiGetUnidadeRelatorioByUser, apiUpdateProtocolo } from "../../services/Api";
 import { confirmDialog } from "primereact/confirmdialog";
 import { Button } from "primereact/button";
 import { Dropdown } from "primereact/dropdown";
 import { Checkbox } from "primereact/checkbox";
 import GenericTable from "../common/GenericTable";
 import { InputNumber } from "primereact/inputnumber";
+import { debounce } from "lodash";
 
 
 const GeracaoFatura: React.FC = ({ onBackClick }) => {
@@ -46,6 +47,9 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
     const [editedItems, setEditedItems] = useState<any[]>([]);
     const [showViewButton, setShowViewButton] = useState(false);
     const [isSaving, setIsSaving] = useState(false); // Estado de carregament
+    const [fornecedores, setFornecedores] = useState([]);
+    const [filteredFornecedores, setFilteredFornecedores] = useState([]);
+    const limit = 100;
 
 
 
@@ -246,15 +250,6 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
     };
 
 
-
-    const handleFornecedorChange = (e: { value: any }) => {
-        setSelectedParceiro(e.value);
-        setRequest((prevState) => ({
-            ...prevState,
-            par_codigo: e.value,
-        }));
-    };
-
     
     const handleUnidadeChange = (e: { value: any }) => {
         setSelectedUnidade(e.value);
@@ -264,7 +259,47 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
         }));
     };
 
-    
+    const handleFornecedorChange = (e) => {
+        setSelectedParceiro(e.value);
+        setRequest((prevState) => ({
+            ...prevState,
+            par_codigo: e.value,
+        }));
+    };
+
+    const fetchFornecedores = async (searchTerm = '') => {
+        setLoading(true);
+        try {
+            console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
+            const response = await apiGetParceiroSearch({ search: searchTerm, limit });
+            console.log('Resposta do backend:', response.data); // Verifica a resposta do backend
+            const todosFornecedores = response.data.map(item => ({
+                label: item.par_descricao,
+                value: item.par_codigo,
+            }));
+            setFornecedores(todosFornecedores); // Atualiza a lista de fornecedores
+            setFilteredFornecedores(todosFornecedores); // Atualiza a lista filtrada
+        } catch (error) {
+            toastError('Erro ao carregar os fornecedores');
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    useEffect(() => {
+        fetchFornecedores();
+    }, []);
+
+    const handleFilter = debounce((event) => {
+        const searchTerm = event?.filter?.toLowerCase() || ''; // Usa event.filter em vez de event.value
+        console.log('Termo de busca:', searchTerm); // Verifica o termo de busca
+        if (searchTerm.length >= 3) {
+            fetchFornecedores(searchTerm); // Busca no backend com o termo digitado
+        } else {
+            fetchFornecedores(); // Busca os primeiros 100 registros sem filtro
+        }
+    }, 300);
+
 
     useEffect(() => {
         loadDadosIniciais();
@@ -630,18 +665,20 @@ const GeracaoFatura: React.FC = ({ onBackClick }) => {
                     <div className="form-group">
                         <label htmlFor="par_codigo">Fornecedor</label>
                         <Dropdown
-                            value={selectedParceiro} 
-                            options={fornecedor} 
+                            value={selectedParceiro}
+                            options={filteredFornecedores}
                             filter
-                            onChange={handleFornecedorChange}    // Atualiza as áreas comerciais ao mudar a unidade
-                            placeholder="Fornecedor"
+                            onChange={handleFornecedorChange}
+                            onFilter={handleFilter}
+                            placeholder="Digite pelo menos 3 caracteres"
                             style={{
                                 width: "100%",
                                 textAlign: 'left',
                                 height: "37.6px",
                             }}
-                            panelStyle={{ width: '10%',textAlign: 'left' }} // Largura do painel
+                            panelStyle={{ width: '10%', textAlign: 'left' }}
                             showClear
+                            loading={loading}
                         />
                     </div>
                     <div className="form-group" >
