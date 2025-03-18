@@ -586,7 +586,7 @@ const RelatorioProtocolo = () => {
                                 name="protocolo" // Alterado para garantir que corresponda ao estado
                                 value={filters.protocolo || ''}
                                 onChange={handleInputChange}
-                                style={{ width: '100%' }}
+                                style={{ width: '100%',height:'34px',borderRadius:'4px' }}
                             />
                         </div>
                     </div>
