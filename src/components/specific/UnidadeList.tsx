@@ -8,8 +8,17 @@ import { InputText } from 'primereact/inputtext';
 import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import UnidadeCadastro from './UnidadeCadastro'; // Importa o componente de cadastro
 import useEnterKey from '../../hooks/useEnterKey';
+import useGenericList from '../../hooks/useGenericList';
 
-const UnidadeListConsolidada: React.FC = () => {
+interface UnidadesListResponse {
+    codigo: number;
+    descricao: string;
+    responsavel: string;
+    email: string;
+}
+
+
+const UnidadeListConsolidada: React.FC<{ tabKey: string }> = ({ tabKey }) => {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
     const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -35,10 +44,10 @@ const UnidadeListConsolidada: React.FC = () => {
     const handleSearch = async () => {
         if (searchTerm.length < 3) {
             toastError('Por favor, insira pelo menos 3 caracteres para realizar a pesquisa.');
-            return; // Evita realizar a pesquisa se o termo de busca não atender à condição
+            return;
         }
 
-        setLoading(true); // Ativa o estado de carregamento
+        updateState({ loading: true });
 
         try {
             const response = await apiGetUnidades();
@@ -48,7 +57,6 @@ const UnidadeListConsolidada: React.FC = () => {
                 responsavel: item.loj_email,
                 email: item.loj_cnpj,
             }));
-            setOriginalItems(mappedData);
 
             const searchTermLower = searchTerm.toLowerCase();
             const filteredItems = mappedData.filter(item =>
@@ -57,86 +65,94 @@ const UnidadeListConsolidada: React.FC = () => {
                 (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
                 (item.email && item.email.toLowerCase().includes(searchTermLower))
             );
-            setItems(filteredItems);
+
+            updateState({
+                items: filteredItems,
+                originalItems: mappedData,
+                loading: false
+            });
         } catch (error) {
             toastError('Erro ao buscar as unidades');
-        } finally {
-            setLoading(false); // Desativa o estado de carregamento
+            updateState({ loading: false });
         }
     };
 
-    useEnterKey(handleSearch);
 
-    const handleCodeClick = (codigo: number) => {
-        const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
-        if (agencia) {
-            setDescricaoSelecionada(agencia.descricao); // Atualiza a descrição selecionada
-        }
-        setCodigo(codigo);
-        setView('create'); // Abre a view de cadastro ao selecionar
+    const handleBackClick = () => {
+        updateState({ view: 'list' });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    };
+
+    
+
+    const handleRowClick = (rowCodigo: number) => {
+        console.log('[ROW CLICK] Código selecionado:', rowCodigo);
+        
+        // Atualiza ambos os estados de forma síncrona
+        setCodigo(rowCodigo);
+        setView('create');
+        updateState({ view: 'create' }); // Atualiza o estado local também
     };
 
     const handleCreateClick = () => {
-        setCodigo(null); // Resetando o código para criar uma nova unidade
-        setView('create'); // Muda para a visualização de criação
-        setDescricaoSelecionada(null); 
+        setCodigo(null);
+        setView('create');
+        updateState({ view: 'create' }); // Atualiza o estado local também
     };
 
-    const handleBackClick = () => {
-        setDescricaoSelecionada(null); 
-        setView('list'); // Volta para a visualização da lista
-        window.scrollTo({
-            top: 0,  // Define a posição do topo da página
-            behavior: 'smooth' // Adiciona um efeito suave na rolagem
+    useEffect(() => {
+        console.log('[DEBUG] Estado atual:', { 
+            codigoContext: codigo, 
+            viewContext: view,
+            viewLocal: listState.view
         });
-    };
+    }, [codigo, view, listState.view]);
 
     const columns = [
-        { field: 'codigo', header: 'Codigo', style: { width: '6rem', textAlign: 'left' } },
-        { field: 'descricao', header: 'Unidade' },
-        { field: 'responsavel', header: 'Email' },
-        { field: 'email', header: 'Cnpj' }
+        { field: 'codigo', header: 'Código', style: { width: '6rem', textAlign: 'left' }},
+        { field: 'descricao', header: 'Descrição' },
+        { field: 'responsavel', header: 'Responsável' },
+        { field: 'email', header: 'Email' }
     ];
 
-    const paisDescricao = codigo ? items.find(item => item.codigo === codigo)?.descricao : '';
-    
     return (
         <div>
             {view === 'list' ? (
                 <>
-                    <h1 style={{color:'#0152a1'}}>Consulta de Unidades</h1>
+                    <h1 style={{color:'#0152a1'}}>Lista de Unidades</h1>
                     <div style={{ display: 'flex', alignItems: 'center', marginBottom: '1rem' }}>
                         <InputText
                             style={{ width: '300px' }}
                             placeholder="Buscar"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value.toUpperCase())}
+                            onChange={(e) => updateState({ searchTerm: e.target.value })}
                         />
                         <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
-                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'} // Ícone de carregamento ou de busca
-                            style={{ marginLeft: '10px', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
+                            icon={loading ? 'pi pi-spin pi-spinner' : 'pi pi-search'}
+                            style={{ marginLeft: '10px', backgroundColor: '#0152a1' }}
                             onClick={handleSearch}
-                            disabled={loading} // Desabilita o botão durante o carregamento
+                            disabled={loading}
                         />
                         <Button
-                            label="Adicionar"
+                            label="Criar"
                             icon="pi pi-plus"
-                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1', height: '34px', borderRadius: '10px' }}
-                            onClick={handleCreateClick} // Chama a função de criação ao clicar no botão
+                            style={{ marginLeft: 'auto', backgroundColor: '#0152a1' }}
+                            onClick={handleCreateClick}
                         />
                     </div>
                     <GenericTable 
                         filteredItems={items} 
-                        emptyMessage="Nenhuma Unidade encontrada" 
-                        onCodeClick={handleCodeClick}
+                        emptyMessage="Nenhuma unidade encontrada" 
+                        onCodeClick={handleRowClick}
                         columns={columns}
+                        tabKey={tabKey}
                     />
                 </>
             ) : (
                 <>
-                    <h1 style={{color:'#0152a1'}}>{getTitle()}</h1>
-                    <UnidadeCadastro onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
+                    <h1 style={{color:'#0152a1'}}>Cadastro Unidade</h1>
+                    <UnidadeCadastro tabKey={tabKey} onBackClick={handleBackClick} />
                 </>
             )}
         </div>
