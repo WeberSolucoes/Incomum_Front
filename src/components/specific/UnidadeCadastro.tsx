@@ -14,88 +14,114 @@ import { useDispatch, useSelector } from "react-redux";
 import AddToPhotosIcon from '@mui/icons-material/AddToPhotos';
 import IconButton from '@mui/material/IconButton';
 import { RootState } from "../../hooks/store";
+import useGenericForm  from '../../hooks/useGenericForm';
 
-const Unidade: React.FC = ({onBackClick}) => {
-    const { setCodigo,codigo } = useCodigo(); // Assumindo que useCodigo fornece o código da unidade
-    const [request, setRequest] = useState<UnidadesCreateRequest>({} as UnidadesCreateRequest);
-    const [rua, setRua] = useState('');
-    const [numero, setNumero] = useState('');
-    const [cidade, setCidade] = useState('');
-    const [ibge, setibge] = useState(0);
-    const [loading, setLoading] = useState(false);
+interface UnidadeCadastroProps {
+    tabKey: string;
+    onBackClick: () => void;
+}
+
+const Unidade: React.FC<{ tabKey: string, onBackClick: () => void }> = ({ tabKey, onBackClick }) =>  {
+    const { setCodigo,codigo } = useCodigo(tabKey);
     const [areasComerciais, setAreasComerciais] = useState<{ label: string, value: number }[]>([]);
-    const [areacomercial, setAreaComercial] = useState('');
-    const [selectedAreas, setSelectedAreas] = useState<number[]>([]);
-    const [checked, setChecked] = useState(false);
-    const [cep, setCep] = useState('');
-    const [cnpjValido, setCnpjValido] = useState<boolean | null>(null);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [cidades, setCidades] = useState<{ label: string, value: number }[]>([]);
-    const dispatch = useDispatch();
-    const activeTab = useSelector((state: RootState) => state.tabs.activeTab);
+    const { formState, updateFormState} = useGenericForm(tabKey);
+    const [isDataLoaded, setIsDataLoaded] = useState(false);
 
     useEffect(() => {
-        if (!activeTab || activeTab !== 'Unidade') {
-            // Reseta o código se a aba não for "Agência"
-            setCodigo(null);
-            return; // Não executa a consulta
-        }
-        if (!codigo) return; // 🔍 Evita rodar com código inválido
-        if (activeTab !== 'Unidade') return; // 🔍 Só roda na aba certa
+      if (codigo) {
+        console.log(`[Tab ${tabKey}] Carregando unidade ${codigo}`);
+        // apiGetUnidadeById(codigo).then(...)
+      } else {
+        console.log(`[Tab ${tabKey}] Criando nova unidade`);
+      }
+    }, [codigo, tabKey]);
+    
 
-        console.log("✅ Buscando dados para código:", codigo);
+
+    const {
+        request,
+        rua,
+        numero,
+        cidade,
+        ibge,
+        areacomercial,
+        selectedAreas,
+        checked,
+        cep,
+        cnpjValido,
+        loading
+    } = formState;
+
+    useEffect(() => {
+        let isMounted = true; // Flag para evitar atualizações após desmontagem
+
         const fetchData = async () => {
-            if (!codigo) return;
             try {
-                const response = await apiGetUnidadeById(codigo);
-                const unidade = response.data;
-                setRequest(unidade);
+                if (codigo) {
+                    const response = await apiGetUnidadeById(codigo);
+                    if (isMounted) {
+                        const unidade = response.data;
+                        
+                        updateFormState({
+                            request: {
+                                ...unidade,
+                                loj_codigo: codigo // Garante que o código seja mantido
+                            },
+                            rua: unidade.loj_endereco?.split(" ")[0] || '',
+                            numero: unidade.loj_endereco?.split(" ")[1] || '',
+                            cidade: unidade.cid_codigo || '',
+                            selectedAreas: unidade.areasComerciais?.map((area: any) => area.aco_codigo) || [],
+                            checked: unidade.loj_situacao === 1
+                        });
 
-                if (unidade.loj_endereco) {
-                    const enderecoParts = unidade.loj_endereco.split(",");
-                    setRua(enderecoParts[0] || '');
-                    setNumero(enderecoParts[1] || '');
+                        // Busca adicional da cidade
+                        const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
+                        if (isMounted) {
+                            updateFormState({ cidade: responseCidade.data.nome || '' });
+                        }
+                    }
                 } else {
-                    setRua('');
-                    setNumero('');
+                    // Só reseta se for um novo registro
+                    updateFormState({
+                        request: { loj_codigo: undefined } as unknown as UnidadesCreateRequest,
+                        rua: '',
+                        numero: '',
+                        cidade: '',
+                        selectedAreas: [],
+                        checked: false,
+                        cep: '',
+                        cnpjValido: null
+                    });
                 }
-
-                setCidade(unidade.cid_codigo || '');
-                setSelectedAreas(unidade.areasComerciais ? unidade.areasComerciais.map((area: any) => area.aco_codigo) : []);
-                setChecked(unidade.loj_situacao === 1);
-
-                // Buscar nome da cidade pelo código
-                const responseCidade = await axios.get(`https://servicodados.ibge.gov.br/api/v1/localidades/municipios/${unidade.cid_codigo}`);
-                setCidade(responseCidade.data.nome || '');
             } catch (error) {
                 console.error("Erro ao buscar dados:", error);
                 toastError("Erro ao buscar dados da unidade.");
+            } finally {
+                if (isMounted) {
+                    setIsDataLoaded(true);
+                }
             }
         };
+
         fetchData();
-    }, [codigo, activeTab]);
+
+        return () => {
+            isMounted = false; // Limpeza no desmontar
+        };
+    }, [codigo, tabKey]);
 
     useEffect(() => {
         const fetchAreasComerciais = async () => {
             try {
                 const response = await apiGetArea();
+                console.log(codigo)
                 const data = response.data;
-
-                console.log('Dados recebidos da API:', data);
-
-                // Acessa o array correto dentro de `data.associacoes`
-                const areas = data.associacoes;
-                if (Array.isArray(areas)) {
-                    setAreasComerciais(areas.map((area: { aco_descricao: string; aco_codigo: number }) => ({
-                        label: area.aco_descricao,
-                        value: area.aco_codigo
-                    })));
-                } else {
-                    console.error("Estrutura inesperada de dados:", data);
-                    toastError("Erro ao processar dados das áreas comerciais.");
-                }
+                updateFormState({ areacomercial: data.aco_codigo });
+                setAreasComerciais(data.map((area: { aco_descricao: string; aco_codigo: number }) => ({
+                    label: area.aco_descricao,
+                    value: area.aco_codigo
+                })));
             } catch (error) {
-                console.error("Erro ao buscar áreas comerciais:", error);
                 toastError("Erro ao buscar áreas comerciais.");
             }
         };
@@ -104,12 +130,9 @@ const Unidade: React.FC = ({onBackClick}) => {
 
     const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, value } = e.target;
-        setRequest(prevState => ({ ...prevState, [id]: value }));
-
-
-        if (id === 'loj_cnpj') {
-            setCnpjValido(cnpj.isValid(value.replace(/\D/g, '')));
-        }
+        updateFormState({
+            request: { ...request, [id]: value },
+        });
     };
 
     const handleSelectChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -199,7 +222,7 @@ const Unidade: React.FC = ({onBackClick}) => {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        
+        updateFormState({ loading: true });
         const camposNumericos: Array<keyof UnidadesCreateRequest> = ['loj_codigo', 'loj_cep', 'loj_numero','nem_codigo','loj_vendacorte','loj_contrato','loj_codigofinanceiro','loj_codigoempresa','loj_serie','loj_cortevendedor'];
 
         for (const campo of camposNumericos) {
@@ -298,7 +321,8 @@ const Unidade: React.FC = ({onBackClick}) => {
                 toastError("Erro de conexão. Verifique sua rede e tente novamente.");
             }
         } finally {
-            setLoading(false);
+            updateFormState({ loading: false });
+            
         }
     };
 
@@ -338,12 +362,11 @@ const Unidade: React.FC = ({onBackClick}) => {
   
                 setCidades(cidadeSelecionada ? [cidadeSelecionada] : []);
   
-                setRequest(prevState => ({
-                    ...prevState,
+                updateFormState({
                     loj_bairro: data.cep_bairro || '',
                     loj_endereco: data.cep_logradouro || '',
                     cid_codigo: cidadeSelecionada ? cidadeSelecionada.value : ''
-                }));
+                });
             } catch (error) {
                 console.error("Erro ao buscar dados do CEP:", error);
                 toastError("Erro ao buscar dados do CEP.");
