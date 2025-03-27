@@ -1,36 +1,62 @@
-// CodigoContext.tsx
-import React, { createContext, useContext, useState, ReactNode } from 'react';
+import React, { createContext, useContext, useState, ReactNode, useMemo, useCallback } from 'react';
 
-interface CodigoContextProps {
-    codigo: number | null;
-    setCodigo: (codigo: number | null) => void;
-    view: 'list' | 'create';
-    setView: (view: 'list' | 'create') => void;
-    resetContext: () => void; // Nova função para resetar o contexto
+interface TabState {
+  codigo: number | null;
+  view: 'list' | 'create';
 }
 
-const CodigoContext = createContext<CodigoContextProps | undefined>(undefined);
+interface CodigoContextType {
+  estados: Record<string, TabState>;
+  setTabState: (tabKey: string, newState: Partial<TabState>) => void;
+}
+
+const CodigoContext = createContext<CodigoContextType | undefined>(undefined);
 
 export const CodigoProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-    const [codigo, setCodigo] = useState<number | null>(null);
-    const [view, setView] = useState<'list' | 'create'>('list');
+  const [estados, setEstados] = useState<Record<string, TabState>>({});
 
-    const resetContext = () => {
-        setCodigo(null);
-        setView('list');
-    };
+  // Usar useMemo para estabilizar o valor do contexto
+  const contextValue = useMemo(() => ({
+    estados,
+    setTabState: (tabKey: string, newState: Partial<TabState>) => {
+      setEstados(prev => ({
+        ...prev,
+        [tabKey]: {
+          ...(prev[tabKey] || { codigo: null, view: 'list' }),
+          ...newState
+        }
+      }));
+    }
+  }), [estados]);
 
-    return (
-        <CodigoContext.Provider value={{ codigo, setCodigo, view, setView, resetContext }}>
-            {children}
-        </CodigoContext.Provider>
-    );
+  return (
+    <CodigoContext.Provider value={contextValue}>
+      {children}
+    </CodigoContext.Provider>
+  );
 };
 
-export const useCodigo = () => {
-    const context = useContext(CodigoContext);
-    if (context === undefined) {
-        throw new Error('useCodigo must be used within a CodigoProvider');
-    }
-    return context;
+export const useCodigo = (tabKey: string) => {
+  const context = useContext(CodigoContext);
+  if (!context) {
+    throw new Error('useCodigo must be used within a CodigoProvider');
+  }
+
+  const estadoAtual = context.estados[tabKey] || { codigo: null, view: 'list' };
+  
+  // Usar useCallback para memorizar as funções
+  const setCodigo = useCallback((codigo: number | null) => {
+    context.setTabState(tabKey, { codigo });
+  }, [context, tabKey]);
+
+  const setView = useCallback((view: 'list' | 'create') => {
+    context.setTabState(tabKey, { view });
+  }, [context, tabKey]);
+
+  return {
+    codigo: estadoAtual.codigo,
+    view: estadoAtual.view,
+    setCodigo,
+    setView
+  };
 };
