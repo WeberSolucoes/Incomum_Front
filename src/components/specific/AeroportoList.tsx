@@ -10,14 +10,17 @@ import Aeroporto from './Aeroporto';
 import useEnterKey from '../../hooks/useEnterKey';
 
 const AeroportoList: React.FC<{ tabKey: string; isActive?: boolean }> = ({ tabKey, isActive = true }) =>  {
-    const [items, setItems] = useState<UnidadesListResponse[]>([]);
-    const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
-    const [searchTerm, setSearchTerm] = useState('');
-    const [view, setView] = useState<'list' | 'create'>('list'); // Estado para controlar a visualização atual
+    const { listState, updateState } = useGenericList(tabKey);
     const [loading, setLoading] = useState(false); // Estado de carregamento
     const buttonRef = useRef<HTMLButtonElement>(null);
-    const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
     const { codigo,setCodigo } = useCodigo(tabKey); // Acesso ao contexto
+    const {
+        items,
+        searchTerm,
+        view,
+        activeIndex,
+        selectedDescription: descricaoSelecionada
+    } = listState;
 
     const getTitle = () => {
         const maxLength = 27;
@@ -47,16 +50,11 @@ const AeroportoList: React.FC<{ tabKey: string; isActive?: boolean }> = ({ tabKe
                 descricao: item.aer_descricao,
                 observacao: item.aer_observacao
             }));
-            setOriginalItems(mappedData);
-
-            const searchTermLower = searchTerm.toLowerCase();
-            const filteredItems = mappedData.filter(item =>
-                item.descricao.toLowerCase().includes(searchTermLower) ||
-                item.codigo.toString().toLowerCase().includes(searchTermLower) ||
-                (item.responsavel && item.responsavel.toLowerCase().includes(searchTermLower)) ||
-                (item.email && item.email.toLowerCase().includes(searchTermLower))
-            );
-            setItems(filteredItems);
+            updateState({ 
+                items: mappedData.filter(item =>
+                    item.descricao.toLowerCase().includes(searchTerm.toLowerCase())
+            )});
+            setLoading(false)
         } catch (error) {
             toastError('Erro ao buscar os Aeroportos');
         } finally {
@@ -67,27 +65,23 @@ const AeroportoList: React.FC<{ tabKey: string; isActive?: boolean }> = ({ tabKe
     useEnterKey(handleSearch, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
-        const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
+        const agencia = items.find(item => item.codigo === codigo);
         if (agencia) {
-            setDescricaoSelecionada(agencia.descricao); // Atualiza a descrição selecionada
+            updateState({ selectedDescription: agencia.descricao });
         }
         setCodigo(codigo);
-        setView('create'); // Abre a view de cadastro ao selecionar
+        updateState({ view: 'create', activeIndex: 0 });
     };
 
     const handleCreateClick = () => {
         setCodigo(null); // Resetando o código para criar uma nova unidade
-        setView('create'); // Muda para a visualização de criação
+        updateState({ selectedDescription: null, view: 'create', activeIndex: 0 });
         setDescricaoSelecionada(null); 
     };
 
     const handleBackClick = () => {
-        setDescricaoSelecionada(null); 
-        setView('list'); // Volta para a visualização da lista
-        window.scrollTo({
-            top: 0,  // Define a posição do topo da página
-            behavior: 'smooth' // Adiciona um efeito suave na rolagem
-        });
+        updateState({ view: 'list', selectedDescription: null });
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
     const columns = [
@@ -108,7 +102,7 @@ const AeroportoList: React.FC<{ tabKey: string; isActive?: boolean }> = ({ tabKe
                             style={{ width: '300px' }}
                             placeholder="Buscar"
                             value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value.toUpperCase())}
+                            onChange={(e) => updateState({ searchTerm: e.target.value.toUpperCase() })}
                         />
                         <Button
                             label={loading ? 'Carregando...' : 'Consultar'}
