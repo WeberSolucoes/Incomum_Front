@@ -9,7 +9,7 @@ import { useCodigo } from '../../contexts/CodigoProvider'; // Importa o contexto
 import Aeroporto from './Aeroporto';
 import useEnterKey from '../../hooks/useEnterKey';
 
-const AeroportoList: React.FC = ({ isActive, state }) => {
+const AeroportoList: React.FC<{ tabKey: string; isActive?: boolean }> = ({ tabKey, isActive = true }) =>  {
     const [items, setItems] = useState<UnidadesListResponse[]>([]);
     const [originalItems, setOriginalItems] = useState<UnidadesListResponse[]>([]);
     const [searchTerm, setSearchTerm] = useState('');
@@ -17,8 +17,7 @@ const AeroportoList: React.FC = ({ isActive, state }) => {
     const [loading, setLoading] = useState(false); // Estado de carregamento
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [descricaoSelecionada, setDescricaoSelecionada] = useState<string | null>(null); // Estado para a descrição
-
-    const { codigo,setCodigo } = useCodigo(); // Acesso ao contexto
+    const { codigo,setCodigo } = useCodigo(tabKey); // Acesso ao contexto
 
     const getTitle = () => {
         const maxLength = 27;
@@ -65,11 +64,7 @@ const AeroportoList: React.FC = ({ isActive, state }) => {
         }
     };
 
-    useEnterKey(() => {
-        if (isActive && !loading) {
-            handleSearch();
-        }
-    }, isActive, buttonRef);
+    useEnterKey(handleSearch, isActive, buttonRef);
 
     const handleCodeClick = (codigo: number) => {
         const agencia = items.find(item => item.codigo === codigo); // Encontre a agência selecionada
@@ -134,13 +129,14 @@ const AeroportoList: React.FC = ({ isActive, state }) => {
                         filteredItems={items} 
                         emptyMessage="Nenhum Aeroporto encontrado" 
                         onCodeClick={handleCodeClick}
-                        columns={columns}
+                        columns={columns} 
+                        tabKey={tabKey}
                     />
                 </>
             ) : (
                 <>
                     <h1 style={{color:'#0152a1'}}>{getTitle()}</h1>
-                    <Aeroporto onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
+                    <Aeroporto tabKey={tabKey} onBackClick={handleBackClick} /> {/* Renderiza o componente de cadastro/edição */}
                 </>
             )}
         </div>
