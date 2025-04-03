@@ -64,6 +64,28 @@ const MainPage: React.FC = () => {
     const { resetContext } = useCodigo();
     const dispatch = useDispatch();
     const { activeTab, tabs } = useSelector((state: any) => state.tabs); // Obter estado das abas do Redux
+    const [codigosPorTab, setCodigosPorTab] = useState<{ [tabKey: string]: number | null }>({});
+    const [componentCache, setComponentCache] = useState<{ [key: string]: React.ReactNode }>({});
+
+    const setCodigoPorTab = (tabKey: string, codigo: number | null) => {
+        setCodigosPorTab((prev) => ({
+            ...prev,
+            [tabKey]: codigo
+        }));
+    };
+
+    const componentMap: { [key in MenuEnum]: React.ReactNode } = {
+        [MenuEnum.cadastro_agencias]: <AgenciaList tabKey="agencia" />,
+        [MenuEnum.cadastro_unidades]: <UnidadeList tabKey="unidades" />,
+        [MenuEnum.cadastro_vendedores]: <VendedorList tabKey="vendedor" />,
+        [MenuEnum.cadastro_aeroporto]: <AeroportoList tabKey='aeroporto' />,
+        [MenuEnum.cadastro_assinatura]: <AssinaturaList  />,
+        [MenuEnum.relatorios_simplicados_vendas]: <Relatorio />,
+        [MenuEnum.relatorio_centro_custo]: <RelatorioCentroCusto/>,
+        [MenuEnum.cadastro_banco]: <BancoList />,
+        [MenuEnum.relatorio_boleto]: <RelatorioBoleto />,
+        // Adicione outros componentes aqui
+    };
 
     useEffect(() => {
         // Adicione verificações de autenticação se necessário
@@ -79,42 +101,31 @@ const MainPage: React.FC = () => {
             dispatch(setActiveTab(savedActiveTab));
         }
     }, [dispatch]);
-    
+
     useEffect(() => {
         localStorage.setItem('tabs', JSON.stringify(tabs));
         if (activeTab) {
-          localStorage.setItem('activeTab', activeTab);
+            localStorage.setItem('activeTab', activeTab);
         }
-    }, [tabs, activeTab, dispatch]);
+    }, [tabs, activeTab]);
     
-    const handleMenuItemClick = (itemKey: string) => {
-        const existingTab = tabs.find((tab: any) => tab.key === itemKey);
-        if (existingTab) {
-          dispatch(setActiveTab(itemKey));
-        } else if (tabs.length < MAX_TABS) {
-          const newTab = { key: itemKey, title: itemKey, state: {} };
-          dispatch(addTab(newTab));
-          dispatch(setActiveTab(itemKey));
-        } else {
-          alert(`Você atingiu o limite máximo de ${MAX_TABS} abas abertas.`);
-        }
+    const handleMenuItemClick = (itemKey: MenuEnum) => {
+        const uniqueKey = `${itemKey}-${Date.now()}`;
+        const newTab = { key: uniqueKey, title: itemKey, state: {} };
+        dispatch(addTab(newTab));
+        dispatch(setActiveTab(uniqueKey));
     };
     
-    const handleTabClose = (itemKey: string) => {
-        const currentTab = tabs.find(tab => tab.key === itemKey);
-        if (currentTab) {
-            // Salva o estado da aba antes de fechá-la
-            console.log('Salvando estado da aba:', currentTab);
-            dispatch(setTabState({ key: itemKey, state: currentTab.state }));
+    const handleTabClose = (key: string) => {
+        dispatch(removeTab(key));
+        if (activeTab === key && tabs.length > 0) {
+            dispatch(setActiveTab(tabs[0].key));
         }
-    
-        // Remove a aba do Redux
-        dispatch(removeTab(itemKey));
-    
-        // Atualiza a aba ativa para a primeira aba, caso a aba fechada seja a ativa
-        if (activeTab === itemKey) {
-            dispatch(setActiveTab(tabs[0]?.key || null));
-        }
+        setComponentCache((prevCache) => {
+            const newCache = { ...prevCache };
+            delete newCache[key];
+            return newCache;
+        });
     };
     
     const [searchTerm, setSearchTerm] = useState<string>(''); // Para armazenar o termo de pesquisa
@@ -133,279 +144,13 @@ const MainPage: React.FC = () => {
         }
     }, [activeTab, tabs]);
 
-     const handleCreateAreaComercialClick = () => {
-        setIsCreatingAreaComercial(true);
-        setActiveComponent(null);
+    const renderComponent = (itemKey: MenuEnum, state: any, onStateChange: (state: any) => void) => {
+        const Component = componentMap[itemKey];
+        if (!Component) return null;
+
+        return React.cloneElement(Component, { state, onStateChange });
     };
     
-    const handleCreateAgenciaClick = () => {
-        setIsCreatingAgencia(true);
-        setActiveComponent(null);
-    };
-
-    const handleCreateVendedorClick = () => {
-        setIsCreatingVendedor(true);
-        setActiveComponent(null);
-    };
-
-    const handleCreateUnidadeClick = () => {
-        setIsCreatingUnidade(true);
-        setSelectedUnidadeCode(null);
-        setActiveComponent(null);
-    };
-
-    const handleRecordClick = (itemType: string, codigo?: string) => {
-        switch (itemType) {
-            case 'unidade':
-                setSelectedUnidadeCode(codigo || null);
-                setIsCreatingUnidade(true);
-                break;
-            case 'agencia':
-                setIsCreatingAgencia(true);
-                break;
-            case 'vendedor':
-                setIsCreatingVendedor(true);
-                break;
-            case 'AreaComercial':
-                setIsCreatingAreaComercial(true);
-                break;
-            default:
-                break;
-        }
-        setActiveComponent(null);
-    };
-
-    const renderComponent = (activeKey: string, tabState: any, isActive) => {
-        if (isCreatingAgencia) {
-            return (
-                <FormLayout name='Agência'>
-                    <Agencia />
-                </FormLayout>
-            );
-        }
-
-        if (isCreatingVendedor) {
-            return (
-                <FormLayout name='Vendedor'>
-                    <VendedorCadastro />
-                </FormLayout>
-            );
-        }
-
-        if (isCreatingUnidade) {
-            return (
-                <FormLayout name={selectedUnidadeCode ? 'Editar Unidade' : 'Unidade'}>
-                    <Unidade code={selectedUnidadeCode} />
-                </FormLayout>
-            );
-        }
-
-        if (isCreatingAreaComercial) {
-            return (
-                <FormLayout name='Área Comercial'>
-                    <AreaComercialCadastro />    
-                </FormLayout>
-            )
-        }
-
-        switch (activeKey) {
-            case 'Unidade':
-                return (
-                    <FormLayout name='Unidade'>
-                        <UnidadeList isActive={isActive} onCreateClick={handleCreateUnidadeClick} onRecordClick={handleRecordClick} />
-                    </FormLayout>
-                );
-            case 'Agência':
-                return (
-                    <FormLayout name='Agência'>
-                        <AgenciaList isActive={isActive} onCreateClick={handleCreateAgenciaClick} onRecordClick={handleRecordClick} />
-                    </FormLayout>
-                );
-            case 'Vendedor':
-                return (
-                    <FormLayout name='Vendedor'>
-                        <VendedorList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Aeroporto':
-                return (
-                    <FormLayout name='Aeroporto'>
-                        <AeroportoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Área Comercial':
-                return (
-                    <FormLayout name='Área Comercial'>
-                        <AreaComercialList isActive={isActive}/>
-                    </FormLayout>
-                );
-            case 'Países':
-                return (
-                    <FormLayout name='Países'>
-                        <PaisList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Cidade':
-                return (
-                    <FormLayout name='Cidades'>
-                        <CidadeList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Moeda':
-                return (
-                    <FormLayout name='Moeda'>
-                        <MoedaList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Cep':
-                return (
-                    <FormLayout name='Cep'>
-                        <CepList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Departamento':
-                return (
-                    <FormLayout name='Departamento'>
-                        <DepartamentoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Companhia':
-                return (
-                    <FormLayout name='Companhia'>
-                        <CompanhiaList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Assinatura':
-                return (
-                    <FormLayout name='Assinatura'>
-                        <AssinaturaList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Classe':
-                return (
-                    <FormLayout name='Classe'>
-                        <ClasseList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Acomodação':
-                return (
-                    <FormLayout name='Acomodacao'>
-                        <TipoAcomodacaoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Regime':
-                return (
-                    <FormLayout name='Regime'>
-                        <TipoRegimeList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Padrão':
-                return (
-                    <FormLayout name='Padrao'>
-                        <TipoPadraoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Situação Turistico':
-                return (
-                    <FormLayout name='Turistico'>
-                        <SituacaoTuristicoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Serviço Turistico':
-                return (
-                    <FormLayout name='Servico'>
-                        <ServicoTuristicoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Bandeira':
-                return (
-                    <FormLayout name='Bandeira'>
-                        <BandeiraList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Forma Pagamento':
-                return (
-                    <FormLayout name='Forma De Pagamento'>
-                        <FormaPagamentoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Fornecedores':
-                return (
-                    <FormLayout name='Fornecedores'>
-                        <FornecedoresList isActive={isActive} parceiroId={null} />
-                    </FormLayout>
-                );
-            case 'Banco':
-                return (
-                    <FormLayout name='Banco'>
-                        <BancoList isActive={isActive} />
-                    </FormLayout>
-                );
-            case 'Despesas':
-                return (
-                    <FormLayout name='Despesas'>
-                        <DespesasList isActive={isActive} />
-                   </FormLayout>
-                );
-            case 'Despesas Geral':
-                return (
-                    <FormLayout name='Despesas Geral'>
-                        <DespesasGeralList isActive={isActive} />
-                   </FormLayout>
-                );
-            case 'SubGrupo':
-                return (
-                    <FormLayout name='SubGrupo '>
-                        <SubGrupoList isActive={isActive} />
-                   </FormLayout>
-                );
-            case 'Centro Custo':
-                return (
-                    <FormLayout name='Centro De Custo'>
-                        <CentroCustoList isActive={isActive} />
-                   </FormLayout>
-                );
-            case 'Protocolo':
-                return (
-                    <FormLayout name='Protocolo'>
-                        <ProtocoloList />
-                   </FormLayout>
-                );
-            case 'Gerar Fatura':
-                return (
-                    <FormLayout name='Fatura'>
-                        <GeracaoFatura />
-                    </FormLayout>
-                );
-            case 'Relatório Protocolo':
-                return ( 
-                    <RelatorioProtocolo />
-                );       
-            case 'lancamento_opcao':
-                return <Teste message="Lançamento Opção" />;
-            case 'financeiro_opcao':
-                return <Teste message="Financeiro Opção" />;
-            case 'Faturamento Unidades':
-                return <GraficoComFiltros isActive={isActive} />;
-            case 'gerencial_faturamento_comercial':
-                return <Teste message="Faturamento Comercial" />;
-            case 'gerencial_faturamento_vendedor':
-                return <Dashboard isActive={isActive} />;
-            case 'Simplificado Vendas':
-                return <Relatorio isActive={isActive} />;
-            case 'usuario':
-                return <Teste message="Configurações de Usuário" />;
-            case 'perfil':
-                return <Teste message="Configurações de Perfil" />;
-            case 'logout':
-                auth.logout();
-                navigate('/login');
-                break;
-            default:
-                return <div>Bem-vindo!</div>;
-        }
-    };
-
     const [isSidebarVisible, setIsSidebarVisible] = useState(false);
 
     const toggleSidebar = () => {
@@ -413,46 +158,72 @@ const MainPage: React.FC = () => {
     };
 
     return (
-      <div>
-        <NavbarMenu toggleSidebar={toggleSidebar} />
-        <div style={{ display: 'flex', marginTop: '60px' }}>
-          <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
-          <div style={{ padding: '20px', flex: 1 }}>
-            <div className="p-tabview1 p-component1">
-              {/* Renderizando as abas */}
-              <div className="p-tabview-nav1" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
-                {tabs.map((tab) => (
-                  <div
-                    key={tab.key}
-                    className={`p-tabview-nav-item1 ${activeTab === tab.key ? 'p-highlight1' : ''}`}
-                    onClick={() => dispatch(setActiveTab(tab.key))}
-                  >
-                    <span>{tab.title}</span>
-                    <button
-                      className="p-tabview-close1"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Impede o clique no botão de fechar de ativar a aba
-                        handleTabClose(tab.key);
-                      }}
-                    >
-                      &times;
-                    </button>
-                  </div>
-                ))}
-              </div>
-              {/* Renderizando o conteúdo diretamente com display: none para abas não ativas */}
-                {tabs.map((tab) => (
-                  <div 
-                    key={tab.key}
-                    style={{ display: activeTab === tab.key ? 'block' : 'none' }} // Controla a visibilidade com display
-                  >
-                    {renderComponent(tab.key, tab.state)} {/* Renderiza o conteúdo da aba */}
-                  </div>
-                ))}
+        <div>
+            <NavbarMenu toggleSidebar={toggleSidebar} />
+            <div style={{ display: 'flex', marginTop: '60px' }}>
+                <SidebarMenu onMenuItemClick={handleMenuItemClick} visible={isSidebarVisible} onHide={() => setIsSidebarVisible(false)} />
+                <div style={{ padding: '20px', flex: 1, width: '1000px' }}>
+                    <div className="p-tabview p-component1">
+                        <div className="p-tabview-nav1" style={{ marginLeft: '230px', marginTop: '-80px', zIndex: '1000' }}>
+                            {tabs.map((tab) => (
+                                <div
+                                    key={tab.key}
+                                    className={`p-tabview-nav-item1 ${activeTab === tab.key ? 'p-highlight' : ''}`}
+                                    onClick={() => dispatch(setActiveTab(tab.key))}
+                                >
+                                    <span>{tab.title}</span>
+                                    <button
+                                        className="p-tabview-close1"
+                                        onClick={(e) => {
+                                            e.stopPropagation();
+                                            handleTabClose(tab.key);
+                                        }}
+                                    >
+                                        &times;
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+
+                        {tabs.map((tab) => {
+                            const componentKey = tab.key.split('-')[0] as MenuEnum;
+                            const Component = componentMap[componentKey];
+
+                            if (!Component) {
+                                console.error(`Componente não encontrado para a chave: ${componentKey}`);
+                                return null; // Ou retorne um componente de fallback
+                            }
+
+                            if (!componentCache[tab.key]) {
+                                setComponentCache((prevCache) => ({
+                                    ...prevCache,
+                                    [tab.key]: React.cloneElement(Component, {
+                                        tabKey: tab.key, // Passa o tabKey como prop
+                                        state: tab.state,
+                                        onStateChange: (newState) => {
+                                            dispatch(updateTabState({ key: tab.key, state: newState }));
+                                        },
+                                    }),
+                                }));
+                            }
+
+                            return (
+                                activeTab === tab.key && (
+                                  <div key={tab.key}>
+                                    {/* SOLUÇÃO SIMPLES: Apenas verifica se NÃO é Relatório */}
+                                    {componentKey !== MenuEnum.relatorios_simplicados_vendas && componentKey !== MenuEnum.relatorio_centro_custo && componentKey !== MenuEnum.relatorio_boleto ? (
+                                      <FormLayout name={tab.title}>{componentCache[tab.key]}</FormLayout>
+                                    ) : (
+                                      componentCache[tab.key]
+                                    )}
+                                  </div>
+                                )
+                            );
+                        })}
+                    </div>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
     );
 };
 
